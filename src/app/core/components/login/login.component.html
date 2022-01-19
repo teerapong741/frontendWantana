@@ -1,0 +1,32 @@
+<div class="card shadow-7">
+  <h1 class="card__label-header">Login</h1>
+  <div class="p-field">
+    <label for="username">Username</label>
+    <input
+      id="username"
+      type="text"
+      pInputText
+      class="card__input p-inputtext-lg mb-6"
+      placeholder="Username"
+      [(ngModel)]="username"
+    />
+  </div>
+  <div class="p-field">
+    <label for="password">Password</label>
+    <input
+      id="password"
+      type="password"
+      pInputText
+      class="card__input p-inputtext-lg"
+      placeholder="Password"
+      [(ngModel)]="password"
+    />
+  </div>
+  <button
+    pButton
+    label="Login"
+    class="p-button-success p-button-lg card__btn"
+    (click)="onLogin()"
+  ></button>
+</div>
+<div class="background"></div>

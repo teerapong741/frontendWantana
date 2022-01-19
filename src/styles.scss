@@ -1,1 +1,58 @@
 /* You can add global styles to this file, and also import other style files */
+*,
+*::after,
+*::before {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+html {
+  // This defines what 1rem is
+  font-size: 62.5%; //1 rem = 10px; 10px/16px = 62.5%
+  font-family: "Mitr-Light", Arial, Helvetica, sans-serif;
+}
+
+body {
+  box-sizing: border-box;
+  // padding: 3rem;
+}
+
+//! Fonts
+@font-face {
+  font-family: "Mitr-Regular";
+  src: local("Mitr-Regular"),
+    url(./assets/fonts/Mitr-Regular.ttf) format("truetype");
+}
+
+@font-face {
+  font-family: "Mitr-Light";
+  src: local("Mitr-Light"),
+    url(./assets/fonts/Mitr-Light.ttf) format("truetype");
+}
+
+@media only screen and (max-width: 37.5em) {
+  html {
+  }
+} //600px
+@media only screen and (max-width: 56.25em) {
+  html {
+    // width < 900?
+    font-size: 50%; //1 rem = 8px, 8/16 = 50%
+  }
+
+  body {
+    padding: 0;
+  }
+} //900px
+@media only screen and (max-width: 75em) {
+  html {
+    // width < 1200?
+    font-size: 56.25%; //1 rem = 9px, 9/16 = 50%
+  }
+} //1200px
+@media only screen and (min-width: 112.5em) {
+  html {
+    font-size: 75%; //1rem = 12, 12/16
+  }
+} //1800

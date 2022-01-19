@@ -1,0 +1,48 @@
+.background {
+  width: 100%;
+  height: 100vh;
+  background-image: url("./../../../../assets/images/bg-login-page.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  filter: blur(0.5rem) contrast(80%) brightness(80%);
+  -webkit-filter: blur(0.5rem) contrast(80%) brightness(80%);
+}
+
+.card {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 50%;
+  height: 60%;
+  background-color: #ffffff;
+  border-radius: 0.5rem;
+  z-index: 2;
+  padding: 1.5rem;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  &__label-header {
+    position: absolute;
+    top: 20px;
+    font-size: 3rem;
+  }
+
+  &__input {
+    width: 100%;
+  }
+
+  &__btn {
+    position: absolute;
+    bottom: 50px;
+    width: 80%;
+  }
+}
+
+.p-field {
+  width: 80%;
+}

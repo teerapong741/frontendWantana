@@ -1,18 +1,27 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
 import { AppRoutingModule } from './app-routing.module';
+
+// Component
 import { AppComponent } from './app.component';
 
+// Module
+import { LoginModule } from './core/components/login/login.module';
+import { NavbarModule } from './core/components/navbar/navbar.module';
+import { SidebarModule } from './core/components/sidebar/sidebar.module';
+
+// PrimeNg
+
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    LoginModule,
+    SidebarModule,
+    NavbarModule,
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
