@@ -9,6 +9,7 @@
   display: flex;
   align-items: center;
   justify-content: flex-end;
+  z-index: 99;
 
   &__toggle {
     font-size: 2rem;
