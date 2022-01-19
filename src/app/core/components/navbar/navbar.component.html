@@ -1,10 +1,24 @@
 <div class="navbar">
-  <span class="navbar__label">แดชบอร์ด</span>
-  <span class="navbar__name">ณัฏฐ์ ตันโชติช่วง</span>
+  <span class="navbar__label">{{ pageName }}</span>
+  <span class="navbar__name">{{ username }}</span>
   <img
     class="navbar__avatar"
     src="./../../../../assets/images/washing-icon.png"
     alt="Avatar"
   />
-  <i class="fas fa-caret-square-down navbar__toggle"></i>
+  <i
+    class="fas fa-caret-square-down navbar__toggle"
+    (mouseenter)="visibleToggleMenu = !visibleToggleMenu"
+  ></i>
+  <div
+    *ngIf="visibleToggleMenu"
+    (mouseenter)="visibleToggleMenu = true"
+    (mouseleave)="visibleToggleMenu = false"
+    class="navbar__toggle-dropdown-container"
+  >
+    <ul>
+      <li routerLink="profile" routerLink="active">โปรไฟล์</li>
+      <li (click)="onLogout()">ออกจากระบบ</li>
+    </ul>
+  </div>
 </div>
