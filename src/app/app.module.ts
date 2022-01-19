@@ -1,3 +1,4 @@
+import { ClothManagementModule } from './pages/cloth-management/cloth-management.module';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
@@ -20,6 +21,7 @@ import { SidebarModule } from './core/components/sidebar/sidebar.module';
     LoginModule,
     SidebarModule,
     NavbarModule,
+    ClothManagementModule
   ],
   providers: [],
   bootstrap: [AppComponent],
