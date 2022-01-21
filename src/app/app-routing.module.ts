@@ -8,7 +8,13 @@ const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'dashboard', component: DashboardComponent },
-  { path: 'cloth-management', component: ClothManagementComponent },
+  {
+    path: 'cloth-management',
+    loadChildren: () =>
+      import('./pages/cloth-management/cloth-management.module').then(
+        (m) => m.ClothManagementModule
+      ),
+  },
   { path: '**', redirectTo: 'login', pathMatch: 'full' },
 ];
 

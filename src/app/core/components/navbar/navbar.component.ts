@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./navbar.component.scss'],
 })
 export class NavbarComponent implements OnInit {
-  pageName: string = '';
+  pageName: string = 'Dashboard';
   username: string = 'ไม่ระบุตัวตน';
   visibleToggleMenu: boolean = false;
 
@@ -17,6 +17,10 @@ export class NavbarComponent implements OnInit {
   ) {}
 
   ngOnInit() {}
+
+  onBack(): void {
+    window.history.back();
+  }
 
   onLogout(): void {
     this.router.navigate(['login'])
