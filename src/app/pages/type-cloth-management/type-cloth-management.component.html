@@ -1,0 +1,88 @@
+<div class="container">
+  <div>
+    <label class="container__label">ประเภทการใช้งานของผ้า</label>
+    <button
+      pButton
+      pRipple
+      label="เพิ่มประเภทการใช้งาน"
+      icon="fas fa-plus"
+      class="p-button-raised p-button-success p-button-lg container__btn-add"
+      (click)="onVisibleNewTypeCloth()"
+    ></button>
+  </div>
+  <p-table
+    [value]="typeClothList"
+    [rows]="10"
+    [paginator]="true"
+    responsiveLayout="scroll"
+    styleClass="p-datatable-lg"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th>รหัส</th>
+        <th>ชื่อประเภทการใช้งาน</th>
+        <th></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-cloth>
+      <tr>
+        <td>{{ cloth.id }}</td>
+        <td>{{ cloth.name }}</td>
+        <td class="container__action">
+          <!-- <button
+            pButton
+            pRipple
+            type="button"
+            icon="fas fa-edit"
+            class="p-button-rounded p-button-raised p-button-warning"
+            routerLink="edit-cloth"
+            [queryParams]="{ id: cloth.id }"
+          ></button> -->
+          <button
+            pButton
+            pRipple
+            type="button"
+            icon="fas fa-trash"
+            class="p-button-rounded p-button-raised p-button-danger"
+            (click)="onDelete(cloth.id)"
+          ></button>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+
+<p-dialog
+  header="เพิ่มประเภทการใช้งานผ้า"
+  [(visible)]="newTypeClothVisible"
+  (onHide)="onResetValue()"
+>
+  <div class="container-add-texture">
+    <div class="field">
+      <label for="texture-type" class="block">ชื่อประเภทการใช้งาน</label>
+      <input
+        id="texture-type"
+        type="text"
+        pInputText
+        [(ngModel)]="newTypeClothValue"
+        placeholder="โปรดระบุประเภทการใช้งานผ้า"
+      />
+    </div>
+    <button
+      pButton
+      pRipple
+      class="p-button-success p-button-raised"
+      label="เพิ่ม"
+      icon="fas fa-plus"
+      style="width: 100%; margin-top: 1rem"
+      (click)="onNewTypeCloth()"
+    ></button>
+  </div>
+</p-dialog>
+
+<p-confirmDialog
+  header="Warning"
+  icon="pi pi-exclamation-triangle"
+  [style]="{ width: '30vw' }"
+  [baseZIndex]="10000"
+></p-confirmDialog>

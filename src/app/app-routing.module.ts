@@ -1,3 +1,4 @@
+import { TypeClothManagementComponent } from './pages/type-cloth-management/type-cloth-management.component';
 import { TextureClothManagementComponent } from './pages/texture-cloth-management/texture-cloth-management.component';
 import { ClothManagementComponent } from './pages/cloth-management/cloth-management.component';
 import { LoginComponent } from './core/components/login/login.component';
@@ -16,7 +17,14 @@ const routes: Routes = [
         (m) => m.ClothManagementModule
       ),
   },
-  { path: 'texture-cloth-management', component: TextureClothManagementComponent },
+  {
+    path: 'texture-cloth-management',
+    component: TextureClothManagementComponent,
+  },
+  {
+    path: 'type-cloth-management',
+    component: TypeClothManagementComponent,
+  },
   { path: '**', redirectTo: 'login', pathMatch: 'full' },
 ];
 
