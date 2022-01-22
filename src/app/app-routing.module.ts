@@ -1,3 +1,4 @@
+import { ClothProblemManagementComponent } from './pages/cloth-problem-management/cloth-problem-management.component';
 import { TypeClothManagementComponent } from './pages/type-cloth-management/type-cloth-management.component';
 import { TextureClothManagementComponent } from './pages/texture-cloth-management/texture-cloth-management.component';
 import { ClothManagementComponent } from './pages/cloth-management/cloth-management.component';
@@ -24,6 +25,10 @@ const routes: Routes = [
   {
     path: 'type-cloth-management',
     component: TypeClothManagementComponent,
+  },
+  {
+    path: 'cloth-problem-management',
+    component: ClothProblemManagementComponent,
   },
   { path: '**', redirectTo: 'login', pathMatch: 'full' },
 ];

@@ -1,3 +1,4 @@
+import { ClothProblemManagementModule } from './pages/cloth-problem-management/cloth-problem-management.module';
 import { TypeClothManagementModule } from './pages/type-cloth-management/type-cloth-management.module';
 import { TextureClothManagementModule } from './pages/texture-cloth-management/texture-cloth-management.module';
 import { CommonModule } from '@angular/common';
@@ -41,6 +42,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     ClothManagementModule,
     TextureClothManagementModule,
     TypeClothManagementModule,
+    ClothProblemManagementModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
