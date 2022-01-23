@@ -1,3 +1,4 @@
+import { CustomerManagementModule } from './customer-management/customer-management.module';
 import { EmployeeManagementModule } from './employee-management/employee-management.module';
 import { NgModule } from "@angular/core";
 import { ClothManagementModule } from "./cloth-management/cloth-management.module";
@@ -12,6 +13,7 @@ import { TypeClothManagementModule } from "./type-cloth-management/type-cloth-ma
     TypeClothManagementModule,
     ClothProblemManagementModule,
     EmployeeManagementModule,
+    CustomerManagementModule,
   ],
   exports: [
     ClothManagementModule,
@@ -19,6 +21,7 @@ import { TypeClothManagementModule } from "./type-cloth-management/type-cloth-ma
     TypeClothManagementModule,
     ClothProblemManagementModule,
     EmployeeManagementModule,
+    CustomerManagementModule,
   ],
 })
 export class PagesModule {}
