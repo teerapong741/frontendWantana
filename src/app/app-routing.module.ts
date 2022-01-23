@@ -1,3 +1,4 @@
+import { EmployeeManagementComponent } from './pages/employee-management/employee-management.component';
 import { ClothProblemManagementComponent } from './pages/cloth-problem-management/cloth-problem-management.component';
 import { TypeClothManagementComponent } from './pages/type-cloth-management/type-cloth-management.component';
 import { TextureClothManagementComponent } from './pages/texture-cloth-management/texture-cloth-management.component';
@@ -29,6 +30,10 @@ const routes: Routes = [
   {
     path: 'cloth-problem-management',
     component: ClothProblemManagementComponent,
+  },
+  {
+    path: 'employee-management',
+    component: EmployeeManagementComponent,
   },
   { path: '**', redirectTo: 'login', pathMatch: 'full' },
 ];

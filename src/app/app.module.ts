@@ -1,3 +1,4 @@
+import { PagesModule } from './pages/pages.module';
 import { ClothProblemManagementModule } from './pages/cloth-problem-management/cloth-problem-management.module';
 import { TypeClothManagementModule } from './pages/type-cloth-management/type-cloth-management.module';
 import { TextureClothManagementModule } from './pages/texture-cloth-management/texture-cloth-management.module';
@@ -7,10 +8,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
-import {
-  TranslateLoader,
-  TranslateModule,
-} from '@ngx-translate/core';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 
@@ -39,10 +37,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     SidebarModule,
     NavbarModule,
     HttpClientModule,
-    ClothManagementModule,
-    TextureClothManagementModule,
-    TypeClothManagementModule,
-    ClothProblemManagementModule,
+    PagesModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
