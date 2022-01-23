@@ -1,7 +1,10 @@
-<div class="container">
+<div
+  class="container"
+  [ngStyle]="authService.isLogin() ? null : { margin: 0, padding: 0 }"
+>
   <router-outlet></router-outlet>
 </div>
-<div class="background-image"></div>
+<div class="background-image" *ngIf="authService.isLogin()"></div>
 
-<app-navbar></app-navbar>
-<app-sidebar></app-sidebar>
+<app-navbar *ngIf="authService.isLogin()"></app-navbar>
+<app-sidebar *ngIf="authService.isLogin()"></app-sidebar>
