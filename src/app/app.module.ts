@@ -1,9 +1,6 @@
+import { GraphqlModule } from './graphql.module';
 import { PagesModule } from './pages/pages.module';
-import { ClothProblemManagementModule } from './pages/cloth-problem-management/cloth-problem-management.module';
-import { TypeClothManagementModule } from './pages/type-cloth-management/type-cloth-management.module';
-import { TextureClothManagementModule } from './pages/texture-cloth-management/texture-cloth-management.module';
 import { CommonModule } from '@angular/common';
-import { ClothManagementModule } from './pages/cloth-management/cloth-management.module';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -45,6 +42,7 @@ export function HttpLoaderFactory(http: HttpClient) {
         deps: [HttpClient],
       },
     }),
+    GraphqlModule
   ],
   providers: [],
   bootstrap: [AppComponent],
