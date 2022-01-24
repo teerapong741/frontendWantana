@@ -1,3 +1,3 @@
-export interface createTypeClotheInput {
+export interface createSortClotheInput {
   name: string;
 }

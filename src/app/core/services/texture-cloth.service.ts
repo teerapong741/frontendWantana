@@ -1,41 +1,41 @@
-import {
-  CREATE_TYPE_CLOTHE,
-  REMOVE_TYPE_CLOTHE,
-} from './../schemas/texture-cloth/mutation.schema';
-import { createTypeClotheInput } from './../interfaces/texture-cloth.interface';
+import { createSortClotheInput } from './../interfaces/texture-cloth.interface';
+import { SORT_CLOTHES } from './../schemas/texture-cloth/query.schema';
 import { Injectable } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import { Observable } from 'rxjs';
-import { TYPE_CLOTHES } from '../schemas/texture-cloth/query.schema';
+import {
+  CREATE_SORT_CLOTHE,
+  REMOVE_SORT_CLOTHE,
+} from '../schemas/texture-cloth/mutation.schema';
 
 @Injectable()
 export class TextureClothService {
   constructor(private apollo: Apollo) {}
 
-  public typeClothes(): Observable<any> {
+  public sortClothes(): Observable<any> {
     return this.apollo.watchQuery({
-      query: TYPE_CLOTHES,
+      query: SORT_CLOTHES,
       errorPolicy: 'all',
     }).valueChanges;
   }
 
-  public createTypeClothe(
-    createTypeClotheInput: createTypeClotheInput
+  public createSortClothe(
+    createSortClotheInput: createSortClotheInput
   ): Observable<any> {
     return this.apollo.mutate({
-      mutation: CREATE_TYPE_CLOTHE,
-      variables: { createTypeClotheInput },
-      refetchQueries: [{ query: TYPE_CLOTHES, errorPolicy: 'all' }],
+      mutation: CREATE_SORT_CLOTHE,
+      variables: { createSortClotheInput },
+      refetchQueries: [{ query: SORT_CLOTHES, errorPolicy: 'all' }],
       awaitRefetchQueries: true,
       errorPolicy: 'all',
     });
   }
 
-  public removeTypeClothe(id: number): Observable<any> {
+  public removeSortClothe(id: number): Observable<any> {
     return this.apollo.mutate({
-      mutation: REMOVE_TYPE_CLOTHE,
+      mutation: REMOVE_SORT_CLOTHE,
       variables: { id },
-      refetchQueries: [{ query: TYPE_CLOTHES, errorPolicy: 'all' }],
+      refetchQueries: [{ query: SORT_CLOTHES, errorPolicy: 'all' }],
       awaitRefetchQueries: true,
       errorPolicy: 'all',
     });

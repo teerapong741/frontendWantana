@@ -1,3 +1,4 @@
+import { TypeClothService } from './../../core/services/type-cloth.service';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -37,6 +38,6 @@ import { FormsModule } from '@angular/forms';
   ],
   declarations: [TypeClothManagementComponent],
   exports: [TypeClothManagementComponent],
-  providers: [DialogService, ConfirmationService],
+  providers: [DialogService, ConfirmationService, TypeClothService],
 })
 export class TypeClothManagementModule {}

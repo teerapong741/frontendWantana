@@ -1,3 +1,4 @@
+import { TextureClothService } from 'src/app/core/services/texture-cloth.service';
 import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
@@ -18,7 +19,6 @@ import { ChipModule } from 'primeng/chip';
 import { ConfirmationService } from 'primeng/api';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DialogModule } from 'primeng/dialog';
-import { TextureClothService } from 'src/app/core/services/texture-cloth.service';
 
 @NgModule({
   imports: [

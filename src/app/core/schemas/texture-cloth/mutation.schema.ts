@@ -1,8 +1,8 @@
 import { gql } from 'apollo-angular';
 
-export const CREATE_TYPE_CLOTHE = gql`
-  mutation createTypeClothe($createTypeClotheInput: CreateTypeClotheInput!) {
-    createTypeClothe(createTypeClotheInput: $createTypeClotheInput) {
+export const CREATE_SORT_CLOTHE = gql`
+  mutation createSortClothe($createSortClotheInput: CreateSortClotheInput!) {
+    createSortClothe(createSortClotheInput: $createSortClotheInput) {
       id
       key
       name
@@ -10,9 +10,9 @@ export const CREATE_TYPE_CLOTHE = gql`
   }
 `;
 
-export const REMOVE_TYPE_CLOTHE = gql`
-  mutation removeTypeClothe($id: Int!) {
-    removeTypeClothe(id: $id) {
+export const REMOVE_SORT_CLOTHE = gql`
+  mutation removeSortClothe($id: Int!) {
+    removeSortClothe(id: $id) {
       id
     }
   }

@@ -1,9 +1,10 @@
-import { createTypeClotheInput } from './../../core/interfaces/texture-cloth.interface';
+import { TextureClothService } from './../../core/services/texture-cloth.service';
+import { createTypeClotheInput } from '../../core/interfaces/type-cloth.interface';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ConfirmationService } from 'primeng/api';
 import { Subscription } from 'rxjs';
-import { TextureClothService } from 'src/app/core/services/texture-cloth.service';
+import { createSortClotheInput } from 'src/app/core/interfaces/texture-cloth.interface';
 
 @Component({
   selector: 'app-texture-cloth-management',
@@ -26,14 +27,14 @@ export class TextureClothManagementComponent implements OnInit {
   ngOnInit() {
     this.loading = true;
     this.$subscription = this.textureClothService
-      .typeClothes()
+      .sortClothes()
       .subscribe((result) => {
         this.loading = false;
         if (!!result.data) {
-          const typeClothes = JSON.parse(
-            JSON.stringify(result.data.typeClothes)
+          const sortClothes = JSON.parse(
+            JSON.stringify(result.data.sortClothes)
           );
-          this.textureClothList = typeClothes;
+          this.textureClothList = sortClothes;
         } else {
           console.error(result.errors[0].message);
         }
@@ -50,11 +51,11 @@ export class TextureClothManagementComponent implements OnInit {
       });
     } else {
       this.loading = true;
-      const createTypeClotheInput: createTypeClotheInput = {
+      const createSortClotheInput: createSortClotheInput = {
         name: this.newTextureValue,
       };
       this.$subscription = this.textureClothService
-        .createTypeClothe(createTypeClotheInput)
+        .createSortClothe(createSortClotheInput)
         .subscribe((result) => {
           this.loading = false;
           if (!!result.data) {
@@ -86,7 +87,7 @@ export class TextureClothManagementComponent implements OnInit {
       accept: () => {
         this.loading = true;
         this.$subscription = this.textureClothService
-          .removeTypeClothe(Number(id))
+          .removeSortClothe(Number(id))
           .subscribe((result) => {
             this.loading = false;
             if (!!result.data) {

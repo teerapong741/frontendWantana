@@ -1,31 +1,45 @@
-import { Component, OnInit } from '@angular/core';
+import { createTypeClotheInput } from './../../core/interfaces/type-cloth.interface';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ConfirmationService } from 'primeng/api';
+import { Subscription } from 'rxjs';
+import { TypeClothService } from 'src/app/core/services/type-cloth.service';
 
 @Component({
   selector: 'app-type-cloth-management',
   templateUrl: './type-cloth-management.component.html',
   styleUrls: ['./type-cloth-management.component.scss'],
 })
-export class TypeClothManagementComponent implements OnInit {
+export class TypeClothManagementComponent implements OnInit, OnDestroy {
+  loading: boolean = false;
+  $subscription: Subscription | undefined;
+
   typeClothList: any[] = [];
   newTypeClothVisible: boolean = false;
   newTypeClothValue: string = '';
 
   constructor(
     private confirmationService: ConfirmationService,
-    private router: Router
-  ) {
-    this.typeClothList = [
-      {
-        id: '123',
-        name: 'ผ้าขาวบาง',
-        value: 7,
-      },
-    ];
-  }
+    private router: Router,
+    private typeClothService: TypeClothService
+  ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.loading = true;
+    this.$subscription = this.typeClothService
+      .typeClothes()
+      .subscribe((result) => {
+        this.loading = false;
+        if (!!result.data) {
+          const typeClothes = JSON.parse(
+            JSON.stringify(result.data.typeClothes)
+          );
+          this.typeClothList = typeClothes;
+        } else {
+          console.error(result.errors[0].message);
+        }
+      });
+  }
 
   onNewTypeCloth(): void {
     if (!this.newTypeClothValue) {
@@ -36,12 +50,21 @@ export class TypeClothManagementComponent implements OnInit {
         rejectVisible: false,
       });
     } else {
-      this.typeClothList.push({
-        id: '13',
+      this.loading = true;
+      const createTypeClotheInput: createTypeClotheInput = {
         name: this.newTypeClothValue,
-      });
-      this.newTypeClothVisible = false;
-      this.onResetValue();
+      };
+      this.$subscription = this.typeClothService
+        .createTypeClothe(createTypeClotheInput)
+        .subscribe((result) => {
+          this.loading = false;
+          if (!!result.data) {
+            this.newTypeClothVisible = false;
+            this.onResetValue();
+          } else {
+            console.error(result.errors[0].message);
+          }
+        });
     }
   }
 
@@ -53,7 +76,7 @@ export class TypeClothManagementComponent implements OnInit {
     this.newTypeClothVisible = true;
   }
 
-  onDelete(id: string): void {
+  onDelete(id: string | number): void {
     this.confirmationService.confirm({
       message: 'ต้องการจะลบใช่หรือไม่',
       acceptLabel: 'ลบ',
@@ -62,10 +85,21 @@ export class TypeClothManagementComponent implements OnInit {
       rejectLabel: 'ยกลิก',
       rejectButtonStyleClass: 'p-button-warning p-button-raised',
       accept: () => {
-        this.typeClothList = this.typeClothList.filter(
-          (texture) => texture.id !== id
-        );
+        this.loading = true;
+        this.$subscription = this.typeClothService
+          .removeTypeClothe(Number(id))
+          .subscribe((result) => {
+            this.loading = false;
+            if (!!result.data) {
+            } else {
+              console.error(result.errors[0].message);
+            }
+          });
       },
     });
+  }
+
+  ngOnDestroy(): void {
+    if (!!this.$subscription) this.$subscription.unsubscribe();
   }
 }

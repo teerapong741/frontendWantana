@@ -1,8 +1,8 @@
 import { gql } from 'apollo-angular';
 
-export const SORT_CLOTHES = gql`
-  query sortClothes {
-    sortClothes {
+export const TYPE_CLOTHES = gql`
+  query typeClothes {
+    typeClothes {
       id
       key
       name
