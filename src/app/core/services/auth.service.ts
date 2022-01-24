@@ -6,6 +6,7 @@ export const AUTH_DATA = 'DI@(#@)#@R_SDKFJ:L(*$';
 export interface AuthData {
   id: string;
   email: string;
+  role: string;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -30,5 +31,12 @@ export class AuthService {
       localStorage.removeItem(AUTH_DATA);
     }
     this.$isLogin.next(isLogin);
+  }
+
+  public isRole(): string {
+    const role = localStorage.getItem(AUTH_DATA);
+    if (role) return JSON.parse(role).role;
+    else return '';
+    // return JSON.stringify(localStorage.getItem(AUTH_DATA)).role;
   }
 }

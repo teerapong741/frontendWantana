@@ -24,6 +24,7 @@ export const AUTH_EMPLOYEES = gql`
       key
       email
       password
+      role
     }
   }
 `;
