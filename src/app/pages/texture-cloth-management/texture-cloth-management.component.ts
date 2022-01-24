@@ -1,6 +1,6 @@
 import { TextureClothService } from './../../core/services/texture-cloth.service';
 import { createTypeClotheInput } from '../../core/interfaces/type-cloth.interface';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ConfirmationService } from 'primeng/api';
 import { Subscription } from 'rxjs';
@@ -11,9 +11,10 @@ import { createSortClotheInput } from 'src/app/core/interfaces/texture-cloth.int
   templateUrl: './texture-cloth-management.component.html',
   styleUrls: ['./texture-cloth-management.component.scss'],
 })
-export class TextureClothManagementComponent implements OnInit {
+export class TextureClothManagementComponent implements OnInit, OnDestroy {
   loading: boolean = false;
-  $subscription: Subscription | any = null;
+  $subscription: Subscription | undefined = undefined;
+
   textureClothList: any[] = [];
   newTextureVisible: boolean = false;
   newTextureValue: string = '';
@@ -97,5 +98,9 @@ export class TextureClothManagementComponent implements OnInit {
           });
       },
     });
+  }
+
+  ngOnDestroy(): void {
+    if (!!this.$subscription) this.$subscription.unsubscribe();
   }
 }

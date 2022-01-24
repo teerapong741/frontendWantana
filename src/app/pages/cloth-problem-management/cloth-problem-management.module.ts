@@ -18,6 +18,7 @@ import { ChipModule } from 'primeng/chip';
 import { ConfirmationService } from 'primeng/api';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DialogModule } from 'primeng/dialog';
+import { ClothProblemService } from 'src/app/core/services/cloth-problem.service';
 
 @NgModule({
   imports: [
@@ -37,6 +38,6 @@ import { DialogModule } from 'primeng/dialog';
   ],
   declarations: [ClothProblemManagementComponent],
   exports: [ClothProblemManagementComponent],
-  providers: [DialogService, ConfirmationService],
+  providers: [DialogService, ConfirmationService, ClothProblemService],
 })
 export class ClothProblemManagementModule {}
