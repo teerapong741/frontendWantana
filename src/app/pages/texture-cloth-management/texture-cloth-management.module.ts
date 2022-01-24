@@ -18,6 +18,7 @@ import { ChipModule } from 'primeng/chip';
 import { ConfirmationService } from 'primeng/api';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DialogModule } from 'primeng/dialog';
+import { TextureClothService } from 'src/app/core/services/texture-cloth.service';
 
 @NgModule({
   imports: [
@@ -37,6 +38,6 @@ import { DialogModule } from 'primeng/dialog';
   ],
   declarations: [TextureClothManagementComponent],
   exports: [TextureClothManagementComponent],
-  providers: [DialogService, ConfirmationService],
+  providers: [DialogService, ConfirmationService, TextureClothService],
 })
 export class TextureClothManagementModule {}

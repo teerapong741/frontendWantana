@@ -1,6 +1,9 @@
+import { createTypeClotheInput } from './../../core/interfaces/texture-cloth.interface';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ConfirmationService } from 'primeng/api';
+import { Subscription } from 'rxjs';
+import { TextureClothService } from 'src/app/core/services/texture-cloth.service';
 
 @Component({
   selector: 'app-texture-cloth-management',
@@ -8,24 +11,34 @@ import { ConfirmationService } from 'primeng/api';
   styleUrls: ['./texture-cloth-management.component.scss'],
 })
 export class TextureClothManagementComponent implements OnInit {
+  loading: boolean = false;
+  $subscription: Subscription | any = null;
   textureClothList: any[] = [];
   newTextureVisible: boolean = false;
   newTextureValue: string = '';
 
   constructor(
     private confirmationService: ConfirmationService,
-    private router: Router
-  ) {
-    this.textureClothList = [
-      {
-        id: '123',
-        name: 'ผ้าขาวบาง',
-        value: 7,
-      },
-    ];
-  }
+    private router: Router,
+    private textureClothService: TextureClothService
+  ) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.loading = true;
+    this.$subscription = this.textureClothService
+      .typeClothes()
+      .subscribe((result) => {
+        this.loading = false;
+        if (!!result.data) {
+          const typeClothes = JSON.parse(
+            JSON.stringify(result.data.typeClothes)
+          );
+          this.textureClothList = typeClothes;
+        } else {
+          console.error(result.errors[0].message);
+        }
+      });
+  }
 
   onNewTexture(): void {
     if (!this.newTextureValue) {
@@ -36,12 +49,21 @@ export class TextureClothManagementComponent implements OnInit {
         rejectVisible: false,
       });
     } else {
-      this.textureClothList.push({
-        id: '13',
-        name: this.newTextureValue
-      })
-      this.newTextureVisible = false;
-      this.onResetValue();
+      this.loading = true;
+      const createTypeClotheInput: createTypeClotheInput = {
+        name: this.newTextureValue,
+      };
+      this.$subscription = this.textureClothService
+        .createTypeClothe(createTypeClotheInput)
+        .subscribe((result) => {
+          this.loading = false;
+          if (!!result.data) {
+            this.newTextureVisible = false;
+            this.onResetValue();
+          } else {
+            console.error(result.errors[0].message);
+          }
+        });
     }
   }
 
@@ -53,7 +75,7 @@ export class TextureClothManagementComponent implements OnInit {
     this.newTextureVisible = true;
   }
 
-  onDelete(id: string): void {
+  onDelete(id: number): void {
     this.confirmationService.confirm({
       message: 'ต้องการจะลบใช่หรือไม่',
       acceptLabel: 'ลบ',
@@ -62,9 +84,16 @@ export class TextureClothManagementComponent implements OnInit {
       rejectLabel: 'ยกลิก',
       rejectButtonStyleClass: 'p-button-warning p-button-raised',
       accept: () => {
-        this.textureClothList = this.textureClothList.filter(
-          (texture) => texture.id !== id
-        );
+        this.loading = true;
+        this.$subscription = this.textureClothService
+          .removeTypeClothe(Number(id))
+          .subscribe((result) => {
+            this.loading = false;
+            if (!!result.data) {
+            } else {
+              console.error(result.errors[0].message);
+            }
+          });
       },
     });
   }
