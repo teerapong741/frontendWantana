@@ -1,0 +1,146 @@
+<div class="container">
+  <div>
+    <label class="container__label">เพิ่มรายการผ้า</label>
+  </div>
+  <div class="container__form">
+    <div class="container__sub-label">
+      <label>ข้อมูลทั่วไป</label>
+    </div>
+    <div class="field">
+      <label for="customer" class="block">ชื่อลูกค้า</label>
+      <p-dropdown
+        id="customer"
+        [options]="customerList"
+        [(ngModel)]="customerSelected"
+        optionLabel="name"
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
+        placeholder="เลือกชื่อลูกค้า"
+      >
+        <ng-template pTemplate="selectedItem">
+          <div
+            class="customer-item customer-item-value"
+            *ngIf="customerSelected"
+          >
+            <span>รหัส: {{ customerSelected.id }}</span>
+            <span>ชื่อ: {{ customerSelected.name }}</span>
+          </div>
+        </ng-template>
+        <ng-template let-customer pTemplate="item">
+          <div class="customer-item">
+            <span>รหัส: {{ customer.id }}</span>
+            <span>ชื่อ: {{ customer.name }}</span>
+          </div>
+        </ng-template>
+      </p-dropdown>
+    </div>
+    <div class="field">
+      <label for="phone" class="block">เบอร์ติดต่อ</label>
+      <input
+        id="phone"
+        class="p-inputtext-lg"
+        type="text"
+        pInputText
+        [(ngModel)]="phone"
+        placeholder="เบอร์ติดต่อ"
+      />
+    </div>
+    <div class="field">
+      <label for="address" class="block">ที่อยู่</label>
+      <input
+        id="address"
+        class="p-inputtext-lg"
+        type="text"
+        pInputText
+        [(ngModel)]="address"
+        placeholder="ที่อยู่"
+      />
+    </div>
+    <div class="field">
+      <label for="lineId" class="block">Line ID</label>
+      <input
+        id="lineId"
+        class="p-inputtext-lg"
+        type="text"
+        pInputText
+        [(ngModel)]="lineId"
+        placeholder="Line ID"
+      />
+    </div>
+    <div class="field">
+      <label for="employeeId" class="block">รหัสพนักงาน</label>
+      <input
+        id="employeeId"
+        class="p-inputtext-lg"
+        type="text"
+        pInputText
+        [(ngModel)]="employeeId"
+        placeholder="รหัสพนักงาน"
+        disabled="true"
+      />
+    </div>
+  </div>
+  <div class="container__sub-label">
+    <label>รายการผ้า</label>
+  </div>
+  <button
+    pButton
+    pRipple
+    label="เพิ่มรายการผ้า"
+    icon="fas fa-plus"
+    class="p-button-raised p-button-success p-button-sm container__btn-add"
+    (click)="newClothList()"
+  ></button>
+  <div class="container__cloth-list">
+    <ng-container *ngFor="let cloth of clothList; let i = index">
+      <div class="container__cloth-list--card">
+        <div class="grid px-3 text-center">
+          <div class="col-2">{{ cloth.type | translate }}</div>
+          <div class="col-2">{{ cloth.type_of_use | translate }}</div>
+          <div class="col-2">{{ cloth.type_special | translate }}</div>
+          <div class="col-3">
+            <ng-container *ngFor="let problem of cloth.fabric_problem">
+              <p-chip
+                [label]="problem | translate"
+                styleClass="custom-chip"
+              ></p-chip>
+            </ng-container>
+          </div>
+          <div class="col-2">{{ cloth.number }}</div>
+          <div class="col-1">
+            <button
+              pButton
+              pRipple
+              type="button"
+              icon="fas fa-edit"
+              class="p-button-rounded p-button-raised p-button-warning p-button-text"
+              (click)="onEditItem(i)"
+            ></button>
+            <button
+              pButton
+              pRipple
+              type="button"
+              icon="fas fa-trash"
+              class="p-button-rounded p-button-raised p-button-danger p-button-text mt-3"
+              (click)="onRemoveItem(i)"
+            ></button>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+  <button
+    pButton
+    pRipple
+    label="เสร็จสิ้น"
+    class="p-button-raised p-button-success p-button-lg container__btn-success"
+    (click)="onSuccess()"
+  ></button>
+</div>
+<p-confirmDialog
+  header="Warning"
+  icon="pi pi-exclamation-triangle"
+  [style]="{ width: '30vw' }"
+  [baseZIndex]="10000"
+></p-confirmDialog>

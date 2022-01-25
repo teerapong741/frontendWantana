@@ -1,0 +1,64 @@
+<div class="container">
+  <div class="field">
+    <label class="block">ชนิดผ้า</label>
+    <p-selectButton
+      [options]="typeOptions"
+      [(ngModel)]="typeSelected"
+      optionLabel="name"
+      optionValue="value"
+    ></p-selectButton>
+  </div>
+  <div class="field">
+    <label class="block">ประเภทการใช้งานผ้า</label>
+    <p-selectButton
+      [options]="typeOfUseOptions"
+      [(ngModel)]="typeOfUseSelected"
+      optionLabel="name"
+      optionValue="value"
+    ></p-selectButton>
+  </div>
+  <div class="field">
+    <label class="block">เลือกผ้าชนิดพิเศษ</label>
+    <p-selectButton
+      [options]="typeSpecialOptions"
+      [(ngModel)]="typeSpecialSelected"
+      optionLabel="name"
+      optionValue="value"
+    ></p-selectButton>
+  </div>
+  <div class="field">
+    <label class="block">ผ้ามีปัญหา</label>
+    <p-selectButton
+      [options]="fabricProblemOptions"
+      [(ngModel)]="fabricProblemSelected"
+      [multiple]="true"
+      optionLabel="name"
+      optionValue="value"
+    ></p-selectButton>
+  </div>
+  <div class="field">
+    <label for="horizontal" class="block">จำนวน</label>
+    <p-inputNumber
+      [(ngModel)]="number"
+      [showButtons]="true"
+      buttonLayout="horizontal"
+      inputId="horizontal"
+      spinnerMode="horizontal"
+      [step]="1"
+      [min]="1"
+      decrementButtonClass="p-button-danger"
+      incrementButtonClass="p-button-success"
+      incrementButtonIcon="pi pi-plus"
+      decrementButtonIcon="pi pi-minus"
+    >
+    </p-inputNumber>
+  </div>
+  <button
+    pButton
+    pRipple
+    class="p-button-success p-button-raised p-button-sm btn-add"
+    label="เพิ่ม"
+    icon="fas fa-plus"
+    (click)="onEdit()"
+  ></button>
+</div>

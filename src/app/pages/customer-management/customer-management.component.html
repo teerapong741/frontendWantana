@@ -1,0 +1,237 @@
+<div class="container">
+  <div>
+    <label class="container__label">ข้อมูลลูกค้า</label>
+    <button
+      pButton
+      pRipple
+      label="เพิ่มลูกค้าใหม่"
+      icon="fas fa-plus"
+      class="p-button-raised p-button-success p-button-lg container__btn-add"
+      (click)="onVisibleNewCustomer()"
+    ></button>
+  </div>
+  <p-table
+    [value]="customerList"
+    [rows]="10"
+    [paginator]="true"
+    responsiveLayout="scroll"
+    styleClass="p-datatable-lg"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th>รหัส</th>
+        <th>ชื่อ</th>
+        <th>นามสกุล</th>
+        <th>ที่อยู่</th>
+        <th>เบอร์โทร</th>
+        <th>อีเมล</th>
+        <th>เลขบัตรประชาชน</th>
+        <th>@Line ID</th>
+        <th></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-cloth>
+      <tr>
+        <td>{{ cloth.key }}</td>
+        <td>{{ cloth.firstName }}</td>
+        <td>{{ cloth.lastName }}</td>
+        <td>{{ cloth.address }}</td>
+        <td>{{ cloth.phoneNumber }}</td>
+        <td>{{ cloth.email }}</td>
+        <td>{{ cloth.idCard }}</td>
+        <td>{{ !!cloth.lineUserId ? cloth.lineUserId : "ไม่ได้ระบุ" }}</td>
+        <td class="container__action">
+          <button
+            pButton
+            pRipple
+            type="button"
+            icon="fas fa-edit"
+            class="p-button-rounded p-button-raised p-button-warning"
+            (click)="onVisibleEditCustomer(cloth)"
+          ></button>
+          <button
+            pButton
+            pRipple
+            type="button"
+            icon="fas fa-trash"
+            class="p-button-rounded p-button-raised p-button-danger"
+            (click)="onDelete(cloth.id)"
+          ></button>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+
+<p-dialog
+  header="เพิ่มลูกค้าใหม่"
+  [(visible)]="newCustomerVisible"
+  (onHide)="onResetValue()"
+>
+  <div class="container-add-texture">
+    <div class="field">
+      <label for="fname" class="block">ชื่อ</label>
+      <input
+        id="fname"
+        type="text"
+        pInputText
+        [(ngModel)]="fname"
+        placeholder="โปรดระบุชื่อ"
+      />
+    </div>
+    <div class="field">
+      <label for="lname" class="block">นามสกุล</label>
+      <input
+        id="lname"
+        type="text"
+        pInputText
+        [(ngModel)]="lname"
+        placeholder="โปรดระบุนามสกุล"
+      />
+    </div>
+    <div class="field">
+      <label for="phone" class="block">เบอร์มือถือ</label>
+      <input
+        id="phone"
+        type="text"
+        pInputText
+        [(ngModel)]="phone"
+        placeholder="โปรดระบุเบอร์มือถือ"
+      />
+    </div>
+    <div class="field">
+      <label for="address" class="block">ที่อยู่</label>
+      <input
+        id="address"
+        type="text"
+        pInputText
+        [(ngModel)]="address"
+        placeholder="โปรดระบุที่อยู่"
+      />
+    </div>
+    <div class="field">
+      <label for="email" class="block">อีเมล</label>
+      <input
+        id="email"
+        type="email"
+        pInputText
+        [(ngModel)]="email"
+        placeholder="โปรดระบุไลน์ไอดี"
+      />
+    </div>
+    <div class="field">
+      <label for="idCard" class="block">เลขบัตรประชาชน</label>
+      <input
+        id="idCard"
+        type="text"
+        pInputText
+        [(ngModel)]="idCard"
+        placeholder="โปรดระบุเลขบัตรประชาชน"
+      />
+    </div>
+    <button
+      pButton
+      pRipple
+      class="p-button-success p-button-raised"
+      label="เพิ่ม"
+      icon="fas fa-plus"
+      style="width: 100%; margin-top: 1rem"
+      (click)="onNewCustomer()"
+    ></button>
+  </div>
+</p-dialog>
+
+<p-dialog
+  header="แก้ไขข้อมูลลูกค้าใหม่"
+  [(visible)]="editCustomerVisible"
+  (onHide)="onResetValue()"
+>
+  <div class="container-add-texture">
+    <div class="field">
+      <label for="fname" class="block">ชื่อ</label>
+      <input
+        id="fname"
+        type="text"
+        pInputText
+        [(ngModel)]="fname"
+        placeholder="โปรดระบุชื่อ"
+      />
+    </div>
+    <div class="field">
+      <label for="lname" class="block">นามสกุล</label>
+      <input
+        id="lname"
+        type="text"
+        pInputText
+        [(ngModel)]="lname"
+        placeholder="โปรดระบุนามสกุล"
+      />
+    </div>
+    <div class="field">
+      <label for="phone" class="block">เบอร์มือถือ</label>
+      <input
+        id="phone"
+        type="text"
+        pInputText
+        [(ngModel)]="phone"
+        placeholder="โปรดระบุเบอร์มือถือ"
+      />
+    </div>
+    <div class="field">
+      <label for="address" class="block">ที่อยู่</label>
+      <input
+        id="address"
+        type="text"
+        pInputText
+        [(ngModel)]="address"
+        placeholder="โปรดระบุที่อยู่"
+      />
+    </div>
+    <div class="field">
+      <label for="email" class="block">อีเมล</label>
+      <input
+        id="email"
+        type="email"
+        pInputText
+        [(ngModel)]="email"
+        placeholder="โปรดระบุไลน์ไอดี"
+      />
+    </div>
+    <div class="field">
+      <label for="idCard" class="block">เลขบัตรประชาชน</label>
+      <input
+        id="idCard"
+        type="text"
+        pInputText
+        [(ngModel)]="idCard"
+        placeholder="โปรดระบุเลขบัตรประชาชน"
+      />
+    </div>
+    <div class="field">
+      <label for="line_id" class="block">@Line ID</label>
+      <input
+        id="line_id"
+        type="text"
+        pInputText
+        [(ngModel)]="lineId"
+        placeholder="โปรดระบุไลน์ไอดี"
+      />
+    </div>
+    <button
+      pButton
+      pRipple
+      class="p-button-success p-button-raised"
+      label="ยืนยัน"
+      icon="fas fa-plus"
+      style="width: 100%; margin-top: 1rem"
+      (click)="onEditCustomer()"
+    ></button>
+  </div>
+</p-dialog>
+
+<p-confirmDialog
+  header="Warning"
+  icon="pi pi-exclamation-triangle"
+  [style]="{ width: '30vw' }"
+  [baseZIndex]="10000"
+></p-confirmDialog>

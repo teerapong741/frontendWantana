@@ -1,4 +1,10 @@
-import { Router, ActivatedRoute } from '@angular/router';
+import { AuthService } from './../../services/auth.service';
+import {
+  Router,
+  ActivatedRoute,
+  NavigationStart,
+  Event,
+} from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -7,18 +13,48 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./navbar.component.scss'],
 })
 export class NavbarComponent implements OnInit {
-  pageName: string = '';
+  pageName: string = 'Dashboard';
   username: string = 'ไม่ระบุตัวตน';
   visibleToggleMenu: boolean = false;
 
   constructor(
     private readonly router: Router,
-    private readonly route: ActivatedRoute
-  ) {}
+    private readonly route: ActivatedRoute,
+    public authService: AuthService
+  ) {
+    this.router.events.subscribe((event: Event) => {
+      if (event instanceof NavigationStart) {
+        const firstPath = event.url.split('/').filter((path) => path !== '')[0];
+        if (firstPath === 'dashboard') this.pageName = 'แดชบอร์ด';
+        else if (firstPath === 'cloth-management') this.pageName = 'จัดการผ้า';
+        else if (firstPath === 'texture-cloth-management')
+          this.pageName = 'จัดการชนิดเนื้อผ้า';
+        else if (firstPath === 'type-cloth-management')
+          this.pageName = 'จัดการประเภทการใช้งานผ้า';
+        else if (firstPath === 'cloth-problem-management')
+          this.pageName = 'จัดการประเภทผ้ามีปัญหา';
+        else if (firstPath === 'employee-management')
+          this.pageName = 'จัดการข้อมูลพนักงาน';
+        else if (firstPath === 'customer-management')
+          this.pageName = 'จัดการข้อมูลลูกค้า';
+        else if (firstPath === 'profile') this.pageName = 'โปรไฟล์';
+        else this.pageName = 'ไม่ได้ระบุ';
+      }
+      // NavigationEnd
+      // NavigationCancel
+      // NavigationError
+      // RoutesRecognized
+    });
+  }
 
   ngOnInit() {}
 
+  onBack(): void {
+    window.history.back();
+  }
+
   onLogout(): void {
-    this.router.navigate(['login'])
+    this.authService.setIsLogin(null);
+    this.router.navigate(['login']);
   }
 }
