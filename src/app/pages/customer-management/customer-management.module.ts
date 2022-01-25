@@ -1,3 +1,4 @@
+import { CustomerService } from './../../core/services/customer.service';
 import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
@@ -37,6 +38,6 @@ import { DialogModule } from 'primeng/dialog';
   ],
   declarations: [CustomerManagementComponent],
   exports: [CustomerManagementComponent],
-  providers: [DialogService, ConfirmationService],
+  providers: [DialogService, ConfirmationService, CustomerService],
 })
 export class CustomerManagementModule {}
