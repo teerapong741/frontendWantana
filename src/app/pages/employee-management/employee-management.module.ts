@@ -1,3 +1,4 @@
+import { EmployeeService } from './../../core/services/employee.service';
 import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
@@ -35,6 +36,6 @@ import { DialogModule } from 'primeng/dialog';
   ],
   declarations: [EmployeeManagementComponent],
   exports: [EmployeeManagementComponent],
-  providers: [DialogService, ConfirmationService],
+  providers: [DialogService, ConfirmationService, EmployeeService],
 })
 export class EmployeeManagementModule {}
