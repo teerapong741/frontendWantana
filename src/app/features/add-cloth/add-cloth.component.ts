@@ -26,7 +26,7 @@ export class AddClothComponent implements OnInit, OnDestroy {
   typeSelected: any = null;
 
   typeOfUseOptions: any[] = [];
-  typeOfUseSelected: any = null;
+  typeOfUseSelected: any = this.defaultOption;
 
   typeSpecialOptions: any[] = [];
   typeSpecialSelected: any = null;
@@ -86,7 +86,7 @@ export class AddClothComponent implements OnInit, OnDestroy {
           }
 
           this.typeOptions = sortClothsFilter;
-          this.typeSelected = sortClothsFilter[0].value;
+          this.typeSelected = sortClothsFilter[0];
         } else {
           console.error(result.errors[0].message);
         }
@@ -152,7 +152,7 @@ export class AddClothComponent implements OnInit, OnDestroy {
   }
 
   onChangeType(type: any): void {
-    if (type !== 'ผ้าพิเศษ') this.typeSpecialSelected = null;
+    if (type.name !== 'ผ้าพิเศษ') this.typeSpecialSelected = null;
   }
 
   ngOnDestroy(): void {

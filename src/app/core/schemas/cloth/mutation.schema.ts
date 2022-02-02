@@ -1,5 +1,13 @@
 import { gql } from 'apollo-angular';
 
+export const CREATE_CLOTHE_HAS_PROBLEM = gql`
+  mutation createClotheHasProblem(
+    $createClotheProblemInput: CreateClotheProblemInput!
+  ) {
+    createClotheHasProblem(createClotheProblemInput: $createClotheProblemInput)
+  }
+`;
+
 export const CREATE_CLOTHE = gql`
   mutation createClothe($createClotheInput: CreateClotheInput!) {
     createClothe(createClotheInput: $createClotheInput) {
@@ -10,9 +18,7 @@ export const CREATE_CLOTHE = gql`
 
 export const UPDATE_CLOTHE = gql`
   mutation updateClothe($updateClotheInput: UpdateClotheInput!) {
-    updateClothe(updateClotheInput: $updateClotheInput) {
-      id
-    }
+    updateClothe(updateClotheInput: $updateClotheInput)
   }
 `;
 

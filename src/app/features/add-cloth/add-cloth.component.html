@@ -1,11 +1,10 @@
-<div class="container">
+<div *ngIf="typeSelected" class="container">
   <div class="field">
     <label class="block">ชนิดผ้า</label>
     <p-selectButton
       [options]="typeOptions"
       [(ngModel)]="typeSelected"
       optionLabel="name"
-      optionValue="value"
       (ngModelChange)="onChangeType(typeSelected)"
     ></p-selectButton>
   </div>
@@ -15,16 +14,14 @@
       [options]="typeOfUseOptions"
       [(ngModel)]="typeOfUseSelected"
       optionLabel="name"
-      optionValue="value"
     ></p-selectButton>
   </div>
-  <div *ngIf="typeSelected === 'ผ้าพิเศษ'" class="field">
+  <div *ngIf="typeSelected.name === 'ผ้าพิเศษ'" class="field">
     <label class="block">เลือกผ้าชนิดพิเศษ</label>
     <p-selectButton
       [options]="typeSpecialOptions"
       [(ngModel)]="typeSpecialSelected"
       optionLabel="name"
-      optionValue="value"
     ></p-selectButton>
   </div>
   <div class="field">
@@ -34,7 +31,6 @@
       [(ngModel)]="fabricProblemSelected"
       [multiple]="true"
       optionLabel="name"
-      optionValue="value"
     ></p-selectButton>
   </div>
   <div class="field">

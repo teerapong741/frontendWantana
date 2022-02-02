@@ -1,4 +1,3 @@
-import { CreateOrderInput } from './../../../core/interfaces/order.interface';
 import { AuthService } from './../../../core/services/auth.service';
 import { EmployeeService } from './../../../core/services/employee.service';
 import { CustomerService } from './../../../core/services/customer.service';
@@ -141,7 +140,7 @@ export class AddClothsComponent implements OnInit, OnDestroy {
     this.clothList = this.clothList.filter((cloth, i) => index !== i);
   }
 
-  async onNext(): Promise<void> { 
+  async onNext(): Promise<void> {
     if (
       !this.customerSelected ||
       !this.phone ||

@@ -116,18 +116,22 @@
       <div class="container__cloth-list--card">
         <div class="grid px-3 text-center">
           <div class="col-1">
-            {{ (!!cloth.type ? cloth.type : "-") | translate }}
+            {{ (!!cloth.type ? cloth.type.name : "-") | translate }}
           </div>
           <div class="col-2">
-            {{ (!!cloth.type_of_use ? cloth.type_of_use : "-") | translate }}
+            {{
+              (!!cloth.type_of_use ? cloth.type_of_use.name : "-") | translate
+            }}
           </div>
           <div class="col-2">
-            {{ (!!cloth.type_special ? cloth.type_special : "-") | translate }}
+            {{
+              (!!cloth.type_special ? cloth.type_special.name : "-") | translate
+            }}
           </div>
           <div class="col-3">
             <ng-container *ngFor="let problem of cloth.fabric_problem">
               <p-chip
-                [label]="(!!problem ? problem : '-') | translate"
+                [label]="(!!problem ? problem.name : '-') | translate"
                 styleClass="custom-chip"
               ></p-chip>
             </ng-container>

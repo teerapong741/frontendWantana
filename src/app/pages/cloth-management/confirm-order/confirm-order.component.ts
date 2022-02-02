@@ -1,9 +1,17 @@
+import { UpdateOrderInput } from './../../../core/interfaces/order.interface';
+import { ClothService } from './../../../core/services/cloth.service';
+import {
+  CreateClotheInput,
+  CreateClotheProblemInput,
+  UpdateClotheInput,
+} from './../../../core/interfaces/cloth.interface';
 import { ConfirmationService } from 'primeng/api';
 import { NavigationEnd, Router } from '@angular/router';
 import { OrderService } from 'src/app/core/services/order.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { CreateOrderInput } from 'src/app/core/interfaces/order.interface';
+import { Status } from 'src/app/core/enums/status';
 
 @Component({
   selector: 'app-confirm-order',
@@ -29,7 +37,8 @@ export class ConfirmOrderComponent implements OnInit, OnDestroy {
   constructor(
     private readonly orderService: OrderService,
     private readonly router: Router,
-    private readonly confirmationService: ConfirmationService
+    private readonly confirmationService: ConfirmationService,
+    private readonly clothService: ClothService
   ) {}
 
   ngOnInit() {
@@ -89,17 +98,160 @@ export class ConfirmOrderComponent implements OnInit, OnDestroy {
       acceptLabel: 'ตกลง',
       rejectLabel: 'ยกลิก',
       accept: async () => {
+        const allClothes: any[] = [];
+        const inProcessClothes: any[] = [];
+        const outProcessClothes: any[] = [];
+        const clothesProblem: any[] = [];
+        let problemList: any[] = [];
+        let problemIdsList: any[] = [];
+
+        // create main order
         const createOrderInput: CreateOrderInput = {
           customerId: Number(this.orderDetail.customer.id),
-          employeeId: this.orderDetail.employee,
+          employeeId: this.orderDetail.employee_id,
         };
-        await this.onCreateOrder(createOrderInput);
-        this.router.navigate(['./../cloth-management/']);
+        const createdOrder = await this.onCreateOrder(createOrderInput).catch(
+          (error) => console.error(error)
+        );
+
+        // create in process clothe
+        for (let cloth of this.processOrder) {
+          const createClotheInput: CreateClotheInput = {
+            orderId: createdOrder.id,
+            sortClotheId: cloth.type.id,
+            specialClothId: !!cloth.type_special ? cloth.type_special.id : null,
+            typeClotheId: cloth.type_of_use.id,
+          };
+          for (let i of Array.from(Array(cloth.number).keys())) {
+            const createdCloth = await this.onCreateCloth(createClotheInput);
+            inProcessClothes.push({ ...createdCloth });
+            if (!!cloth.fabric_problem && cloth.fabric_problem.length > 0)
+              clothesProblem.push({
+                id: createdCloth.id,
+                problems: cloth.fabric_problem,
+              });
+          }
+        }
+
+        // create out process clothe
+        for (let cloth of this.outProcessOrder) {
+          const createClotheInput: CreateClotheInput = {
+            orderId: createdOrder.id,
+            sortClotheId: cloth.type.id,
+            specialClothId: !!cloth.type_special ? cloth.type_special.id : null,
+            typeClotheId: cloth.type_of_use.id,
+          };
+          for (let i of Array.from(Array(cloth.number).keys())) {
+            const createdCloth = await this.onCreateCloth(createClotheInput);
+            outProcessClothes.push({ ...createdCloth });
+            if (!!cloth.fabric_problem && cloth.fabric_problem.length > 0)
+              clothesProblem.push({
+                id: createdCloth.id,
+                problems: cloth.fabric_problem,
+              });
+          }
+        }
+
+        // merge problem
+        for (let cloth of clothesProblem) {
+          // await problemList.concat(cloth.problems);
+          problemList = await this.onMergeArrays(
+            [problemList, cloth.problems],
+            'id'
+          );
+        }
+
+        // filter id only
+        problemIdsList = await problemList.map(({ id }: any) => id);
+
+        // filter clothe id by problem
+        for (let problemId of problemIdsList) {
+          const createClotheProblemInput: CreateClotheProblemInput = {
+            status: Status.IN,
+            clotheIds: [],
+            problemClothes: problemId,
+          };
+          for (let cloth of clothesProblem) {
+            let isExistProblem = await cloth.problems.filter(
+              (problem: any) => problem.id === problemId
+            );
+            isExistProblem = isExistProblem.length > 0;
+            if (isExistProblem)
+              createClotheProblemInput.clotheIds.push(cloth.id);
+          }
+
+          // create cloth has problem
+          await this.onCreateClothHasProblem(createClotheProblemInput).catch(
+            (error) => console.log(error)
+          );
+        }
+
+        // concat clothes ids
+        const outProcessClotheIds = outProcessClothes.map(({ id }: any) => id);
+        const inProcessClotheIds = inProcessClothes.map(({ id }: any) => id);
+        for (let clothe of outProcessClotheIds) await allClothes.push(clothe);
+        for (let clothe of inProcessClotheIds) await allClothes.push(clothe);
+        // update order
+        const updateClotheInput: UpdateClotheInput = {
+          ids: allClothes,
+          orderId: createdOrder.id,
+        };
+        await this.onUpdateCloth(updateClotheInput).catch((error) =>
+          console.log(error)
+        );
+
+        if (outProcessClotheIds.length > 0) {
+          // create sub order for out process
+          const createSubOrderInput: CreateOrderInput = {
+            customerId: Number(this.orderDetail.customer.id),
+            employeeId: this.orderDetail.employee_id,
+            primaryOrderId: createdOrder.id,
+          };
+          const createdSubOrder = await this.onCreateOrder(
+            createSubOrderInput
+          ).catch((error) => console.error(error));
+
+          // update sub order out process status = true
+          const updateSubOrderInput: UpdateOrderInput = {
+            id: createdSubOrder.id,
+            isOutProcess: true,
+            status: Status.IN,
+          };
+          await this.onUpdateOrder(updateSubOrderInput).catch((error) =>
+            console.error(error)
+          );
+
+          // move clothe out process from main order to sub order
+          const updateOutProcessClotheInput: UpdateClotheInput = {
+            ids: outProcessClotheIds,
+            orderId: createdSubOrder.id,
+          };
+          await this.onUpdateCloth(updateOutProcessClotheInput).catch((error) =>
+            console.error(error)
+          );
+        }
+
+        // update sub order
+        this.router
+          .navigate(['./../cloth-management/'])
+          .then(() => this.orderService.setOrder(null));
       },
     });
   }
 
-  async onCreateOrder(createOrderInput: CreateOrderInput): Promise<void> {
+  onMergeArrays(arrays: any, prop: any) {
+    const merged: any = {};
+
+    arrays.forEach((arr: any) => {
+      arr.forEach((item: any) => {
+        merged[item[prop]] = Object.assign({}, merged[item[prop]], item);
+      });
+    });
+
+    return Object.values(merged);
+  }
+
+  async onCreateOrder(createOrderInput: CreateOrderInput): Promise<any> {
     return new Promise((resolve, reject) => {
       this.loading = true;
       this.$subscriptions = this.orderService
@@ -107,10 +259,72 @@ export class ConfirmOrderComponent implements OnInit, OnDestroy {
         .subscribe((result) => {
           this.loading = false;
           if (!!result.data) {
-            resolve();
+            resolve(JSON.parse(JSON.stringify(result.data.createOrder)));
           } else {
-            reject();
+            reject(result.errors[0].message);
           }
+        });
+    });
+  }
+
+  async onUpdateOrder(updateOrderInput: UpdateOrderInput): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.loading = true;
+      this.$subscriptions = this.orderService
+        .updateOrder(updateOrderInput)
+        .subscribe((result) => {
+          this.loading = false;
+          if (!!result.data)
+            resolve(JSON.parse(JSON.stringify(result.data.updateOrder)));
+          else reject(result.errors[0].message);
+        });
+    });
+  }
+
+  async onCreateCloth(createClotheInput: CreateClotheInput): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.loading = true;
+      this.$subscriptions = this.clothService
+        .createClothe(createClotheInput)
+        .subscribe((result) => {
+          this.loading = false;
+          if (!!result.data) {
+            resolve(JSON.parse(JSON.stringify(result.data.createClothe)));
+          } else {
+            reject(result.errors[0].message);
+          }
+        });
+    });
+  }
+
+  async onUpdateCloth(updateClotheInput: UpdateClotheInput): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.loading = true;
+      this.$subscriptions = this.clothService
+        .updateClothe(updateClotheInput)
+        .subscribe((result) => {
+          this.loading = false;
+          if (!!result.data)
+            resolve(JSON.parse(JSON.stringify(result.data.updateClothe)));
+          else reject(result.errors[0].message);
+        });
+    });
+  }
+
+  async onCreateClothHasProblem(
+    createClotheProblemInput: CreateClotheProblemInput
+  ): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.loading = true;
+      this.$subscriptions = this.clothService
+        .createClotheHasProblem(createClotheProblemInput)
+        .subscribe((result) => {
+          this.loading = false;
+          if (!!result.data)
+            resolve(
+              JSON.parse(JSON.stringify(result.data.createClotheHasProblem))
+            );
+          else reject(result.errors[0].message);
         });
     });
   }

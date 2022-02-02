@@ -24,18 +24,16 @@
         <th>ชื่อลูกค้า</th>
         <th>จำนวนผ้า</th>
         <th>สถานะ</th>
-        <th>หมายเหตุ</th>
         <th></th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-cloth>
       <tr>
-        <td>{{ cloth.date | date }}</td>
-        <td>{{ cloth.id }}</td>
-        <td>{{ cloth.customer_name }}</td>
-        <td>{{ cloth.number }}</td>
-        <td>{{ cloth.status }}</td>
-        <td>{{ cloth.note }}</td>
+        <td>{{ cloth.created_at | date }}</td>
+        <td>{{ cloth.key }}</td>
+        <td>{{ cloth.customer.firstName }} {{ cloth.customer.lastName }}</td>
+        <td>{{ cloth.clothes.length }}</td>
+        <td>{{ cloth.status | translate }}</td>
         <td class="container__action">
           <button
             pButton

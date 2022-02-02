@@ -29,6 +29,11 @@ export class ClothTableComponent implements OnInit, OnDestroy {
     });
   }
 
+  // onCalTotalClothes(clothes: any): number {
+  //   const number: number = 0;
+  //   for (let clothe of clothes) 
+  // }
+
   onDelete(id: string): void {}
 
   ngOnDestroy(): void {

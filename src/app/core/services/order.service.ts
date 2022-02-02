@@ -1,5 +1,12 @@
-import { CREATE_ORDER, REMOVE_ORDER } from './../schemas/order/mutation.schema';
-import { CreateOrderInput } from './../interfaces/order.interface';
+import {
+  CREATE_ORDER,
+  REMOVE_ORDER,
+  UPDATE_ORDER,
+} from './../schemas/order/mutation.schema';
+import {
+  CreateOrderInput,
+  UpdateOrderInput,
+} from './../interfaces/order.interface';
 import { ORDERS } from './../schemas/order/query.schema';
 import { Injectable } from '@angular/core';
 import { Apollo } from 'apollo-angular';
@@ -36,6 +43,17 @@ export class OrderService {
       mutation: CREATE_ORDER,
       variables: { createOrderInput },
       refetchQueries: [{ query: ORDERS, errorPolicy: 'all' }],
+      awaitRefetchQueries: true,
+      errorPolicy: 'all',
+    });
+  }
+
+  public updateOrder(updateOrderInput: UpdateOrderInput): Observable<any> {
+    return this.apollo.mutate({
+      mutation: UPDATE_ORDER,
+      variables: { updateOrderInput },
+      refetchQueries: [],
+      awaitRefetchQueries: true,
       errorPolicy: 'all',
     });
   }
@@ -45,6 +63,7 @@ export class OrderService {
       mutation: REMOVE_ORDER,
       variables: { id },
       refetchQueries: [{ query: ORDERS, errorPolicy: 'all' }],
+      awaitRefetchQueries: true,
       errorPolicy: 'all',
     });
   }
