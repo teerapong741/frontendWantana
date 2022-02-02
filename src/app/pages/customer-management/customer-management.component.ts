@@ -1,3 +1,4 @@
+import { AuthService } from './../../core/services/auth.service';
 import { UpdateCustomerInput } from './../../core/interfaces/customer.interface';
 import { CustomerService } from './../../core/services/customer.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
@@ -31,7 +32,8 @@ export class CustomerManagementComponent implements OnInit, OnDestroy {
   constructor(
     private confirmationService: ConfirmationService,
     private router: Router,
-    private customerService: CustomerService
+    private customerService: CustomerService,
+    public authService: AuthService
   ) {}
 
   ngOnInit() {

@@ -42,6 +42,7 @@
         <td>{{ !!cloth.lineUserId ? cloth.lineUserId : "ไม่ได้ระบุ" }}</td>
         <td class="container__action">
           <button
+            *ngIf="authService.isRole() === 'ADMIN'"
             pButton
             pRipple
             type="button"

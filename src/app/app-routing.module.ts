@@ -9,6 +9,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { AuthGuard } from './core/auth/auth-guard.service';
+import { SpecialClothManagementComponent } from './pages/special-cloth-management/special-cloth-management.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -32,25 +33,31 @@ const routes: Routes = [
     path: 'texture-cloth-management',
     component: TextureClothManagementComponent,
     canActivate: [AuthGuard],
-    data: { role: ['ADMIN'] },
+    data: { role: ['ADMIN', 'SUB_ADMIN'] },
   },
   {
     path: 'type-cloth-management',
     component: TypeClothManagementComponent,
     canActivate: [AuthGuard],
-    data: { role: ['ADMIN'] },
+    data: { role: ['ADMIN', 'SUB_ADMIN'] },
+  },
+  {
+    path: 'special-cloth-management',
+    component: SpecialClothManagementComponent,
+    canActivate: [AuthGuard],
+    data: { role: ['ADMIN', 'SUB_ADMIN'] },
   },
   {
     path: 'cloth-problem-management',
     component: ClothProblemManagementComponent,
     canActivate: [AuthGuard],
-    data: { role: ['ADMIN'] },
+    data: { role: ['ADMIN', 'SUB_ADMIN'] },
   },
   {
     path: 'employee-management',
     component: EmployeeManagementComponent,
     canActivate: [AuthGuard],
-    data: { role: ['ADMIN'] },
+    data: { role: ['ADMIN', 'SUB_ADMIN'] },
   },
   {
     path: 'customer-management',

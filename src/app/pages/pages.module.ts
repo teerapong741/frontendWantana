@@ -5,6 +5,7 @@ import { ClothManagementModule } from "./cloth-management/cloth-management.modul
 import { ClothProblemManagementModule } from "./cloth-problem-management/cloth-problem-management.module";
 import { TextureClothManagementModule } from "./texture-cloth-management/texture-cloth-management.module";
 import { TypeClothManagementModule } from "./type-cloth-management/type-cloth-management.module";
+import { SpecialClothManagementModule } from './special-cloth-management/special-cloth-management.module';
 
 @NgModule({
   imports: [
@@ -14,6 +15,7 @@ import { TypeClothManagementModule } from "./type-cloth-management/type-cloth-ma
     ClothProblemManagementModule,
     EmployeeManagementModule,
     CustomerManagementModule,
+    SpecialClothManagementModule,
   ],
   exports: [
     ClothManagementModule,
@@ -22,6 +24,7 @@ import { TypeClothManagementModule } from "./type-cloth-management/type-cloth-ma
     ClothProblemManagementModule,
     EmployeeManagementModule,
     CustomerManagementModule,
+    SpecialClothManagementModule,
   ],
 })
 export class PagesModule {}

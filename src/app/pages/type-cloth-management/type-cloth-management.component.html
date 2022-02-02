@@ -39,6 +39,7 @@
             [queryParams]="{ id: cloth.id }"
           ></button> -->
           <button
+            *ngIf="!typeClothes.includes(cloth.name)"
             pButton
             pRipple
             type="button"

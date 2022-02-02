@@ -1,0 +1,194 @@
+<div class="container">
+  <div>
+    <label class="container__label">เพิ่มรายการผ้า</label>
+  </div>
+  <div class="container__form">
+    <div class="container__sub-label">
+      <label>ข้อมูลทั่วไป</label>
+    </div>
+    <div class="field">
+      <label for="customer" class="block">ชื่อลูกค้า</label>
+      <input
+        id="phone"
+        class="p-inputtext-lg"
+        type="text"
+        pInputText
+        disabled="true"
+        placeholder="ชื่อลูกค้า"
+        [disabled]="true"
+        [value]="
+          orderDetail.customer.key +
+          ': ' +
+          orderDetail.customer.firstName +
+          ' ' +
+          orderDetail.customer.lastName
+        "
+      />
+    </div>
+    <div class="field">
+      <label for="phone" class="block">เบอร์ติดต่อ</label>
+      <input
+        id="phone"
+        class="p-inputtext-lg"
+        type="text"
+        pInputText
+        disabled="true"
+        placeholder="เบอร์ติดต่อ"
+        [disabled]="true"
+        [value]="orderDetail.phone"
+      />
+    </div>
+    <div class="field">
+      <label for="address" class="block">ที่อยู่</label>
+      <input
+        id="address"
+        class="p-inputtext-lg"
+        type="text"
+        pInputText
+        disabled="true"
+        placeholder="ที่อยู่"
+        [disabled]="true"
+        [value]="orderDetail.address"
+      />
+    </div>
+    <div class="field">
+      <label for="lineId" class="block">Line ID</label>
+      <input
+        id="lineId"
+        class="p-inputtext-lg"
+        type="text"
+        pInputText
+        disabled="true"
+        placeholder="Line ID"
+        [disabled]="true"
+        [value]="orderDetail.line_id"
+      />
+    </div>
+    <div class="field">
+      <label for="employeeId" class="block">รหัสพนักงาน</label>
+      <input
+        id="employeeId"
+        class="p-inputtext-lg"
+        type="text"
+        pInputText
+        placeholder="รหัสพนักงาน"
+        [disabled]="true"
+        [value]="orderDetail.employee_id"
+      />
+    </div>
+  </div>
+  <div class="container__sub-label mt-2">
+    <label>รายการผ้า (นำเข้าซัก)</label>
+  </div>
+  <div class="container__cloth-list">
+    <div class="container__cloth-list--header">
+      <div class="grid px-3 text-center">
+        <div class="col-2">ชนิดผ้า</div>
+        <div class="col-2">ประเภทการใช้งาน</div>
+        <div class="col-2">ผ้าพิเศษ</div>
+        <div class="col-4">ผ้ามีปัญหา</div>
+        <div class="col-2">จำนวน</div>
+      </div>
+    </div>
+    <ng-container *ngFor="let cloth of processOrder; let i = index">
+      <div class="container__cloth-list--card">
+        <div class="grid px-3 text-center">
+          <div class="col-2">
+            {{ (!!cloth.type ? cloth.type : "-") | translate }}
+          </div>
+          <div class="col-2">
+            {{ (!!cloth.type_of_use ? cloth.type_of_use : "-") | translate }}
+          </div>
+          <div class="col-2">
+            {{ (!!cloth.type_special ? cloth.type_special : "-") | translate }}
+          </div>
+          <div class="col-4">
+            <ng-container *ngFor="let problem of cloth.fabric_problem">
+              <p-chip
+                [label]="(!!problem ? problem : '-') | translate"
+                styleClass="custom-chip"
+              ></p-chip>
+            </ng-container>
+          </div>
+          <div class="col-2">{{ cloth.number }}</div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+  <div class="container__sub-label mt-2">
+    <label>รายการผ้า (ไม่นำเข้าซัก)</label>
+  </div>
+  <div class="container__cloth-list">
+    <div class="container__cloth-list--header">
+      <div class="grid px-3 text-center">
+        <div class="col-2">ชนิดผ้า</div>
+        <div class="col-2">ประเภทการใช้งาน</div>
+        <div class="col-2">ผ้าพิเศษ</div>
+        <div class="col-4">ผ้ามีปัญหา</div>
+        <div class="col-2">จำนวน</div>
+      </div>
+    </div>
+    <ng-container *ngFor="let cloth of outProcessOrder; let i = index">
+      <div class="container__cloth-list--card">
+        <div class="grid px-3 text-center">
+          <div class="col-2">
+            {{ (!!cloth.type ? cloth.type : "-") | translate }}
+          </div>
+          <div class="col-2">
+            {{ (!!cloth.type_of_use ? cloth.type_of_use : "-") | translate }}
+          </div>
+          <div class="col-2">
+            {{ (!!cloth.type_special ? cloth.type_special : "-") | translate }}
+          </div>
+          <div class="col-4">
+            <ng-container *ngFor="let problem of cloth.fabric_problem">
+              <p-chip
+                [label]="(!!problem ? problem : '-') | translate"
+                styleClass="custom-chip"
+              ></p-chip>
+            </ng-container>
+          </div>
+          <div class="col-2">{{ cloth.number }}</div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+  <div class="container__sub-label mt-2">
+    <label>สรุป</label>
+  </div>
+  <div class="container__summarize">
+    <p>ผ้าทั้งหมด {{ totalCloths }} ตัว</p>
+    <p>ผ้าหนา {{ thickCloths }} ตัว</p>
+    <p>ผ้าบาง {{ thinCloths }} ตัว</p>
+    <p>ผ้าพิเศษ {{ specialCloths }} ตัว</p>
+    <p>เป็นผ้ามีปัญหาจำนวน {{ problemCloths }} ตัว</p>
+    <p>นำเข้าซัก {{ inProcess }} ตัว</p>
+    <p>ไม่นำเข้าซัก {{ outProcess }} ตัว</p>
+  </div>
+  <div class="grid container__btn-group">
+    <div class="col-6">
+      <button
+        pButton
+        pRipple
+        label="ย้อนกลับ"
+        class="p-button-raised p-button-warning p-button-lg container__btn-group--btn w-full"
+        (click)="onReturn()"
+      ></button>
+    </div>
+    <div class="col-6">
+      <button
+        pButton
+        pRipple
+        label="สร้างรายการรับผ้า"
+        class="p-button-raised p-button-success p-button-lg container__btn-group--btn w-full"
+        (click)="onSuccess()"
+      ></button>
+    </div>
+  </div>
+</div>
+<p-confirmDialog
+  header="Warning"
+  icon="pi pi-exclamation-triangle"
+  [style]="{ width: '30vw' }"
+  [baseZIndex]="10000"
+></p-confirmDialog>

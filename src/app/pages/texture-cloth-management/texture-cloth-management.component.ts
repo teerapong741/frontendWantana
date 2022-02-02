@@ -1,3 +1,4 @@
+import { textureClothList } from './../../core/values/cloth.value';
 import { TextureClothService } from './../../core/services/texture-cloth.service';
 import { createTypeClotheInput } from '../../core/interfaces/type-cloth.interface';
 import { Component, OnDestroy, OnInit } from '@angular/core';
@@ -14,6 +15,8 @@ import { createSortClotheInput } from 'src/app/core/interfaces/texture-cloth.int
 export class TextureClothManagementComponent implements OnInit, OnDestroy {
   loading: boolean = false;
   $subscription: Subscription | undefined = undefined;
+
+  textureClothes: any[] = textureClothList;
 
   textureClothList: any[] = [];
   newTextureVisible: boolean = false;

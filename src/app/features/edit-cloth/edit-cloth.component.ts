@@ -1,5 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { Subscription } from 'rxjs';
+import { ClothProblemService } from 'src/app/core/services/cloth-problem.service';
+import { SpecialClothService } from 'src/app/core/services/special-cloth.service';
+import { TextureClothService } from 'src/app/core/services/texture-cloth.service';
+import { TypeClothService } from 'src/app/core/services/type-cloth.service';
 import {
   fabricProblemOptions,
   typeOfUseOptions,
@@ -12,7 +17,11 @@ import {
   templateUrl: './edit-cloth.component.html',
   styleUrls: ['./edit-cloth.component.scss'],
 })
-export class EditClothComponent implements OnInit {
+export class EditClothComponent implements OnInit, OnDestroy {
+  $subscription: Subscription | undefined = undefined;
+  loading: boolean = false;
+  defaultOption: any = { name: 'ไม่ได้ระบุ', value: null };
+
   typeOptions: any[] = [];
   typeSelected: any = null;
 
@@ -26,24 +35,121 @@ export class EditClothComponent implements OnInit {
   fabricProblemSelected: any = null;
 
   number: number = 1;
+  isOutProcess: boolean = false;
 
   constructor(
     public ref: DynamicDialogRef,
-    public config: DynamicDialogConfig
+    public config: DynamicDialogConfig,
+    private readonly typeClothService: TypeClothService,
+    private readonly textureClothService: TextureClothService,
+    private readonly clothProblemService: ClothProblemService,
+    private readonly specialClothService: SpecialClothService
   ) {}
 
   ngOnInit() {
-    this.typeOptions = typeOptions;
-    this.typeOfUseOptions = typeOfUseOptions;
-    this.typeSpecialOptions = typeSpecialOptions;
-    this.fabricProblemOptions = fabricProblemOptions;
+    // this.typeOptions = typeOptions;
+    // this.typeOfUseOptions = typeOfUseOptions;
+    // this.typeSpecialOptions = typeSpecialOptions;
+    // this.fabricProblemOptions = fabricProblemOptions;
+    this.$subscription = this.typeClothService
+      .typeClothes()
+      .subscribe((result) => {
+        this.loading = false;
+        if (!!result.data) {
+          const typeCloths = JSON.parse(
+            JSON.stringify(result.data.typeClothes)
+          );
+          const typeClothsFilter = [this.defaultOption];
+          for (let type of typeCloths) {
+            typeClothsFilter.push({
+              ...type,
+              value: type.name,
+            });
+          }
+
+          this.typeOfUseOptions = typeClothsFilter;
+        } else {
+          console.error(result.errors[0].message);
+        }
+      });
+
+    this.$subscription = this.textureClothService
+      .sortClothes()
+      .subscribe((result) => {
+        this.loading = false;
+        if (!!result.data) {
+          const sortCloths = JSON.parse(
+            JSON.stringify(result.data.sortClothes)
+          );
+          const sortClothsFilter = [this.defaultOption];
+          for (let sort of sortCloths) {
+            sortClothsFilter.push({
+              ...sort,
+              value: sort.name,
+            });
+          }
+
+          this.typeOptions = sortClothsFilter;
+        } else {
+          console.error(result.errors[0].message);
+        }
+      });
+
+    this.$subscription = this.specialClothService
+      .specialClothes()
+      .subscribe((result) => {
+        this.loading = false;
+        if (!!result.data) {
+          const specialCloths = JSON.parse(
+            JSON.stringify(result.data.specialClothes)
+          );
+          const specialClothsFilter = [this.defaultOption];
+          for (let special of specialCloths) {
+            specialClothsFilter.push({
+              ...special,
+              value: special.name,
+            });
+          }
+
+          this.typeSpecialOptions = specialClothsFilter;
+        } else {
+          console.error(result.errors[0].message);
+        }
+      });
+
+    this.$subscription = this.clothProblemService
+      .problemClothes()
+      .subscribe((result) => {
+        this.loading = false;
+        if (!!result.data) {
+          const problemCloths = JSON.parse(
+            JSON.stringify(result.data.problemClothes)
+          );
+          const problemClothsFilter = [];
+          for (let problem of problemCloths) {
+            problemClothsFilter.push({
+              ...problem,
+              value: problem.name,
+            });
+          }
+
+          this.fabricProblemOptions = problemClothsFilter;
+        } else {
+          console.error(result.errors[0].message);
+        }
+      });
 
     const cloth = this.config.data.cloth;
     this.typeSelected = cloth.type;
     this.typeOfUseSelected = cloth.type_of_use;
     this.typeSpecialSelected = cloth.type_special;
     this.fabricProblemSelected = cloth.fabric_problem;
+    this.isOutProcess = cloth.is_out_process;
     this.number = cloth.number;
+  }
+
+  onChangeType(type: any): void {
+    if (type !== 'ผ้าพิเศษ') this.typeSpecialSelected = null;
   }
 
   onEdit(): void {
@@ -52,7 +158,12 @@ export class EditClothComponent implements OnInit {
       type_of_use: this.typeOfUseSelected,
       type_special: this.typeSpecialSelected,
       fabric_problem: this.fabricProblemSelected,
+      is_out_process: this.isOutProcess,
       number: this.number,
     });
+  }
+
+  ngOnDestroy(): void {
+    if (!!this.$subscription) this.$subscription.unsubscribe();
   }
 }

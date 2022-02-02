@@ -1,3 +1,4 @@
+import { AuthService } from './../../core/services/auth.service';
 import {
   createEmployeeInput,
   updateEmployeeInput,
@@ -38,7 +39,8 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy {
   constructor(
     private confirmationService: ConfirmationService,
     private router: Router,
-    private employeeService: EmployeeService
+    private employeeService: EmployeeService,
+    public authService: AuthService
   ) {}
 
   ngOnInit() {
@@ -68,8 +70,6 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy {
       !this.lname ||
       !this.phone ||
       !this.address ||
-      !this.password ||
-      !this.confirmPassword ||
       !this.role
     ) {
       this.confirmationService.confirm({
@@ -94,7 +94,7 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy {
         address: this.address,
         phoneNumber: this.phone,
         email: this.email,
-        password: this.password,
+        password: this.idCard,
         role: this.role,
       };
 
@@ -148,7 +148,6 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy {
       !this.lname ||
       !this.phone ||
       !this.address ||
-      !this.password ||
       !this.role
     ) {
       this.confirmationService.confirm({
@@ -167,7 +166,7 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy {
         address: this.address,
         phoneNumber: this.phone,
         email: this.email,
-        password: this.password,
+        password: this.idCard,
         role: this.role,
       };
 

@@ -17,6 +17,8 @@
         filterBy="name"
         [showClear]="true"
         placeholder="เลือกชื่อลูกค้า"
+        (ngModelChange)="onSelectedCustomer()"
+        (onClear)="onClearCustomerValue()"
       >
         <ng-template pTemplate="selectedItem">
           <div
@@ -24,13 +26,16 @@
             *ngIf="customerSelected"
           >
             <span>รหัส: {{ customerSelected.id }}</span>
-            <span>ชื่อ: {{ customerSelected.name }}</span>
+            <span
+              >ชื่อ: {{ customerSelected.firstName }}
+              {{ customerSelected.lastName }}</span
+            >
           </div>
         </ng-template>
         <ng-template let-customer pTemplate="item">
           <div class="customer-item">
-            <span>รหัส: {{ customer.id }}</span>
-            <span>ชื่อ: {{ customer.name }}</span>
+            <span>รหัส: {{ customer.key }}</span>
+            <span>ชื่อ: {{ customer.firstName }} {{ customer.lastName }}</span>
           </div>
         </ng-template>
       </p-dropdown>
@@ -42,6 +47,7 @@
         class="p-inputtext-lg"
         type="text"
         pInputText
+        disabled="true"
         [(ngModel)]="phone"
         placeholder="เบอร์ติดต่อ"
       />
@@ -53,6 +59,7 @@
         class="p-inputtext-lg"
         type="text"
         pInputText
+        disabled="true"
         [(ngModel)]="address"
         placeholder="ที่อยู่"
       />
@@ -64,6 +71,7 @@
         class="p-inputtext-lg"
         type="text"
         pInputText
+        disabled="true"
         [(ngModel)]="lineId"
         placeholder="Line ID"
       />
@@ -75,7 +83,7 @@
         class="p-inputtext-lg"
         type="text"
         pInputText
-        [(ngModel)]="employeeId"
+        [(ngModel)]="employeeCode"
         placeholder="รหัสพนักงาน"
         disabled="true"
       />
@@ -93,21 +101,49 @@
     (click)="newClothList()"
   ></button>
   <div class="container__cloth-list">
+    <div class="container__cloth-list--header">
+      <div class="grid px-3 text-center">
+        <div class="col-1">ชนิดผ้า</div>
+        <div class="col-2">ประเภทการใช้งาน</div>
+        <div class="col-2">ผ้าพิเศษ</div>
+        <div class="col-3">ผ้ามีปัญหา</div>
+        <div class="col-2">นำเข้าซัก</div>
+        <div class="col-1">จำนวน</div>
+        <div class="col-1"></div>
+      </div>
+    </div>
     <ng-container *ngFor="let cloth of clothList; let i = index">
       <div class="container__cloth-list--card">
         <div class="grid px-3 text-center">
-          <div class="col-2">{{ cloth.type | translate }}</div>
-          <div class="col-2">{{ cloth.type_of_use | translate }}</div>
-          <div class="col-2">{{ cloth.type_special | translate }}</div>
+          <div class="col-1">
+            {{ (!!cloth.type ? cloth.type : "-") | translate }}
+          </div>
+          <div class="col-2">
+            {{ (!!cloth.type_of_use ? cloth.type_of_use : "-") | translate }}
+          </div>
+          <div class="col-2">
+            {{ (!!cloth.type_special ? cloth.type_special : "-") | translate }}
+          </div>
           <div class="col-3">
             <ng-container *ngFor="let problem of cloth.fabric_problem">
               <p-chip
-                [label]="problem | translate"
+                [label]="(!!problem ? problem : '-') | translate"
                 styleClass="custom-chip"
               ></p-chip>
             </ng-container>
           </div>
-          <div class="col-2">{{ cloth.number }}</div>
+          <div class="col-2">
+            <i
+              class="fas"
+              [ngClass]="
+                !cloth.is_out_process ? 'fa-check-circle' : 'fa-times-circle'
+              "
+              [ngStyle]="
+                !cloth.is_out_process ? { color: 'green' } : { color: 'red' }
+              "
+            ></i>
+          </div>
+          <div class="col-1">{{ cloth.number }}</div>
           <div class="col-1">
             <button
               pButton
@@ -133,9 +169,9 @@
   <button
     pButton
     pRipple
-    label="เสร็จสิ้น"
+    label="ถัดไป"
     class="p-button-raised p-button-success p-button-lg container__btn-success"
-    (click)="onSuccess()"
+    (click)="onNext()"
   ></button>
 </div>
 <p-confirmDialog
