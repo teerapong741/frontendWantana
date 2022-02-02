@@ -2,6 +2,7 @@
   <div>
     <label class="container__label">ข้อมูลพนักงาน</label>
     <button
+      *ngIf="authService.isRole() === 'ADMIN'"
       pButton
       pRipple
       label="เพิ่มพนักงานใหม่"
@@ -42,6 +43,7 @@
         </td>
         <td class="container__action">
           <button
+            *ngIf="authService.isRole() === 'ADMIN'"
             pButton
             pRipple
             type="button"
@@ -50,6 +52,7 @@
             (click)="onVisibleEditEmployee(employee)"
           ></button>
           <button
+            *ngIf="employee.role === 'SUB_ADMIN' || authService.isRole() === 'ADMIN'"
             pButton
             pRipple
             type="button"
@@ -127,26 +130,6 @@
         pInputText
         [(ngModel)]="email"
         placeholder="โปรดระบุอีเมล์"
-      />
-    </div>
-    <div class="field">
-      <label for="password" class="block">รหัสผ่าน (เป็นเลขบัตรประชาชน)</label>
-      <input
-        id="password"
-        type="text"
-        pInputText
-        [(ngModel)]="password"
-        placeholder="โปรดระบุรหัสผ่าน"
-      />
-    </div>
-    <div class="field">
-      <label for="confirm_password" class="block">ยืนยันรหัสผ่าน</label>
-      <input
-        id="confirm_password"
-        type="text"
-        pInputText
-        [(ngModel)]="confirmPassword"
-        placeholder="โปรดระบุรหัสผ่านเพื่อยืนยัน"
       />
     </div>
     <div class="field">
@@ -237,16 +220,6 @@
         pInputText
         [(ngModel)]="email"
         placeholder="โปรดระบุอีเมล์"
-      />
-    </div>
-    <div class="field">
-      <label for="password" class="block">รหัสผ่าน (เป็นเลขบัตรประชาชน)</label>
-      <input
-        id="password"
-        type="text"
-        pInputText
-        [(ngModel)]="password"
-        placeholder="โปรดระบุรหัสผ่าน"
       />
     </div>
     <div class="field">

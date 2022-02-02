@@ -40,3 +40,36 @@ export const fabricProblemOptions = [
   { name: 'ซิปแตก', value: 'broken_zipper' },
   { name: 'เปื้อน', value: 'stain' },
 ];
+
+export const textureClothList: string[] = ['ผ้าบาง', 'ผ้าหนา', 'ผ้าพิเศษ'];
+export const typeClothList: string[] = [
+  'เสื้อแขนสั้น',
+  'กางเกงขาสั้น',
+  'กระโปรงสั้น',
+  'ชุดกระโปรง',
+  'เสื้อแขนยาว',
+  'กางเกงขายาว',
+  'กระโปรงขายาว',
+];
+export const specialClothList: string[] = [
+  'ขนสัตว์',
+  'ผ้าไหม',
+  'ผ้าลูกไม้',
+  'ตุ๊กตา',
+  'ยีนส์',
+  'กำมะหยี่',
+  'ผ้านวม',
+  'รองเท้า',
+  'กระเป๋า',
+  'ผ้าปูที่นอน',
+];
+export const problemClothList: string[] = [
+  'ขาด',
+  'รอยไหม้',
+  'กระดุมหลุด',
+  'สีตก',
+  'รอยยับ',
+  'เป็นขุย',
+  'ซิปแตก',
+  'เปื้อน',
+];

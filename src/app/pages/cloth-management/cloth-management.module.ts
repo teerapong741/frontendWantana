@@ -1,6 +1,11 @@
+import { ConfirmOrderComponent } from './confirm-order/confirm-order.component';
+import { AuthService } from './../../core/services/auth.service';
+import { EmployeeService } from './../../core/services/employee.service';
+import { CustomerService } from './../../core/services/customer.service';
+import { OrderService } from './../../core/services/order.service';
 import { EditClothModule } from './../../features/edit-cloth/edit-cloth.module';
 import { ClothTableComponent } from './cloth-table/cloth-table.component';
-import {  TranslateModule } from '@ngx-translate/core';
+import { TranslateModule } from '@ngx-translate/core';
 
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -22,6 +27,8 @@ import { AddClothModule } from 'src/app/features/add-cloth/add-cloth.module';
 import { ChipModule } from 'primeng/chip';
 import { ConfirmationService } from 'primeng/api';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { CheckboxModule } from 'primeng/checkbox';
+import { InputSwitchModule } from 'primeng/inputswitch';
 @NgModule({
   imports: [
     CommonModule,
@@ -39,13 +46,27 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
     TranslateModule,
     EditClothModule,
     ConfirmDialogModule,
+    
   ],
   declarations: [
     ClothManagementComponent,
     AddClothsComponent,
     ClothTableComponent,
+    ConfirmOrderComponent,
   ],
-  providers: [DialogService, ConfirmationService],
-  exports: [ClothManagementComponent, AddClothsComponent, ClothTableComponent],
+  providers: [
+    DialogService,
+    ConfirmationService,
+    OrderService,
+    CustomerService,
+    EmployeeService,
+    AuthService,
+  ],
+  exports: [
+    ClothManagementComponent,
+    AddClothsComponent,
+    ClothTableComponent,
+    ConfirmOrderComponent,
+  ],
 })
 export class ClothManagementModule {}

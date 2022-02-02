@@ -1,3 +1,7 @@
+import { ClothProblemService } from './core/services/cloth-problem.service';
+import { SpecialClothService } from './core/services/special-cloth.service';
+import { TextureClothService } from './core/services/texture-cloth.service';
+import { TypeClothService } from './core/services/type-cloth.service';
 import { GraphqlModule } from './graphql.module';
 import { PagesModule } from './pages/pages.module';
 import { CommonModule } from '@angular/common';
@@ -42,9 +46,14 @@ export function HttpLoaderFactory(http: HttpClient) {
         deps: [HttpClient],
       },
     }),
-    GraphqlModule
+    GraphqlModule,
   ],
-  providers: [],
+  providers: [
+    TypeClothService,
+    TextureClothService,
+    SpecialClothService,
+    ClothProblemService,
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

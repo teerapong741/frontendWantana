@@ -1,3 +1,4 @@
+import { ConfirmOrderComponent } from './confirm-order/confirm-order.component';
 import { ClothTableComponent } from './cloth-table/cloth-table.component';
 import { ClothManagementComponent } from './cloth-management.component';
 import { AddClothsComponent } from './add-cloths/add-cloths.component';
@@ -12,6 +13,7 @@ const routes: Routes = [
     component: AddClothsComponent,
     data: { animation: 'isLeft' },
   },
+  { path: 'confirm-order', component: ConfirmOrderComponent },
   { path: '**', redirectTo: 'cloth-management', pathMatch: 'full' },
 ];
 

@@ -63,7 +63,7 @@
 
   &__cloth-list {
     width: 80%;
-    height: 40rem;
+    height: auto;
     margin: auto;
     overflow: auto;
     overflow-x: none;
@@ -108,6 +108,22 @@
     }
   }
 
+  &__summarize {
+    width: 80%;
+    height: auto;
+    margin: auto;
+    overflow: auto;
+    overflow-x: none;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+
+    & > p {
+      font-size: large;
+      font-weight: 400;
+    }
+  }
+
   &__btn-add {
     width: 12rem;
     align-self: flex-end;
@@ -115,20 +131,12 @@
     margin-bottom: 1rem;
   }
 
-  &__btn-success {
-    margin-top: 1rem;
-    margin-left: 7rem;
-    margin-right: 7rem;
+  &__btn-group {
+    &--btn {
+      margin-top: 1rem;
+    }
   }
 }
-
-// input.p-invalid , input.p-invalid:focus,input.p-invalid:hover{
-//   border: 1px solid tomato;
-// }
-
-// small.p-invalid {
-//   color: tomato;
-// }
 
 :host ::ng-deep .p-dropdown {
   width: 100%;

@@ -1,3 +1,4 @@
+import { problemClothList } from './../../core/values/cloth.value';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ConfirmationService } from 'primeng/api';
@@ -13,6 +14,8 @@ import { ClothProblemService } from 'src/app/core/services/cloth-problem.service
 export class ClothProblemManagementComponent implements OnInit, OnDestroy {
   loading: boolean = false;
   $subscription: Subscription | undefined = undefined;
+
+  problemClothes: string[] = problemClothList;
 
   clothProblemList: any[] = [];
   newClothProblemVisible: boolean = false;

@@ -1,17 +1,17 @@
 <div class="container">
   <div>
-    <label class="container__label">รายการชนิดเนื้อผ้า</label>
+    <label class="container__label">ผ้าชนิดพิเศษ</label>
     <button
       pButton
       pRipple
-      label="เพิ่มชนิดเนื้อผ้า"
+      label="เพิ่มประเภทผ้าชนิดพิเศษ"
       icon="fas fa-plus"
       class="p-button-raised p-button-success p-button-lg container__btn-add"
-      (click)="onVisibleNewTexture()"
+      (click)="onVisibleNewSpecialCloth()"
     ></button>
   </div>
   <p-table
-    [value]="textureClothList"
+    [value]="specialClothList"
     [rows]="10"
     [paginator]="true"
     responsiveLayout="scroll"
@@ -20,7 +20,7 @@
     <ng-template pTemplate="header">
       <tr>
         <th>รหัส</th>
-        <th>ชื่อชนิดเนื้อผ้า</th>
+        <th>ชื่อประเภทผ้าพิเศษ</th>
         <th></th>
       </tr>
     </ng-template>
@@ -39,7 +39,7 @@
             [queryParams]="{ id: cloth.id }"
           ></button> -->
           <button
-            *ngIf="!textureClothes.includes(cloth.name)"
+            *ngIf="!specialClothes.includes(cloth.name)"
             pButton
             pRipple
             type="button"
@@ -54,19 +54,19 @@
 </div>
 
 <p-dialog
-  header="เพิ่มชนิดเนื้อผ้า"
-  [(visible)]="newTextureVisible"
+  header="เพิ่มประเภทผ้าพิเศษ"
+  [(visible)]="newSpecialClothVisible"
   (onHide)="onResetValue()"
 >
   <div class="container-add-texture">
     <div class="field">
-      <label for="texture-type" class="block">ชื่อชนิดเนื้อผ้า</label>
+      <label for="texture-type" class="block">ชื่อประเภทผ้าพิเศษ</label>
       <input
         id="texture-type"
         type="text"
         pInputText
-        [(ngModel)]="newTextureValue"
-        placeholder="โปรดระบุชนิดเนื้อผ้า"
+        [(ngModel)]="newSpecialClothValue"
+        placeholder="โปรดระบุประเภทผ้าชนิดพิเศษ"
       />
     </div>
     <button
@@ -76,7 +76,7 @@
       label="เพิ่ม"
       icon="fas fa-plus"
       style="width: 100%; margin-top: 1rem"
-      (click)="onNewTexture()"
+      (click)="onNewSpecialCloth()"
     ></button>
   </div>
 </p-dialog>

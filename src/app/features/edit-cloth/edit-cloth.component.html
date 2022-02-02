@@ -6,6 +6,7 @@
       [(ngModel)]="typeSelected"
       optionLabel="name"
       optionValue="value"
+      (ngModelChange)="onChangeType(typeSelected)"
     ></p-selectButton>
   </div>
   <div class="field">
@@ -17,7 +18,7 @@
       optionValue="value"
     ></p-selectButton>
   </div>
-  <div class="field">
+  <div  *ngIf="typeSelected === 'ผ้าพิเศษ'"class="field">
     <label class="block">เลือกผ้าชนิดพิเศษ</label>
     <p-selectButton
       [options]="typeSpecialOptions"
@@ -53,11 +54,19 @@
     >
     </p-inputNumber>
   </div>
+  <div class="field-checkbox flex justify-content-end">
+    <p-checkbox
+      [(ngModel)]="isOutProcess"
+      [binary]="true"
+      inputId="binary"
+    ></p-checkbox>
+    <label for="binary">ไม่ต้องเข้ากระบวนการซัก</label>
+  </div>
   <button
     pButton
     pRipple
     class="p-button-success p-button-raised p-button-sm btn-add"
-    label="เพิ่ม"
+    label="แก้ไข"
     icon="fas fa-plus"
     (click)="onEdit()"
   ></button>

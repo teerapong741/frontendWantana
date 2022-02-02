@@ -5,6 +5,7 @@ export const AUTH_DATA = 'DI@(#@)#@R_SDKFJ:L(*$';
 
 export interface AuthData {
   id: string;
+  key: string;
   email: string;
   role: string;
 }
@@ -31,6 +32,16 @@ export class AuthService {
       localStorage.removeItem(AUTH_DATA);
     }
     this.$isLogin.next(isLogin);
+  }
+
+  public isCodeEmployee(): any {
+    const userData = localStorage.getItem(AUTH_DATA);
+    if (userData)
+      return {
+        id: JSON.parse(userData).id,
+        key: JSON.parse(userData).key,
+      };
+    else return null;
   }
 
   public isRole(): string {
