@@ -166,12 +166,12 @@
   </div>
   <div class="container__summarize">
     <p>ผ้าทั้งหมด {{ totalCloths }} ตัว</p>
-    <p>ผ้าหนา {{ thickCloths }} ตัว</p>
-    <p>ผ้าบาง {{ thinCloths }} ตัว</p>
-    <p>ผ้าพิเศษ {{ specialCloths }} ตัว</p>
-    <p>เป็นผ้ามีปัญหาจำนวน {{ problemCloths }} ตัว</p>
-    <p>นำเข้าซัก {{ inProcess }} ตัว</p>
-    <p>ไม่นำเข้าซัก {{ outProcess }} ตัว</p>
+    <p *ngIf="thickCloths > 0">ผ้าหนา {{ thickCloths }} ตัว</p>
+    <p *ngIf="thinCloths > 0">ผ้าบาง {{ thinCloths }} ตัว</p>
+    <p *ngIf="specialCloths > 0">ผ้าพิเศษ {{ specialCloths }} ตัว</p>
+    <p *ngIf="problemCloths > 0">เป็นผ้ามีปัญหาจำนวน {{ problemCloths }} ตัว</p>
+    <p *ngIf="inProcess > 0">นำเข้าซัก {{ inProcess }} ตัว</p>
+    <p *ngIf="outProcess > 0">ไม่นำเข้าซัก {{ outProcess }} ตัว</p>
   </div>
   <div class="grid container__btn-group">
     <div class="col-6">

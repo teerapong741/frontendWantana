@@ -33,7 +33,18 @@
         <td>{{ cloth.key }}</td>
         <td>{{ cloth.customer.firstName }} {{ cloth.customer.lastName }}</td>
         <td>{{ cloth.clothes.length }}</td>
-        <td>{{ cloth.status | translate }}</td>
+        <td>
+          <p-tag
+            styleClass="mr-2 font-bold"
+            [style]="{
+              'font-size': '14px',
+              padding: '.2rem .5rem .2rem .5rem '
+            }"
+            [severity]="cloth.status === 'อยู่ในระบบ' ? 'success' : 'warning'"
+            [value]="cloth.status | translate"
+            [rounded]="true"
+          ></p-tag>
+        </td>
         <td class="container__action">
           <button
             pButton

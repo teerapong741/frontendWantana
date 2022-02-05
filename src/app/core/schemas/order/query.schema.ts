@@ -8,6 +8,7 @@ export const ORDERS = gql`
       status
       created_at
       updated_at
+      primaryOrderId
       clothes {
         id
         key

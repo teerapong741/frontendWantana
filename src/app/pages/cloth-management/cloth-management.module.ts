@@ -32,6 +32,7 @@ import { AddClothModule } from 'src/app/features/add-cloth/add-cloth.module';
 import { ChipModule } from 'primeng/chip';
 import { ConfirmationService } from 'primeng/api';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { TagModule } from 'primeng/tag';
 
 @NgModule({
   imports: [
@@ -50,6 +51,7 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
     TranslateModule,
     EditClothModule,
     ConfirmDialogModule,
+    TagModule,
   ],
   declarations: [
     ClothManagementComponent,
