@@ -10,7 +10,7 @@
 html {
   // This defines what 1rem is
   font-size: 62.5%; //1 rem = 10px; 10px/16px = 62.5%
-  font-family: "Mitr-Light", Arial, Helvetica, sans-serif;
+  font-family: "NotoSansThai-Regular", Arial, Helvetica, sans-serif;
 }
 
 body {
@@ -20,15 +20,15 @@ body {
 
 //! Fonts
 @font-face {
-  font-family: "Mitr-Regular";
-  src: local("Mitr-Regular"),
-    url(./assets/fonts/Mitr-Regular.ttf) format("truetype");
+  font-family: "NotoSansThai-Regular";
+  src: local("NotoSansThai-Regular"),
+    url(./assets/fonts/NotoSansThai/NotoSansThai-Regular.ttf) format("truetype");
 }
 
 @font-face {
-  font-family: "Mitr-Light";
-  src: local("Mitr-Light"),
-    url(./assets/fonts/Mitr-Light.ttf) format("truetype");
+  font-family: "NotoSansThai-Light";
+  src: local("NotoSansThai-Light"),
+    url(./assets/fonts/NotoSansThai/NotoSansThai-Light.ttf) format("truetype");
 }
 
 @media only screen and (max-width: 37.5em) {
