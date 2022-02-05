@@ -21,7 +21,10 @@ export class ClothTableComponent implements OnInit, OnDestroy {
       this.loading = false;
       if (!!result.data) {
         const orders = JSON.parse(JSON.stringify(result.data.orders));
-        this.clothList = orders;
+        this.clothList = orders.filter(
+          (order: any) => order.primaryOrderId == order.id
+        );
+        console.log(this.clothList);
         console.log(orders);
       } else {
         console.error(result.errors[0].message);
@@ -31,7 +34,7 @@ export class ClothTableComponent implements OnInit, OnDestroy {
 
   // onCalTotalClothes(clothes: any): number {
   //   const number: number = 0;
-  //   for (let clothe of clothes) 
+  //   for (let clothe of clothes)
   // }
 
   onDelete(id: string): void {}

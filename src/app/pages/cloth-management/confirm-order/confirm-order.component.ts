@@ -56,17 +56,17 @@ export class ConfirmOrderComponent implements OnInit, OnDestroy {
       this.totalCloths += cloth.number;
     });
     clothList
-      .filter((cloth: any) => cloth.type === 'ผ้าหนา')
+      .filter((cloth: any) => cloth.type.name === 'ผ้าหนา')
       .map((cloth: any) => {
         this.thickCloths += cloth.number;
       });
     clothList
-      .filter((cloth: any) => cloth.type === 'ผ้าบาง')
+      .filter((cloth: any) => cloth.type.name === 'ผ้าบาง')
       .map((cloth: any) => {
         this.thinCloths += cloth.number;
       });
     clothList
-      .filter((cloth: any) => cloth.type === 'ผ้าพิเศษ')
+      .filter((cloth: any) => cloth.type.name === 'ผ้าพิเศษ')
       .map((cloth: any) => {
         this.specialCloths += cloth.number;
       });
