@@ -19,7 +19,7 @@ export const UPDATE_ORDER = gql`
 export const REMOVE_ORDER = gql`
   mutation removeOrder($id: Int!) {
     removeOrder(id: $id) {
-      id
+      key
     }
   }
 `;
