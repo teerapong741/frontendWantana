@@ -211,24 +211,26 @@ export class ConfirmOrderComponent implements OnInit, OnDestroy {
             createSubOrderInput
           ).catch((error) => console.error(error));
 
-          // update sub order out process status = true
-          const updateSubOrderInput: UpdateOrderInput = {
-            id: createdSubOrder.id,
-            isOutProcess: true,
-            status: Status.IN,
-          };
-          await this.onUpdateOrder(updateSubOrderInput).catch((error) =>
-            console.error(error)
-          );
+          if (!!createdSubOrder) {
+            // update sub order out process status = true
+            const updateSubOrderInput: UpdateOrderInput = {
+              id: createdSubOrder.id,
+              isOutProcess: true,
+              status: Status.IN,
+            };
+            const updatedOrder = await this.onUpdateOrder(
+              updateSubOrderInput
+            ).catch((error) => console.error(error));
 
-          // move clothe out process from main order to sub order
-          const updateOutProcessClotheInput: UpdateClotheInput = {
-            ids: outProcessClotheIds,
-            orderId: createdSubOrder.id,
-          };
-          await this.onUpdateCloth(updateOutProcessClotheInput).catch((error) =>
-            console.error(error)
-          );
+            // move clothe out process from main order to sub order
+            const updateOutProcessClotheInput: UpdateClotheInput = {
+              ids: outProcessClotheIds,
+              orderId: createdSubOrder.id,
+            };
+            await this.onUpdateCloth(updateOutProcessClotheInput).catch(
+              (error) => console.error(error)
+            );
+          }
         }
 
         // update sub order

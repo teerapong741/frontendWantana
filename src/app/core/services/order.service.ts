@@ -33,6 +33,7 @@ export class OrderService {
   public orders(): Observable<any> {
     return this.apollo.watchQuery({
       query: ORDERS,
+      fetchPolicy: 'network-only',
       errorPolicy: 'all',
     }).valueChanges;
   }
@@ -42,7 +43,9 @@ export class OrderService {
     return this.apollo.mutate({
       mutation: CREATE_ORDER,
       variables: { createOrderInput },
-      refetchQueries: [{ query: ORDERS, errorPolicy: 'all' }],
+      refetchQueries: [
+        { query: ORDERS, fetchPolicy: 'network-only', errorPolicy: 'all' },
+      ],
       awaitRefetchQueries: true,
       errorPolicy: 'all',
     });
@@ -52,7 +55,9 @@ export class OrderService {
     return this.apollo.mutate({
       mutation: UPDATE_ORDER,
       variables: { updateOrderInput },
-      refetchQueries: [],
+      refetchQueries: [
+        { query: ORDERS, fetchPolicy: 'network-only', errorPolicy: 'all' },
+      ],
       awaitRefetchQueries: true,
       errorPolicy: 'all',
     });
@@ -62,7 +67,9 @@ export class OrderService {
     return this.apollo.mutate({
       mutation: REMOVE_ORDER,
       variables: { id },
-      refetchQueries: [{ query: ORDERS, errorPolicy: 'all' }],
+      refetchQueries: [
+        { query: ORDERS, fetchPolicy: 'network-only', errorPolicy: 'all' },
+      ],
       awaitRefetchQueries: true,
       errorPolicy: 'all',
     });
