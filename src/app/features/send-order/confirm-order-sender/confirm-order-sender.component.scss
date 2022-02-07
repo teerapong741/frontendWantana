@@ -1,0 +1,17 @@
+:host ::ng-deep .p-chip.custom-chip {
+  background: #6366f1;
+  color: white;
+  margin-top: 0.5rem;
+  margin-left: 0.5rem;
+}
+
+:host ::ng-deep .p-chip.custom-chip-after {
+  background: #f1a863;
+  color: rgb(8, 8, 8);
+  margin-top: 0.5rem;
+  margin-left: 0.5rem;
+}
+
+tr , td , th {
+  text-align: center !important;
+}

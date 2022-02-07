@@ -1,0 +1,18 @@
+<p-card class="mb-5">
+  <p-steps [model]="items" [readonly]="true" [activeIndex]="state"></p-steps>
+</p-card>
+<div class="mt-5">
+  <app-select-clothe
+    *ngIf="state == 0"
+    [orderId]="orderId"
+    (next)="onSelectClotheNext($event)"
+  ></app-select-clothe>
+  <app-new-problem
+    *ngIf="state == 1"
+    (next)="onNewProblemNext($event)"
+  ></app-new-problem>
+  <app-confirm-order-sender
+    *ngIf="state == 2"
+    (next)="onConfirmOrderNext($event)"
+  ></app-confirm-order-sender>
+</div>

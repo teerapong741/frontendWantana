@@ -1,0 +1,102 @@
+<p-pickList
+  [source]="sourceClothes"
+  [target]="targetClothes"
+  sourceHeader="รายการผ้าในระบบ"
+  targetHeader="รายการผ้าที่ต้องการส่ง"
+  [dragdrop]="true"
+  [responsive]="true"
+  [sourceStyle]="{ height: '30rem' }"
+  [targetStyle]="{ height: '30rem' }"
+  filterBy="cloth.key,sortClothe.name,typeClothe.name,specialClothe.name"
+  sourceFilterPlaceholder="Search by name"
+  targetFilterPlaceholder="Search by name"
+>
+  <ng-template let-cloth pTemplate="item">
+    <div class="cloth-item">
+      <div class="cloth-list-detail">
+        <h5 class="mb-2">
+          {{ cloth.key
+          }}<span
+            class="ml-2"
+            [style]="{ 'font-size': '1rem', 'font-weight': '800' }"
+            >({{ cloth.sortClothe.name }})</span
+          >
+        </h5>
+        <p-tag
+          styleClass="mr-2 cloth-category px-3 py-1"
+          [style]="{ 'font-size': '1rem' }"
+          icon="fas fa-tshirt mr-3"
+          severity="success"
+          [value]="!!cloth.typeClothe ? cloth.typeClothe.name : '-'"
+        ></p-tag>
+        <span class="mx-2">|</span>
+        <p-tag
+          styleClass="mr-2 cloth-category px-3 py-1"
+          [style]="{ 'font-size': '1rem' }"
+          icon="fas fa-star mr-3"
+          severity="warning"
+          [value]="!!cloth.specialClothe ? cloth.specialClothe.name : '-'"
+        ></p-tag>
+        <span class="mx-2">|</span>
+        <p-tag
+          styleClass="mr-2 cloth-category p-2"
+          [style]="{ 'font-size': '1rem' }"
+          icon="fas fa-screwdriver"
+          severity="danger"
+        ></p-tag>
+        <ng-container
+          *ngIf="
+            !!cloth.clotheHasProblems && cloth.clotheHasProblems.length > 0;
+            else noProblem
+          "
+        >
+          <div
+            *ngFor="let problem of cloth.clotheHasProblems"
+            class="inline-block"
+          >
+            <p-tag
+              styleClass="mr-2 cloth-category px-3 py-1"
+              [style]="{ 'font-size': '1rem' }"
+              severity="danger"
+              [value]="problem.problemClothe.name"
+            ></p-tag>
+          </div>
+        </ng-container>
+        <ng-template #noProblem>
+          <p-tag
+            styleClass="mr-2 cloth-category px-3 py-1"
+            [style]="{ 'font-size': '1rem' }"
+            severity="danger"
+            [value]="'-'"
+          ></p-tag>
+        </ng-template>
+      </div>
+      <div class="cloth-list-action">
+        <!-- <h6 class="mb-2">$</h6> -->
+        <span
+          [class]="
+            'cloth-badge status-' +
+            (cloth.is_out_process ? 'out_process' : 'in_process')
+          "
+          >{{ cloth.is_out_process ? "ไม่นำเข้าซัก" : "นำเข้าซัก" }}</span
+        >
+      </div>
+    </div>
+  </ng-template>
+</p-pickList>
+<div class="flex justify-content-center my-3">
+  <button
+    pButton
+    pRipple
+    class="p-button p-button-success"
+    [style]="{ width: '50%', margin: 'auto 1rem' }"
+    label="ถัดไป"
+    (click)="onNext()"
+  ></button>
+</div>
+<p-confirmDialog
+  header="Warning"
+  icon="pi pi-exclamation-triangle"
+  [style]="{ width: '30vw' }"
+  [baseZIndex]="10000"
+></p-confirmDialog>

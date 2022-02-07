@@ -119,22 +119,23 @@ export class AddClothComponent implements OnInit, OnDestroy {
       .subscribe((result) => {
         this.loading = false;
         if (!!result.data) {
-          const problemCloths = JSON.parse(
+          const problemClothes = JSON.parse(
             JSON.stringify(result.data.problemClothes)
           );
-          const problemClothsFilter = [];
-          for (let problem of problemCloths) {
-            problemClothsFilter.push({
-              ...problem,
-              value: problem.name,
+          const problemClothesFilter = [this.defaultOption];
+          for (let special of problemClothes) {
+            problemClothesFilter.push({
+              ...special,
+              value: special.name,
             });
           }
 
-          this.fabricProblemOptions = problemClothsFilter;
+          this.fabricProblemOptions = problemClothesFilter;
         } else {
           console.error(result.errors[0].message);
         }
       });
+
     // this.typeSelected = typeOptions[0].value;
     // this.typeOfUseSelected = typeOfUseOptions[0].value;
     // this.typeSpecialSelected = typeSpecialOptions[0].value;

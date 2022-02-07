@@ -22,7 +22,7 @@
         <th>วันที่</th>
         <th>เลขที่รายการ</th>
         <th>ชื่อลูกค้า</th>
-        <th>จำนวนผ้า</th>
+        <th>จำนวนผ้าที่ยังไม่ได้ส่ง</th>
         <th>สถานะ</th>
         <th></th>
       </tr>
@@ -32,7 +32,7 @@
         <td>{{ cloth.created_at | date }}</td>
         <td>{{ cloth.key }}</td>
         <td>{{ cloth.customer.firstName }} {{ cloth.customer.lastName }}</td>
-        <td>{{ cloth.clothes.length }}</td>
+        <td>{{ cloth.numClothe }}</td>
         <td>
           <p-tag
             styleClass="mr-2 font-bold"
@@ -40,7 +40,7 @@
               'font-size': '14px',
               padding: '.2rem .5rem .2rem .5rem '
             }"
-            [severity]="cloth.status === 'อยู่ในระบบ' ? 'success' : 'warning'"
+            [severity]="cloth.status === 'IN' ? 'success' : 'warning'"
             [value]="cloth.status | translate"
             [rounded]="true"
           ></p-tag>
@@ -59,6 +59,8 @@
             type="button"
             icon="fas fa-paper-plane"
             class="p-button-rounded p-button-raised p-button-success"
+            [disabled]="cloth.status !== 'IN'"
+            (click)="onSendOrder(cloth)"
           ></button>
           <button
             pButton
