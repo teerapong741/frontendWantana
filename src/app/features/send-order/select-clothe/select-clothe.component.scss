@@ -1,0 +1,68 @@
+.cloth-item {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem;
+  width: 100%;
+  border-bottom: 1px solid gainsboro;
+
+  img {
+    width: 75px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+    margin-right: 1rem;
+  }
+
+  .cloth-list-detail {
+    flex: 1 1 0;
+  }
+
+  .cloth-list-action {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+
+    .cloth-badge {
+      border-radius: 2px;
+      padding: 0.25em 0.5rem;
+      text-transform: uppercase;
+      font-weight: 700;
+      font-size: 12px;
+      letter-spacing: 0.3px;
+    }
+
+    .status-in_process {
+      background: #c8e6c9;
+      color: #256029;
+    }
+
+    .status-out_process {
+      background: #ffcdd2;
+      color: #c63737;
+    }
+  }
+
+  .cloth-category-icon {
+    vertical-align: middle;
+    margin-right: 0.5rem;
+  }
+
+  .cloth-category {
+    vertical-align: middle;
+    line-height: 1;
+  }
+}
+
+@media screen and (max-width: 576px) {
+  .cloth-item {
+    flex-wrap: wrap;
+
+    .image-container {
+      width: 100%;
+      text-align: center;
+    }
+
+    img {
+      margin: 0 0 1rem 0;
+      width: 100px;
+    }
+  }
+}

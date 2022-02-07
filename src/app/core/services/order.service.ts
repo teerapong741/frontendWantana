@@ -7,33 +7,63 @@ import {
   CreateOrderInput,
   UpdateOrderInput,
 } from './../interfaces/order.interface';
-import { ORDERS } from './../schemas/order/query.schema';
+import {
+  ORDER,
+  ORDERS,
+  FIND_ONE_BY_PRIMARY_ID,
+  PRIMARY_ORDERS,
+} from './../schemas/order/query.schema';
 import { Injectable } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import { Observable } from 'rxjs';
 
 @Injectable()
 export class OrderService {
-  order: any = null;
+  private $order: any = null;
 
   constructor(private readonly apollo: Apollo) {}
 
   public getOrder(): any {
-    return this.order;
+    return this.$order;
   }
 
   public setOrder(order: any): Promise<void> {
     return new Promise((resolve, reject) => {
-      this.order = order;
+      this.$order = order;
       resolve();
     });
   }
 
   // Query
+  public order(id: number): Observable<any> {
+    return this.apollo.watchQuery({
+      query: ORDER,
+      variables: { id },
+      fetchPolicy: 'network-only',
+      errorPolicy: 'all',
+    }).valueChanges;
+  }
+
   public orders(): Observable<any> {
     return this.apollo.watchQuery({
       query: ORDERS,
       fetchPolicy: 'network-only',
+      errorPolicy: 'all',
+    }).valueChanges;
+  }
+
+  public primaryOrders(): Observable<any> {
+    return this.apollo.watchQuery({
+      query: PRIMARY_ORDERS,
+      fetchPolicy: 'network-only',
+      errorPolicy: 'all',
+    }).valueChanges;
+  }
+
+  public findOneByPrimaryId(id: number): Observable<any> {
+    return this.apollo.watchQuery({
+      query: FIND_ONE_BY_PRIMARY_ID,
+      variables: { id },
       errorPolicy: 'all',
     }).valueChanges;
   }
@@ -45,6 +75,11 @@ export class OrderService {
       variables: { createOrderInput },
       refetchQueries: [
         { query: ORDERS, fetchPolicy: 'network-only', errorPolicy: 'all' },
+        {
+          query: PRIMARY_ORDERS,
+          fetchPolicy: 'network-only',
+          errorPolicy: 'all',
+        },
       ],
       awaitRefetchQueries: true,
       errorPolicy: 'all',
@@ -57,6 +92,11 @@ export class OrderService {
       variables: { updateOrderInput },
       refetchQueries: [
         { query: ORDERS, fetchPolicy: 'network-only', errorPolicy: 'all' },
+        {
+          query: PRIMARY_ORDERS,
+          fetchPolicy: 'network-only',
+          errorPolicy: 'all',
+        },
       ],
       awaitRefetchQueries: true,
       errorPolicy: 'all',
@@ -69,6 +109,11 @@ export class OrderService {
       variables: { id },
       refetchQueries: [
         { query: ORDERS, fetchPolicy: 'network-only', errorPolicy: 'all' },
+        {
+          query: PRIMARY_ORDERS,
+          fetchPolicy: 'network-only',
+          errorPolicy: 'all',
+        },
       ],
       awaitRefetchQueries: true,
       errorPolicy: 'all',

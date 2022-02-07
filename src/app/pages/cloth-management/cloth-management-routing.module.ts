@@ -4,6 +4,7 @@ import { ClothManagementComponent } from './cloth-management.component';
 import { AddClothsComponent } from './add-cloths/add-cloths.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { SendOrderComponent } from 'src/app/features/send-order/send-order.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'cloths-table', pathMatch: 'full' },
@@ -14,6 +15,13 @@ const routes: Routes = [
     data: { animation: 'isLeft' },
   },
   { path: 'confirm-order', component: ConfirmOrderComponent },
+  {
+    path: 'send-order',
+    loadChildren: () =>
+      import('./../../features/send-order/send-order.module').then(
+        (m) => m.SendOrderModule
+      ),
+  },
   { path: '**', redirectTo: 'cloth-management', pathMatch: 'full' },
 ];
 

@@ -1,7 +1,9 @@
+import { SendOrderComponent } from 'src/app/features/send-order/send-order.component';
 import { OrderService } from './../../../core/services/order.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ConfirmationService } from 'primeng/api';
+import { DialogService } from 'primeng/dynamicdialog';
 
 @Component({
   selector: 'app-cloth-table',
@@ -16,34 +18,62 @@ export class ClothTableComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly orderService: OrderService,
-    private readonly confirmationService: ConfirmationService
+    private readonly confirmationService: ConfirmationService,
+    public dialogService: DialogService
   ) {}
 
   async ngOnInit() {
     this.loading = true;
-    this.$subscriptions = this.orderService.orders().subscribe((result) => {
-      this.loading = false;
-      if (!!result.data) {
-        const orders = JSON.parse(JSON.stringify(result.data.orders));
-        this.clothList = orders;
-      } else {
-        console.error(result.errors[0].message);
-      }
-    });
+    this.$subscriptions = this.orderService
+      .primaryOrders()
+      .subscribe((result) => {
+        this.loading = false;
+        if (!!result.data) {
+          const orders = JSON.parse(JSON.stringify(result.data.primaryOrders));
+          this.clothList = orders;
+          // .filter(
+          //   (order: any) => order.primaryOrderId == order.id
+          // );
+        } else {
+          console.error(result.errors[0].message);
+        }
+      });
   }
 
   async onOrders(): Promise<any> {
     return new Promise(async (resolve, reject) => {
       this.loading = true;
-      this.$subscriptions = this.orderService.orders().subscribe((result) => {
-        this.loading = false;
-        if (!!result.data) {
-          const orders = JSON.parse(JSON.stringify(result.data.orders));
-          resolve(orders);
-        } else {
-          reject(result.errors[0].message);
-        }
-      });
+      this.$subscriptions = this.orderService
+        .primaryOrders()
+        .subscribe((result) => {
+          this.loading = false;
+          if (!!result.data) {
+            const orders = JSON.parse(
+              JSON.stringify(result.data.primaryOrders)
+            );
+            resolve(orders);
+          } else {
+            reject(result.errors[0].message);
+          }
+        });
+    });
+  }
+
+  onSendOrder(order: any): void {
+    const ref = this.dialogService.open(SendOrderComponent, {
+      header: 'ส่งผ้า',
+      width: '85%',
+      contentStyle: { 'max-height': '85vh', overflow: 'auto' },
+      closeOnEscape: true,
+      closable: true,
+      baseZIndex: 10000,
+      data: {
+        order,
+      },
+    });
+
+    ref.onClose.subscribe((result) => {
+      this.orderService.setOrder(null);
     });
   }
 
