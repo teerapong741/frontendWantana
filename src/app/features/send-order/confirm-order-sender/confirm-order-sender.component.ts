@@ -1,3 +1,4 @@
+import { LineService } from './../../../core/services/line.service';
 import {
   CreateClotheInput,
   CreateClotheProblemInput,
@@ -28,10 +29,15 @@ export class ConfirmOrderSenderComponent implements OnInit {
 
   constructor(
     private readonly orderService: OrderService,
-    private clothService: ClothService
+    private clothService: ClothService,
+    private lineService: LineService
   ) {}
 
   ngOnInit() {
+    this.lineService.messageToCustomer(
+      'hello',
+      'Ufe652df5e990d154d7030b2b1ee67e86'
+    );
     this.order = this.orderService.getOrder();
     this.clothes = this.order.clothes;
     this.orderService
@@ -53,6 +59,7 @@ export class ConfirmOrderSenderComponent implements OnInit {
               else this.clothesInLength += order.clothes.length;
             }
           }
+          // console.log(this.order)
         } else {
           console.log(result.errors[0].message);
         }
@@ -158,6 +165,10 @@ export class ConfirmOrderSenderComponent implements OnInit {
       (error) => console.error(error)
     );
 
+    await this.lineService.messageToCustomer(
+      'hello',
+      'Ufe652df5e990d154d7030b2b1ee67e86'
+    );
     this.next.emit(true);
   }
 

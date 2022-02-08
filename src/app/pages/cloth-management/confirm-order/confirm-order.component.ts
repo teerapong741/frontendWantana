@@ -46,7 +46,6 @@ export class ConfirmOrderComponent implements OnInit, OnDestroy {
     if (!this.orderDetail) this.router.navigate(['./../cloth-management']);
 
     const clothList = this.orderDetail.cloth_list;
-    console.log(clothList);
 
     this.processOrder = clothList.filter((order: any) => !order.is_out_process);
     this.outProcessOrder = clothList.filter(
