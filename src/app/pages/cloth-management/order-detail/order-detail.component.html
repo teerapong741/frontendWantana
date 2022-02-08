@@ -1,0 +1,284 @@
+<div class="flex justify-content-between">
+  <div class="card w-full m-1">
+    <h1 class="font-bold">ข้อมูลผู้ใช้</h1>
+    <div class="container__form">
+      <div class="field">
+        <label for="customer" class="block">รหัสลูกค้า</label>
+        <input
+          id="phone"
+          class="p-inputtext-lg"
+          type="text"
+          pInputText
+          disabled="true"
+          placeholder="ชื่อลูกค้า"
+          [disabled]="true"
+          [value]="orders[0].customer.key"
+        />
+      </div>
+      <div class="field">
+        <label for="customer" class="block">ชื่อลูกค้า</label>
+        <input
+          id="phone"
+          class="p-inputtext-lg"
+          type="text"
+          pInputText
+          disabled="true"
+          placeholder="ชื่อลูกค้า"
+          [disabled]="true"
+          [value]="
+            orders[0].customer.firstName + ' ' + orders[0].customer.lastName
+          "
+        />
+      </div>
+      <div class="field">
+        <label for="phone" class="block">เบอร์ติดต่อ</label>
+        <input
+          id="phone"
+          class="p-inputtext-lg"
+          type="text"
+          pInputText
+          disabled="true"
+          placeholder="เบอร์ติดต่อ"
+          [disabled]="true"
+          [value]="orders[0].customer.phoneNumber"
+        />
+      </div>
+      <div class="field">
+        <label for="address" class="block">ที่อยู่</label>
+        <input
+          id="address"
+          class="p-inputtext-lg"
+          type="text"
+          pInputText
+          disabled="true"
+          placeholder="ที่อยู่"
+          [disabled]="true"
+          [value]="orders[0].customer.address"
+        />
+      </div>
+      <div class="field">
+        <label for="lineId" class="block">Line ID</label>
+        <input
+          id="lineId"
+          class="p-inputtext-lg"
+          type="text"
+          pInputText
+          disabled="true"
+          placeholder="Line ID"
+          [disabled]="true"
+          [value]="orders[0].customer.lineUserId"
+        />
+      </div>
+    </div>
+  </div>
+  <div class="card w-full m-1">
+    <h1 class="font-bold">ข้อมูลพนักงาน</h1>
+    <div class="container__form">
+      <div class="field">
+        <label for="employeeId" class="block">รหัสพนักงาน</label>
+        <input
+          id="employeeId"
+          class="p-inputtext-lg"
+          type="text"
+          pInputText
+          placeholder="รหัสพนักงาน"
+          [disabled]="true"
+          [value]="orders[0].employee.key"
+        />
+      </div>
+      <div class="field">
+        <label for="employeeId" class="block">ชื่อพนักงาน</label>
+        <input
+          id="employeeName"
+          class="p-inputtext-lg"
+          type="text"
+          pInputText
+          placeholder="ชื่อพนักงาน"
+          [disabled]="true"
+          [value]="
+            orders[0].employee.firstName + ' ' + orders[0].employee.lastName
+          "
+        />
+      </div>
+    </div>
+  </div>
+  <div class="card w-full m-1">
+    <h1 class="font-bold">สรุป</h1>
+    <div class="container__summarize">
+      <p>ผ้าทั้งหมด {{ totalCloths }} ตัว</p>
+      <p *ngIf="thickCloths > 0">ผ้าหนา {{ thickCloths }} ตัว</p>
+      <p *ngIf="thinCloths > 0">ผ้าบาง {{ thinCloths }} ตัว</p>
+      <p *ngIf="specialCloths > 0">ผ้าพิเศษ {{ specialCloths }} ตัว</p>
+      <p *ngIf="problemCloths > 0">
+        เป็นผ้ามีปัญหาจำนวน {{ problemCloths }} ตัว
+      </p>
+      <p *ngIf="inProcess > 0">นำเข้าซัก {{ inProcess }} ตัว</p>
+      <p *ngIf="outProcess > 0">ไม่นำเข้าซัก {{ outProcess }} ตัว</p>
+    </div>
+  </div>
+</div>
+<div class="card shadow-4">
+  <h2 class="font-bold mb-2">รายการผ้าที่ยังไม่ส่ง</h2>
+  <div class="shadow-3">
+    <p-table [value]="clothesIn" responsiveLayout="scroll">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>รหัส</th>
+          <th>ชนิดผ้า</th>
+          <th>ประเภทการใช้งาน</th>
+          <th>ผ้าพิเศษ</th>
+          <th>ปัญหา (ก่อนซัก)</th>
+          <th>ปัญหา (หลังซัก)</th>
+          <th>นำเข้าซัก</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-product>
+        <tr>
+          <td>{{ product.key }}</td>
+          <td>
+            {{
+              (!!product.sortClothe ? product.sortClothe.name : "-") | translate
+            }}
+          </td>
+          <td>
+            {{
+              (!!product.typeClothe ? product.typeClothe.name : "-") | translate
+            }}
+          </td>
+          <td>
+            {{
+              (!!product.specialClothe ? product.specialClothe.name : "-")
+                | translate
+            }}
+          </td>
+          <td>
+            <ng-container
+              *ngIf="
+                !!product.clotheHasProblems &&
+                  product.clotheHasProblems.length > 0;
+                else noProblem
+              "
+            >
+              <ng-container *ngFor="let problem of product.clotheHasProblems">
+                <p-chip
+                  [label]="
+                    (!!problem.problemClothe ? problem.problemClothe.name : '-')
+                      | translate
+                  "
+                  styleClass="custom-chip"
+                ></p-chip>
+              </ng-container>
+            </ng-container>
+          </td>
+          <td>
+            <ng-container
+              *ngIf="
+                !!product.clotheHasProblemsAfter &&
+                  product.clotheHasProblemsAfter.length > 0;
+                else noProblem
+              "
+            >
+              <ng-container
+                *ngFor="let problem of product.clotheHasProblemsAfter"
+              >
+                <p-chip
+                  [label]="(!!problem ? problem.name : '-') | translate"
+                  styleClass="custom-chip-after"
+                ></p-chip>
+              </ng-container>
+            </ng-container>
+          </td>
+          <td [ngStyle]="{ color: product.is_out_process ? 'red' : 'green' }">
+            {{ !product.is_out_process }}
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+<div class="card shadow-4">
+  <h2 class="font-bold mb-2">รายการผ้าที่ส่งแล้ว</h2>
+  <div class="shadow-3">
+    <p-table [value]="clothesOut" responsiveLayout="scroll">
+      <ng-template pTemplate="header">
+        <tr>
+          <th>รหัส</th>
+          <th>ชนิดผ้า</th>
+          <th>ประเภทการใช้งาน</th>
+          <th>ผ้าพิเศษ</th>
+          <th>ปัญหา (ก่อนซัก)</th>
+          <th>ปัญหา (หลังซัก)</th>
+          <th>นำเข้าซัก</th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-product>
+        <tr>
+          <td>{{ product.key }}</td>
+          <td>
+            {{
+              (!!product.sortClothe ? product.sortClothe.name : "-") | translate
+            }}
+          </td>
+          <td>
+            {{
+              (!!product.typeClothe ? product.typeClothe.name : "-") | translate
+            }}
+          </td>
+          <td>
+            {{
+              (!!product.specialClothe ? product.specialClothe.name : "-")
+                | translate
+            }}
+          </td>
+          <td>
+            <ng-container
+              *ngIf="
+                !!product.clotheHasProblems &&
+                  product.clotheHasProblems.length > 0;
+                else noProblem
+              "
+            >
+              <ng-container *ngFor="let problem of product.clotheHasProblems">
+                <p-chip
+                  [label]="
+                    (!!problem.problemClothe ? problem.problemClothe.name : '-')
+                      | translate
+                  "
+                  styleClass="custom-chip"
+                ></p-chip>
+              </ng-container>
+            </ng-container>
+          </td>
+          <td>
+            <ng-container
+              *ngIf="
+                !!product.clotheHasProblemsAfter &&
+                  product.clotheHasProblemsAfter.length > 0;
+                else noProblem
+              "
+            >
+              <ng-container
+                *ngFor="let problem of product.clotheHasProblemsAfter"
+              >
+                <p-chip
+                  [label]="(!!problem ? problem.name : '-') | translate"
+                  styleClass="custom-chip-after"
+                ></p-chip>
+              </ng-container>
+            </ng-container>
+          </td>
+          <td [ngStyle]="{ color: product.is_out_process ? 'red' : 'green' }">
+            {{ !product.is_out_process }}
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+</div>
+<ng-template #noProblem>
+  <span
+    styleClass="mr-2 cloth-category px-3 py-1"
+    [style]="{ 'font-size': '1rem' }"
+    >-</span
+  >
+</ng-template>

@@ -163,6 +163,7 @@ export class AddClothsComponent implements OnInit, OnDestroy {
           address: this.address,
           line_id: this.lineId,
           employee_id: this.employeeId,
+          employee_key: this.employeeCode,
           cloth_list: this.clothList,
         })
         .then(() => {

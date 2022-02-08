@@ -1,3 +1,4 @@
+import { OrderDetailComponent } from './order-detail/order-detail.component';
 import { SendOrderModule } from './../../features/send-order/send-order.module';
 import { TranslateModule } from '@ngx-translate/core';
 import { FormsModule } from '@angular/forms';
@@ -57,6 +58,7 @@ import { TagModule } from 'primeng/tag';
     ClothManagementComponent,
     AddClothsComponent,
     ClothTableComponent,
+    OrderDetailComponent,
     ConfirmOrderComponent,
   ],
   providers: [
@@ -73,6 +75,7 @@ import { TagModule } from 'primeng/tag';
     AddClothsComponent,
     ClothTableComponent,
     ConfirmOrderComponent,
+    OrderDetailComponent,
   ],
 })
 export class ClothManagementModule {}

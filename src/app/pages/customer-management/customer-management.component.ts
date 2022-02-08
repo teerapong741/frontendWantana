@@ -115,6 +115,7 @@ export class CustomerManagementComponent implements OnInit, OnDestroy {
     this.phone = customer.phoneNumber;
     this.address = customer.address;
     this.email = customer.email;
+    this.lineId = customer.lineUserId;
   }
 
   onEditCustomer(): void {

@@ -1,3 +1,4 @@
+import { OrderDetailComponent } from './order-detail/order-detail.component';
 import { ConfirmOrderComponent } from './confirm-order/confirm-order.component';
 import { ClothTableComponent } from './cloth-table/cloth-table.component';
 import { ClothManagementComponent } from './cloth-management.component';
@@ -15,6 +16,7 @@ const routes: Routes = [
     data: { animation: 'isLeft' },
   },
   { path: 'confirm-order', component: ConfirmOrderComponent },
+  { path: 'order-detail/:id', component: OrderDetailComponent },
   {
     path: 'send-order',
     loadChildren: () =>

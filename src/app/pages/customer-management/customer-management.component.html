@@ -26,7 +26,7 @@
         <th>เบอร์โทร</th>
         <th>อีเมล</th>
         <th>เลขบัตรประชาชน</th>
-        <th>@Line ID</th>
+        <!-- <th>@Line ID</th> -->
         <th></th>
       </tr>
     </ng-template>
@@ -39,7 +39,7 @@
         <td>{{ cloth.phoneNumber }}</td>
         <td>{{ cloth.email }}</td>
         <td>{{ cloth.idCard }}</td>
-        <td>{{ !!cloth.lineUserId ? cloth.lineUserId : "ไม่ได้ระบุ" }}</td>
+        <!-- <td>{{ !!cloth.lineUserId ? cloth.lineUserId : "ไม่ได้ระบุ" }}</td> -->
         <td class="container__action">
           <button
             *ngIf="authService.isRole() === 'ADMIN'"
@@ -215,6 +215,7 @@
         type="text"
         pInputText
         [(ngModel)]="lineId"
+        [disabled]="true"
         placeholder="โปรดระบุไลน์ไอดี"
       />
     </div>
