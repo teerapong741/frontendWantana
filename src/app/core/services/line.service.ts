@@ -159,7 +159,7 @@ ${number}) ${!!order.type ? order.type.name : '-'}  |  ${
   🙏  ขอบคุณที่ใช้บริการ  🙏
         `);
 
-    await this.messageToCustomer(message, 'Ufe652df5e990d154d7030b2b1ee67e86');
+    await this.messageToCustomer(message, orderDetail.line_id);
   }
 
   async messageSendSeparateOrder(
@@ -211,7 +211,7 @@ ${number}) ${!!order.sortClothe ? order.sortClothe.name : '-'}  |  ${
       );
     }
 
-    await this.messageToCustomer(message, 'Ufe652df5e990d154d7030b2b1ee67e86');
+    await this.messageToCustomer(message, customer.lineUserId);
   }
 
   async messageSendClearOrder(customer: any, senderOrder: any): Promise<void> {
@@ -267,6 +267,6 @@ ${number}) ${!!order.sortClothe ? order.sortClothe.name : '-'}  |  ${
   🙏  ขอบคุณที่ใช้บริการ  🙏
         `);
 
-    await this.messageToCustomer(message, 'Ufe652df5e990d154d7030b2b1ee67e86');
+    await this.messageToCustomer(message, customer.linUserId);
   }
 }

@@ -22,6 +22,11 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy {
   employeeList: any[] = [];
   newEmployeeVisible: boolean = false;
   editEmployeeVisible: boolean = false;
+  editPasswordVisible: boolean = false;
+
+  editPassword: string = '';
+
+  employeeLogin: any = null;
 
   roleOptions: any = [];
 
@@ -61,6 +66,8 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy {
           console.error(result.errors[0].message);
         }
       });
+
+    this.employeeLogin = this.authService.isCodeEmployee();
   }
 
   onNewEmployee(): void {
@@ -120,6 +127,8 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy {
     this.phone = '';
     this.address = '';
     this.password = '';
+    this.confirmPassword = '';
+    this.editPassword = '';
     this.email = '';
     this.role = Role.SUB_ADMIN;
   }
@@ -139,6 +148,50 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy {
     this.email = employee.email;
     this.password = employee.password;
     this.role = employee.role;
+  }
+
+  onVisibleEditPassword(employee: any): void {
+    this.idEmployee = employee.id;
+    this.editPassword = '';
+    this.confirmPassword = '';
+    this.editPasswordVisible = true;
+  }
+
+  onEditPassword(): void {
+    if (!this.editPassword || !this.confirmPassword) {
+      this.confirmationService.confirm({
+        message: 'โปรดใส่ข้อมูลให้ครบ',
+        acceptVisible: true,
+        acceptLabel: 'ตกลง',
+        rejectVisible: false,
+      });
+    }
+    if (this.editPassword !== this.confirmPassword) {
+      this.confirmationService.confirm({
+        message: 'รหัสผ่านไม่ตรงกัน',
+        acceptVisible: true,
+        acceptLabel: 'ตกลง',
+        rejectVisible: false,
+      });
+    } else {
+      this.loading = true;
+      const updateEmployeeInput: updateEmployeeInput = {
+        id: this.idEmployee,
+        password: this.editPassword,
+      };
+
+      this.$subscription = this.employeeService
+        .updateEmployee(updateEmployeeInput)
+        .subscribe((result) => {
+          this.loading = false;
+          if (result.data) {
+            this.editPasswordVisible = false;
+            this.onResetValue();
+          } else {
+            console.error(result.errors[0].message);
+          }
+        });
+    }
   }
 
   onEditEmployee(): void {

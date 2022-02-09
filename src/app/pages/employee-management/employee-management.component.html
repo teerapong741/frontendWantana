@@ -52,7 +52,18 @@
             (click)="onVisibleEditEmployee(employee)"
           ></button>
           <button
-            *ngIf="employee.role === 'SUB_ADMIN' || authService.isRole() === 'ADMIN'"
+            *ngIf="employee.key === employeeLogin.key"
+            pButton
+            pRipple
+            type="button"
+            icon="fas fa-key"
+            class="p-button-rounded p-button-raised p-button-help"
+            (click)="onVisibleEditPassword(employee)"
+          ></button>
+          <button
+            *ngIf="
+              employee.role === 'SUB_ADMIN' || authService.isRole() === 'ADMIN'
+            "
             pButton
             pRipple
             type="button"
@@ -242,6 +253,44 @@
       icon="fas fa-plus"
       style="width: 100%; margin-top: 1rem"
       (click)="onEditEmployee()"
+    ></button>
+  </div>
+</p-dialog>
+
+<p-dialog
+  header="แก้ไขรหัสผ่าน"
+  [(visible)]="editPasswordVisible"
+  (onHide)="onResetValue()"
+>
+  <div class="container-add-texture">
+    <div class="field">
+      <label class="block">รหัสผ่านใหม่</label>
+      <input
+        type="text"
+        pInputText
+        value=""
+        [(ngModel)]="editPassword"
+        placeholder="รหัสผ่านใหม่"
+      />
+    </div>
+    <div class="field">
+      <label class="block">ยืนยันรหัสผ่านใหม่</label>
+      <input
+        type="text"
+        pInputText
+        value=""
+        [(ngModel)]="confirmPassword"
+        placeholder="ยืนยันรหัสผ่านใหม่"
+      />
+    </div>
+    <button
+      pButton
+      pRipple
+      class="p-button-success p-button-raised"
+      label="แก้ไข"
+      icon="fas fa-plus"
+      style="width: 100%; margin-top: 1rem"
+      (click)="onEditPassword()"
     ></button>
   </div>
 </p-dialog>
