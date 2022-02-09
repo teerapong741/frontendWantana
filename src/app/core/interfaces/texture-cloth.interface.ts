@@ -4,5 +4,6 @@ export interface createSortClotheInput {
 
 export interface UpdateSortClotheInput {
   id: number;
-  disable: boolean;
+  name: string;
+  isDisable: boolean;
 }

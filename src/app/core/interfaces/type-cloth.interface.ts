@@ -4,5 +4,5 @@ export interface createTypeClotheInput {
 
 export interface UpdateTypeClotheInput {
   id: number;
-  disable: boolean;
+  isDisable: boolean;
 }

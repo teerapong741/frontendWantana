@@ -1,3 +1,4 @@
+import { UpdateSortClotheInput } from './../../core/interfaces/texture-cloth.interface';
 import { textureClothList } from './../../core/values/cloth.value';
 import { TextureClothService } from './../../core/services/texture-cloth.service';
 import { createTypeClotheInput } from '../../core/interfaces/type-cloth.interface';
@@ -80,18 +81,23 @@ export class TextureClothManagementComponent implements OnInit, OnDestroy {
     this.newTextureVisible = true;
   }
 
-  onDelete(id: number): void {
+  onDelete(id: number, disable: boolean, name: string): void {
     this.confirmationService.confirm({
-      message: 'ต้องการจะลบใช่หรือไม่',
-      acceptLabel: 'ลบ',
+      message: `ต้องการจะ${!disable ? 'ปิดการมองเห็น' : 'กู้คืน'}ใช่หรือไม่`,
+      acceptLabel: `${!disable ? 'ปิดการมองเห็น' : 'กู้คืน'}`,
       acceptIcon: 'fas fa-trash',
       acceptButtonStyleClass: 'p-button-danger p-button-raised',
-      rejectLabel: 'ยกลิก',
+      rejectLabel: 'ยกเลิก',
       rejectButtonStyleClass: 'p-button-warning p-button-raised',
       accept: () => {
         this.loading = true;
+        const updateInput: UpdateSortClotheInput = {
+          isDisable: !disable,
+          name: name,
+          id: Number(id),
+        };
         this.$subscription = this.textureClothService
-          .removeSortClothe(Number(id))
+          .disableSortClothe(updateInput)
           .subscribe((result) => {
             this.loading = false;
             if (!!result.data) {

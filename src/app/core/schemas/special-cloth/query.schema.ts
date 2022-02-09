@@ -6,6 +6,7 @@ export const SPECIAL_CLOTHES = gql`
       id
       key
       name
+      isDisable
     }
   }
 `;

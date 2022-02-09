@@ -82,18 +82,18 @@ export class TypeClothManagementComponent implements OnInit, OnDestroy {
     this.newTypeClothVisible = true;
   }
 
-  onDelete(id: string | number): void {
+  onDelete(id: string | number, disable: boolean): void {
     this.confirmationService.confirm({
-      message: 'ต้องการจะลบใช่หรือไม่',
-      acceptLabel: 'ลบ',
+      message: `ต้องการจะ${!disable ? 'ปิดการมองเห็น' : 'กู้คืน'}ใช่หรือไม่`,
+      acceptLabel: `${!disable ? 'ปิดการมองเห็น' : 'กู้คืน'}`,
       acceptIcon: 'fas fa-trash',
       acceptButtonStyleClass: 'p-button-danger p-button-raised',
-      rejectLabel: 'ยกลิก',
+      rejectLabel: 'ยกเลิก',
       rejectButtonStyleClass: 'p-button-warning p-button-raised',
       accept: () => {
         this.loading = true;
         const updateInput: UpdateTypeClotheInput = {
-          disable: true,
+          isDisable: !disable,
           id: Number(id),
         };
         this.$subscription = this.typeClothService

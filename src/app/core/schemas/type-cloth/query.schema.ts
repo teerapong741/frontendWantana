@@ -6,6 +6,7 @@ export const TYPE_CLOTHES = gql`
       id
       key
       name
+      isDisable
     }
   }
 `;

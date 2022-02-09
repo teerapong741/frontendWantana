@@ -1,5 +1,8 @@
 import { specialClothList } from './../../core/values/cloth.value';
-import { createSpecialClotheInput } from './../../core/interfaces/special-cloth.interface';
+import {
+  createSpecialClotheInput,
+  UpdateSpecialClotheInput,
+} from './../../core/interfaces/special-cloth.interface';
 import { SpecialClothService } from './../../core/services/special-cloth.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
@@ -79,18 +82,22 @@ export class SpecialClothManagementComponent implements OnInit, OnDestroy {
     this.newSpecialClothVisible = true;
   }
 
-  onDelete(id: string | number): void {
+  onDelete(id: string | number, disable: boolean): void {
     this.confirmationService.confirm({
-      message: 'ต้องการจะลบใช่หรือไม่',
-      acceptLabel: 'ลบ',
+      message: `ต้องการจะ${!disable ? 'ปิดการมองเห็น' : 'กู้คืน'}ใช่หรือไม่`,
+      acceptLabel: `${!disable ? 'ปิดการมองเห็น' : 'กู้คืน'}`,
       acceptIcon: 'fas fa-trash',
       acceptButtonStyleClass: 'p-button-danger p-button-raised',
-      rejectLabel: 'ยกลิก',
+      rejectLabel: 'ยกเลิก',
       rejectButtonStyleClass: 'p-button-warning p-button-raised',
       accept: () => {
         this.loading = true;
+        const updateInput: UpdateSpecialClotheInput = {
+          isDisable: !disable,
+          id: Number(id),
+        };
         this.$subscription = this.specialClothService
-          .removeSpecialClothe(Number(id))
+          .disableSpecialClothe(updateInput)
           .subscribe((result) => {
             this.loading = false;
             if (!!result.data) {

@@ -61,10 +61,11 @@ export class EditClothComponent implements OnInit, OnDestroy {
           );
           const typeClothsFilter = [this.defaultOption];
           for (let type of typeCloths) {
-            typeClothsFilter.push({
-              ...type,
-              value: type.name,
-            });
+            if (!type.isDisable)
+              typeClothsFilter.push({
+                ...type,
+                value: type.name,
+              });
           }
 
           this.typeOfUseOptions = typeClothsFilter;
@@ -83,10 +84,11 @@ export class EditClothComponent implements OnInit, OnDestroy {
           );
           const sortClothsFilter = [this.defaultOption];
           for (let sort of sortCloths) {
-            sortClothsFilter.push({
-              ...sort,
-              value: sort.name,
-            });
+            if (!sort.isDisable)
+              sortClothsFilter.push({
+                ...sort,
+                value: sort.name,
+              });
           }
 
           this.typeOptions = sortClothsFilter;
@@ -105,10 +107,11 @@ export class EditClothComponent implements OnInit, OnDestroy {
           );
           const specialClothsFilter = [this.defaultOption];
           for (let special of specialCloths) {
-            specialClothsFilter.push({
-              ...special,
-              value: special.name,
-            });
+            if (!special.isDisable)
+              specialClothsFilter.push({
+                ...special,
+                value: special.name,
+              });
           }
 
           this.typeSpecialOptions = specialClothsFilter;
