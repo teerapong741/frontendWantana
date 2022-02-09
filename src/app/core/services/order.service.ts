@@ -5,6 +5,7 @@ import {
 } from './../schemas/order/mutation.schema';
 import {
   CreateOrderInput,
+  FilterInput,
   UpdateOrderInput,
 } from './../interfaces/order.interface';
 import {
@@ -12,6 +13,7 @@ import {
   ORDERS,
   FIND_ONE_BY_PRIMARY_ID,
   PRIMARY_ORDERS,
+  FILTER_ORDER,
 } from './../schemas/order/query.schema';
 import { Injectable } from '@angular/core';
 import { Apollo } from 'apollo-angular';
@@ -48,6 +50,14 @@ export class OrderService {
     return this.apollo.watchQuery({
       query: ORDERS,
       fetchPolicy: 'network-only',
+      errorPolicy: 'all',
+    }).valueChanges;
+  }
+
+  public filterOrder(filterInput: FilterInput): Observable<any> {
+    return this.apollo.watchQuery({
+      query: FILTER_ORDER,
+      variables: { filterInput },
       errorPolicy: 'all',
     }).valueChanges;
   }

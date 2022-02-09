@@ -1,3 +1,45 @@
-<p>
-  dashboard works!
-</p>
+<div class="container flex justify-content-around">
+  <div class="card shadow-4">
+    <h3>จำนวนผ้าที่รับมาทั้งหมด</h3>
+    <h1 style="color: goldenrod">{{ orders.length }}</h1>
+  </div>
+  <div class="card shadow-4">
+    <h3>จำนวนลูกค้าที่รับมาทั้งหมด</h3>
+    <h1 style="color: goldenrod">{{ totalCustomer }}</h1>
+  </div>
+  <div class="card shadow-4">
+    <h3>จำนวนผ้าที่มีปัญหาทั้งหมด</h3>
+    <h1 style="color: red">{{ totalProblem }}</h1>
+  </div>
+  <div class="card shadow-4">
+    <h3>จำนวนผ้าที่เสร็จแล้ว</h3>
+    <h1 style="color: rgb(13, 207, 13)">{{ totalSuccess }}</h1>
+  </div>
+</div>
+<div class="container-card shadow-4">
+  <h1 class="mb-5">รายการรับผ้าวันนี้</h1>
+  <p-table
+    [value]="orders"
+    responsiveLayout="scroll"
+    [rows]="10"
+    styleClass="p-datatable-lg"
+    [paginator]="true"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th>วันที่</th>
+        <th>ลูกค้า</th>
+        <th>สถานะ</th>
+        <th>จำนวน</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-order>
+      <tr>
+        <td>{{ order.created_at | date }}</td>
+        <td>{{ order.customer.firstName + " " + order.customer.lastName }}</td>
+        <td>{{ order.status }}</td>
+        <td>{{ order.numClothe }}</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

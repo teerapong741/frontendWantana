@@ -1,0 +1,34 @@
+.card,
+.container-card {
+  background-color: #fffffd;
+  width: 100%;
+  min-height: 20rem;
+  border-radius: 0.4rem;
+}
+
+.card {
+  margin: 0.5rem 0.5rem;
+}
+
+.container {
+  & > div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 3rem;
+
+    & > h1 {
+      text-shadow: 1px -1px 2px #020202, -1px 1px 2px #ffffff;
+    }
+  }
+}
+
+.container-card {
+  padding: 3rem;
+
+  & *th,
+  & *td {
+    text-align: center;
+  }
+}

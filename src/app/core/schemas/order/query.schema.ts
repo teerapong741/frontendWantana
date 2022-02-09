@@ -219,3 +219,26 @@ export const FIND_ONE_BY_PRIMARY_ID = gql`
     }
   }
 `;
+
+export const FILTER_ORDER = gql`
+  query filterOrder($filterInput: FilterInput!) {
+    filterOrder(filterInput: $filterInput) {
+      id
+      key
+      primaryOrderId
+      status
+      isOutProcess
+      numClothe
+      created_at
+      updated_at
+      clothes {
+        id
+      }
+      customer {
+        id
+        firstName
+        lastName
+      }
+    }
+  }
+`;

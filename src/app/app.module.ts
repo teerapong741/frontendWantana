@@ -22,6 +22,7 @@ import { NavbarModule } from './core/components/navbar/navbar.module';
 import { SidebarModule } from './core/components/sidebar/sidebar.module';
 
 // PrimeNg
+import { TableModule } from 'primeng/table';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -37,6 +38,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     LoginModule,
     SidebarModule,
     NavbarModule,
+    TableModule,
     HttpClientModule,
     PagesModule,
     TranslateModule.forRoot({
