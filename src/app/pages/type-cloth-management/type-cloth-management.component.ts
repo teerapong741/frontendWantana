@@ -8,6 +8,7 @@ import { ConfirmationService } from 'primeng/api';
 import { Subscription } from 'rxjs';
 import { TypeClothService } from 'src/app/core/services/type-cloth.service';
 import { typeClothList } from 'src/app/core/values/cloth.value';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-type-cloth-management',
@@ -42,7 +43,12 @@ export class TypeClothManagementComponent implements OnInit, OnDestroy {
           );
           this.typeClothList = typeClothes;
         } else {
-          console.error(result.errors[0].message);
+          Swal.fire({
+            title: 'Error!',
+            text: result.errors[0].message,
+            icon: 'error',
+            confirmButtonText: 'Cool',
+          });
         }
       });
   }
@@ -68,7 +74,12 @@ export class TypeClothManagementComponent implements OnInit, OnDestroy {
             this.newTypeClothVisible = false;
             this.onResetValue();
           } else {
-            console.error(result.errors[0].message);
+            Swal.fire({
+            title: 'Error!',
+            text: result.errors[0].message,
+            icon: 'error',
+            confirmButtonText: 'Cool',
+          });
           }
         });
     }
@@ -102,7 +113,12 @@ export class TypeClothManagementComponent implements OnInit, OnDestroy {
             this.loading = false;
             if (!!result.data) {
             } else {
-              console.error(result.errors[0].message);
+              Swal.fire({
+            title: 'Error!',
+            text: result.errors[0].message,
+            icon: 'error',
+            confirmButtonText: 'Cool',
+          });
             }
           });
       },

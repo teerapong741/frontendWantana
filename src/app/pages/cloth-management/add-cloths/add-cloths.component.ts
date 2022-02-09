@@ -10,6 +10,7 @@ import { customerList } from 'src/app/core/values/customer.value';
 import { ConfirmationService } from 'primeng/api';
 import { Subscription } from 'rxjs';
 import { OrderService } from 'src/app/core/services/order.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-add-cloths',
@@ -73,7 +74,12 @@ export class AddClothsComponent implements OnInit, OnDestroy {
           }
           this.customerList = customersTrim;
         } else {
-          console.error(result.errors[0].message);
+          Swal.fire({
+            title: 'Error!',
+            text: result.errors[0].message,
+            icon: 'error',
+            confirmButtonText: 'Cool',
+          });
         }
       });
 

@@ -13,6 +13,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { CreateOrderInput } from 'src/app/core/interfaces/order.interface';
 import { Status } from 'src/app/core/enums/status';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-confirm-order',
@@ -114,7 +115,14 @@ export class ConfirmOrderComponent implements OnInit, OnDestroy {
           employeeId: this.orderDetail.employee_id,
         };
         const createdOrder = await this.onCreateOrder(createOrderInput).catch(
-          (error) => console.error(error)
+          (error: any) => {
+            Swal.fire({
+              title: 'Error!',
+              text: error,
+              icon: 'error',
+              confirmButtonText: 'Cool',
+            });
+          }
         );
 
         // create in process clothe
@@ -185,7 +193,14 @@ export class ConfirmOrderComponent implements OnInit, OnDestroy {
 
           // create cloth has problem
           await this.onCreateClothHasProblem(createClotheProblemInput).catch(
-            (error) => console.error(error)
+            (error: any) => {
+              Swal.fire({
+                title: 'Error!',
+                text: error,
+                icon: 'error',
+                confirmButtonText: 'Cool',
+              });
+            }
           );
         }
 
@@ -199,9 +214,14 @@ export class ConfirmOrderComponent implements OnInit, OnDestroy {
           ids: allClothes,
           orderId: createdOrder.id,
         };
-        await this.onUpdateCloth(updateClotheInput).catch((error) =>
-          console.error(error)
-        );
+        await this.onUpdateCloth(updateClotheInput).catch((error: any) => {
+          Swal.fire({
+            title: 'Error!',
+            text: error,
+            icon: 'error',
+            confirmButtonText: 'Cool',
+          });
+        });
 
         if (outProcessClotheIds.length > 0) {
           // create sub order for out process
@@ -212,7 +232,14 @@ export class ConfirmOrderComponent implements OnInit, OnDestroy {
           };
           const createdSubOrder = await this.onCreateOrder(
             createSubOrderInput
-          ).catch((error) => console.error(error));
+          ).catch((error: any) => {
+            Swal.fire({
+              title: 'Error!',
+              text: error,
+              icon: 'error',
+              confirmButtonText: 'Cool',
+            });
+          });
 
           if (!!createdSubOrder) {
             // update sub order out process status = true
@@ -223,7 +250,14 @@ export class ConfirmOrderComponent implements OnInit, OnDestroy {
             };
             const updatedOrder = await this.onUpdateOrder(
               updateSubOrderInput
-            ).catch((error) => console.error(error));
+            ).catch((error: any) => {
+              Swal.fire({
+                title: 'Error!',
+                text: error,
+                icon: 'error',
+                confirmButtonText: 'Cool',
+              });
+            });
 
             // move clothe out process from main order to sub order
             const updateOutProcessClotheInput: UpdateClotheInput = {
@@ -231,27 +265,34 @@ export class ConfirmOrderComponent implements OnInit, OnDestroy {
               orderId: createdSubOrder.id,
             };
             await this.onUpdateCloth(updateOutProcessClotheInput).catch(
-              (error) => console.error(error)
+              (error: any) => {
+                Swal.fire({
+                  title: 'Error!',
+                  text: error,
+                  icon: 'error',
+                  confirmButtonText: 'Cool',
+                });
+              }
             );
           }
-        }
 
-        this.lineService.messageCreateOrder(
-          this.orderDetail,
-          this.processOrder,
-          this.outProcessOrder,
-          this.totalCloths,
-          this.thickCloths,
-          this.thinCloths,
-          this.specialCloths,
-          this.problemCloths,
-          this.inProcess,
-          this.outProcess
-        );
-        // update sub order
-        this.router
-          .navigate(['./../cloth-management/'])
-          .then(() => this.orderService.setOrder(null));
+          this.lineService.messageCreateOrder(
+            this.orderDetail,
+            this.processOrder,
+            this.outProcessOrder,
+            this.totalCloths,
+            this.thickCloths,
+            this.thinCloths,
+            this.specialCloths,
+            this.problemCloths,
+            this.inProcess,
+            this.outProcess
+          );
+          // update sub order
+          this.router
+            .navigate(['./../cloth-management/'])
+            .then(() => this.orderService.setOrder(null));
+        }
       },
     });
   }

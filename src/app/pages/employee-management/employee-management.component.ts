@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 import { ConfirmationService } from 'primeng/api';
 import { Subscription } from 'rxjs';
 import { Role } from 'src/app/core/enums/role';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-employee-management',
@@ -63,7 +64,12 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy {
           const employees = result.data.employees;
           this.employeeList = employees;
         } else {
-          console.error(result.errors[0].message);
+          Swal.fire({
+            title: 'Error!',
+            text: result.errors[0].message,
+            icon: 'error',
+            confirmButtonText: 'Cool',
+          });
         }
       });
 
@@ -113,7 +119,12 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy {
             this.newEmployeeVisible = false;
             this.onResetValue();
           } else {
-            console.error(result.errors[0].message);
+            Swal.fire({
+            title: 'Error!',
+            text: result.errors[0].message,
+            icon: 'error',
+            confirmButtonText: 'Cool',
+          });
           }
         });
     }
@@ -188,7 +199,12 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy {
             this.editPasswordVisible = false;
             this.onResetValue();
           } else {
-            console.error(result.errors[0].message);
+            Swal.fire({
+            title: 'Error!',
+            text: result.errors[0].message,
+            icon: 'error',
+            confirmButtonText: 'Cool',
+          });
           }
         });
     }
@@ -231,10 +247,39 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy {
             this.editEmployeeVisible = false;
             this.onResetValue();
           } else {
-            console.error(result.errors[0].message);
+            Swal.fire({
+            title: 'Error!',
+            text: result.errors[0].message,
+            icon: 'error',
+            confirmButtonText: 'Cool',
+          });
           }
         });
     }
+  }
+
+  onResetPassword(id: string, idCard: string): void {
+    this.loading = true;
+    const updateEmployeeInput: updateEmployeeInput = {
+      id: id,
+      password: idCard,
+    };
+
+    this.$subscription = this.employeeService
+      .updateEmployee(updateEmployeeInput)
+      .subscribe((result) => {
+        this.loading = false;
+        if (result.data) {
+          this.onResetValue();
+        } else {
+          Swal.fire({
+            title: 'Error!',
+            text: result.errors[0].message,
+            icon: 'error',
+            confirmButtonText: 'Cool',
+          });
+        }
+      });
   }
 
   onDelete(id: string): void {
@@ -253,7 +298,12 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy {
             this.loading = false;
             if (!!result.data) {
             } else {
-              console.error(result.errors[0].message);
+              Swal.fire({
+            title: 'Error!',
+            text: result.errors[0].message,
+            icon: 'error',
+            confirmButtonText: 'Cool',
+          });
             }
           });
       },

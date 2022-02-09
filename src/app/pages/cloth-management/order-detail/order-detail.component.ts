@@ -1,6 +1,7 @@
 import { OrderService } from 'src/app/core/services/order.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-order-detail',
@@ -100,7 +101,12 @@ export class OrderDetailComponent implements OnInit {
               this.outProcess += 1;
             });
         } else {
-          console.error(result.errors[0].message);
+          Swal.fire({
+            title: 'Error!',
+            text: result.errors[0].message,
+            icon: 'error',
+            confirmButtonText: 'Cool',
+          });
         }
       });
   }

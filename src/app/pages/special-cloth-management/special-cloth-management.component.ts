@@ -8,6 +8,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ConfirmationService } from 'primeng/api';
 import { Subscription } from 'rxjs';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-special-cloth-management',
@@ -42,7 +43,12 @@ export class SpecialClothManagementComponent implements OnInit, OnDestroy {
           );
           this.specialClothList = specialClothes;
         } else {
-          console.error(result.errors[0].message);
+          Swal.fire({
+            title: 'Error!',
+            text: result.errors[0].message,
+            icon: 'error',
+            confirmButtonText: 'Cool',
+          });
         }
       });
   }
@@ -68,7 +74,12 @@ export class SpecialClothManagementComponent implements OnInit, OnDestroy {
             this.newSpecialClothVisible = false;
             this.onResetValue();
           } else {
-            console.error(result.errors[0].message);
+            Swal.fire({
+            title: 'Error!',
+            text: result.errors[0].message,
+            icon: 'error',
+            confirmButtonText: 'Cool',
+          });
           }
         });
     }
@@ -102,7 +113,12 @@ export class SpecialClothManagementComponent implements OnInit, OnDestroy {
             this.loading = false;
             if (!!result.data) {
             } else {
-              console.error(result.errors[0].message);
+              Swal.fire({
+            title: 'Error!',
+            text: result.errors[0].message,
+            icon: 'error',
+            confirmButtonText: 'Cool',
+          });
             }
           });
       },

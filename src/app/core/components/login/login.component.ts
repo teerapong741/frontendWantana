@@ -3,6 +3,7 @@ import { EmployeeService } from '../../services/employee.service';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-login',
@@ -25,14 +26,21 @@ export class LoginComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit() {
+    this.loading = true;
     this.$subscription = this.employeeService
       .authEmployees()
       .subscribe((result) => {
+        this.loading = false;
         if (!!result.data) {
           const authEmployees = result.data.employees;
           this.authEmployees = authEmployees;
         } else {
-          console.error(result);
+          Swal.fire({
+            title: 'Error!',
+            text: result,
+            icon: 'error',
+            confirmButtonText: 'Cool',
+          });
         }
       });
     this.authService.setIsLogin(null);
@@ -43,8 +51,14 @@ export class LoginComponent implements OnInit, OnDestroy {
       const employee = this.authEmployees.filter(
         (emp) => emp.email === this.username
       );
-      if (employee.length === -1) {
-        console.error('ไม่พบอีเมล์');
+      console.log(employee)
+      if (employee.length < 1) {
+        Swal.fire({
+          title: 'Error!',
+          text: 'ไม่พบอีเมล์',
+          icon: 'error',
+          confirmButtonText: 'Cool',
+        });
       } else {
         if (this.password === employee[0].password) {
           const authData: AuthData = {
@@ -57,10 +71,22 @@ export class LoginComponent implements OnInit, OnDestroy {
           };
           this.authService.setIsLogin(authData);
           this.router.navigate(['./dashboard']);
+        } else {
+          Swal.fire({
+            title: 'Error!',
+            text: 'ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง',
+            icon: 'error',
+            confirmButtonText: 'Cool',
+          });
         }
       }
     } else {
-      console.error('โปรดกรอกข้อมูลให้ครบ');
+      Swal.fire({
+        title: 'Error!',
+        text: 'โปรดกรอกข้อมูลให้ครบ',
+        icon: 'error',
+        confirmButtonText: 'Cool',
+      });
     }
   }
 

@@ -2,6 +2,7 @@ import { Subscription } from 'rxjs';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ClothProblemService } from 'src/app/core/services/cloth-problem.service';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-add-problem',
@@ -40,7 +41,12 @@ export class AddProblemComponent implements OnInit, OnDestroy {
 
           this.problemOptions = problemClothsFilter;
         } else {
-          console.error(result.errors[0].message);
+          Swal.fire({
+            title: 'Error!',
+            text: result.errors[0].message,
+            icon: 'error',
+            confirmButtonText: 'Cool',
+          });
         }
       });
     if (this.config.data.problems) {

@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { ConfirmationService } from 'primeng/api';
 import { Subscription } from 'rxjs';
 import { CreateCustomerInput } from 'src/app/core/interfaces/customer.interface';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-customer-management',
@@ -46,7 +47,12 @@ export class CustomerManagementComponent implements OnInit, OnDestroy {
           const customers = result.data.customers;
           this.customerList = customers;
         } else {
-          console.error(result.errors[0].message);
+          Swal.fire({
+            title: 'Error!',
+            text: result.errors[0].message,
+            icon: 'error',
+            confirmButtonText: 'Cool',
+          });
         }
       });
   }
@@ -85,7 +91,12 @@ export class CustomerManagementComponent implements OnInit, OnDestroy {
             this.newCustomerVisible = false;
             this.onResetValue();
           } else {
-            console.error(result.errors[0].message);
+            Swal.fire({
+            title: 'Error!',
+            text: result.errors[0].message,
+            icon: 'error',
+            confirmButtonText: 'Cool',
+          });
           }
         });
     }
@@ -154,7 +165,12 @@ export class CustomerManagementComponent implements OnInit, OnDestroy {
             this.editCustomerVisible = false;
             this.onResetValue();
           } else {
-            console.error(result.errors[0].message);
+            Swal.fire({
+            title: 'Error!',
+            text: result.errors[0].message,
+            icon: 'error',
+            confirmButtonText: 'Cool',
+          });
           }
         });
     }
@@ -176,7 +192,12 @@ export class CustomerManagementComponent implements OnInit, OnDestroy {
             this.loading = false;
             if (!!result.data) {
             } else {
-              console.error(result.errors[0].message);
+              Swal.fire({
+            title: 'Error!',
+            text: result.errors[0].message,
+            icon: 'error',
+            confirmButtonText: 'Cool',
+          });
             }
           });
       },

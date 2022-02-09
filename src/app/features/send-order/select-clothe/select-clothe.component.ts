@@ -11,6 +11,7 @@ import {
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { OrderService } from 'src/app/core/services/order.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-select-clothe',
@@ -49,7 +50,12 @@ export class SelectClotheComponent implements OnInit, OnDestroy {
           this.primaryId = order.id;
           this.onOrderByPrimaryId();
         } else {
-          console.error(result.errors[0].message);
+          Swal.fire({
+            title: 'Error!',
+            text: result.errors[0].message,
+            icon: 'error',
+            confirmButtonText: 'Cool',
+          });
         }
       });
   }

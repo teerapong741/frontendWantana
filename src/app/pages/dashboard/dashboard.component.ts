@@ -3,6 +3,7 @@ import { FilterInput } from './../../core/interfaces/order.interface';
 import { OrderService } from 'src/app/core/services/order.service';
 import { AuthService } from './../../core/services/auth.service';
 import { Component, OnInit } from '@angular/core';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-dashboard',
@@ -52,7 +53,12 @@ export class DashboardComponent implements OnInit {
         this.totalProblem = problemClothes.length;
         this.orders = orders;
       } else {
-        console.error(result.errors[0].message);
+        Swal.fire({
+            title: 'Error!',
+            text: result.errors[0].message,
+            icon: 'error',
+            confirmButtonText: 'Cool',
+          });
       }
     });
   }

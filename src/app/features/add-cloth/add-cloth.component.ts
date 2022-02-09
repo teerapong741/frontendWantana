@@ -11,6 +11,7 @@ import {
   typeOptions,
   typeSpecialOptions,
 } from 'src/app/core/values/cloth.value';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-add-cloth',
@@ -66,7 +67,12 @@ export class AddClothComponent implements OnInit, OnDestroy {
 
           this.typeOfUseOptions = typeClothsFilter;
         } else {
-          console.error(result.errors[0].message);
+          Swal.fire({
+            title: 'Error!',
+            text: result.errors[0].message,
+            icon: 'error',
+            confirmButtonText: 'Cool',
+          });
         }
       });
 
@@ -90,7 +96,12 @@ export class AddClothComponent implements OnInit, OnDestroy {
           this.typeOptions = sortClothsFilter;
           this.typeSelected = sortClothsFilter[0];
         } else {
-          console.error(result.errors[0].message);
+          Swal.fire({
+            title: 'Error!',
+            text: result.errors[0].message,
+            icon: 'error',
+            confirmButtonText: 'Cool',
+          });
         }
       });
 
@@ -113,7 +124,12 @@ export class AddClothComponent implements OnInit, OnDestroy {
 
           this.typeSpecialOptions = specialClothsFilter;
         } else {
-          console.error(result.errors[0].message);
+          Swal.fire({
+            title: 'Error!',
+            text: result.errors[0].message,
+            icon: 'error',
+            confirmButtonText: 'Cool',
+          });
         }
       });
 
@@ -135,7 +151,12 @@ export class AddClothComponent implements OnInit, OnDestroy {
 
           this.fabricProblemOptions = problemClothesFilter;
         } else {
-          console.error(result.errors[0].message);
+          Swal.fire({
+            title: 'Error!',
+            text: result.errors[0].message,
+            icon: 'error',
+            confirmButtonText: 'Cool',
+          });
         }
       });
 

@@ -5,6 +5,7 @@ import { ConfirmationService } from 'primeng/api';
 import { Subscription } from 'rxjs';
 import { createProblemClotheInput } from 'src/app/core/interfaces/cloth-problem.interface';
 import { ClothProblemService } from 'src/app/core/services/cloth-problem.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-cloth-problem-management',
@@ -47,7 +48,12 @@ export class ClothProblemManagementComponent implements OnInit, OnDestroy {
           );
           this.clothProblemList = problemClothes;
         } else {
-          console.error(result.errors[0].message);
+          Swal.fire({
+            title: 'Error!',
+            text: result.errors[0].message,
+            icon: 'error',
+            confirmButtonText: 'Cool',
+          });
         }
       });
   }
@@ -73,7 +79,12 @@ export class ClothProblemManagementComponent implements OnInit, OnDestroy {
             this.newClothProblemVisible = false;
             this.onResetValue();
           } else {
-            console.error(result.errors[0].message);
+            Swal.fire({
+            title: 'Error!',
+            text: result.errors[0].message,
+            icon: 'error',
+            confirmButtonText: 'Cool',
+          });
           }
         });
     }
@@ -103,7 +114,12 @@ export class ClothProblemManagementComponent implements OnInit, OnDestroy {
             this.loading = false;
             if (!!result.data) {
             } else {
-              console.error(result.errors[0].message);
+              Swal.fire({
+            title: 'Error!',
+            text: result.errors[0].message,
+            icon: 'error',
+            confirmButtonText: 'Cool',
+          });
             }
           });
       },

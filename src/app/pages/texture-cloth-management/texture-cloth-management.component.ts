@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { ConfirmationService } from 'primeng/api';
 import { Subscription } from 'rxjs';
 import { createSortClotheInput } from 'src/app/core/interfaces/texture-cloth.interface';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-texture-cloth-management',
@@ -41,7 +42,12 @@ export class TextureClothManagementComponent implements OnInit, OnDestroy {
           );
           this.textureClothList = sortClothes;
         } else {
-          console.error(result.errors[0].message);
+          Swal.fire({
+            title: 'Error!',
+            text: result.errors[0].message,
+            icon: 'error',
+            confirmButtonText: 'Cool',
+          });
         }
       });
   }
@@ -67,7 +73,12 @@ export class TextureClothManagementComponent implements OnInit, OnDestroy {
             this.newTextureVisible = false;
             this.onResetValue();
           } else {
-            console.error(result.errors[0].message);
+            Swal.fire({
+            title: 'Error!',
+            text: result.errors[0].message,
+            icon: 'error',
+            confirmButtonText: 'Cool',
+          });
           }
         });
     }
@@ -102,7 +113,12 @@ export class TextureClothManagementComponent implements OnInit, OnDestroy {
             this.loading = false;
             if (!!result.data) {
             } else {
-              console.error(result.errors[0].message);
+              Swal.fire({
+            title: 'Error!',
+            text: result.errors[0].message,
+            icon: 'error',
+            confirmButtonText: 'Cool',
+          });
             }
           });
       },

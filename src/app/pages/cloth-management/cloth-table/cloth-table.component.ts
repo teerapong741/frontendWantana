@@ -6,6 +6,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ConfirmationService } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-cloth-table',
@@ -40,7 +41,12 @@ export class ClothTableComponent implements OnInit, OnDestroy {
           //   (order: any) => order.primaryOrderId == order.id
           // );
         } else {
-          console.error(result.errors[0].message);
+          Swal.fire({
+            title: 'Error!',
+            text: result.errors[0].message,
+            icon: 'error',
+            confirmButtonText: 'Cool',
+          });
         }
       });
   }
@@ -98,9 +104,14 @@ export class ClothTableComponent implements OnInit, OnDestroy {
       rejectLabel: 'ยกลิก',
       rejectButtonStyleClass: 'p-button-warning p-button-raised',
       accept: async () => {
-        await this.onRemoveOrder(Number(id)).catch((error) =>
-          console.error(error)
-        );
+        await this.onRemoveOrder(Number(id)).catch((error) => {
+          Swal.fire({
+            title: 'Error!',
+            text: error,
+            icon: 'error',
+            confirmButtonText: 'Cool',
+          });
+        });
       },
     });
   }

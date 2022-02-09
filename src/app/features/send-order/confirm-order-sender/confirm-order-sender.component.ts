@@ -13,6 +13,7 @@ import {
 import { OrderService } from './../../../core/services/order.service';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Status } from 'src/app/core/enums/status';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-confirm-order-sender',
@@ -61,7 +62,12 @@ export class ConfirmOrderSenderComponent implements OnInit {
             }
           }
         } else {
-          console.error(result.errors[0].message);
+          Swal.fire({
+            title: 'Error!',
+            text: result.errors[0].message,
+            icon: 'error',
+            confirmButtonText: 'Cool',
+          });
         }
       });
   }
@@ -77,7 +83,14 @@ export class ConfirmOrderSenderComponent implements OnInit {
       primaryOrderId: this.order.order_id,
     };
     const createdOrder: any = await this.onCreateOrder(createOrderInput).catch(
-      (error) => console.error(error)
+      (error) => {
+        Swal.fire({
+          title: 'Error!',
+          text: error,
+          icon: 'error',
+          confirmButtonText: 'Cool',
+        });
+      }
     );
 
     // update sub order to OUT
@@ -88,7 +101,14 @@ export class ConfirmOrderSenderComponent implements OnInit {
     };
     const updatedSubOrder: any = await this.onUpdateOrder(
       updateSubOrderInput
-    ).catch((error) => console.error(error));
+    ).catch((error) => {
+      Swal.fire({
+        title: 'Error!',
+        text: error,
+        icon: 'error',
+        confirmButtonText: 'Cool',
+      });
+    });
 
     // if Clear order
     if (
@@ -102,7 +122,14 @@ export class ConfirmOrderSenderComponent implements OnInit {
       };
       const updatedMainOrder: any = await this.onUpdateOrder(
         updateMainOrderInput
-      ).catch((error) => console.error(error));
+      ).catch((error) => {
+        Swal.fire({
+          title: 'Error!',
+          text: error,
+          icon: 'error',
+          confirmButtonText: 'Cool',
+        });
+      });
 
       this.customerService
         .customer(this.order.customer_id)
@@ -115,7 +142,12 @@ export class ConfirmOrderSenderComponent implements OnInit {
               this.order.clothes
             );
           } else {
-            console.error(result.errors[0].message);
+            Swal.fire({
+              title: 'Error!',
+              text: result.errors[0].message,
+              icon: 'error',
+              confirmButtonText: 'Cool',
+            });
           }
         });
     } else {
@@ -130,7 +162,12 @@ export class ConfirmOrderSenderComponent implements OnInit {
               this.order.clothes
             );
           } else {
-            console.error(result.errors[0].message);
+            Swal.fire({
+              title: 'Error!',
+              text: result.errors[0].message,
+              icon: 'error',
+              confirmButtonText: 'Cool',
+            });
           }
         });
     }
@@ -180,7 +217,14 @@ export class ConfirmOrderSenderComponent implements OnInit {
 
         // create cloth has problem
         await this.onCreateClothHasProblem(createClotheProblemInput).catch(
-          (error) => console.error(error)
+          (error) => {
+            Swal.fire({
+              title: 'Error!',
+              text: error,
+              icon: 'error',
+              confirmButtonText: 'Cool',
+            });
+          }
         );
       }
     }
@@ -192,7 +236,14 @@ export class ConfirmOrderSenderComponent implements OnInit {
       orderId: Number(createdOrder.id),
     };
     const updateClothe: any = await this.onUpdateCloth(updateClotheInput).catch(
-      (error) => console.error(error)
+      (error) => {
+        Swal.fire({
+          title: 'Error!',
+          text: error,
+          icon: 'error',
+          confirmButtonText: 'Cool',
+        });
+      }
     );
 
     this.next.emit(true);
