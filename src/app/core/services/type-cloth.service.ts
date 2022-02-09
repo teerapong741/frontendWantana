@@ -1,3 +1,5 @@
+import { DISABLE_TYPE_CLOTHE } from './../schemas/type-cloth/mutation.schema';
+import { UpdateTypeClotheInput } from './../interfaces/type-cloth.interface';
 import {
   CREATE_TYPE_CLOTHE,
   REMOVE_TYPE_CLOTHE,
@@ -25,6 +27,18 @@ export class TypeClothService {
     return this.apollo.mutate({
       mutation: CREATE_TYPE_CLOTHE,
       variables: { createTypeClotheInput },
+      refetchQueries: [{ query: TYPE_CLOTHES, errorPolicy: 'all' }],
+      awaitRefetchQueries: true,
+      errorPolicy: 'all',
+    });
+  }
+
+  public disableTypeClothe(
+    updateTypeClotheInput: UpdateTypeClotheInput
+  ): Observable<any> {
+    return this.apollo.mutate({
+      mutation: DISABLE_TYPE_CLOTHE,
+      variables: { updateTypeClotheInput },
       refetchQueries: [{ query: TYPE_CLOTHES, errorPolicy: 'all' }],
       awaitRefetchQueries: true,
       errorPolicy: 'all',

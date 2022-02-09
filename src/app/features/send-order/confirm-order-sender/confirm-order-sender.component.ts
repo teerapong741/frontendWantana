@@ -1,3 +1,4 @@
+import { CustomerService } from './../../../core/services/customer.service';
 import { LineService } from './../../../core/services/line.service';
 import {
   CreateClotheInput,
@@ -30,14 +31,11 @@ export class ConfirmOrderSenderComponent implements OnInit {
   constructor(
     private readonly orderService: OrderService,
     private clothService: ClothService,
-    private lineService: LineService
+    private lineService: LineService,
+    private customerService: CustomerService
   ) {}
 
   ngOnInit() {
-    this.lineService.messageToCustomer(
-      'hello',
-      'Ufe652df5e990d154d7030b2b1ee67e86'
-    );
     this.order = this.orderService.getOrder();
     this.clothes = this.order.clothes;
     this.orderService
@@ -59,9 +57,8 @@ export class ConfirmOrderSenderComponent implements OnInit {
               else this.clothesInLength += order.clothes.length;
             }
           }
-          // console.log(this.order)
         } else {
-          console.log(result.errors[0].message);
+          console.error(result.errors[0].message);
         }
       });
   }
@@ -88,7 +85,7 @@ export class ConfirmOrderSenderComponent implements OnInit {
     };
     const updatedSubOrder: any = await this.onUpdateOrder(
       updateSubOrderInput
-    ).catch((error) => console.log(error));
+    ).catch((error) => console.error(error));
 
     // if Clear order
     if (
@@ -102,7 +99,37 @@ export class ConfirmOrderSenderComponent implements OnInit {
       };
       const updatedMainOrder: any = await this.onUpdateOrder(
         updateMainOrderInput
-      ).catch((error) => console.log(error));
+      ).catch((error) => console.error(error));
+
+      this.customerService
+        .customer(this.order.customer_id)
+        .subscribe(async (result) => {
+          if (!!result.data) {
+            const customer = JSON.parse(JSON.stringify(result.data.customer));
+
+            await this.lineService.messageSendClearOrder(
+              customer,
+              this.order.clothes
+            );
+          } else {
+            console.error(result.errors[0].message);
+          }
+        });
+    } else {
+      this.customerService
+        .customer(this.order.customer_id)
+        .subscribe(async (result) => {
+          if (!!result.data) {
+            const customer = JSON.parse(JSON.stringify(result.data.customer));
+
+            await this.lineService.messageSendSeparateOrder(
+              customer,
+              this.order.clothes
+            );
+          } else {
+            console.error(result.errors[0].message);
+          }
+        });
     }
 
     // if new problem after
@@ -165,10 +192,6 @@ export class ConfirmOrderSenderComponent implements OnInit {
       (error) => console.error(error)
     );
 
-    await this.lineService.messageToCustomer(
-      'hello',
-      'Ufe652df5e990d154d7030b2b1ee67e86'
-    );
     this.next.emit(true);
   }
 

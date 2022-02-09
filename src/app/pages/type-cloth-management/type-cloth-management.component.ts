@@ -1,4 +1,7 @@
-import { createTypeClotheInput } from './../../core/interfaces/type-cloth.interface';
+import {
+  createTypeClotheInput,
+  UpdateTypeClotheInput,
+} from './../../core/interfaces/type-cloth.interface';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ConfirmationService } from 'primeng/api';
@@ -89,8 +92,12 @@ export class TypeClothManagementComponent implements OnInit, OnDestroy {
       rejectButtonStyleClass: 'p-button-warning p-button-raised',
       accept: () => {
         this.loading = true;
+        const updateInput: UpdateTypeClotheInput = {
+          disable: true,
+          id: Number(id),
+        };
         this.$subscription = this.typeClothService
-          .removeTypeClothe(Number(id))
+          .disableTypeClothe(updateInput)
           .subscribe((result) => {
             this.loading = false;
             if (!!result.data) {

@@ -12,6 +12,16 @@ export const CREATE_PROBLEM_CLOTHE = gql`
   }
 `;
 
+export const DISABLE_PROBLEM_CLOTHE = gql`
+  mutation updateProblemClothe(
+    $updateProblemClotheInput: UpdateProblemClotheInput!
+  ) {
+    updateProblemClothe(updateProblemClotheInput: $updateProblemClotheInput) {
+      id
+    }
+  }
+`;
+
 export const REMOVE_PROBLEM_CLOTHE = gql`
   mutation removeProblemClothe($id: Int!) {
     removeProblemClothe(id: $id) {

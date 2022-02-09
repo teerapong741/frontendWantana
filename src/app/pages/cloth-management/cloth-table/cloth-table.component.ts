@@ -28,25 +28,21 @@ export class ClothTableComponent implements OnInit, OnDestroy {
   ) {}
 
   async ngOnInit() {
-    this.lineService.messageToCustomer(
-      'hello',
-      'Ufe652df5e990d154d7030b2b1ee67e86'
-    );
-    // this.loading = true;
-    // this.$subscriptions = this.orderService
-    //   .primaryOrders()
-    //   .subscribe((result) => {
-    //     this.loading = false;
-    //     if (!!result.data) {
-    //       const orders = JSON.parse(JSON.stringify(result.data.primaryOrders));
-    //       this.clothList = orders;
-    //       // .filter(
-    //       //   (order: any) => order.primaryOrderId == order.id
-    //       // );
-    //     } else {
-    //       console.error(result.errors[0].message);
-    //     }
-    //   });
+    this.loading = true;
+    this.$subscriptions = this.orderService
+      .primaryOrders()
+      .subscribe((result) => {
+        this.loading = false;
+        if (!!result.data) {
+          const orders = JSON.parse(JSON.stringify(result.data.primaryOrders));
+          this.clothList = orders;
+          // .filter(
+          //   (order: any) => order.primaryOrderId == order.id
+          // );
+        } else {
+          console.error(result.errors[0].message);
+        }
+      });
   }
 
   async onOrders(): Promise<any> {

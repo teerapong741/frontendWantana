@@ -1,3 +1,4 @@
+import { LineService } from './../../../core/services/line.service';
 import { UpdateOrderInput } from './../../../core/interfaces/order.interface';
 import { ClothService } from './../../../core/services/cloth.service';
 import {
@@ -38,7 +39,8 @@ export class ConfirmOrderComponent implements OnInit, OnDestroy {
     private readonly orderService: OrderService,
     private readonly router: Router,
     private readonly confirmationService: ConfirmationService,
-    private readonly clothService: ClothService
+    private readonly clothService: ClothService,
+    private readonly lineService: LineService
   ) {}
 
   ngOnInit() {
@@ -182,7 +184,7 @@ export class ConfirmOrderComponent implements OnInit, OnDestroy {
 
           // create cloth has problem
           await this.onCreateClothHasProblem(createClotheProblemInput).catch(
-            (error) => console.log(error)
+            (error) => console.error(error)
           );
         }
 
@@ -197,7 +199,7 @@ export class ConfirmOrderComponent implements OnInit, OnDestroy {
           orderId: createdOrder.id,
         };
         await this.onUpdateCloth(updateClotheInput).catch((error) =>
-          console.log(error)
+          console.error(error)
         );
 
         if (outProcessClotheIds.length > 0) {
@@ -233,6 +235,18 @@ export class ConfirmOrderComponent implements OnInit, OnDestroy {
           }
         }
 
+        this.lineService.messageCreateOrder(
+          this.orderDetail,
+          this.processOrder,
+          this.outProcessOrder,
+          this.totalCloths,
+          this.thickCloths,
+          this.thinCloths,
+          this.specialCloths,
+          this.problemCloths,
+          this.inProcess,
+          this.outProcess
+        );
         // update sub order
         this.router
           .navigate(['./../cloth-management/'])

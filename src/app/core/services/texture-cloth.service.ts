@@ -1,10 +1,14 @@
-import { createSortClotheInput } from './../interfaces/texture-cloth.interface';
+import {
+  createSortClotheInput,
+  UpdateSortClotheInput,
+} from './../interfaces/texture-cloth.interface';
 import { SORT_CLOTHES } from './../schemas/texture-cloth/query.schema';
 import { Injectable } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import { Observable } from 'rxjs';
 import {
   CREATE_SORT_CLOTHE,
+  DISABLE_SORT_CLOTHE,
   REMOVE_SORT_CLOTHE,
 } from '../schemas/texture-cloth/mutation.schema';
 
@@ -25,6 +29,18 @@ export class TextureClothService {
     return this.apollo.mutate({
       mutation: CREATE_SORT_CLOTHE,
       variables: { createSortClotheInput },
+      refetchQueries: [{ query: SORT_CLOTHES, errorPolicy: 'all' }],
+      awaitRefetchQueries: true,
+      errorPolicy: 'all',
+    });
+  }
+
+  public disableSortClothe(
+    updateSortClotheInput: UpdateSortClotheInput
+  ): Observable<any> {
+    return this.apollo.mutate({
+      mutation: DISABLE_SORT_CLOTHE,
+      variables: { updateSortClotheInput },
       refetchQueries: [{ query: SORT_CLOTHES, errorPolicy: 'all' }],
       awaitRefetchQueries: true,
       errorPolicy: 'all',

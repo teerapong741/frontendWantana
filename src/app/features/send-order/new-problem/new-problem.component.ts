@@ -22,7 +22,6 @@ export class NewProblemComponent implements OnInit {
 
   ngOnInit() {
     this.clothes = this.orderService.getOrder().clothes;
-    console.log(this.clothes);
   }
 
   onAddProblem(id: number): void {
@@ -37,7 +36,6 @@ export class NewProblemComponent implements OnInit {
 
     ref.onClose.subscribe((item: any) => {
       if (item) {
-        console.log(item);
         this.clothes[findIndex].clotheHasProblemsAfter = item.problems;
       }
     });

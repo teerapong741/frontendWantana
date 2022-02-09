@@ -61,7 +61,6 @@ export class SelectClotheComponent implements OnInit, OnDestroy {
               JSON.stringify(result.data.findOneByPrimaryId)
             );
             const orderFilter: any[] = [];
-            console.log(orders);
             if (!!orders && orders.length > 0)
               for (let order of orders) {
                 if (order.status == Status.IN)

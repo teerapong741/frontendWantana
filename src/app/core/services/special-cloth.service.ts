@@ -1,8 +1,12 @@
 import {
   CREATE_SPECIAL_CLOTHE,
+  DISABLE_SPECIAL_CLOTHE,
   REMOVE_SPECIAL_CLOTHE,
 } from './../schemas/special-cloth/mutation.schema';
-import { createSpecialClotheInput } from './../interfaces/special-cloth.interface';
+import {
+  createSpecialClotheInput,
+  UpdateSpecialClotheInput,
+} from './../interfaces/special-cloth.interface';
 import { Injectable } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import { Observable } from 'rxjs';
@@ -25,6 +29,18 @@ export class SpecialClothService {
     return this.apollo.mutate({
       mutation: CREATE_SPECIAL_CLOTHE,
       variables: { createSpecialClotheInput },
+      refetchQueries: [{ query: SPECIAL_CLOTHES, errorPolicy: 'all' }],
+      awaitRefetchQueries: true,
+      errorPolicy: 'all',
+    });
+  }
+
+  public disableSpecialClothe(
+    updateSpecialClotheInput: UpdateSpecialClotheInput
+  ): Observable<any> {
+    return this.apollo.mutate({
+      mutation: DISABLE_SPECIAL_CLOTHE,
+      variables: { updateSpecialClotheInput },
       refetchQueries: [{ query: SPECIAL_CLOTHES, errorPolicy: 'all' }],
       awaitRefetchQueries: true,
       errorPolicy: 'all',

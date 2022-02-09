@@ -2,7 +2,7 @@ import {
   CREATE_CUSTOMER,
   REMOVE_CUSTOMER,
 } from './../schemas/customer/mutation.schema';
-import { CUSTOMERS } from './../schemas/customer/query.schema';
+import { CUSTOMER, CUSTOMERS } from './../schemas/customer/query.schema';
 import { Injectable } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import { Observable } from 'rxjs';
@@ -15,6 +15,14 @@ import { UPDATE_CUSTOMER } from '../schemas/customer/mutation.schema';
 @Injectable()
 export class CustomerService {
   constructor(private readonly apollo: Apollo) {}
+
+  public customer(id: number): Observable<any> {
+    return this.apollo.watchQuery({
+      query: CUSTOMER,
+      variables: { id },
+      errorPolicy: 'all',
+    }).valueChanges;
+  }
 
   public customers(): Observable<any> {
     return this.apollo.watchQuery({

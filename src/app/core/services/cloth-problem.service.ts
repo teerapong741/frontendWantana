@@ -1,9 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import { Observable } from 'rxjs';
-import { createProblemClotheInput } from '../interfaces/cloth-problem.interface';
+import {
+  createProblemClotheInput,
+  UpdateProblemClotheInput,
+} from '../interfaces/cloth-problem.interface';
 import {
   CREATE_PROBLEM_CLOTHE,
+  DISABLE_PROBLEM_CLOTHE,
   REMOVE_PROBLEM_CLOTHE,
 } from '../schemas/cloth-problem/mutation.schema';
 import { PROBLEM_CLOTHES } from '../schemas/cloth-problem/query.schema';
@@ -25,6 +29,18 @@ export class ClothProblemService {
     return this.apollo.mutate({
       mutation: CREATE_PROBLEM_CLOTHE,
       variables: { createProblemClotheInput },
+      refetchQueries: [{ query: PROBLEM_CLOTHES, errorPolicy: 'all' }],
+      awaitRefetchQueries: true,
+      errorPolicy: 'all',
+    });
+  }
+
+  public disableProblemClothe(
+    updateProblemClotheInput: UpdateProblemClotheInput
+  ): Observable<any> {
+    return this.apollo.mutate({
+      mutation: DISABLE_PROBLEM_CLOTHE,
+      variables: { updateProblemClotheInput },
       refetchQueries: [{ query: PROBLEM_CLOTHES, errorPolicy: 'all' }],
       awaitRefetchQueries: true,
       errorPolicy: 'all',

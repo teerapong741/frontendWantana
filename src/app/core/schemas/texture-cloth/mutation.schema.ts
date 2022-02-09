@@ -10,6 +10,13 @@ export const CREATE_SORT_CLOTHE = gql`
   }
 `;
 
+export const DISABLE_SORT_CLOTHE = gql`
+  mutation updateSortClothe($updateSortClotheInput: UpdateSortClotheInput!) {
+    updateSortClothe(updateSortClotheInput: $updateSortClotheInput) {
+      id
+    }
+  }
+`;
 export const REMOVE_SORT_CLOTHE = gql`
   mutation removeSortClothe($id: Int!) {
     removeSortClothe(id: $id) {

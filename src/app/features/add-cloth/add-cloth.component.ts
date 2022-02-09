@@ -100,7 +100,7 @@ export class AddClothComponent implements OnInit, OnDestroy {
           const specialCloths = JSON.parse(
             JSON.stringify(result.data.specialClothes)
           );
-          const specialClothsFilter = [this.defaultOption];
+          const specialClothsFilter = [];
           for (let special of specialCloths) {
             specialClothsFilter.push({
               ...special,
@@ -122,7 +122,7 @@ export class AddClothComponent implements OnInit, OnDestroy {
           const problemClothes = JSON.parse(
             JSON.stringify(result.data.problemClothes)
           );
-          const problemClothesFilter = [this.defaultOption];
+          const problemClothesFilter = [];
           for (let special of problemClothes) {
             problemClothesFilter.push({
               ...special,
