@@ -1,3 +1,10 @@
+<img
+  class="icon__response"
+  src="./../../../../assets/images/washing-icon.png"
+  alt="Icon"
+  (click)="isSidebar = true"
+  [ngStyle]="isSidebar ? { display: 'none' } : { display: 'block' }"
+/>
 <div class="sidebar">
   <img
     class="sidebar__icon"
@@ -40,3 +47,22 @@
     </li>
   </ul>
 </div>
+<p-sidebar
+  [(visible)]="isSidebar"
+  [style]="{ width: '80%', 'background-color': '#ffeddb' }"
+>
+  <ul class="sidebar-res">
+    <li (click)="isSidebar = false" routerLink="./dashboard" routerLinkActive="active">
+      <i class="fas fa-home sidebar-res__logo"></i
+      ><label class="sidebar-res__label">แดชบอร์ด</label>
+    </li>
+    <li (click)="isSidebar = false" routerLink="cloth-management" routerLinkActive="active">
+      <i class="fas fa-shopping-basket sidebar-res__logo"></i
+      ><label class="sidebar-res__label">จัดการผ้า</label>
+    </li>
+    <li (click)="isSidebar = false" routerLink="./login" routerLinkActive="active">
+      <i class="fas fa-exist sidebar-res__logo"></i
+      ><label class="sidebar-res__label">LOGOUT</label>
+    </li>
+  </ul>
+</p-sidebar>

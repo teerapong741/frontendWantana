@@ -102,7 +102,7 @@ export class AddClothsComponent implements OnInit, OnDestroy {
   newClothList(): void {
     this.ref = this.dialogService.open(AddClothComponent, {
       header: 'เพิ่มรายการผ้า',
-      width: '45%',
+      width: '90%',
       contentStyle: { 'max-height': '500px', overflow: 'auto' },
       closeOnEscape: true,
       closable: true,
@@ -119,7 +119,7 @@ export class AddClothsComponent implements OnInit, OnDestroy {
   onEditItem(index: number): void {
     this.ref = this.dialogService.open(EditClothComponent, {
       header: 'แก้ไขรายการผ้า',
-      width: '45%',
+      width: '90%',
       contentStyle: { 'max-height': '500px', overflow: 'auto' },
       closeOnEscape: true,
       closable: true,

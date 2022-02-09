@@ -52,6 +52,8 @@ export class LoginComponent implements OnInit, OnDestroy {
             key: employee[0].key,
             email: employee[0].email,
             role: employee[0].role,
+            firstName: employee[0].firstName,
+            lastName: employee[0].lastName,
           };
           this.authService.setIsLogin(authData);
           this.router.navigate(['./dashboard']);

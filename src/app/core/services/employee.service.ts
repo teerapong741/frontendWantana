@@ -22,6 +22,7 @@ export class EmployeeService {
       query: EMPLOYEES,
       variables: {},
       errorPolicy: 'all',
+      fetchPolicy: 'network-only',
     }).valueChanges;
   }
 
@@ -29,6 +30,7 @@ export class EmployeeService {
     return this.apollo.watchQuery({
       query: AUTH_EMPLOYEES,
       variables: {},
+      fetchPolicy: 'network-only',
       errorPolicy: 'all',
     }).valueChanges;
   }

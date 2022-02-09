@@ -73,7 +73,7 @@ export class ClothTableComponent implements OnInit, OnDestroy {
   onSendOrder(order: any): void {
     const ref = this.dialogService.open(SendOrderComponent, {
       header: 'ส่งผ้า',
-      width: '85%',
+      width: '95%',
       contentStyle: { 'max-height': '85vh', overflow: 'auto' },
       closeOnEscape: true,
       closable: true,

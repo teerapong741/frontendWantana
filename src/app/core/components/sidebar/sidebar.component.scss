@@ -92,6 +92,42 @@
   }
 }
 
+.icon__response {
+  display: none;
+  position: absolute;
+  width: 4.2rem;
+  height: 4.2rem;
+  cursor: pointer;
+}
+
+.sidebar-res {
+  width: 100%;
+
+  & > li {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 4rem;
+    margin: 1rem auto;
+    border-radius: 0.4rem;
+    background: #ffeddb;
+    box-shadow: 2px -2px 4px #ffffff, -2px 2px 4px #c4b6a9;
+    font-size: medium;
+    font-weight: bold;
+    white-space: 0.2rem;
+
+    &:active {
+      background: #ffeddb;
+      box-shadow: inset 2px -2px 4px #c4b6a9, inset -2px 2px 4px #ffffff;
+    }
+  }
+
+  &__logo {
+    margin-right: 1rem;
+  }
+}
+
 .active {
   background-color: #ffffff;
   color: #000000;
@@ -101,4 +137,17 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+@media only screen and (max-width: 800px) {
+  .sidebar {
+    display: none;
+  }
+
+  .icon__response {
+    display: block;
+    top: 0.2rem;
+    left: 0.8rem;
+    z-index: 9999;
+  }
 }

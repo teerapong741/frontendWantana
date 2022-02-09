@@ -75,6 +75,7 @@
 
     &--header {
       width: 100%;
+      min-width: 600px;
       min-height: 2rem;
       background-color: rgb(255, 255, 255);
       margin: 1rem auto;
@@ -92,6 +93,7 @@
 
     &--card {
       width: 100%;
+      min-width: 600px;
       min-height: 5rem;
       background-color: rgb(240, 239, 239);
       margin: 1rem auto;
@@ -137,5 +139,11 @@
 .customer-item {
   & span:first-child {
     margin-right: 5rem;
+  }
+}
+
+@media only screen and (max-width: 1850px) {
+  .container {
+    width: 100%;
   }
 }

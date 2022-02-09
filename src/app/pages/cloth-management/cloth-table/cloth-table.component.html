@@ -14,7 +14,7 @@
     [value]="clothList"
     [rows]="10"
     [paginator]="true"
-    responsiveLayout="scroll"
+    responsiveLayout="stack"
     styleClass="p-datatable-lg"
   >
     <ng-template pTemplate="header">
@@ -59,7 +59,7 @@
             pRipple
             type="button"
             icon="fas fa-paper-plane"
-            class="p-button-rounded p-button-raised p-button-success"
+            class="p-button-rounded p-button-raised p-button-success container__action--btn-send-order"
             [disabled]="cloth.status !== 'IN'"
             (click)="onSendOrder(cloth)"
           ></button>
@@ -79,6 +79,6 @@
 <p-confirmDialog
   header="Warning"
   icon="pi pi-exclamation-triangle"
-  [style]="{ width: '30vw' }"
+  [style]="{ width: '70vw' }"
   [baseZIndex]="10000"
 ></p-confirmDialog>

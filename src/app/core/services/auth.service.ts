@@ -8,6 +8,8 @@ export interface AuthData {
   key: string;
   email: string;
   role: string;
+  firstName: string;
+  lastName: string;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -40,6 +42,8 @@ export class AuthService {
       return {
         id: JSON.parse(userData).id,
         key: JSON.parse(userData).key,
+        firstName: JSON.parse(userData).firstName,
+        lastName: JSON.parse(userData).lastName,
       };
     else return null;
   }

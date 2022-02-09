@@ -31,6 +31,15 @@
   &__action {
     display: flex;
     justify-content: space-evenly;
+
+    &--btn-send-order {
+      
+    }
   }
 }
 
+@media only screen and (max-width: 800px) {
+  .container__action--btn-send-order {
+    display: none;
+  }
+}

@@ -61,10 +61,10 @@
 
   &__toggle-dropdown-container {
     position: absolute;
-    bottom: -145%;
+    bottom: -70%;
     background-color: #00000f;
     width: 15rem;
-    height: 8rem;
+    height: 4rem;
     border-radius: 0.3rem;
     color: #ffffff;
     z-index: 999;
@@ -103,5 +103,24 @@
         border-bottom: 1px solid #ffffff;
       }
     }
+  }
+}
+
+@media only screen and (max-width: 530px) {
+  .navbar__label {
+    display: none;
+  }
+}
+
+@media only screen and (max-width: 800px) {
+  .navbar {
+    &__btn-back {
+      left: 6rem;
+    }
+  }
+
+
+  .navbar__toggle ,.navbar__toggle-dropdown-container {
+    display: none;
   }
 }

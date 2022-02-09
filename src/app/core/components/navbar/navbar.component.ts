@@ -1,4 +1,4 @@
-import { AuthService } from './../../services/auth.service';
+import { AuthService, AuthData } from './../../services/auth.service';
 import {
   Router,
   ActivatedRoute,
@@ -16,6 +16,8 @@ export class NavbarComponent implements OnInit {
   pageName: string = 'Dashboard';
   username: string = 'ไม่ระบุตัวตน';
   visibleToggleMenu: boolean = false;
+
+  employee: AuthData | null = null;
 
   constructor(
     private readonly router: Router,
@@ -47,7 +49,10 @@ export class NavbarComponent implements OnInit {
     });
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.employee = this.authService.isCodeEmployee();
+    console.log(this.employee);
+  }
 
   onBack(): void {
     window.history.back();

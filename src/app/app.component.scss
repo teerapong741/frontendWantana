@@ -22,3 +22,12 @@
   background-size: cover;
   filter: brightness(70%);
 }
+
+@media only screen and (max-width: 800px) {
+  .container {
+    padding-left: 1rem;
+    padding-top: 6rem;
+    padding-bottom: 1rem;
+    padding-right: 1rem;
+  }
+}

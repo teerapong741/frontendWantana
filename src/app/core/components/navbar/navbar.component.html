@@ -1,7 +1,15 @@
 <div class="navbar">
-  <button pButton pRipple class="p-button-outlined p-button-raised navbar__btn-back" icon="fas fa-chevron-left" (click)="onBack()"></button>
+  <button
+    pButton
+    pRipple
+    class="p-button-outlined p-button-raised navbar__btn-back"
+    icon="fas fa-chevron-left"
+    (click)="onBack()"
+  ></button>
   <span class="navbar__label">{{ pageName }}</span>
-  <span class="navbar__name">{{ username }}</span>
+  <span class="navbar__name">{{
+    employee?.firstName + " " + employee?.lastName
+  }}</span>
   <img
     class="navbar__avatar"
     src="./../../../../assets/images/washing-icon.png"
@@ -10,6 +18,7 @@
   <i
     class="fas fa-caret-square-down navbar__toggle"
     (mouseenter)="visibleToggleMenu = !visibleToggleMenu"
+    (click)="visibleToggleMenu = !visibleToggleMenu"
   ></i>
   <div
     *ngIf="visibleToggleMenu"
@@ -18,7 +27,7 @@
     class="navbar__toggle-dropdown-container"
   >
     <ul>
-      <li routerLink="profile" routerLink="active">โปรไฟล์</li>
+      <!-- <li routerLink="profile" routerLink="active">โปรไฟล์</li> -->
       <li (click)="onLogout()">ออกจากระบบ</li>
     </ul>
   </div>
