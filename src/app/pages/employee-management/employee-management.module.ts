@@ -1,3 +1,4 @@
+import { LoadingModule } from 'src/app/core/components/loading/loading.module';
 import { EmployeeService } from './../../core/services/employee.service';
 import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
@@ -32,7 +33,7 @@ import { DialogModule } from 'primeng/dialog';
     ChipModule,
     TranslateModule,
     ConfirmDialogModule,
-    DialogModule,
+    DialogModule,LoadingModule
   ],
   declarations: [EmployeeManagementComponent],
   exports: [EmployeeManagementComponent],

@@ -37,6 +37,8 @@ export class NavbarComponent implements OnInit {
           this.pageName = 'จัดการประเภทผ้ามีปัญหา';
         else if (firstPath === 'employee-management')
           this.pageName = 'จัดการข้อมูลพนักงาน';
+        else if (firstPath === 'special-cloth-management')
+          this.pageName = 'จัดการข้อมูลผ้าชนิดพิเศษ';
         else if (firstPath === 'customer-management')
           this.pageName = 'จัดการข้อมูลลูกค้า';
         else if (firstPath === 'profile') this.pageName = 'โปรไฟล์';

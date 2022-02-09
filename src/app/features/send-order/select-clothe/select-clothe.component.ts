@@ -18,6 +18,7 @@ import { OrderService } from 'src/app/core/services/order.service';
   styleUrls: ['./select-clothe.component.scss'],
 })
 export class SelectClotheComponent implements OnInit, OnDestroy {
+  loading: boolean = false;
   $subscriptions: Subscription | undefined = undefined;
   sourceClothes: any[] = [];
   targetClothes: any[] = [];
@@ -38,9 +39,11 @@ export class SelectClotheComponent implements OnInit, OnDestroy {
     this.targetClothes = !!this.orderService.getOrder()
       ? this.orderService.getOrder().clothes
       : [];
+    this.loading = true;
     this.$subscriptions = this.orderService
       .order(this.orderId)
       .subscribe((result) => {
+        this.loading = false;
         if (!!result.data) {
           const order = JSON.parse(JSON.stringify(result.data.order));
           this.primaryId = order.id;
@@ -53,9 +56,11 @@ export class SelectClotheComponent implements OnInit, OnDestroy {
 
   onOrderByPrimaryId(): Promise<any> {
     return new Promise((resolve, reject) => {
+      this.loading = true;
       this.$subscriptions = this.orderService
         .findOneByPrimaryId(this.primaryId)
         .subscribe((result) => {
+          this.loading = false;
           if (!!result.data) {
             const orders = JSON.parse(
               JSON.stringify(result.data.findOneByPrimaryId)

@@ -1,4 +1,4 @@
-<p-table [value]="clothes" responsiveLayout="scroll">
+<loading *ngIf="loading"></loading><p-table [value]="clothes" responsiveLayout="scroll">
   <ng-template pTemplate="header">
     <tr>
       <th>รหัส</th>

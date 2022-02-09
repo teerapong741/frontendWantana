@@ -1,4 +1,4 @@
-<p-card class="mb-5">
+<loading *ngIf="loading"></loading><p-card class="mb-5">
   <p-steps [model]="items" [readonly]="true" [activeIndex]="state"></p-steps>
 </p-card>
 <div class="mt-5">

@@ -1,3 +1,4 @@
+import { LoadingModule } from 'src/app/core/components/loading/loading.module';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -37,6 +38,7 @@ import { DialogModule } from 'primeng/dialog';
     TranslateModule,
     ConfirmDialogModule,
     DialogModule,
+    LoadingModule,
   ],
   declarations: [SpecialClothManagementComponent],
   exports: [SpecialClothManagementComponent],

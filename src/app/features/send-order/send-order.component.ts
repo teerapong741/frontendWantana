@@ -10,6 +10,7 @@ import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
   styleUrls: ['./send-order.component.scss'],
 })
 export class SendOrderComponent implements OnInit {
+  loading = false;
   items: any[] = [];
 
   state: number = 0;

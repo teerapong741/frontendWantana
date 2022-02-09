@@ -8,6 +8,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./order-detail.component.scss'],
 })
 export class OrderDetailComponent implements OnInit {
+  loading = false;
   orders: any = null;
   ordersIn: any = null;
   ordersOut: any = null;
@@ -30,9 +31,11 @@ export class OrderDetailComponent implements OnInit {
 
   ngOnInit() {
     const orderId = this.route.snapshot.params['id'];
+    this.loading = true;
     this.orderService
       .findOneByPrimaryId(Number(orderId))
       .subscribe((result) => {
+        this.loading = false;
         if (!!result.data) {
           const orders = JSON.parse(
             JSON.stringify(result.data.findOneByPrimaryId)

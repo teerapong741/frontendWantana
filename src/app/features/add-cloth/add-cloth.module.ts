@@ -1,3 +1,4 @@
+import { LoadingModule } from './../../core/components/loading/loading.module';
 import { SpecialClothService } from './../../core/services/special-cloth.service';
 import { TextureClothService } from 'src/app/core/services/texture-cloth.service';
 import { TypeClothService } from './../../core/services/type-cloth.service';
@@ -25,6 +26,7 @@ import { InputSwitchModule } from 'primeng/inputswitch';
     RippleModule,
     CheckboxModule,
     InputSwitchModule,
+    LoadingModule,
   ],
   declarations: [AddClothComponent],
   exports: [AddClothComponent],

@@ -159,6 +159,8 @@ ${number}) ${!!order.type ? order.type.name : '-'}  |  ${
   🙏  ขอบคุณที่ใช้บริการ  🙏
         `);
 
+    console.log(orderDetail)
+
     await this.messageToCustomer(message, orderDetail.line_id);
   }
 

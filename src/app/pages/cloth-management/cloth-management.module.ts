@@ -1,3 +1,4 @@
+import { LoadingComponent } from './../../core/components/loading/loading.component';
 import { OrderDetailComponent } from './order-detail/order-detail.component';
 import { SendOrderModule } from './../../features/send-order/send-order.module';
 import { TranslateModule } from '@ngx-translate/core';
@@ -35,6 +36,7 @@ import { ChipModule } from 'primeng/chip';
 import { ConfirmationService } from 'primeng/api';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { TagModule } from 'primeng/tag';
+import { LoadingModule } from 'src/app/core/components/loading/loading.module';
 @NgModule({
   imports: [
     CommonModule,
@@ -53,6 +55,7 @@ import { TagModule } from 'primeng/tag';
     EditClothModule,
     ConfirmDialogModule,
     TagModule,
+    LoadingModule,
   ],
   declarations: [
     ClothManagementComponent,

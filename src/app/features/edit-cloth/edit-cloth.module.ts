@@ -1,3 +1,4 @@
+import { LoadingModule } from './../../core/components/loading/loading.module';
 import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -19,7 +20,7 @@ import { InputSwitchModule } from 'primeng/inputswitch';
     ButtonModule,
     RippleModule,
     CheckboxModule,
-    InputSwitchModule,
+    InputSwitchModule,LoadingModule
   ],
   declarations: [EditClothComponent],
   exports: [EditClothComponent],

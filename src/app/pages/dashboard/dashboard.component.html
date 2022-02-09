@@ -1,4 +1,4 @@
-<div class="container flex justify-content-around">
+<loading *ngIf="loading"></loading><div class="container flex justify-content-around">
   <div class="card shadow-4">
     <h3>จำนวนผ้าที่รับมาทั้งหมด</h3>
     <h1 style="color: goldenrod">{{ orders.length }}</h1>

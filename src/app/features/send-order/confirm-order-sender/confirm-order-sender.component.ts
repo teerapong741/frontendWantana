@@ -20,6 +20,7 @@ import { Status } from 'src/app/core/enums/status';
   styleUrls: ['./confirm-order-sender.component.scss'],
 })
 export class ConfirmOrderSenderComponent implements OnInit {
+  loading: boolean = false;
   @Output() next = new EventEmitter<boolean>();
   order: any = null;
   clothes: any[] = [];
@@ -38,10 +39,12 @@ export class ConfirmOrderSenderComponent implements OnInit {
   ngOnInit() {
     this.order = this.orderService.getOrder();
     this.clothes = this.order.clothes;
+    this.loading = true;
     this.orderService
       .findOneByPrimaryId(this.order.order_id)
       .subscribe((result) => {
         if (result.data) {
+          this.loading = false;
           const orders = JSON.parse(
             JSON.stringify(result.data.findOneByPrimaryId)
           );
@@ -196,10 +199,12 @@ export class ConfirmOrderSenderComponent implements OnInit {
   }
 
   async onCreateOrder(createOrderInput: CreateOrderInput): Promise<any> {
+    this.loading = true;
     return new Promise((resolve, reject) => {
       this.orderService
         .createOrder(createOrderInput)
         .subscribe((result: any) => {
+          this.loading = false;
           if (!!result.data) {
             const createdOrder = JSON.parse(
               JSON.stringify(result.data.createOrder)
@@ -213,10 +218,12 @@ export class ConfirmOrderSenderComponent implements OnInit {
   }
 
   async onUpdateOrder(updateOrderInput: UpdateOrderInput): Promise<any> {
+    this.loading = true;
     return new Promise((resolve, reject) => {
       this.orderService
         .updateOrder(updateOrderInput)
         .subscribe((result: any) => {
+          this.loading = false;
           if (!!result.data) {
             const updatedOrder = JSON.parse(
               JSON.stringify(result.data.updateOrder)
@@ -232,10 +239,12 @@ export class ConfirmOrderSenderComponent implements OnInit {
   async onCreateClothHasProblem(
     createClotheProblemInput: CreateClotheProblemInput
   ): Promise<any> {
+    this.loading = true;
     return new Promise((resolve, reject) => {
       this.clothService
         .createClotheHasProblem(createClotheProblemInput)
         .subscribe((result) => {
+          this.loading = false;
           if (!!result.data)
             resolve(
               JSON.parse(JSON.stringify(result.data.createClotheHasProblem))
@@ -246,8 +255,10 @@ export class ConfirmOrderSenderComponent implements OnInit {
   }
 
   async onUpdateCloth(updateClotheInput: UpdateClotheInput): Promise<any> {
+    this.loading = true;
     return new Promise((resolve, reject) => {
       this.clothService.updateClothe(updateClotheInput).subscribe((result) => {
+        this.loading = false;
         if (!!result.data)
           resolve(JSON.parse(JSON.stringify(result.data.updateClothe)));
         else reject(result.errors[0].message);

@@ -1,3 +1,4 @@
+import { LoadingModule } from './../../core/components/loading/loading.module';
 import { ConfirmOrderSenderComponent } from './confirm-order-sender/confirm-order-sender.component';
 import { ClothProblemService } from 'src/app/core/services/cloth-problem.service';
 import { FormsModule } from '@angular/forms';
@@ -43,7 +44,7 @@ import { DynamicDialogModule, DialogService } from 'primeng/dynamicdialog';
     ChipModule,
     TableModule,
     SelectButtonModule,
-    DynamicDialogModule,
+    DynamicDialogModule,LoadingModule
   ],
   declarations: [
     SendOrderComponent,

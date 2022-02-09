@@ -1,3 +1,4 @@
+import { LoadingComponent } from './core/components/loading/loading.component';
 import { ClothProblemService } from './core/services/cloth-problem.service';
 import { SpecialClothService } from './core/services/special-cloth.service';
 import { TextureClothService } from './core/services/texture-cloth.service';

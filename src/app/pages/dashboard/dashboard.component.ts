@@ -10,6 +10,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent implements OnInit {
+  loading = false;
   orders: any = [];
 
   totalCustomer: number = 0;
@@ -22,7 +23,9 @@ export class DashboardComponent implements OnInit {
     let dateMidNight: any = new Date();
     dateMidNight.setHours(0, 0, 0, 0);
     dateMidNight = new Date(dateMidNight).getTime();
+    this.loading = true;
     this.orderService.primaryOrders().subscribe(async (result) => {
+      this.loading = false;
       if (result.data) {
         const orders = JSON.parse(JSON.stringify(result.data.primaryOrders));
         const ordersFilter = [];

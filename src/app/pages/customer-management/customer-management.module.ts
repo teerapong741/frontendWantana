@@ -1,3 +1,4 @@
+import { LoadingModule } from 'src/app/core/components/loading/loading.module';
 import { CustomerService } from './../../core/services/customer.service';
 import { FormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
@@ -34,7 +35,7 @@ import { DialogModule } from 'primeng/dialog';
     ChipModule,
     TranslateModule,
     ConfirmDialogModule,
-    DialogModule,
+    DialogModule,LoadingModule
   ],
   declarations: [CustomerManagementComponent],
   exports: [CustomerManagementComponent],

@@ -1,3 +1,4 @@
+import { LoadingModule } from 'src/app/core/components/loading/loading.module';
 import { TypeClothService } from './../../core/services/type-cloth.service';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -34,7 +35,7 @@ import { FormsModule } from '@angular/forms';
     ChipModule,
     TranslateModule,
     ConfirmDialogModule,
-    DialogModule,
+    DialogModule,LoadingModule
   ],
   declarations: [TypeClothManagementComponent],
   exports: [TypeClothManagementComponent],

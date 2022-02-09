@@ -1,0 +1,139 @@
+/* The Overlay (background) */
+.overlay {
+  /* Height & width depends on how you want to reveal the overlay (see JS below) */
+  height: 100%;
+  width: 100%;
+  position: fixed; /* Stay in place */
+  z-index: 999999; /* Sit on top */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgb(0, 0, 0); /* Black fallback color */
+  background-color: rgba(0, 0, 0, 0.9); /* Black w/opacity */
+  overflow-x: hidden; /* Disable horizontal scroll */
+  overflow-y: hidden; /* Disable horizontal scroll */
+  transition: 0.5s; /* 0.5 second transition effect to slide in or slide down the overlay (height or width, depending on reveal) */
+}
+
+/* Position the content inside the overlay */
+.overlay-content {
+  position: relative;
+  width: 20rem;
+  height: 20rem;
+  text-align: center; /* Centered text/links */
+  margin-top: 30px; /* 30px top margin to avoid conflict with the close button on smaller screens */
+}
+
+$Loader-color: #fff;
+$Loader-size: 14.6rem;
+$Loader-offset: 1.7rem;
+$Loader-timing: ease-in-out;
+
+.Loader {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: $Loader-size;
+  margin-top: $Loader-size/2;
+  margin-bottom: $Loader-size/2;
+  &:before,
+  &:after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+    animation-timing-function: $Loader-timing;
+    filter: drop-shadow(0 0 $Loader-offset/2.25 rgba($Loader-color, 0.75));
+  }
+  &:before {
+    width: 100%;
+    padding-bottom: 100%;
+    box-shadow: inset 0 0 0 $Loader-offset $Loader-color;
+    animation-name: pulsA;
+  }
+  &:after {
+    width: calc(100% - #{$Loader-offset}* 2);
+    padding-bottom: calc(100% - #{$Loader-offset}* 2);
+    box-shadow: 0 0 0 0 $Loader-color;
+    animation-name: pulsB;
+  }
+}
+
+@keyframes pulsA {
+  0% {
+    box-shadow: inset 0 0 0 $Loader-offset $Loader-color;
+    opacity: 1;
+  }
+  50%,
+  100% {
+    box-shadow: inset 0 0 0 0 $Loader-color;
+    opacity: 0;
+  }
+}
+
+@keyframes pulsB {
+  0%,
+  50% {
+    box-shadow: 0 0 0 0 $Loader-color;
+    opacity: 0;
+  }
+  100% {
+    box-shadow: 0 0 0 $Loader-offset $Loader-color;
+    opacity: 1;
+  }
+}
+
+// @media only screen and (min-width: 660px) {
+//   .overlay-content {
+//     position: relative;
+//     width: 100%; /* 100% width */
+//     top: 15%;
+//     left: 33%;
+//     text-align: center; /* Centered text/links */
+//     margin-top: 30px; /* 30px top margin to avoid conflict with the close button on smaller screens */
+//   }
+// }
+
+// @media only screen and (min-width: 768px) {
+//   .overlay-content {
+//     position: relative;
+//     width: 100%; /* 100% width */
+//     top: 35%;
+//     left: 35%;
+//     text-align: center; /* Centered text/links */
+//     margin-top: 30px; /* 30px top margin to avoid conflict with the close button on smaller screens */
+//   }
+// }
+
+// @media only screen and (min-width: 1024px) {
+//   .overlay-content {
+//     position: relative;
+//     width: 100%; /* 100% width */
+//     top: 30%;
+//     left: 40%;
+//     text-align: center; /* Centered text/links */
+//     margin-top: 30px; /* 30px top margin to avoid conflict with the close button on smaller screens */
+//   }
+// }
+
+// @media only screen and (min-width: 1200px) {
+//   .overlay {
+//     top: 0;
+//     left: 16.51%;
+//     right: 0;
+//     bottom: 0;
+//   }
+
+//   .overlay-content {
+//     left: auto;
+//     right: none;
+//     left: 35%;
+//   }
+// }
