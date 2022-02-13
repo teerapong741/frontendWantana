@@ -34,6 +34,9 @@ export class AddClothsComponent implements OnInit, OnDestroy {
   employeeCode: any = null;
 
   clothList: any[] = [];
+  clothListDisplay: any[] = [];
+  tabList: any[] = [];
+  tabActive: string = '';
 
   constructor(
     public dialogService: DialogService,
@@ -117,12 +120,52 @@ export class AddClothsComponent implements OnInit, OnDestroy {
 
     this.ref.onClose.subscribe((item: any) => {
       if (item) {
-        this.clothList.push({ ...item });
+        const isExist = this.clothList.filter(
+          (cloth) =>
+            JSON.stringify(cloth.type) === JSON.stringify(item.type) &&
+            JSON.stringify(cloth.type_of_use) ===
+              JSON.stringify(item.type_of_use) &&
+            JSON.stringify(cloth.fabric_problem) ===
+              JSON.stringify(item.fabric_problem) &&
+            JSON.stringify(cloth.type_special) ===
+              JSON.stringify(item.type_special)
+        );
+        if (isExist.length === 0)
+          this.clothList.push({
+            key: (Math.random() + 1).toString(36).substring(7),
+            ...item,
+          });
+        else {
+          const index = this.clothList.findIndex(
+            (cloth) =>
+              JSON.stringify(cloth.type) === JSON.stringify(item.type) &&
+              JSON.stringify(cloth.type_of_use) ===
+                JSON.stringify(item.type_of_use) &&
+              JSON.stringify(cloth.fabric_problem) ===
+                JSON.stringify(item.fabric_problem) &&
+              JSON.stringify(cloth.type_special) ===
+                JSON.stringify(item.type_special)
+          );
+          this.clothList[index].number =
+            this.clothList[index].number + item.number;
+        }
+
+        let tabList = this.clothList.filter(
+          (cloth: any) => !this.tabList.includes(cloth.type.name)
+        );
+        tabList = tabList.map(({ type }: any) => type.name);
+        this.tabList = this.tabList.concat(tabList);
+        this.onChangeTab(item.type.name);
+        if (this.tabList.length <= 1) {
+          this.clothListDisplay = this.clothList;
+        }
       }
     });
   }
 
-  onEditItem(index: number): void {
+  onEditItem(key: string): void {
+    const index = this.clothList.findIndex((cloth) => cloth.key === key);
+
     this.ref = this.dialogService.open(EditClothComponent, {
       header: 'แก้ไขรายการผ้า',
       width: '90%',
@@ -131,19 +174,74 @@ export class AddClothsComponent implements OnInit, OnDestroy {
       closable: true,
       baseZIndex: 10000,
       data: {
-        cloth: this.clothList[index],
+        cloth: !!this.clothList[index] ? this.clothList[index] : null,
       },
     });
 
-    this.ref.onClose.subscribe((item: any) => {
+    this.ref.onClose.subscribe(async (item: any) => {
       if (item) {
-        this.clothList[index] = item;
+        const isExist: any[] = [];
+        for (let cloth of this.clothList) {
+          if (
+            JSON.stringify(cloth.type) === JSON.stringify(item.type) &&
+            JSON.stringify(cloth.type_of_use) ===
+              JSON.stringify(item.type_of_use) &&
+            JSON.stringify(cloth.fabric_problem) ===
+              JSON.stringify(item.fabric_problem) &&
+            JSON.stringify(cloth.type_special) ===
+              JSON.stringify(item.type_special)
+          )
+            await isExist.push(cloth);
+        }
+
+        if (isExist.length >= 1) {
+          isExist[0].number = isExist[0].number + item.number;
+          const indexExist = await this.clothList.findIndex(
+            (cloth) => cloth.key === isExist[0].key
+          );
+          let tab = await this.clothList[indexExist].type.name;
+          this.clothList[indexExist] = await isExist[0];
+          this.clothList = await this.clothList.filter(
+            (cloth) => cloth.key !== item.key
+          );
+          this.onFilterTabList();
+          this.onChangeTab(tab);
+        } else {
+          this.clothList[index] = await item;
+          let tab = await this.clothList[index].type.name;
+          this.onFilterTabList();
+          this.onChangeTab(tab);
+        }
       }
     });
   }
 
-  onRemoveItem(index: number): void {
+  onRemoveItem(key: string): void {
+    const index = this.clothList.findIndex((cloth) => cloth.key === key);
+    let tab = this.clothList[index].type.name;
     this.clothList = this.clothList.filter((cloth, i) => index !== i);
+    let clothInType = this.clothList.filter(({ type }) => type.name == tab);
+    if (this.clothList.length > 0 && clothInType.length === 0)
+      tab = this.clothList[0].type.name;
+    this.clothListDisplay = this.clothList;
+    this.onFilterTabList();
+    this.onChangeTab(tab);
+  }
+
+  onFilterTabList(): void {
+    let result: any[] = [];
+    let tabList = this.clothList.map(({ type }) => type.name);
+    tabList.map((list: any) => {
+      if (!result.includes(list)) result.push(list);
+    });
+    this.tabList = result;
+  }
+
+  onChangeTab(tab: string): void {
+    let displayTab = [];
+    displayTab = this.clothList.filter((cloth) => cloth.type.name === tab);
+    this.clothListDisplay = displayTab;
+    this.tabActive = tab;
   }
 
   async onNext(): Promise<void> {

@@ -26,7 +26,7 @@
             class="customer-item customer-item-value"
             *ngIf="customerSelected"
           >
-            <span>รหัส: {{ customerSelected.id }}</span>
+            <span>รหัส: {{ customerSelected.key }}</span>
             <span
               >ชื่อ: {{ customerSelected.firstName }}
               {{ customerSelected.lastName }}</span
@@ -101,24 +101,35 @@
     class="p-button-raised p-button-success p-button-sm container__btn-add"
     (click)="newClothList()"
   ></button>
+  <div class="container__tab-btn">
+    <ng-container *ngFor="let tab of tabList">
+      <button
+        (click)="onChangeTab(tab)"
+        class="container__tab-btn--btn"
+        [ngClass]="tabActive === tab ? 'active' : ''"
+      >
+        {{ tab }}
+      </button>
+    </ng-container>
+  </div>
   <div class="container__cloth-list">
     <div class="container__cloth-list--header">
       <div class="grid px-3 text-center">
-        <div class="col-1">ชนิดผ้า</div>
+        <!-- <div class="col-1">ชนิดผ้า</div> -->
         <div class="col-2">ประเภทการใช้งาน</div>
         <div class="col-2">ผ้าพิเศษ</div>
         <div class="col-3">ผ้ามีปัญหา</div>
         <div class="col-2">นำเข้าซัก</div>
         <div class="col-1">จำนวน</div>
-        <div class="col-1"></div>
+        <div class="col-2"></div>
       </div>
     </div>
-    <ng-container *ngFor="let cloth of clothList; let i = index">
+    <ng-container *ngFor="let cloth of clothListDisplay; let i = index">
       <div class="container__cloth-list--card">
         <div class="grid px-3 text-center">
-          <div class="col-1">
+          <!-- <div class="col-1">
             {{ (!!cloth.type ? cloth.type.name : "-") | translate }}
-          </div>
+          </div> -->
           <div class="col-2">
             {{
               (!!cloth.type_of_use ? cloth.type_of_use.name : "-") | translate
@@ -149,14 +160,14 @@
             ></i>
           </div>
           <div class="col-1">{{ cloth.number }}</div>
-          <div class="col-1">
+          <div class="col-2">
             <button
               pButton
               pRipple
               type="button"
               icon="fas fa-edit"
               class="p-button-rounded p-button-raised p-button-warning p-button-text"
-              (click)="onEditItem(i)"
+              (click)="onEditItem(cloth.key)"
             ></button>
             <button
               pButton
@@ -164,7 +175,7 @@
               type="button"
               icon="fas fa-trash"
               class="p-button-rounded p-button-raised p-button-danger p-button-text mt-3"
-              (click)="onRemoveItem(i)"
+              (click)="onRemoveItem(cloth.key)"
             ></button>
           </div>
         </div>

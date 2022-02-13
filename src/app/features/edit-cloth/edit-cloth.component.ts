@@ -178,6 +178,7 @@ export class EditClothComponent implements OnInit, OnDestroy {
 
   onEdit(): void {
     this.ref.close({
+      key: this.config.data.cloth.key,
       type: this.typeSelected,
       type_of_use: this.typeOfUseSelected,
       type_special: this.typeSpecialSelected,

@@ -20,6 +20,7 @@
   >
     <ng-template pTemplate="header">
       <tr>
+        <th>ลำดับที่</th>
         <th>วันที่</th>
         <th>เลขที่รายการ</th>
         <th>ชื่อลูกค้า</th>
@@ -28,8 +29,9 @@
         <th></th>
       </tr>
     </ng-template>
-    <ng-template pTemplate="body" let-cloth>
+    <ng-template pTemplate="body" let-cloth let-index="rowIndex">
       <tr>
+        <td>{{ index + 1 }}</td>
         <td>{{ cloth.created_at | date }}</td>
         <td>{{ cloth.key }}</td>
         <td>{{ cloth.customer.firstName }} {{ cloth.customer.lastName }}</td>

@@ -61,6 +61,32 @@
     }
   }
 
+  &__tab-btn {
+    width: 80%;
+    min-width: 600px;
+    height: 5rem;
+    margin: auto;
+
+    &--btn {
+      cursor: pointer;
+      width: auto;
+      height: 4.5rem;
+      padding-left: 1.5rem;
+      padding-right: 1.5rem;
+      border-radius: 0.4rem;
+      border: none;
+      background: #f0efef;
+      box-shadow: 1.5px -1.5px 3px #ffffff, -1.5px 1.5px 3px #afaeae;
+      margin-left: 0.25rem;
+      margin-right: 0.25rem;
+
+      &.active {
+        background: #d2ffc7;
+        box-shadow: inset 1.5px -1.5px 3px #afaeae, inset -1.5px 1.5px 3px #ffffff;
+      }
+    }
+  }
+
   &__cloth-list {
     width: 80%;
     height: 40rem;

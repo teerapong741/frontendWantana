@@ -1,4 +1,5 @@
-<loading *ngIf="loading"></loading><div class="container">
+<loading *ngIf="loading"></loading>
+<div class="container">
   <div>
     <label class="container__label">ข้อมูลลูกค้า</label>
     <button
@@ -19,6 +20,7 @@
   >
     <ng-template pTemplate="header">
       <tr>
+        <th>ลำดับที่</th>
         <th>รหัส</th>
         <th>ชื่อ</th>
         <th>นามสกุล</th>
@@ -30,8 +32,9 @@
         <th></th>
       </tr>
     </ng-template>
-    <ng-template pTemplate="body" let-cloth>
+    <ng-template pTemplate="body" let-cloth let-index="rowIndex">
       <tr>
+        <td>{{ index + 1 }}</td>
         <td>{{ cloth.key }}</td>
         <td>{{ cloth.firstName }}</td>
         <td>{{ cloth.lastName }}</td>

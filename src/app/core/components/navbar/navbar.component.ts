@@ -13,7 +13,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./navbar.component.scss'],
 })
 export class NavbarComponent implements OnInit {
-  pageName: string = 'Dashboard';
+  pageName: string = 'หน้าแรก';
   username: string = 'ไม่ระบุตัวตน';
   visibleToggleMenu: boolean = false;
 
@@ -27,7 +27,7 @@ export class NavbarComponent implements OnInit {
     this.router.events.subscribe((event: Event) => {
       if (event instanceof NavigationStart) {
         const firstPath = event.url.split('/').filter((path) => path !== '')[0];
-        if (firstPath === 'dashboard') this.pageName = 'แดชบอร์ด';
+        if (firstPath === 'dashboard') this.pageName = 'หน้าแรก';
         else if (firstPath === 'cloth-management') this.pageName = 'จัดการผ้า';
         else if (firstPath === 'texture-cloth-management')
           this.pageName = 'จัดการชนิดเนื้อผ้า';
