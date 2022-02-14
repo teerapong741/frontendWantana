@@ -96,7 +96,10 @@
         </td>
         <td class="container__action">
           <button
-            *ngIf="authService.isRole() === 'ADMIN'"
+            *ngIf="
+              authService.isRole() === 'ADMIN' ||
+              employee.key == employeeLogin.key
+            "
             pButton
             pRipple
             type="button"

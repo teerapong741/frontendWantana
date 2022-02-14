@@ -45,7 +45,6 @@
         <!-- <td>{{ !!cloth.lineUserId ? cloth.lineUserId : "ไม่ได้ระบุ" }}</td> -->
         <td class="container__action">
           <button
-            *ngIf="authService.isRole() === 'ADMIN'"
             pButton
             pRipple
             type="button"
@@ -120,7 +119,7 @@
         type="email"
         pInputText
         [(ngModel)]="email"
-        placeholder="โปรดระบุไลน์ไอดี"
+        placeholder="โปรดระบุอีเมล"
       />
     </div>
     <div class="field">
@@ -198,7 +197,7 @@
         type="email"
         pInputText
         [(ngModel)]="email"
-        placeholder="โปรดระบุไลน์ไอดี"
+        placeholder="โปรดระบุอีเมล"
       />
     </div>
     <div class="field">
@@ -211,7 +210,7 @@
         placeholder="โปรดระบุเลขบัตรประชาชน"
       />
     </div>
-    <div class="field">
+    <!-- <div class="field">
       <label for="line_id" class="block">@Line ID</label>
       <input
         id="line_id"
@@ -221,7 +220,7 @@
         [disabled]="true"
         placeholder="โปรดระบุไลน์ไอดี"
       />
-    </div>
+    </div> -->
     <button
       pButton
       pRipple

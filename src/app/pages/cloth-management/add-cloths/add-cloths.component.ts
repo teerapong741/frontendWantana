@@ -48,7 +48,7 @@ export class AddClothsComponent implements OnInit, OnDestroy {
     private readonly employeeService: EmployeeService,
     private readonly authService: AuthService,
     private readonly dialog: dialog
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.loading = true;
@@ -94,6 +94,7 @@ export class AddClothsComponent implements OnInit, OnDestroy {
       this.onSelectedCustomer();
       this.clothList = orderDetail.cloth_list;
     }
+    this.onFilterTabList();
   }
 
   onSelectedCustomer(): void {
@@ -122,30 +123,45 @@ export class AddClothsComponent implements OnInit, OnDestroy {
 
     this.ref.onClose.subscribe(async (item: any) => {
       if (item) {
-        const isExist = [];
-        let isEqualProblem = true;
+        const isExist: any[] = [];
         for (let cloth of this.clothList) {
-          if (!!cloth.fabric_problem && !!item.fabric_problem) {
-            const clothProblem = cloth.fabric_problem.map(
-              ({ name }: any) => name
-            );
-            const itemProblem = item.fabric_problem.map(
-              ({ name }: any) => name
-            );
-            isEqualProblem = this.compare(clothProblem, itemProblem);
-          }
-          if (
-            JSON.stringify(cloth.type) === JSON.stringify(item.type) &&
-            JSON.stringify(cloth.type_of_use) ===
+          let isEqualProblem = false;
+          if (!!item.fabric_problem) {
+            if (!!cloth.fabric_problem && !!item.fabric_problem) {
+              const clothProblem = cloth.fabric_problem.map(
+                ({ name }: any) => name
+              );
+              const itemProblem = item.fabric_problem.map(
+                ({ name }: any) => name
+              );
+              isEqualProblem = this.compare(clothProblem, itemProblem);
+            }
+            if (
+              JSON.stringify(cloth.type) === JSON.stringify(item.type) &&
+              JSON.stringify(cloth.type_of_use) ===
               JSON.stringify(item.type_of_use) &&
-            isEqualProblem &&
-            JSON.stringify(cloth.type_special) ===
+              isEqualProblem &&
+              JSON.stringify(cloth.type_special) ===
               JSON.stringify(item.type_special) &&
-            JSON.stringify(cloth.is_out_process) ===
+              JSON.stringify(cloth.is_out_process) ===
               JSON.stringify(item.is_out_process) &&
-            JSON.stringify(cloth.key) !== JSON.stringify(item.key)
-          )
-            await isExist.push(cloth);
+              JSON.stringify(cloth.key) !== JSON.stringify(item.key)
+            )
+              await isExist.push(cloth);
+          } else {
+            if (
+              JSON.stringify(cloth.type) === JSON.stringify(item.type) &&
+              JSON.stringify(cloth.type_of_use) ===
+              JSON.stringify(item.type_of_use) &&
+              JSON.stringify(cloth.type_special) ===
+              JSON.stringify(item.type_special) &&
+              JSON.stringify(cloth.is_out_process) ===
+              JSON.stringify(item.is_out_process) &&
+              JSON.stringify(cloth.key) !== JSON.stringify(item.key)
+            )
+              await isExist.push(cloth);
+          }
+
         }
 
         if (isExist.length === 0)
@@ -155,15 +171,7 @@ export class AddClothsComponent implements OnInit, OnDestroy {
           });
         else {
           const index = this.clothList.findIndex(
-            (cloth) =>
-              JSON.stringify(cloth.type) === JSON.stringify(item.type) &&
-              JSON.stringify(cloth.type_of_use) ===
-                JSON.stringify(item.type_of_use) &&
-              isEqualProblem &&
-              JSON.stringify(cloth.type_special) ===
-                JSON.stringify(item.type_special) &&
-              JSON.stringify(cloth.is_out_process) ===
-                JSON.stringify(item.is_out_process)
+            (cloth) => cloth.key === isExist[0].key
           );
           this.clothList[index].number =
             this.clothList[index].number + item.number;
@@ -214,12 +222,12 @@ export class AddClothsComponent implements OnInit, OnDestroy {
           if (
             JSON.stringify(cloth.type) === JSON.stringify(item.type) &&
             JSON.stringify(cloth.type_of_use) ===
-              JSON.stringify(item.type_of_use) &&
+            JSON.stringify(item.type_of_use) &&
             isEqualProblem &&
             JSON.stringify(cloth.type_special) ===
-              JSON.stringify(item.type_special) &&
+            JSON.stringify(item.type_special) &&
             JSON.stringify(cloth.is_out_process) ===
-              JSON.stringify(item.is_out_process) &&
+            JSON.stringify(item.is_out_process) &&
             JSON.stringify(cloth.key) !== JSON.stringify(item.key)
           )
             await isExist.push(cloth);

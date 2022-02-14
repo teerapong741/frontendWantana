@@ -8,6 +8,10 @@
 
 .card {
   margin: 0.5rem 0.5rem;
+
+  & > h3 {
+    font-size: large;
+  }
 }
 
 .container {

@@ -5,6 +5,25 @@ import Swal from 'sweetalert2';
 import { EmployeeService } from './../../core/services/employee.service';
 import { CustomerService } from './../../core/services/customer.service';
 import { Component, OnInit } from '@angular/core';
+import * as pdfMake from 'pdfmake/build/pdfmake';
+import * as pdfFonts from 'pdfmake/build/vfs_fonts';
+import * as htmlToText from 'html-to-text';
+(pdfMake as any).vfs = pdfFonts.pdfMake.vfs;
+(pdfMake as any).fonts = {
+  // Default font should still be available
+  THSarabunNew: {
+    normal: 'THSarabunNew.ttf',
+    bold: 'THSarabunNew Bold.ttf',
+    italics: 'THSarabunNew Italic.ttf',
+    bolditalics: 'THSarabunNew BoldItalic.ttf'
+  },
+  Roboto: {
+    normal: 'Roboto-Regular.ttf',
+    bold: 'Roboto-Medium.ttf',
+    italics: 'Roboto-Italic.ttf',
+    bolditalics: 'Roboto-MediumItalic.ttf'
+  }
+};
 
 @Component({
   selector: 'app-reports',
@@ -32,18 +51,34 @@ export class ReportsComponent implements OnInit {
   tableData: any[] = [];
   cols: any[] = [];
 
+  defaultRow = ['*', '*', '*', '*', '*', '*'];
+  defaultBody = ['null', 'null', 'null', 'null', 'null', 'null'];
+  headerTablePdf: any[] = [];
+  rowHeaderPdf: any[] = this.defaultRow;
+  bodyTablePdf: any[] = this.defaultBody;
+
   constructor(
     private customerService: CustomerService,
     private employeeService: EmployeeService,
     private problemService: ClothProblemService,
     private orderService: OrderService
-  ) {}
+  ) { }
 
   ngOnInit() {
     let dateMidNight: any = new Date();
     dateMidNight.setHours(0, 0, 0, 0);
     dateMidNight = new Date(dateMidNight);
     this.dateStart = dateMidNight;
+    this.headerTablePdf = [
+      'Date',
+      'Code',
+      'First Name',
+      'Last Name',
+      'Address',
+      'Phone',
+    ];
+    this.rowHeaderPdf = this.defaultRow;
+    this.bodyTablePdf = this.defaultBody;
 
     this.cols = [
       { header: 'วันที่', field: 'date' },
@@ -102,35 +137,31 @@ export class ReportsComponent implements OnInit {
       }
     });
 
-    // this.loading = true;
-    // this.problemService.problemClothes().subscribe((result) => {
-    //   this.loading = false;
-    //   if (!!result.data) {
-    //     const problemClothes = JSON.parse(
-    //       JSON.stringify(result.data.problemClothes)
-    //     );
-
-    //     let problemsFilter = [];
-    //     for (let problem of problemClothes)
-    //       problemsFilter.push({
-    //         name: `${problem.name}`,
-    //         value: problem.id,
-    //       });
-    //     this.clotheProblemsOptions = [
-    //       ...this.clotheProblemsOptions,
-    //       ...problemsFilter,
-    //     ];
-    //   } else {
-    //     Swal.fire({
-    //       title: 'Error',
-    //       text: result.errors[0].message,
-    //       icon: 'error',
-    //       confirmButtonText: 'ตกลง',
-    //     });
-    //   }
-    // });
 
     this.onChangeFilter();
+  }
+
+  generatePdf() {
+    const documentDefinition: any = {
+      pageOrientation: 'landscape',
+      pageSize: 'A4',
+      content: [
+        { text: `${this.reportTypeSelected.name}`, bold: true, fontSize: 18, alignment: "center" },
+        {
+          // layout: 'lightHorizontalLines', // optional
+          pageOrientation: 'landscape',
+          table: {
+            headerRows: 1,
+            widths: this.rowHeaderPdf,
+            body: [this.headerTablePdf, ...this.bodyTablePdf],
+          },
+        },
+      ],
+      defaultStyle: {
+        font: 'THSarabunNew', alignment: "center"
+      }
+    };
+    pdfMake.createPdf(documentDefinition).open();
   }
 
   onChangeFilter(): void {
@@ -141,7 +172,7 @@ export class ReportsComponent implements OnInit {
     ) {
       let firstDate =
         new Date(new Date(this.dateEnd).setHours(0, 0, 0, 0)).getTime() ===
-        new Date(new Date(this.dateStart).setHours(0, 0, 0, 0)).getTime()
+          new Date(new Date(this.dateStart).setHours(0, 0, 0, 0)).getTime()
           ? new Date(this.dateEnd.setDate(this.dateStart.getDate() + 1))
           : new Date(this.dateEnd);
       firstDate = new Date(new Date(firstDate).setHours(0, 0, 0, 0));
@@ -187,12 +218,21 @@ export class ReportsComponent implements OnInit {
       { header: 'จำนวน', field: 'number' },
       // { header: 'สาเหตุผ้ามีปัญหา', field: 'problems' },
     ];
+    this.headerTablePdf = [
+      'วันที่',
+      'รหัส',
+      'ชื่อ',
+      'นามสกุล',
+      'ชนิดผ้า',
+      'ประเภทผ้า',
+      'จำนวน',
+    ];
+    this.rowHeaderPdf = ['*', '*', '*', '*', '*', '*', '*'];
     this.orderService.filterOrder(filterInput).subscribe(async (result) => {
       this.loading = false;
       if (!!result.data) {
         const orders = JSON.parse(JSON.stringify(result.data.filterOrder));
         let ordersFilter: any[] = [];
-        // console.log(orders);
 
         for (let order of orders) {
           let groups: any[] = [];
@@ -207,31 +247,31 @@ export class ReportsComponent implements OnInit {
                         ? clothe.sortClothe.name
                         : clothe.sortClothe
                     ) ===
-                      JSON.stringify(
-                        !!group.sortClothe
-                          ? group.sortClothe.name
-                          : group.sortClothe
-                      ) &&
+                    JSON.stringify(
+                      !!group.sortClothe
+                        ? group.sortClothe.name
+                        : group.sortClothe
+                    ) &&
                     JSON.stringify(
                       !!clothe.typeClothe
                         ? clothe.typeClothe.name
                         : clothe.typeClothe
                     ) ===
-                      JSON.stringify(
-                        !!group.typeClothe
-                          ? group.typeClothe.name
-                          : group.typeClothe
-                      ) &&
+                    JSON.stringify(
+                      !!group.typeClothe
+                        ? group.typeClothe.name
+                        : group.typeClothe
+                    ) &&
                     JSON.stringify(
                       !!clothe.specialClothe
                         ? clothe.specialClothe.name
                         : clothe.specialClothe
                     ) ===
-                      JSON.stringify(
-                        !!group.specialClothe
-                          ? group.specialClothe.name
-                          : group.specialClothe
-                      )
+                    JSON.stringify(
+                      !!group.specialClothe
+                        ? group.specialClothe.name
+                        : group.specialClothe
+                    )
                   )
                     groups[index].number++;
                   else
@@ -300,6 +340,29 @@ export class ReportsComponent implements OnInit {
         }
 
         this.tableData = ordersFilterResult;
+        if (this.tableData.length > 0) {
+          this.bodyTablePdf = [];
+          for (let [index, cs] of this.tableData.entries()) {
+            let data = [];
+            data.push(`${new Date(cs.date).toDateString()}`);
+            data.push(`${cs.key}`);
+            data.push(`${cs.firstName}`);
+            data.push(`${cs.lastName}`);
+            data.push(
+              `${htmlToText
+                .fromString(cs.sort, { wordwrap: 7 })
+                .split('--')
+                .join('\n')}`
+            );
+            data.push(`${htmlToText.fromString(cs.type, { wordwrap: 7 })}`);
+            data.push(`${htmlToText.fromString(cs.number, { wordwrap: 7 })}`);
+
+            this.bodyTablePdf.push(data);
+          }
+        } else {
+          this.rowHeaderPdf = this.defaultRow;
+          this.bodyTablePdf = ['null', 'null', 'null', 'null', 'null', 'null'];
+        }
       } else {
         Swal.fire({
           title: 'Error',
@@ -342,12 +405,22 @@ export class ReportsComponent implements OnInit {
       { header: 'จำนวน', field: 'number' },
       { header: 'สาเหตุผ้ามีปัญหา', field: 'problems' },
     ];
+    this.headerTablePdf = [
+      'วันที่',
+      'รหัส',
+      'ชื่อ',
+      'นามสกุล',
+      'ชนิดผ้า',
+      'ประเภทผ้า',
+      'จำนวน',
+      'สาเหตุผ้ามีปัญหา',
+    ];
+    this.rowHeaderPdf = ['*', '*', '*', '*', '*', '*', '*', '*'];
     this.orderService.filterOrder(filterInput).subscribe(async (result) => {
       this.loading = false;
       if (!!result.data) {
         const orders = JSON.parse(JSON.stringify(result.data.filterOrder));
         let ordersFilter: any[] = [];
-        // console.log(orders);
 
         for (let order of orders) {
           let groups: any[] = [];
@@ -372,41 +445,38 @@ export class ReportsComponent implements OnInit {
                     const itemProblem = group.clotheHasProblems.map(
                       ({ name }: any) => name
                     );
-                    // isEqualProblem = await this.compare(clothProblem, itemProblem);
                   }
-                  // console.log(clothe.clotheHasProblem);
-                  // console.log(group.clotheHasProblem);
                   if (
                     JSON.stringify(
                       !!clothe.sortClothe
                         ? clothe.sortClothe.name
                         : clothe.sortClothe
                     ) ===
-                      JSON.stringify(
-                        !!group.sortClothe
-                          ? group.sortClothe.name
-                          : group.sortClothe
-                      ) &&
+                    JSON.stringify(
+                      !!group.sortClothe
+                        ? group.sortClothe.name
+                        : group.sortClothe
+                    ) &&
                     JSON.stringify(
                       !!clothe.typeClothe
                         ? clothe.typeClothe.name
                         : clothe.typeClothe
                     ) ===
-                      JSON.stringify(
-                        !!group.typeClothe
-                          ? group.typeClothe.name
-                          : group.typeClothe
-                      ) &&
+                    JSON.stringify(
+                      !!group.typeClothe
+                        ? group.typeClothe.name
+                        : group.typeClothe
+                    ) &&
                     JSON.stringify(
                       !!clothe.specialClothe
                         ? clothe.specialClothe.name
                         : clothe.specialClothe
                     ) ===
-                      JSON.stringify(
-                        !!group.specialClothe
-                          ? group.specialClothe.name
-                          : group.specialClothe
-                      ) &&
+                    JSON.stringify(
+                      !!group.specialClothe
+                        ? group.specialClothe.name
+                        : group.specialClothe
+                    ) &&
                     isEqualProblem &&
                     isHasProblem
                   )
@@ -497,6 +567,25 @@ export class ReportsComponent implements OnInit {
         this.tableData = ordersFilterResult.filter(
           (order: any) => Object.keys(order).length !== 0
         );
+        if (this.tableData.length > 0) {
+          this.bodyTablePdf = [];
+          for (let [index, cs] of this.tableData.entries()) {
+            let data = [];
+            data.push(`${new Date(cs.date).toDateString()}`);
+            data.push(`${cs.key}`);
+            data.push(`${cs.firstName}`);
+            data.push(`${cs.lastName}`);
+            data.push(`${htmlToText.fromString(cs.sort, { wordwrap: 7 })}`);
+            data.push(`${htmlToText.fromString(cs.type, { wordwrap: 7 })}`);
+            data.push(`${htmlToText.fromString(cs.number, { wordwrap: 7 })}`);
+            data.push(`${htmlToText.fromString(cs.problems, { wordwrap: 7 })}`);
+
+            this.bodyTablePdf.push(data);
+          }
+        } else {
+          this.rowHeaderPdf = this.defaultRow;
+          this.bodyTablePdf = ['null', 'null', 'null', 'null', 'null', 'null'];
+        }
       } else {
         Swal.fire({
           title: 'Error',
@@ -518,6 +607,15 @@ export class ReportsComponent implements OnInit {
       { header: 'ที่อยู่', field: 'address' },
       { header: 'เบอร์ติดต่อ', field: 'phone' },
     ];
+    this.headerTablePdf = [
+      'วันที่',
+      'รหัส',
+      'ชื่อ',
+      'นามสกุล',
+      'ที่อยู่',
+      'เบอร์ติดต่อ',
+    ];
+    this.rowHeaderPdf = ['*', '*', '*', '*', '*', '*'];
     this.customerService.customers().subscribe((result) => {
       this.loading = false;
       if (result.data) {
@@ -540,7 +638,25 @@ export class ReportsComponent implements OnInit {
               address: customer.address,
               phone: customer.phoneNumber,
             });
+
         this.tableData = customersFilter;
+        if (this.tableData.length > 0) {
+          this.bodyTablePdf = [];
+
+          for (let [index, cs] of this.tableData.entries()) {
+            let data: string[] = [];
+            data.push(`${new Date(cs.date).toLocaleDateString()}`);
+            data.push(`${cs.key}`);
+            data.push(`${cs.firstName}`);
+            data.push(`${cs.lastName}`);
+            data.push(`${cs.address}`);
+            data.push(`${cs.phone}`);
+            this.bodyTablePdf.push(data);
+          }
+        } else {
+          this.rowHeaderPdf = this.defaultRow;
+          this.bodyTablePdf = ['null', 'null', 'null', 'null', 'null', 'null'];
+        }
       } else {
         Swal.fire({
           title: 'Error',
@@ -563,6 +679,16 @@ export class ReportsComponent implements OnInit {
       { header: 'เบอร์ติดต่อ', field: 'phone' },
       { header: 'อีเมล์', field: 'email' },
     ];
+    this.headerTablePdf = [
+      'วันที่',
+      'รหัส',
+      'ชื่อ',
+      'นามสกุล',
+      'ที่อยู่',
+      'เบอร์ติดต่อ',
+      'อีเมล์',
+    ];
+    this.rowHeaderPdf = ['*', '*', '*', '*', '*', '*', '*'];
     this.employeeService.employees().subscribe((result) => {
       this.loading = false;
       if (result.data) {
@@ -586,7 +712,25 @@ export class ReportsComponent implements OnInit {
               phone: employee.phoneNumber,
               email: employee.email,
             });
+
         this.tableData = employeesFilter;
+        if (this.tableData.length >= 1) {
+          this.bodyTablePdf = [];
+          for (let [index, em] of this.tableData.entries()) {
+            let data: string[] = [];
+            data.push(`${new Date(em.date).toLocaleDateString()}`);
+            data.push(`${em.key}`);
+            data.push(`${em.firstName}`);
+            data.push(`${em.lastName}`);
+            data.push(`${em.address}`);
+            data.push(`${em.phone}`);
+            data.push(`${em.email}`);
+            this.bodyTablePdf.push(data);
+          }
+        } else {
+          this.rowHeaderPdf = this.defaultRow;
+          this.bodyTablePdf = ['null', 'null', 'null', 'null', 'null', 'null'];
+        }
       } else {
         Swal.fire({
           title: 'Error',

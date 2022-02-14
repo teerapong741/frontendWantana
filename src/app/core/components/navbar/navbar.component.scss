@@ -47,8 +47,8 @@
   }
 
   &__name {
-    font-size: 1.5rem;
-    font-weight: 500;
+    font-size: 2rem;
+    font-weight: 700;
     margin-right: 1rem;
   }
 
@@ -83,6 +83,7 @@
         height: 100%;
         display: flex;
         align-items: center;
+        font-size: large;
         justify-content: center;
         position: relative;
         border-radius: 0.3rem;
