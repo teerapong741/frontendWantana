@@ -51,7 +51,7 @@ export class DashboardComponent implements OnInit {
         this.totalCustomer = customers.length;
         this.totalSuccess = successClothes.length;
         this.totalProblem = problemClothes.length;
-        this.orders = orders;
+        this.orders = ordersFilter;
       } else {
         Swal.fire({
             title: 'Error!',

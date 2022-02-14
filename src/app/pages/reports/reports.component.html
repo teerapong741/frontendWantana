@@ -94,7 +94,7 @@
         <tr>
           <td *ngFor="let col of columns" [style]="{ 'text-align': 'center' }">
             <div *ngIf="col.field == 'date'">
-              {{ rowData[col.field] | thaidate: "medium" }}
+              {{ rowData[col.field] | thaidate: "short" }}
             </div>
             <div
               *ngIf="

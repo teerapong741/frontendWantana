@@ -231,7 +231,12 @@ export class ReportsComponent implements OnInit {
     this.orderService.filterOrder(filterInput).subscribe(async (result) => {
       this.loading = false;
       if (!!result.data) {
-        const orders = JSON.parse(JSON.stringify(result.data.filterOrder));
+        const orders = JSON.parse(JSON.stringify(result.data.filterOrder)).sort((a: any, b: any) => {
+          const date1: any = new Date(a.created_at);
+          const date2: any = new Date(b.created_at)
+          const result = date1 - date2
+          return result;
+        });;
         let ordersFilter: any[] = [];
 
         for (let order of orders) {
@@ -419,7 +424,12 @@ export class ReportsComponent implements OnInit {
     this.orderService.filterOrder(filterInput).subscribe(async (result) => {
       this.loading = false;
       if (!!result.data) {
-        const orders = JSON.parse(JSON.stringify(result.data.filterOrder));
+        const orders = JSON.parse(JSON.stringify(result.data.filterOrder)).sort((a: any, b: any) => {
+          const date1: any = new Date(a.created_at);
+          const date2: any = new Date(b.created_at)
+          const result = date1 - date2
+          return result;
+        });;
         let ordersFilter: any[] = [];
 
         for (let order of orders) {
@@ -619,7 +629,12 @@ export class ReportsComponent implements OnInit {
     this.customerService.customers().subscribe((result) => {
       this.loading = false;
       if (result.data) {
-        const customers = JSON.parse(JSON.stringify(result.data.customers));
+        const customers = JSON.parse(JSON.stringify(result.data.customers)).sort((a: any, b: any) => {
+          const date1: any = new Date(a.created_at);
+          const date2: any = new Date(b.created_at)
+          const result = date1 - date2
+          return result;
+        });;
         let customersFilter = [];
         for (let customer of customers)
           if (
@@ -692,7 +707,12 @@ export class ReportsComponent implements OnInit {
     this.employeeService.employees().subscribe((result) => {
       this.loading = false;
       if (result.data) {
-        const employees = JSON.parse(JSON.stringify(result.data.employees));
+        const employees = JSON.parse(JSON.stringify(result.data.employees)).sort((a: any, b: any) => {
+          const date1: any = new Date(a.created_at);
+          const date2: any = new Date(b.created_at)
+          const result = date1 - date2
+          return result;
+        });;
         let employeesFilter = [];
         for (let employee of employees)
           if (

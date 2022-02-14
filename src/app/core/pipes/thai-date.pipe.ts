@@ -48,6 +48,8 @@ export class ThaiDatePipe implements PipeTransform {
       inputDate.getDate(),
       inputDate.getMonth(),
       inputDate.getFullYear(),
+      inputDate.getHours(),
+      inputDate.getMinutes(),
     ];
     let outputDateFull = [
       'วัน ' + ThaiDay[dataDate[0]],
@@ -59,11 +61,13 @@ export class ThaiDatePipe implements PipeTransform {
       dataDate[1],
       shortThaiMonth[dataDate[2]],
       dataDate[3] + 543,
+      `| ${dataDate[4].toString().length === 1 ? '0' + dataDate[4].toString() : dataDate[4].toString()}:${dataDate[5].toString().length === 1 ? '0' + dataDate[5].toString() : dataDate[5].toString()} น.`,
     ];
     let outputDateMedium = [
       dataDate[1],
       longThaiMonth[dataDate[2]],
       dataDate[3] + 543,
+      `| ${dataDate[4].toString().length === 1 ? '0' + dataDate[4].toString() : dataDate[4].toString()}:${dataDate[5].toString().length === 1 ? '0' + dataDate[5].toString() : dataDate[5].toString()} น.`,
     ];
     let returnDate: string;
     returnDate = outputDateMedium.join(' ');

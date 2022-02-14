@@ -32,7 +32,7 @@
     <ng-template pTemplate="body" let-cloth let-index="rowIndex">
       <tr>
         <td>{{ index + 1 }}</td>
-        <td>{{ cloth.created_at | thaidate: "medium" }}</td>
+        <td>{{ cloth.created_at | thaidate: "short" }}</td>
         <td>{{ cloth.key }}</td>
         <td>{{ cloth.customer.firstName }} {{ cloth.customer.lastName }}</td>
         <td>{{ cloth.numClothe }}</td>

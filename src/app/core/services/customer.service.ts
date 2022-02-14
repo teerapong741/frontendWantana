@@ -21,6 +21,7 @@ export class CustomerService {
       query: CUSTOMER,
       variables: { id },
       errorPolicy: 'all',
+      fetchPolicy: 'network-only',
     }).valueChanges;
   }
 
@@ -28,6 +29,7 @@ export class CustomerService {
     return this.apollo.watchQuery({
       query: CUSTOMERS,
       errorPolicy: 'all',
+      fetchPolicy: 'network-only',
     }).valueChanges;
   }
 
@@ -40,6 +42,7 @@ export class CustomerService {
       refetchQueries: [
         {
           query: CUSTOMERS,
+          fetchPolicy: 'network-only',
           errorPolicy: 'all',
         },
       ],
@@ -57,6 +60,7 @@ export class CustomerService {
       refetchQueries: [
         {
           query: CUSTOMERS,
+          fetchPolicy: 'network-only',
           errorPolicy: 'all',
         },
       ],
@@ -72,6 +76,7 @@ export class CustomerService {
       refetchQueries: [
         {
           query: CUSTOMERS,
+          fetchPolicy: 'network-only',
           errorPolicy: 'all',
         },
       ],

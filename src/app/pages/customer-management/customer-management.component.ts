@@ -35,7 +35,7 @@ export class CustomerManagementComponent implements OnInit, OnDestroy {
     private router: Router,
     private customerService: CustomerService,
     public authService: AuthService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.loading = true;
@@ -44,8 +44,13 @@ export class CustomerManagementComponent implements OnInit, OnDestroy {
       .subscribe((result) => {
         this.loading = false;
         if (!!result.data) {
-          const customers = result.data.customers;
-          this.customerList = customers;
+          const customers = JSON.parse(JSON.stringify(result.data.customers));
+          this.customerList = customers.sort((a: any, b: any) => {
+            const date1: any = new Date(a.created_at);
+            const date2: any = new Date(b.created_at)
+            const result = date2 - date1
+            return result;
+          });
         } else {
           Swal.fire({
             title: 'Error!',

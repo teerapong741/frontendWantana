@@ -26,7 +26,7 @@ export class ClothTableComponent implements OnInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute,
     private lineService: LineService
-  ) {}
+  ) { }
 
   async ngOnInit() {
     this.loading = true;
@@ -36,8 +36,12 @@ export class ClothTableComponent implements OnInit, OnDestroy {
         this.loading = false;
         if (!!result.data) {
           const orders = JSON.parse(JSON.stringify(result.data.primaryOrders));
-          this.clothList = orders;
-          console.log(this.clothList);
+          this.clothList = orders.sort(function (a: any, b: any) {
+            const date1: any = new Date(a.created_at);
+            const date2: any = new Date(b.created_at)
+            const result = date2 - date1
+            return result;
+          });
           // .filter(
           //   (order: any) => order.primaryOrderId == order.id
           // );

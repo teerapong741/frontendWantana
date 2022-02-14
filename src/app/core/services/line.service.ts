@@ -213,6 +213,7 @@ ${number}) ${!!order.sortClothe ? order.sortClothe.name : '-'}  |  ${
       );
     }
 
+    console.log(customer)
     await this.messageToCustomer(message, customer.lineUserId);
   }
 
@@ -269,6 +270,6 @@ ${number}) ${!!order.sortClothe ? order.sortClothe.name : '-'}  |  ${
   🙏  ขอบคุณที่ใช้บริการ  🙏
         `);
 
-    await this.messageToCustomer(message, customer.linUserId);
+    await this.messageToCustomer(message, customer.lineUserId);
   }
 }
