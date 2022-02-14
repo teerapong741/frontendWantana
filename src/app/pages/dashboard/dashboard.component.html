@@ -38,7 +38,7 @@
     <ng-template pTemplate="body" let-order let-index="rowIndex">
       <tr>
         <td>{{ index + 1 }}</td>
-        <td>{{ order.created_at | date }}</td>
+        <td>{{ order.created_at | thaidate: "medium" }}</td>
         <td>{{ order.customer.firstName + " " + order.customer.lastName }}</td>
         <td>{{ order.status }}</td>
         <td>{{ order.numClothe }}</td>
