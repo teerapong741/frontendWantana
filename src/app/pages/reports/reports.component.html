@@ -1,0 +1,125 @@
+<loading *ngIf="loading"></loading>
+<div class="container">
+  <div class="field inline-block">
+    <label class="block">ประเภทรายงาน</label>
+    <p-dropdown
+      [options]="reportsOptions"
+      [(ngModel)]="reportTypeSelected"
+      placeholder="เลือกประเภทรายงาน"
+      optionLabel="name"
+      [showClear]="false"
+      (onChange)="onChangeFilter()"
+    ></p-dropdown>
+  </div>
+  <ng-container
+    *ngIf="
+      reportTypeSelected.value === 'orders' ||
+      reportTypeSelected.value === 'clothe_problems'
+    "
+  >
+    <div class="inline-block mx-3">
+      <div class="field inline-block">
+        <label class="mr-2 block">ลูกค้า</label>
+        <p-dropdown
+          [options]="customersOptions"
+          [(ngModel)]="customerSelected"
+          placeholder="เลือกรายชื่อลูกค้า"
+          optionLabel="name"
+          [showClear]="false"
+          (onChange)="onChangeFilter()"
+        ></p-dropdown>
+      </div>
+    </div>
+    <div class="inline-block mx-3">
+      <div class="field inline-block">
+        <label class="mr-2 block">ผ้ามีปัญหา</label>
+        <p-dropdown
+          [options]="clotheProblemsOptions"
+          [(ngModel)]="clotheProblemSelected"
+          placeholder="เลือกชนิดผ้ามีปัญหา"
+          optionLabel="name"
+          [showClear]="false"
+          (onChange)="onChangeFilter()"
+        ></p-dropdown>
+      </div>
+      <div class="field inline-block mx-3">
+        <label class="mr-2 block">ได้รับการซัก</label>
+        <p-dropdown
+          [options]="clotheStatusOptions"
+          [(ngModel)]="clotheStatusSelected"
+          placeholder="เลือกสถานะนำเข้าซัก"
+          optionLabel="name"
+          [showClear]="false"
+          (onChange)="onChangeFilter()"
+        ></p-dropdown>
+      </div>
+    </div>
+  </ng-container>
+  <div class="block">
+    <div class="field inline-block">
+      <label class="mr-2">เลือกวันที่</label>
+      <p-calendar
+        [(ngModel)]="dateStart"
+        (ngModelChange)="onChangeFilter()"
+      ></p-calendar>
+    </div>
+    <div class="field inline-block">
+      <label class="mx-2">ถึง</label>
+      <p-calendar
+        [(ngModel)]="dateEnd"
+        (ngModelChange)="onChangeFilter()"
+      ></p-calendar>
+    </div>
+  </div>
+  <div class="flex justify-content-end w-full">
+    <button
+      pButton
+      class="p-button p-button-raised p-button-secondary"
+      label="ออกรายงาน"
+      icon="fas fa-print"
+    ></button>
+  </div>
+
+  <div class="mt-4">
+    <p-table [columns]="cols" [value]="tableData" responsiveLayout="scroll">
+      <ng-template pTemplate="header" let-columns>
+        <tr>
+          <th *ngFor="let col of columns" [style]="{ 'text-align': 'center' }">
+            {{ col.header }}
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-rowData let-columns="columns">
+        <tr>
+          <td *ngFor="let col of columns" [style]="{ 'text-align': 'center' }">
+            <div *ngIf="col.field == 'date'">
+              {{ rowData[col.field] | thaidate: "medium" }}
+            </div>
+            <div
+              *ngIf="
+                col.field == 'sort' ||
+                col.field == 'type' ||
+                col.field == 'number' ||
+                col.field == 'problems'
+              "
+              [innerHtml]="rowData[col.field]"
+            ></div>
+            <div
+              *ngIf="
+                col.field !== 'sort' &&
+                col.field !== 'type' &&
+                col.field !== 'date' &&
+                col.field !== 'number' &&
+                col.field !== 'problems'
+              "
+            >
+              {{ rowData[col.field] }}
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </div>
+
+  <router-outlet></router-outlet>
+</div>

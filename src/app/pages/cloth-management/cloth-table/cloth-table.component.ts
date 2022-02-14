@@ -37,6 +37,7 @@ export class ClothTableComponent implements OnInit, OnDestroy {
         if (!!result.data) {
           const orders = JSON.parse(JSON.stringify(result.data.primaryOrders));
           this.clothList = orders;
+          console.log(this.clothList);
           // .filter(
           //   (order: any) => order.primaryOrderId == order.id
           // );
@@ -45,7 +46,7 @@ export class ClothTableComponent implements OnInit, OnDestroy {
             title: 'Error!',
             text: result.errors[0].message,
             icon: 'error',
-            confirmButtonText: 'Cool',
+            confirmButtonText: 'ตกลง',
           });
         }
       });
@@ -96,23 +97,26 @@ export class ClothTableComponent implements OnInit, OnDestroy {
 
   onDelete(id: number): void {
     // this.confirmationService.confirm({message: 'hel'})
-    this.confirmationService.confirm({
-      message: 'ต้องการลบรายการใช้หรือไม่',
-      acceptLabel: 'ลบ',
-      acceptIcon: 'fas fa-trash',
-      acceptButtonStyleClass: 'p-button-danger p-button-raised',
-      rejectLabel: 'ยกลิก',
-      rejectButtonStyleClass: 'p-button-warning p-button-raised',
-      accept: async () => {
+    Swal.fire({
+      title: 'คำเตือน',
+      text: 'ต้องการลบรายการใช้หรือไม่',
+      icon: 'warning',
+      confirmButtonText: 'ลบ',
+      confirmButtonColor: 'red',
+      showCancelButton: true,
+      cancelButtonText: 'ยกเลิก',
+      cancelButtonColor: 'orange',
+    }).then(async (result) => {
+      if (result.isConfirmed) {
         await this.onRemoveOrder(Number(id)).catch((error) => {
           Swal.fire({
             title: 'Error!',
             text: error,
             icon: 'error',
-            confirmButtonText: 'Cool',
+            confirmButtonText: 'ตกลง',
           });
         });
-      },
+      }
     });
   }
 

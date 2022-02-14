@@ -28,6 +28,7 @@ export const CUSTOMERS = gql`
       phoneNumber
       lineUserId
       email
+      created_at
     }
   }
 `;

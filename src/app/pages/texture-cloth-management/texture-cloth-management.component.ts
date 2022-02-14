@@ -46,7 +46,7 @@ export class TextureClothManagementComponent implements OnInit, OnDestroy {
             title: 'Error!',
             text: result.errors[0].message,
             icon: 'error',
-            confirmButtonText: 'Cool',
+            confirmButtonText: 'ตกลง',
           });
         }
       });
@@ -77,7 +77,7 @@ export class TextureClothManagementComponent implements OnInit, OnDestroy {
             title: 'Error!',
             text: result.errors[0].message,
             icon: 'error',
-            confirmButtonText: 'Cool',
+            confirmButtonText: 'ตกลง',
           });
           }
         });
@@ -117,7 +117,7 @@ export class TextureClothManagementComponent implements OnInit, OnDestroy {
             title: 'Error!',
             text: result.errors[0].message,
             icon: 'error',
-            confirmButtonText: 'Cool',
+            confirmButtonText: 'ตกลง',
           });
             }
           });

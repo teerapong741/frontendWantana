@@ -65,6 +65,13 @@ const routes: Routes = [
     canActivate: [AuthGuard],
     data: { role: ['ADMIN', 'SUB_ADMIN'] },
   },
+  {
+    path: 'reports',
+    loadChildren: () =>
+      import('./pages/reports/reports.module').then((m) => m.ReportsModule),
+    canActivate: [AuthGuard],
+    data: { role: ['ADMIN', 'SUB_ADMIN'] },
+  },
   { path: '**', redirectTo: 'login', pathMatch: 'full' },
 ];
 

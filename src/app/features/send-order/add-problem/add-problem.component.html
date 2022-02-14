@@ -1,21 +1,20 @@
-<loading *ngIf="loading"></loading><div class="container">
+<loading *ngIf="loading"></loading>
+<div class="container">
   <div class="field">
-    <div class="field">
-      <label class="block">ผ้ามีปัญหา</label>
-      <p-selectButton
-        [options]="problemOptions"
-        [(ngModel)]="problemSelected"
-        [multiple]="true"
-        optionLabel="name"
-      ></p-selectButton>
-    </div>
-    <button
-      pButton
-      pRipple
-      class="p-button-success p-button-raised p-button-sm btn-add"
-      label="เพิ่ม"
-      icon="fas fa-plus"
-      (click)="onAdd()"
-    ></button>
+    <label class="block">ผ้ามีปัญหา</label>
+    <p-selectButton
+      [options]="problemOptions"
+      [(ngModel)]="problemSelected"
+      [multiple]="true"
+      optionLabel="name"
+    ></p-selectButton>
   </div>
+  <button
+    pButton
+    pRipple
+    class="p-button-success p-button-raised p-button-sm btn-add"
+    label="เพิ่ม"
+    icon="fas fa-plus"
+    (click)="onAdd()"
+  ></button>
 </div>

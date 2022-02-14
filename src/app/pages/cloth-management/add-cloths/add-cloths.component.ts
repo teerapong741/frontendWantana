@@ -11,6 +11,7 @@ import { ConfirmationService } from 'primeng/api';
 import { Subscription } from 'rxjs';
 import { OrderService } from 'src/app/core/services/order.service';
 import Swal from 'sweetalert2';
+import { DialogService as dialog } from './../../../core/services/dialog.service';
 
 @Component({
   selector: 'app-add-cloths',
@@ -45,7 +46,8 @@ export class AddClothsComponent implements OnInit, OnDestroy {
     private readonly orderService: OrderService,
     private readonly customerService: CustomerService,
     private readonly employeeService: EmployeeService,
-    private readonly authService: AuthService
+    private readonly authService: AuthService,
+    private readonly dialog: dialog
   ) {}
 
   ngOnInit() {
@@ -81,7 +83,7 @@ export class AddClothsComponent implements OnInit, OnDestroy {
             title: 'Error!',
             text: result.errors[0].message,
             icon: 'error',
-            confirmButtonText: 'Cool',
+            confirmButtonText: 'ตกลง',
           });
         }
       });
@@ -111,25 +113,41 @@ export class AddClothsComponent implements OnInit, OnDestroy {
   newClothList(): void {
     this.ref = this.dialogService.open(AddClothComponent, {
       header: 'เพิ่มรายการผ้า',
-      width: '90%',
+      width: this.dialog.dialogSize,
       contentStyle: { 'max-height': '500px', overflow: 'auto' },
       closeOnEscape: true,
       closable: true,
       baseZIndex: 10000,
     });
 
-    this.ref.onClose.subscribe((item: any) => {
+    this.ref.onClose.subscribe(async (item: any) => {
       if (item) {
-        const isExist = this.clothList.filter(
-          (cloth) =>
+        const isExist = [];
+        let isEqualProblem = true;
+        for (let cloth of this.clothList) {
+          if (!!cloth.fabric_problem && !!item.fabric_problem) {
+            const clothProblem = cloth.fabric_problem.map(
+              ({ name }: any) => name
+            );
+            const itemProblem = item.fabric_problem.map(
+              ({ name }: any) => name
+            );
+            isEqualProblem = this.compare(clothProblem, itemProblem);
+          }
+          if (
             JSON.stringify(cloth.type) === JSON.stringify(item.type) &&
             JSON.stringify(cloth.type_of_use) ===
               JSON.stringify(item.type_of_use) &&
-            JSON.stringify(cloth.fabric_problem) ===
-              JSON.stringify(item.fabric_problem) &&
+            isEqualProblem &&
             JSON.stringify(cloth.type_special) ===
-              JSON.stringify(item.type_special)
-        );
+              JSON.stringify(item.type_special) &&
+            JSON.stringify(cloth.is_out_process) ===
+              JSON.stringify(item.is_out_process) &&
+            JSON.stringify(cloth.key) !== JSON.stringify(item.key)
+          )
+            await isExist.push(cloth);
+        }
+
         if (isExist.length === 0)
           this.clothList.push({
             key: (Math.random() + 1).toString(36).substring(7),
@@ -141,10 +159,11 @@ export class AddClothsComponent implements OnInit, OnDestroy {
               JSON.stringify(cloth.type) === JSON.stringify(item.type) &&
               JSON.stringify(cloth.type_of_use) ===
                 JSON.stringify(item.type_of_use) &&
-              JSON.stringify(cloth.fabric_problem) ===
-                JSON.stringify(item.fabric_problem) &&
+              isEqualProblem &&
               JSON.stringify(cloth.type_special) ===
-                JSON.stringify(item.type_special)
+                JSON.stringify(item.type_special) &&
+              JSON.stringify(cloth.is_out_process) ===
+                JSON.stringify(item.is_out_process)
           );
           this.clothList[index].number =
             this.clothList[index].number + item.number;
@@ -181,15 +200,27 @@ export class AddClothsComponent implements OnInit, OnDestroy {
     this.ref.onClose.subscribe(async (item: any) => {
       if (item) {
         const isExist: any[] = [];
+        let isEqualProblem = true;
         for (let cloth of this.clothList) {
+          if (!!cloth.fabric_problem && !!item.fabric_problem) {
+            const clothProblem = cloth.fabric_problem.map(
+              ({ name }: any) => name
+            );
+            const itemProblem = item.fabric_problem.map(
+              ({ name }: any) => name
+            );
+            isEqualProblem = this.compare(clothProblem, itemProblem);
+          }
           if (
             JSON.stringify(cloth.type) === JSON.stringify(item.type) &&
             JSON.stringify(cloth.type_of_use) ===
               JSON.stringify(item.type_of_use) &&
-            JSON.stringify(cloth.fabric_problem) ===
-              JSON.stringify(item.fabric_problem) &&
+            isEqualProblem &&
             JSON.stringify(cloth.type_special) ===
-              JSON.stringify(item.type_special)
+              JSON.stringify(item.type_special) &&
+            JSON.stringify(cloth.is_out_process) ===
+              JSON.stringify(item.is_out_process) &&
+            JSON.stringify(cloth.key) !== JSON.stringify(item.key)
           )
             await isExist.push(cloth);
         }
@@ -214,6 +245,25 @@ export class AddClothsComponent implements OnInit, OnDestroy {
         }
       }
     });
+  }
+
+  compare(array1: any[], array2: any[]) {
+    if (array1.length != array2.length) {
+      return false;
+    }
+
+    array1 = array1.slice();
+    array1.sort();
+    array2 = array2.slice();
+    array2.sort();
+
+    for (var i = 0; i < array1.length; i++) {
+      if (array1[i] != array2[i]) {
+        return false;
+      }
+    }
+
+    return true;
   }
 
   onRemoveItem(key: string): void {
@@ -253,11 +303,11 @@ export class AddClothsComponent implements OnInit, OnDestroy {
       !this.employeeId ||
       this.clothList.length < 1
     ) {
-      this.confirmationService.confirm({
-        message: 'โปรดกรอกข้อมูลให้ครบ',
-        acceptVisible: true,
-        acceptLabel: 'ตกลง',
-        rejectVisible: false,
+      Swal.fire({
+        title: 'คำเตือน',
+        text: 'โปรดกรอกข้อมูลให้ครบ',
+        icon: 'warning',
+        confirmButtonText: 'ตกลง',
       });
     } else {
       await this.orderService

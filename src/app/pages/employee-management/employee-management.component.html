@@ -33,15 +33,65 @@
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-employee let-index="rowIndex">
-      <tr>
-        <td>{{ index + 1 }}</td>
-        <td>{{ employee.key }}</td>
-        <td>{{ employee.firstName }}</td>
-        <td>{{ employee.lastName }}</td>
-        <td>{{ employee.address }}</td>
-        <td>{{ employee.phoneNumber }}</td>
-        <td>{{ employee.email }}</td>
-        <td>
+      <tr
+        [ngStyle]="{
+          background: employee.key === employeeLogin.key ? '#ffd3d3b2' : null
+        }"
+      >
+        <td
+          [ngStyle]="{
+            'font-weight': employee.key === employeeLogin.key ? '700' : null
+          }"
+        >
+          {{ index + 1 }}
+        </td>
+        <td
+          [ngStyle]="{
+            'font-weight': employee.key === employeeLogin.key ? '700' : null
+          }"
+        >
+          {{ employee.key }}
+        </td>
+        <td
+          [ngStyle]="{
+            'font-weight': employee.key === employeeLogin.key ? '700' : null
+          }"
+        >
+          {{ employee.firstName }}
+        </td>
+        <td
+          [ngStyle]="{
+            'font-weight': employee.key === employeeLogin.key ? '700' : null
+          }"
+        >
+          {{ employee.lastName }}
+        </td>
+        <td
+          [ngStyle]="{
+            'font-weight': employee.key === employeeLogin.key ? '700' : null
+          }"
+        >
+          {{ employee.address }}
+        </td>
+        <td
+          [ngStyle]="{
+            'font-weight': employee.key === employeeLogin.key ? '700' : null
+          }"
+        >
+          {{ employee.phoneNumber }}
+        </td>
+        <td
+          [ngStyle]="{
+            'font-weight': employee.key === employeeLogin.key ? '700' : null
+          }"
+        >
+          {{ employee.email }}
+        </td>
+        <td
+          [ngStyle]="{
+            'font-weight': employee.key === employeeLogin.key ? '700' : null
+          }"
+        >
           <p-chip label="{{ employee.role | translate }}"></p-chip>
         </td>
         <td class="container__action">
@@ -74,8 +124,7 @@
           ></button>
           <button
             *ngIf="
-              (employee.role === 'SUB_ADMIN' ||
-                authService.isRole() !== 'ADMIN') &&
+              authService.isRole() === 'ADMIN' &&
               employee.key !== employeeLogin.key &&
               employee.role !== 'ADMIN'
             "
@@ -278,25 +327,38 @@
   (onHide)="onResetValue()"
 >
   <div class="container-add-texture">
+    <p-password
+      [(ngModel)]="fakeInput"
+      [style]="{ display: 'none' }"
+    ></p-password>
+    <div class="field">
+      <label class="block">รหัสผ่านเดิม</label>
+      <p-password
+        [toggleMask]="true"
+        [(ngModel)]="editOldPassword"
+        placeholder="รหัสผ่านเดิม"
+        [style]="{ width: '100%' }"
+        [feedback]="false"
+      ></p-password>
+    </div>
     <div class="field">
       <label class="block">รหัสผ่านใหม่</label>
-      <input
-        type="text"
-        pInputText
-        value=""
+      <p-password
+        [toggleMask]="true"
         [(ngModel)]="editPassword"
+        [style]="{ width: '100%' }"
         placeholder="รหัสผ่านใหม่"
-      />
+      ></p-password>
     </div>
     <div class="field">
       <label class="block">ยืนยันรหัสผ่านใหม่</label>
-      <input
-        type="text"
-        pInputText
-        value=""
+      <p-password
+        [toggleMask]="true"
         [(ngModel)]="confirmPassword"
+        [style]="{ width: '100%' }"
         placeholder="ยืนยันรหัสผ่านใหม่"
-      />
+        [feedback]="false"
+      ></p-password>
     </div>
     <button
       pButton

@@ -3,6 +3,7 @@ import { OrderService } from 'src/app/core/services/order.service';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { DialogService } from 'primeng/dynamicdialog';
 import { AddProblemComponent } from '../add-problem/add-problem.component';
+import { DialogService as dialog } from './../../../core/services/dialog.service';
 
 @Component({
   selector: 'app-new-problem',
@@ -17,7 +18,8 @@ export class NewProblemComponent implements OnInit {
     private orderService: OrderService,
     public dialogService: DialogService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private dialog: dialog
   ) {}
 
   ngOnInit() {
@@ -31,7 +33,7 @@ export class NewProblemComponent implements OnInit {
         problems: this.clothes[findIndex].clotheHasProblemsAfter,
       },
       header: 'เพิ่มผ้ามีปัญหา (หลังซัก)',
-      width: '70%',
+      width: this.dialog.dialogSize,
     });
 
     ref.onClose.subscribe((item: any) => {

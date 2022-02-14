@@ -54,7 +54,7 @@ export class SelectClotheComponent implements OnInit, OnDestroy {
             title: 'Error!',
             text: result.errors[0].message,
             icon: 'error',
-            confirmButtonText: 'Cool',
+            confirmButtonText: 'ตกลง',
           });
         }
       });

@@ -32,6 +32,7 @@ export class ConfirmOrderComponent implements OnInit, OnDestroy {
   thickCloths: number = 0;
   thinCloths: number = 0;
   specialCloths: number = 0;
+  otherCloths: number = 0;
   problemCloths: number = 0;
   inProcess: number = 0;
   outProcess: number = 0;
@@ -77,6 +78,16 @@ export class ConfirmOrderComponent implements OnInit, OnDestroy {
     clothList
       .filter(
         (cloth: any) =>
+          cloth.type.name !== 'ผ้าพิเศษ' &&
+          cloth.type.name !== 'ผ้าบาง' &&
+          cloth.type.name !== 'ผ้าหนา'
+      )
+      .map((cloth: any) => {
+        this.otherCloths += cloth.number;
+      });
+    clothList
+      .filter(
+        (cloth: any) =>
           !!cloth.fabric_problem && cloth.fabric_problem.length > 0
       )
       .map((cloth: any) => (this.problemCloths += cloth.number));
@@ -97,11 +108,15 @@ export class ConfirmOrderComponent implements OnInit, OnDestroy {
   }
 
   onSuccess(): void {
-    this.confirmationService.confirm({
-      message: 'โปรดตรวจสอบรายการให้ถูกต้องก่อนยืนยัน',
-      acceptLabel: 'ตกลง',
-      rejectLabel: 'ยกลิก',
-      accept: async () => {
+    Swal.fire({
+      title: 'คำเตือน',
+      text: 'โปรดตรวจสอบรายการให้ถูกต้องก่อนยืนยัน',
+      icon: 'warning',
+      confirmButtonText: 'ตกลง',
+      showCancelButton: true,
+      cancelButtonText: 'ยกเลิก',
+    }).then(async (result) => {
+      if (result.isConfirmed) {
         const allClothes: any[] = [];
         const inProcessClothes: any[] = [];
         const outProcessClothes: any[] = [];
@@ -120,7 +135,7 @@ export class ConfirmOrderComponent implements OnInit, OnDestroy {
               title: 'Error!',
               text: error,
               icon: 'error',
-              confirmButtonText: 'Cool',
+              confirmButtonText: 'ตกลง',
             });
           }
         );
@@ -198,7 +213,7 @@ export class ConfirmOrderComponent implements OnInit, OnDestroy {
                 title: 'Error!',
                 text: error,
                 icon: 'error',
-                confirmButtonText: 'Cool',
+                confirmButtonText: 'ตกลง',
               });
             }
           );
@@ -219,7 +234,7 @@ export class ConfirmOrderComponent implements OnInit, OnDestroy {
             title: 'Error!',
             text: error,
             icon: 'error',
-            confirmButtonText: 'Cool',
+            confirmButtonText: 'ตกลง',
           });
         });
 
@@ -237,7 +252,7 @@ export class ConfirmOrderComponent implements OnInit, OnDestroy {
               title: 'Error!',
               text: error,
               icon: 'error',
-              confirmButtonText: 'Cool',
+              confirmButtonText: 'ตกลง',
             });
           });
 
@@ -255,7 +270,7 @@ export class ConfirmOrderComponent implements OnInit, OnDestroy {
                 title: 'Error!',
                 text: error,
                 icon: 'error',
-                confirmButtonText: 'Cool',
+                confirmButtonText: 'ตกลง',
               });
             });
 
@@ -270,30 +285,29 @@ export class ConfirmOrderComponent implements OnInit, OnDestroy {
                   title: 'Error!',
                   text: error,
                   icon: 'error',
-                  confirmButtonText: 'Cool',
+                  confirmButtonText: 'ตกลง',
                 });
               }
             );
           }
-
-          this.lineService.messageCreateOrder(
-            this.orderDetail,
-            this.processOrder,
-            this.outProcessOrder,
-            this.totalCloths,
-            this.thickCloths,
-            this.thinCloths,
-            this.specialCloths,
-            this.problemCloths,
-            this.inProcess,
-            this.outProcess
-          );
-          // update sub order
-          this.router
-            .navigate(['./../cloth-management/'])
-            .then(() => this.orderService.setOrder(null));
         }
-      },
+        this.lineService.messageCreateOrder(
+          this.orderDetail,
+          this.processOrder,
+          this.outProcessOrder,
+          this.totalCloths,
+          this.thickCloths,
+          this.thinCloths,
+          this.specialCloths,
+          this.problemCloths,
+          this.inProcess,
+          this.outProcess
+        );
+        // update sub order
+        this.router
+          .navigate(['./../cloth-management/'])
+          .then(() => this.orderService.setOrder(null));
+      }
     });
   }
 

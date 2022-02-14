@@ -21,6 +21,7 @@ export class OrderDetailComponent implements OnInit {
   thinCloths: number = 0;
   specialCloths: number = 0;
   problemCloths: number = 0;
+  otherCloths: number = 0;
   inProcess: number = 0;
   outProcess: number = 0;
 
@@ -65,6 +66,7 @@ export class OrderDetailComponent implements OnInit {
               });
           this.clothesOut = clothesOut;
           clothesAll = [...clothesIn, ...clothesOut];
+          console.log(clothesAll);
 
           clothesAll.map((cloth: any) => {
             this.totalCloths += 1;
@@ -87,25 +89,35 @@ export class OrderDetailComponent implements OnInit {
           clothesAll
             .filter(
               (cloth: any) =>
+                cloth.sortClothe.name !== 'ผ้าพิเศษ' &&
+                cloth.sortClothe.name !== 'ผ้าบาง' &&
+                cloth.sortClothe.name !== 'ผ้าหนา'
+            )
+            .map((cloth: any) => {
+              this.otherCloths += cloth.number;
+            });
+          clothesAll
+            .filter(
+              (cloth: any) =>
                 !!cloth.clotheHasProblems && cloth.clotheHasProblems.length > 0
             )
             .map((cloth: any) => (this.problemCloths += 1));
           clothesAll
             .filter((cloth: any) => !cloth.is_out_process)
             .map((cloth: any) => {
-              this.inProcess += 1;
+              this.inProcess++;
             });
           clothesAll
             .filter((cloth: any) => cloth.is_out_process)
             .map((cloth: any) => {
-              this.outProcess += 1;
+              this.outProcess++;
             });
         } else {
           Swal.fire({
             title: 'Error!',
             text: result.errors[0].message,
             icon: 'error',
-            confirmButtonText: 'Cool',
+            confirmButtonText: 'ตกลง',
           });
         }
       });

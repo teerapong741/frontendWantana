@@ -26,7 +26,7 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy {
   editPasswordVisible: boolean = false;
 
   editPassword: string = '';
-
+  editOldPassword: string = '';
   employeeLogin: any = null;
 
   roleOptions: any = [];
@@ -41,6 +41,8 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy {
   confirmPassword: string = '';
   email: string = '';
   role: Role = Role.SUB_ADMIN;
+
+  fakeInput: string = '';
 
   constructor(
     private confirmationService: ConfirmationService,
@@ -61,14 +63,22 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy {
       .subscribe((result) => {
         this.loading = false;
         if (!!result.data) {
-          const employees = result.data.employees;
-          this.employeeList = employees;
+          const employees = JSON.parse(JSON.stringify(result.data.employees));
+          this.employeeList = employees.sort((a: any, b: any) => {
+            if (a.role < b.role) {
+              return -1;
+            }
+            if (a.role > b.role) {
+              return 1;
+            }
+            return 0;
+          });
         } else {
           Swal.fire({
             title: 'Error!',
             text: result.errors[0].message,
             icon: 'error',
-            confirmButtonText: 'Cool',
+            confirmButtonText: 'ตกลง',
           });
         }
       });
@@ -83,7 +93,8 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy {
       !this.lname ||
       !this.phone ||
       !this.address ||
-      !this.role
+      !this.role ||
+      !this.email
     ) {
       this.confirmationService.confirm({
         message: 'โปรดใส่ข้อมูลพนักงานให้ครบ',
@@ -97,6 +108,33 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy {
         acceptVisible: true,
         acceptLabel: 'ตกลง',
         rejectVisible: false,
+      });
+    } else if (this.idCard.length !== 13) {
+      Swal.fire({
+        title: 'คำเตือน',
+        text: 'รูปแบบรหัสบัตรประชาชนไม่ถูกต้อง',
+        icon: 'warning',
+        confirmButtonText: 'ตกลง',
+      });
+    } else if (this.phone.length !== 10) {
+      Swal.fire({
+        title: 'คำเตือน',
+        text: 'รูปแบบเบอร์มือถือไม่ถูกต้อง',
+        icon: 'warning',
+        confirmButtonText: 'ตกลง',
+      });
+    } else if (
+      !String(this.email)
+        .toLowerCase()
+        .match(
+          /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+        )
+    ) {
+      Swal.fire({
+        title: 'คำเตือน',
+        text: 'รูปแบบอีเมล์ไม่ถูกต้อง',
+        icon: 'warning',
+        confirmButtonText: 'ตกลง',
       });
     } else {
       this.loading = true;
@@ -120,11 +158,11 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy {
             this.onResetValue();
           } else {
             Swal.fire({
-            title: 'Error!',
-            text: result.errors[0].message,
-            icon: 'error',
-            confirmButtonText: 'Cool',
-          });
+              title: 'Error!',
+              text: result.errors[0].message,
+              icon: 'error',
+              confirmButtonText: 'ตกลง',
+            });
           }
         });
     }
@@ -140,6 +178,7 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy {
     this.password = '';
     this.confirmPassword = '';
     this.editPassword = '';
+    this.editOldPassword = '';
     this.email = '';
     this.role = Role.SUB_ADMIN;
   }
@@ -165,24 +204,31 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy {
     this.idEmployee = employee.id;
     this.editPassword = '';
     this.confirmPassword = '';
+    this.editOldPassword = '';
     this.editPasswordVisible = true;
   }
 
   onEditPassword(): void {
-    if (!this.editPassword || !this.confirmPassword) {
-      this.confirmationService.confirm({
-        message: 'โปรดใส่ข้อมูลให้ครบ',
-        acceptVisible: true,
-        acceptLabel: 'ตกลง',
-        rejectVisible: false,
+    if (!this.editOldPassword || !this.editPassword || !this.confirmPassword) {
+      Swal.fire({
+        title: 'คำเตือน',
+        text: 'โปรดใส่ข้อมูลให้ครบ',
+        icon: 'warning',
+        confirmButtonText: 'ตกลง',
       });
-    }
-    if (this.editPassword !== this.confirmPassword) {
-      this.confirmationService.confirm({
-        message: 'รหัสผ่านไม่ตรงกัน',
-        acceptVisible: true,
-        acceptLabel: 'ตกลง',
-        rejectVisible: false,
+    } else if (this.editOldPassword !== this.employeeLogin.password) {
+      Swal.fire({
+        title: 'คำเตือน',
+        text: 'รหัสผ่านเดิมไม่ถูกต้อง',
+        icon: 'warning',
+        confirmButtonText: 'ตกลง',
+      });
+    } else if (this.editPassword !== this.confirmPassword) {
+      Swal.fire({
+        title: 'คำเตือน',
+        text: 'ยืนยันรหัสผ่านใหม่ไม่ตรงกัน',
+        icon: 'warning',
+        confirmButtonText: 'ตกลง',
       });
     } else {
       this.loading = true;
@@ -200,11 +246,11 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy {
             this.onResetValue();
           } else {
             Swal.fire({
-            title: 'Error!',
-            text: result.errors[0].message,
-            icon: 'error',
-            confirmButtonText: 'Cool',
-          });
+              title: 'Error!',
+              text: result.errors[0].message,
+              icon: 'error',
+              confirmButtonText: 'ตกลง',
+            });
           }
         });
     }
@@ -217,13 +263,41 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy {
       !this.lname ||
       !this.phone ||
       !this.address ||
-      !this.role
+      !this.role ||
+      !this.email
     ) {
       this.confirmationService.confirm({
         message: 'โปรดใส่ข้อมูลพนักงานให้ครบ',
         acceptVisible: true,
         acceptLabel: 'ตกลง',
         rejectVisible: false,
+      });
+    } else if (this.idCard.length !== 13) {
+      Swal.fire({
+        title: 'คำเตือน',
+        text: 'รูปแบบรหัสบัตรประชาชนไม่ถูกต้อง',
+        icon: 'warning',
+        confirmButtonText: 'ตกลง',
+      });
+    } else if (this.phone.length !== 10) {
+      Swal.fire({
+        title: 'คำเตือน',
+        text: 'รูปแบบเบอร์มือถือไม่ถูกต้อง',
+        icon: 'warning',
+        confirmButtonText: 'ตกลง',
+      });
+    } else if (
+      !String(this.email)
+        .toLowerCase()
+        .match(
+          /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+        )
+    ) {
+      Swal.fire({
+        title: 'คำเตือน',
+        text: 'รูปแบบอีเมล์ไม่ถูกต้อง',
+        icon: 'warning',
+        confirmButtonText: 'ตกลง',
       });
     } else {
       this.loading = true;
@@ -248,38 +322,48 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy {
             this.onResetValue();
           } else {
             Swal.fire({
-            title: 'Error!',
-            text: result.errors[0].message,
-            icon: 'error',
-            confirmButtonText: 'Cool',
-          });
+              title: 'Error!',
+              text: result.errors[0].message,
+              icon: 'error',
+              confirmButtonText: 'ตกลง',
+            });
           }
         });
     }
   }
 
   onResetPassword(id: string, idCard: string): void {
-    this.loading = true;
-    const updateEmployeeInput: updateEmployeeInput = {
-      id: id,
-      password: idCard,
-    };
+    Swal.fire({
+      title: 'ต้องการจะรีเซ็ทรหัสผ่านใช่หรือไม่',
+      icon: 'question',
+      confirmButtonText: 'ตกลง',
+      showCancelButton: true,
+      cancelButtonText: 'ยกเลิก',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.loading = true;
+        const updateEmployeeInput: updateEmployeeInput = {
+          id: id,
+          password: idCard,
+        };
 
-    this.$subscription = this.employeeService
-      .updateEmployee(updateEmployeeInput)
-      .subscribe((result) => {
-        this.loading = false;
-        if (result.data) {
-          this.onResetValue();
-        } else {
-          Swal.fire({
-            title: 'Error!',
-            text: result.errors[0].message,
-            icon: 'error',
-            confirmButtonText: 'Cool',
+        this.$subscription = this.employeeService
+          .updateEmployee(updateEmployeeInput)
+          .subscribe((result) => {
+            this.loading = false;
+            if (result.data) {
+              this.onResetValue();
+            } else {
+              Swal.fire({
+                title: 'Error!',
+                text: result.errors[0].message,
+                icon: 'error',
+                confirmButtonText: 'ตกลง',
+              });
+            }
           });
-        }
-      });
+      }
+    });
   }
 
   onDelete(id: string): void {
@@ -299,11 +383,11 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy {
             if (!!result.data) {
             } else {
               Swal.fire({
-            title: 'Error!',
-            text: result.errors[0].message,
-            icon: 'error',
-            confirmButtonText: 'Cool',
-          });
+                title: 'Error!',
+                text: result.errors[0].message,
+                icon: 'error',
+                confirmButtonText: 'ตกลง',
+              });
             }
           });
       },

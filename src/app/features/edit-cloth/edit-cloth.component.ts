@@ -75,7 +75,7 @@ export class EditClothComponent implements OnInit, OnDestroy {
             title: 'Error!',
             text: result.errors[0].message,
             icon: 'error',
-            confirmButtonText: 'Cool',
+            confirmButtonText: 'ตกลง',
           });
         }
       });
@@ -88,7 +88,7 @@ export class EditClothComponent implements OnInit, OnDestroy {
           const sortCloths = JSON.parse(
             JSON.stringify(result.data.sortClothes)
           );
-          const sortClothsFilter = [this.defaultOption];
+          const sortClothsFilter = [];
           for (let sort of sortCloths) {
             if (!sort.isDisable)
               sortClothsFilter.push({
@@ -103,7 +103,7 @@ export class EditClothComponent implements OnInit, OnDestroy {
             title: 'Error!',
             text: result.errors[0].message,
             icon: 'error',
-            confirmButtonText: 'Cool',
+            confirmButtonText: 'ตกลง',
           });
         }
       });
@@ -131,7 +131,7 @@ export class EditClothComponent implements OnInit, OnDestroy {
             title: 'Error!',
             text: result.errors[0].message,
             icon: 'error',
-            confirmButtonText: 'Cool',
+            confirmButtonText: 'ตกลง',
           });
         }
       });
@@ -158,7 +158,7 @@ export class EditClothComponent implements OnInit, OnDestroy {
             title: 'Error!',
             text: result.errors[0].message,
             icon: 'error',
-            confirmButtonText: 'Cool',
+            confirmButtonText: 'ตกลง',
           });
         }
       });

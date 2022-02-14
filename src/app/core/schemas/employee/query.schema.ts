@@ -13,6 +13,7 @@ export const EMPLOYEES = gql`
       email
       password
       role
+      created_at
     }
   }
 `;
@@ -27,6 +28,7 @@ export const AUTH_EMPLOYEES = gql`
       role
       firstName
       lastName
+      created_at
     }
   }
 `;

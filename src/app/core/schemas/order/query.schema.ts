@@ -231,13 +231,43 @@ export const FILTER_ORDER = gql`
       numClothe
       created_at
       updated_at
-      clothes {
-        id
-      }
       customer {
         id
+        key
+        idCard
         firstName
         lastName
+        address
+        phoneNumber
+        lineUserId
+        email
+      }
+      clothes {
+        id
+        key
+        typeClothe {
+          id
+          key
+          name
+        }
+        sortClothe {
+          id
+          key
+          name
+        }
+        specialClothe {
+          id
+          key
+          name
+        }
+        clotheHasProblems {
+          id
+          status
+          problemClothe {
+            id
+            name
+          }
+        }
       }
     }
   }

@@ -57,7 +57,7 @@ export class DashboardComponent implements OnInit {
             title: 'Error!',
             text: result.errors[0].message,
             icon: 'error',
-            confirmButtonText: 'Cool',
+            confirmButtonText: 'ตกลง',
           });
       }
     });

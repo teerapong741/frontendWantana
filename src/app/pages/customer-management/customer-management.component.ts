@@ -51,7 +51,7 @@ export class CustomerManagementComponent implements OnInit, OnDestroy {
             title: 'Error!',
             text: result.errors[0].message,
             icon: 'error',
-            confirmButtonText: 'Cool',
+            confirmButtonText: 'ตกลง',
           });
         }
       });
@@ -71,6 +71,33 @@ export class CustomerManagementComponent implements OnInit, OnDestroy {
         acceptVisible: true,
         acceptLabel: 'ตกลง',
         rejectVisible: false,
+      });
+    } else if (this.idCard.length !== 13) {
+      Swal.fire({
+        title: 'คำเตือน',
+        text: 'รูปแบบรหัสบัตรประชาชนไม่ถูกต้อง',
+        icon: 'warning',
+        confirmButtonText: 'ตกลง',
+      });
+    } else if (this.phone.length !== 10) {
+      Swal.fire({
+        title: 'คำเตือน',
+        text: 'รูปแบบเบอร์มือถือไม่ถูกต้อง',
+        icon: 'warning',
+        confirmButtonText: 'ตกลง',
+      });
+    } else if (
+      !String(this.email)
+        .toLowerCase()
+        .match(
+          /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+        )
+    ) {
+      Swal.fire({
+        title: 'คำเตือน',
+        text: 'รูปแบบอีเมล์ไม่ถูกต้อง',
+        icon: 'warning',
+        confirmButtonText: 'ตกลง',
       });
     } else {
       this.loading = true;
@@ -92,11 +119,11 @@ export class CustomerManagementComponent implements OnInit, OnDestroy {
             this.onResetValue();
           } else {
             Swal.fire({
-            title: 'Error!',
-            text: result.errors[0].message,
-            icon: 'error',
-            confirmButtonText: 'Cool',
-          });
+              title: 'Error!',
+              text: result.errors[0].message,
+              icon: 'error',
+              confirmButtonText: 'ตกลง',
+            });
           }
         });
     }
@@ -144,6 +171,33 @@ export class CustomerManagementComponent implements OnInit, OnDestroy {
         acceptLabel: 'ตกลง',
         rejectVisible: false,
       });
+    } else if (this.idCard.length !== 13) {
+      Swal.fire({
+        title: 'คำเตือน',
+        text: 'รูปแบบรหัสบัตรประชาชนไม่ถูกต้อง',
+        icon: 'warning',
+        confirmButtonText: 'ตกลง',
+      });
+    } else if (this.phone.length !== 10) {
+      Swal.fire({
+        title: 'คำเตือน',
+        text: 'รูปแบบเบอร์มือถือไม่ถูกต้อง',
+        icon: 'warning',
+        confirmButtonText: 'ตกลง',
+      });
+    } else if (
+      !String(this.email)
+        .toLowerCase()
+        .match(
+          /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+        )
+    ) {
+      Swal.fire({
+        title: 'คำเตือน',
+        text: 'รูปแบบอีเมล์ไม่ถูกต้อง',
+        icon: 'warning',
+        confirmButtonText: 'ตกลง',
+      });
     } else {
       this.loading = true;
       const updateCustomerInput: UpdateCustomerInput = {
@@ -166,11 +220,11 @@ export class CustomerManagementComponent implements OnInit, OnDestroy {
             this.onResetValue();
           } else {
             Swal.fire({
-            title: 'Error!',
-            text: result.errors[0].message,
-            icon: 'error',
-            confirmButtonText: 'Cool',
-          });
+              title: 'Error!',
+              text: result.errors[0].message,
+              icon: 'error',
+              confirmButtonText: 'ตกลง',
+            });
           }
         });
     }
@@ -193,11 +247,11 @@ export class CustomerManagementComponent implements OnInit, OnDestroy {
             if (!!result.data) {
             } else {
               Swal.fire({
-            title: 'Error!',
-            text: result.errors[0].message,
-            icon: 'error',
-            confirmButtonText: 'Cool',
-          });
+                title: 'Error!',
+                text: result.errors[0].message,
+                icon: 'error',
+                confirmButtonText: 'ตกลง',
+              });
             }
           });
       },

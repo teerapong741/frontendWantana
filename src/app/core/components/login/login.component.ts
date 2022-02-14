@@ -13,6 +13,7 @@ import Swal from 'sweetalert2';
 export class LoginComponent implements OnInit, OnDestroy {
   loading: boolean = false;
   $subscription: Subscription | any = null;
+  isShowPassword: boolean = false;
 
   authEmployees: any[] = [];
   username: string = '';
@@ -39,7 +40,7 @@ export class LoginComponent implements OnInit, OnDestroy {
             title: 'Error!',
             text: result,
             icon: 'error',
-            confirmButtonText: 'Cool',
+            confirmButtonText: 'ตกลง',
           });
         }
       });
@@ -51,13 +52,13 @@ export class LoginComponent implements OnInit, OnDestroy {
       const employee = this.authEmployees.filter(
         (emp) => emp.email === this.username
       );
-      console.log(employee)
+      console.log(employee);
       if (employee.length < 1) {
         Swal.fire({
           title: 'Error!',
           text: 'ไม่พบอีเมล์',
           icon: 'error',
-          confirmButtonText: 'Cool',
+          confirmButtonText: 'ตกลง',
         });
       } else {
         if (this.password === employee[0].password) {
@@ -68,6 +69,7 @@ export class LoginComponent implements OnInit, OnDestroy {
             role: employee[0].role,
             firstName: employee[0].firstName,
             lastName: employee[0].lastName,
+            password: employee[0].password,
           };
           this.authService.setIsLogin(authData);
           this.router.navigate(['./dashboard']);
@@ -76,7 +78,7 @@ export class LoginComponent implements OnInit, OnDestroy {
             title: 'Error!',
             text: 'ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง',
             icon: 'error',
-            confirmButtonText: 'Cool',
+            confirmButtonText: 'ตกลง',
           });
         }
       }
@@ -85,9 +87,13 @@ export class LoginComponent implements OnInit, OnDestroy {
         title: 'Error!',
         text: 'โปรดกรอกข้อมูลให้ครบ',
         icon: 'error',
-        confirmButtonText: 'Cool',
+        confirmButtonText: 'ตกลง',
       });
     }
+  }
+
+  togglePassword(): void {
+    this.isShowPassword = !this.isShowPassword;
   }
 
   ngOnDestroy(): void {

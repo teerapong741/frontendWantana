@@ -66,7 +66,7 @@ export class ConfirmOrderSenderComponent implements OnInit {
             title: 'Error!',
             text: result.errors[0].message,
             icon: 'error',
-            confirmButtonText: 'Cool',
+            confirmButtonText: 'ตกลง',
           });
         }
       });
@@ -88,7 +88,7 @@ export class ConfirmOrderSenderComponent implements OnInit {
           title: 'Error!',
           text: error,
           icon: 'error',
-          confirmButtonText: 'Cool',
+          confirmButtonText: 'ตกลง',
         });
       }
     );
@@ -106,7 +106,7 @@ export class ConfirmOrderSenderComponent implements OnInit {
         title: 'Error!',
         text: error,
         icon: 'error',
-        confirmButtonText: 'Cool',
+        confirmButtonText: 'ตกลง',
       });
     });
 
@@ -127,7 +127,7 @@ export class ConfirmOrderSenderComponent implements OnInit {
           title: 'Error!',
           text: error,
           icon: 'error',
-          confirmButtonText: 'Cool',
+          confirmButtonText: 'ตกลง',
         });
       });
 
@@ -146,7 +146,7 @@ export class ConfirmOrderSenderComponent implements OnInit {
               title: 'Error!',
               text: result.errors[0].message,
               icon: 'error',
-              confirmButtonText: 'Cool',
+              confirmButtonText: 'ตกลง',
             });
           }
         });
@@ -166,7 +166,7 @@ export class ConfirmOrderSenderComponent implements OnInit {
               title: 'Error!',
               text: result.errors[0].message,
               icon: 'error',
-              confirmButtonText: 'Cool',
+              confirmButtonText: 'ตกลง',
             });
           }
         });
@@ -222,7 +222,7 @@ export class ConfirmOrderSenderComponent implements OnInit {
               title: 'Error!',
               text: error,
               icon: 'error',
-              confirmButtonText: 'Cool',
+              confirmButtonText: 'ตกลง',
             });
           }
         );
@@ -241,7 +241,7 @@ export class ConfirmOrderSenderComponent implements OnInit {
           title: 'Error!',
           text: error,
           icon: 'error',
-          confirmButtonText: 'Cool',
+          confirmButtonText: 'ตกลง',
         });
       }
     );

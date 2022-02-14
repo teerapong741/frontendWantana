@@ -1,5 +1,5 @@
 <loading *ngIf="loading"></loading>
-<div class="container-card">
+<div *ngIf="!!orders" class="container-card">
   <div class="card--customer w-full m-1">
     <h1 class="font-bold">ข้อมูลผู้ใช้</h1>
     <div class="container__form">
@@ -106,15 +106,40 @@
   <div class="card--sum w-full m-1">
     <h1 class="font-bold">สรุป</h1>
     <div class="container__summarize">
-      <p>ผ้าทั้งหมด {{ totalCloths }} ตัว</p>
-      <p *ngIf="thickCloths > 0">ผ้าหนา {{ thickCloths }} ตัว</p>
-      <p *ngIf="thinCloths > 0">ผ้าบาง {{ thinCloths }} ตัว</p>
-      <p *ngIf="specialCloths > 0">ผ้าพิเศษ {{ specialCloths }} ตัว</p>
-      <p *ngIf="problemCloths > 0">
+      <p style="color: green">ผ้าทั้งหมด {{ totalCloths }} ตัว</p>
+      <br />
+      <p
+        style="color: rgb(211, 172, 0); margin-top: 2rem"
+        *ngIf="thickCloths > 0"
+      >
+        ผ้าหนา {{ thickCloths }} ตัว
+      </p>
+      <p style="color: rgb(211, 172, 0)" *ngIf="thinCloths > 0">
+        ผ้าบาง {{ thinCloths }} ตัว
+      </p>
+      <p style="color: rgb(211, 172, 0)" *ngIf="specialCloths > 0">
+        ผ้าพิเศษ {{ specialCloths }} ตัว
+      </p>
+      <p style="color: rgb(211, 172, 0)" *ngIf="otherCloths > 0">
+        ผ้าอื่นๆ {{ otherCloths }} ตัว
+      </p>
+      <br />
+      <p
+        style="color: rgb(128, 41, 0); margin-top: 2rem"
+        *ngIf="problemCloths > 0"
+      >
         เป็นผ้ามีปัญหาจำนวน {{ problemCloths }} ตัว
       </p>
-      <p *ngIf="inProcess > 0">นำเข้าซัก {{ inProcess }} ตัว</p>
-      <p *ngIf="outProcess > 0">ไม่นำเข้าซัก {{ outProcess }} ตัว</p>
+      <br />
+      <p
+        style="color: rgb(10, 209, 10); margin-top: 2rem"
+        *ngIf="inProcess > 0"
+      >
+        นำเข้าซัก {{ inProcess }} ตัว
+      </p>
+      <p style="color: rgb(180, 43, 8)" *ngIf="outProcess > 0">
+        ไม่นำเข้าซัก {{ outProcess }} ตัว
+      </p>
     </div>
   </div>
 </div>
@@ -124,7 +149,7 @@
     <p-table [value]="clothesIn" responsiveLayout="scroll">
       <ng-template pTemplate="header">
         <tr>
-          <th>รหัส</th>
+          <th>ลำดับ</th>
           <th>ชนิดผ้า</th>
           <th>ประเภทการใช้งาน</th>
           <th>ผ้าพิเศษ</th>
@@ -133,9 +158,9 @@
           <th>นำเข้าซัก</th>
         </tr>
       </ng-template>
-      <ng-template pTemplate="body" let-product>
+      <ng-template pTemplate="body" let-product let-index="rowIndex">
         <tr>
-          <td>{{ product.key }}</td>
+          <td>{{ index + 1 }}</td>
           <td>
             {{
               (!!product.sortClothe ? product.sortClothe.name : "-") | translate
@@ -203,7 +228,7 @@
     <p-table [value]="clothesOut" responsiveLayout="scroll">
       <ng-template pTemplate="header">
         <tr>
-          <th>รหัส</th>
+          <th>ลำดับ</th>
           <th>ชนิดผ้า</th>
           <th>ประเภทการใช้งาน</th>
           <th>ผ้าพิเศษ</th>
@@ -212,9 +237,9 @@
           <th>นำเข้าซัก</th>
         </tr>
       </ng-template>
-      <ng-template pTemplate="body" let-product>
+      <ng-template pTemplate="body" let-product let-index="rowIndex">
         <tr>
-          <td>{{ product.key }}</td>
+          <td>{{ index + 1 }}</td>
           <td>
             {{
               (!!product.sortClothe ? product.sortClothe.name : "-") | translate

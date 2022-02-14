@@ -42,6 +42,7 @@ export class NavbarComponent implements OnInit {
         else if (firstPath === 'customer-management')
           this.pageName = 'จัดการข้อมูลลูกค้า';
         else if (firstPath === 'profile') this.pageName = 'โปรไฟล์';
+        else if (firstPath === 'reports') this.pageName = 'ออกรายงาน';
         else this.pageName = 'ไม่ได้ระบุ';
       }
       // NavigationEnd

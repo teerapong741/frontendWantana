@@ -59,6 +59,7 @@ export class OrderService {
       query: FILTER_ORDER,
       variables: { filterInput },
       errorPolicy: 'all',
+      fetchPolicy: 'network-only',
     }).valueChanges;
   }
 
