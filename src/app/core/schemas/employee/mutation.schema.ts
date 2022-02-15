@@ -23,3 +23,11 @@ export const REMOVE_EMPLOYEE = gql`
     }
   }
 `;
+
+export const SOFT_REMOVE_EMPLOYEE = gql`
+  mutation softRemoveEmployee($id: Int!) {
+    softRemoveEmployee(id: $id) {
+      id
+    }
+  }
+`;

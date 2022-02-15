@@ -13,7 +13,29 @@ export const EMPLOYEES = gql`
       email
       password
       role
+      deleted_at
       created_at
+      updated_at
+    }
+  }
+`;
+
+export const DELETED_EMPLOYEES = gql`
+  query deletedEmployees {
+    deletedEmployees {
+      id
+      key
+      idCard
+      firstName
+      lastName
+      address
+      phoneNumber
+      email
+      password
+      role
+      deleted_at
+      created_at
+      updated_at
     }
   }
 `;

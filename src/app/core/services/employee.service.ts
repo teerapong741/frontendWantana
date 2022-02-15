@@ -5,9 +5,14 @@ import {
 import {
   CREATE_EMPLOYEE,
   REMOVE_EMPLOYEE,
+  SOFT_REMOVE_EMPLOYEE,
   UPDATE_EMPLOYEE,
 } from './../schemas/employee/mutation.schema';
-import { AUTH_EMPLOYEES, EMPLOYEES } from '../schemas/employee/query.schema';
+import {
+  AUTH_EMPLOYEES,
+  DELETED_EMPLOYEES,
+  EMPLOYEES,
+} from '../schemas/employee/query.schema';
 import { Injectable } from '@angular/core';
 import { Apollo } from 'apollo-angular';
 import { Observable } from 'rxjs';
@@ -20,6 +25,15 @@ export class EmployeeService {
   public employees(): Observable<any> {
     return this.apollo.watchQuery({
       query: EMPLOYEES,
+      variables: {},
+      errorPolicy: 'all',
+      fetchPolicy: 'network-only',
+    }).valueChanges;
+  }
+
+  public deletedEmployees(): Observable<any> {
+    return this.apollo.watchQuery({
+      query: DELETED_EMPLOYEES,
       variables: {},
       errorPolicy: 'all',
       fetchPolicy: 'network-only',
@@ -41,7 +55,14 @@ export class EmployeeService {
     return this.apollo.mutate({
       mutation: CREATE_EMPLOYEE,
       variables: { createEmployeeInput },
-      refetchQueries: [{ query: EMPLOYEES, errorPolicy: 'all' }],
+      refetchQueries: [
+        { query: EMPLOYEES, fetchPolicy: 'network-only', errorPolicy: 'all' },
+        {
+          query: DELETED_EMPLOYEES,
+          fetchPolicy: 'network-only',
+          errorPolicy: 'all',
+        },
+      ],
       awaitRefetchQueries: true,
       errorPolicy: 'all',
     });
@@ -53,7 +74,14 @@ export class EmployeeService {
     return this.apollo.mutate({
       mutation: UPDATE_EMPLOYEE,
       variables: { updateEmployeeInput },
-      refetchQueries: [{ query: EMPLOYEES, errorPolicy: 'all' }],
+      refetchQueries: [
+        { query: EMPLOYEES, fetchPolicy: 'network-only', errorPolicy: 'all' },
+        {
+          query: DELETED_EMPLOYEES,
+          fetchPolicy: 'network-only',
+          errorPolicy: 'all',
+        },
+      ],
       awaitRefetchQueries: true,
       errorPolicy: 'all',
     });
@@ -63,7 +91,31 @@ export class EmployeeService {
     return this.apollo.mutate({
       mutation: REMOVE_EMPLOYEE,
       variables: { id },
-      refetchQueries: [{ query: EMPLOYEES, errorPolicy: 'all' }],
+      refetchQueries: [
+        { query: EMPLOYEES, fetchPolicy: 'network-only', errorPolicy: 'all' },
+        {
+          query: DELETED_EMPLOYEES,
+          fetchPolicy: 'network-only',
+          errorPolicy: 'all',
+        },
+      ],
+      awaitRefetchQueries: true,
+      errorPolicy: 'all',
+    });
+  }
+
+  public softRemoveEmployee(id: number): Observable<any> {
+    return this.apollo.mutate({
+      mutation: SOFT_REMOVE_EMPLOYEE,
+      variables: { id },
+      refetchQueries: [
+        { query: EMPLOYEES, fetchPolicy: 'network-only', errorPolicy: 'all' },
+        {
+          query: DELETED_EMPLOYEES,
+          fetchPolicy: 'network-only',
+          errorPolicy: 'all',
+        },
+      ],
       awaitRefetchQueries: true,
       errorPolicy: 'all',
     });

@@ -29,6 +29,7 @@
         <th>เบอร์โทร</th>
         <th>อีเมล์</th>
         <th>สิทธิ์ผู้ใช้</th>
+        <th>สถานะ</th>
         <th></th>
       </tr>
     </ng-template>
@@ -94,10 +95,26 @@
         >
           <p-chip label="{{ employee.role | translate }}"></p-chip>
         </td>
+        <td
+          [ngStyle]="{
+            'font-weight': employee.key === employeeLogin.key ? '700' : null
+          }"
+        >
+          <p-tag
+            styleClass="mr-2 font-bold"
+            [style]="{
+              'font-size': '14px',
+              padding: '.2rem .5rem .2rem .5rem '
+            }"
+            [severity]="!!employee.deleted_at ? 'warning' : 'success'"
+            [value]="!!employee.deleted_at ? 'ลาออกแล้ว' : 'อยู่ในระบบ'"
+            [rounded]="true"
+          ></p-tag>
+        </td>
         <td class="container__action">
           <button
             *ngIf="
-              authService.isRole() === 'ADMIN' ||
+              (!employee.deleted_at && authService.isRole() === 'ADMIN') ||
               employee.key == employeeLogin.key
             "
             pButton
@@ -108,7 +125,7 @@
             (click)="onVisibleEditEmployee(employee)"
           ></button>
           <button
-            *ngIf="employee.key === employeeLogin.key"
+            *ngIf="!employee.deleted_at && employee.key === employeeLogin.key"
             pButton
             pRipple
             type="button"
@@ -117,7 +134,7 @@
             (click)="onVisibleEditPassword(employee)"
           ></button>
           <button
-            *ngIf="authService.isRole() === 'ADMIN'"
+            *ngIf="!employee.deleted_at && authService.isRole() === 'ADMIN'"
             pButton
             pRipple
             type="button"
@@ -127,6 +144,7 @@
           ></button>
           <button
             *ngIf="
+              !employee.deleted_at &&
               authService.isRole() === 'ADMIN' &&
               employee.key !== employeeLogin.key &&
               employee.role !== 'ADMIN'

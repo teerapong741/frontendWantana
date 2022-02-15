@@ -18,6 +18,7 @@ import { ChipModule } from 'primeng/chip';
 import { ConfirmationService } from 'primeng/api';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DialogModule } from 'primeng/dialog';
+import { TagModule } from 'primeng/tag';
 import { PasswordModule } from 'primeng/password';
 
 @NgModule({
@@ -37,6 +38,7 @@ import { PasswordModule } from 'primeng/password';
     DialogModule,
     LoadingModule,
     PasswordModule,
+    TagModule,
   ],
   declarations: [EmployeeManagementComponent],
   exports: [EmployeeManagementComponent],

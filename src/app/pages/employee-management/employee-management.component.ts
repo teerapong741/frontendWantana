@@ -64,15 +64,24 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy {
         this.loading = false;
         if (!!result.data) {
           const employees = JSON.parse(JSON.stringify(result.data.employees));
-          this.employeeList = employees.sort((a: any, b: any) => {
-            if (a.role < b.role) {
-              return -1;
-            }
-            if (a.role > b.role) {
-              return 1;
-            }
-            return 0;
-          });
+          this.$subscription = this.employeeService
+            .deletedEmployees()
+            .subscribe((result) => {
+              this.loading = false;
+              const deletedEmployees = JSON.parse(
+                JSON.stringify(result.data.deletedEmployees)
+              );
+              const totalEmployees = [...employees, ...deletedEmployees];
+              this.employeeList = totalEmployees.sort((a: any, b: any) => {
+                if (a.role < b.role) {
+                  return -1;
+                }
+                if (a.role > b.role) {
+                  return 1;
+                }
+                return 0;
+              });
+            });
         } else {
           Swal.fire({
             title: 'Error!',
@@ -377,7 +386,7 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy {
       accept: () => {
         this.loading = true;
         this.$subscription = this.employeeService
-          .removeEmployee(Number(id))
+          .softRemoveEmployee(Number(id))
           .subscribe((result) => {
             this.loading = false;
             if (!!result.data) {
