@@ -18,6 +18,7 @@
         filterBy="name"
         [showClear]="true"
         placeholder="เลือกชื่อลูกค้า"
+        [disabled]="isDisable"
         (ngModelChange)="onSelectedCustomer()"
         (onClear)="onClearCustomerValue()"
       >
@@ -98,9 +99,10 @@
     pRipple
     label="เพิ่มรายการผ้า"
     icon="fas fa-plus"
-    style="font-size: larger;"
+    style="font-size: larger"
     class="p-button-raised p-button-success p-button-sm container__btn-add"
     (click)="newClothList()"
+    [disabled]="isDisable"
   ></button>
   <div class="container__tab-btn">
     <ng-container *ngFor="let tab of tabList">
@@ -188,6 +190,7 @@
     pRipple
     label="ถัดไป"
     class="p-button-raised p-button-success p-button-lg container__btn-success"
+    [disabled]="isDisable"
     (click)="onNext()"
   ></button>
 </div>

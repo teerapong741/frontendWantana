@@ -71,7 +71,7 @@ label {
 
   &__tab-btn {
     width: 80%;
-    min-width: 600px;
+    // min-width: 600px;
     height: 5rem;
     margin: auto;
 
@@ -90,7 +90,8 @@ label {
 
       &.active {
         background: #d2ffc7;
-        box-shadow: inset 1.5px -1.5px 3px #afaeae, inset -1.5px 1.5px 3px #ffffff;
+        box-shadow: inset 1.5px -1.5px 3px #afaeae,
+          inset -1.5px 1.5px 3px #ffffff;
       }
     }
   }

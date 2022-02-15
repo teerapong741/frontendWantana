@@ -240,28 +240,39 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy {
         confirmButtonText: 'ตกลง',
       });
     } else {
-      this.loading = true;
-      const updateEmployeeInput: updateEmployeeInput = {
-        id: this.idEmployee,
-        password: this.editPassword,
-      };
+      Swal.fire({
+        title: 'Warning',
+        text: 'ต้องการแก้ไขใช่หรือไม่',
+        icon: 'question',
+        confirmButtonText: 'ยืนยัน',
+        showCancelButton: true,
+        cancelButtonText: 'ยกเลิก',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.loading = true;
+          const updateEmployeeInput: updateEmployeeInput = {
+            id: this.idEmployee,
+            password: this.editPassword,
+          };
 
-      this.$subscription = this.employeeService
-        .updateEmployee(updateEmployeeInput)
-        .subscribe((result) => {
-          this.loading = false;
-          if (result.data) {
-            this.editPasswordVisible = false;
-            this.onResetValue();
-          } else {
-            Swal.fire({
-              title: 'Error!',
-              text: result.errors[0].message,
-              icon: 'error',
-              confirmButtonText: 'ตกลง',
+          this.$subscription = this.employeeService
+            .updateEmployee(updateEmployeeInput)
+            .subscribe((result) => {
+              this.loading = false;
+              if (result.data) {
+                this.editPasswordVisible = false;
+                this.onResetValue();
+              } else {
+                Swal.fire({
+                  title: 'Error!',
+                  text: result.errors[0].message,
+                  icon: 'error',
+                  confirmButtonText: 'ตกลง',
+                });
+              }
             });
-          }
-        });
+        }
+      });
     }
   }
 
@@ -309,35 +320,46 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy {
         confirmButtonText: 'ตกลง',
       });
     } else {
-      this.loading = true;
-      const updateEmployeeInput: updateEmployeeInput = {
-        id: this.idEmployee,
-        idCard: this.idCard,
-        firstName: this.fname,
-        lastName: this.lname,
-        address: this.address,
-        phoneNumber: this.phone,
-        email: this.email,
-        password: this.idCard,
-        role: this.role,
-      };
+      Swal.fire({
+        title: 'Warning',
+        text: 'ต้องการแก้ไขใช่หรือไม่',
+        icon: 'question',
+        confirmButtonText: 'ยืนยัน',
+        showCancelButton: true,
+        cancelButtonText: 'ยกเลิก',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.loading = true;
+          const updateEmployeeInput: updateEmployeeInput = {
+            id: this.idEmployee,
+            idCard: this.idCard,
+            firstName: this.fname,
+            lastName: this.lname,
+            address: this.address,
+            phoneNumber: this.phone,
+            email: this.email,
+            password: this.idCard,
+            role: this.role,
+          };
 
-      this.$subscription = this.employeeService
-        .updateEmployee(updateEmployeeInput)
-        .subscribe((result) => {
-          this.loading = false;
-          if (result.data) {
-            this.editEmployeeVisible = false;
-            this.onResetValue();
-          } else {
-            Swal.fire({
-              title: 'Error!',
-              text: result.errors[0].message,
-              icon: 'error',
-              confirmButtonText: 'ตกลง',
+          this.$subscription = this.employeeService
+            .updateEmployee(updateEmployeeInput)
+            .subscribe((result) => {
+              this.loading = false;
+              if (result.data) {
+                this.editEmployeeVisible = false;
+                this.onResetValue();
+              } else {
+                Swal.fire({
+                  title: 'Error!',
+                  text: result.errors[0].message,
+                  icon: 'error',
+                  confirmButtonText: 'ตกลง',
+                });
+              }
             });
-          }
-        });
+        }
+      });
     }
   }
 

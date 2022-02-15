@@ -35,7 +35,7 @@ export class CustomerManagementComponent implements OnInit, OnDestroy {
     private router: Router,
     private customerService: CustomerService,
     public authService: AuthService
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.loading = true;
@@ -47,8 +47,8 @@ export class CustomerManagementComponent implements OnInit, OnDestroy {
           const customers = JSON.parse(JSON.stringify(result.data.customers));
           this.customerList = customers.sort((a: any, b: any) => {
             const date1: any = new Date(a.created_at);
-            const date2: any = new Date(b.created_at)
-            const result = date2 - date1
+            const date2: any = new Date(b.created_at);
+            const result = date2 - date1;
             return result;
           });
         } else {
@@ -204,34 +204,45 @@ export class CustomerManagementComponent implements OnInit, OnDestroy {
         confirmButtonText: 'ตกลง',
       });
     } else {
-      this.loading = true;
-      const updateCustomerInput: UpdateCustomerInput = {
-        id: Number(this.idCustomer),
-        idCard: this.idCard,
-        firstName: this.fname,
-        lastName: this.lname,
-        address: this.address,
-        phoneNumber: this.phone,
-        email: this.email,
-        lineUserId: this.lineId,
-      };
+      Swal.fire({
+        title: 'Warning',
+        text: 'ต้องการแก้ไขใช่หรือไม่',
+        icon: 'question',
+        confirmButtonText: 'ยืนยัน',
+        showCancelButton: true,
+        cancelButtonText: 'ยกเลิก',
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.loading = true;
+          const updateCustomerInput: UpdateCustomerInput = {
+            id: Number(this.idCustomer),
+            idCard: this.idCard,
+            firstName: this.fname,
+            lastName: this.lname,
+            address: this.address,
+            phoneNumber: this.phone,
+            email: this.email,
+            lineUserId: this.lineId,
+          };
 
-      this.$subscription = this.customerService
-        .updateCustomer(updateCustomerInput)
-        .subscribe((result) => {
-          this.loading = false;
-          if (result.data) {
-            this.editCustomerVisible = false;
-            this.onResetValue();
-          } else {
-            Swal.fire({
-              title: 'Error!',
-              text: result.errors[0].message,
-              icon: 'error',
-              confirmButtonText: 'ตกลง',
+          this.$subscription = this.customerService
+            .updateCustomer(updateCustomerInput)
+            .subscribe((result) => {
+              this.loading = false;
+              if (result.data) {
+                this.editCustomerVisible = false;
+                this.onResetValue();
+              } else {
+                Swal.fire({
+                  title: 'Error!',
+                  text: result.errors[0].message,
+                  icon: 'error',
+                  confirmButtonText: 'ตกลง',
+                });
+              }
             });
-          }
-        });
+        }
+      });
     }
   }
 

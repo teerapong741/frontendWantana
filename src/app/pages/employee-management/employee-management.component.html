@@ -318,7 +318,10 @@
         placeholder="โปรดระบุอีเมล์"
       />
     </div>
-    <div class="field">
+    <div
+      class="field"
+      *ngIf="authService.isRole() === 'ADMIN' && role === 'SUB_ADMIN'"
+    >
       <label for="role" class="block">สิทธิ์ผู้ใช้</label>
       <p-dropdown
         [options]="roleOptions"

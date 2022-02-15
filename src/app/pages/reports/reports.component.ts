@@ -15,14 +15,14 @@ import * as htmlToText from 'html-to-text';
     normal: 'THSarabunNew.ttf',
     bold: 'THSarabunNew Bold.ttf',
     italics: 'THSarabunNew Italic.ttf',
-    bolditalics: 'THSarabunNew BoldItalic.ttf'
+    bolditalics: 'THSarabunNew BoldItalic.ttf',
   },
   Roboto: {
     normal: 'Roboto-Regular.ttf',
     bold: 'Roboto-Medium.ttf',
     italics: 'Roboto-Italic.ttf',
-    bolditalics: 'Roboto-MediumItalic.ttf'
-  }
+    bolditalics: 'Roboto-MediumItalic.ttf',
+  },
 };
 
 @Component({
@@ -62,7 +62,7 @@ export class ReportsComponent implements OnInit {
     private employeeService: EmployeeService,
     private problemService: ClothProblemService,
     private orderService: OrderService
-  ) { }
+  ) {}
 
   ngOnInit() {
     let dateMidNight: any = new Date();
@@ -137,7 +137,6 @@ export class ReportsComponent implements OnInit {
       }
     });
 
-
     this.onChangeFilter();
   }
 
@@ -146,7 +145,12 @@ export class ReportsComponent implements OnInit {
       pageOrientation: 'landscape',
       pageSize: 'A4',
       content: [
-        { text: `${this.reportTypeSelected.name}`, bold: true, fontSize: 18, alignment: "center" },
+        {
+          text: `${this.reportTypeSelected.name}`,
+          bold: true,
+          fontSize: 18,
+          alignment: 'center',
+        },
         {
           // layout: 'lightHorizontalLines', // optional
           pageOrientation: 'landscape',
@@ -158,8 +162,9 @@ export class ReportsComponent implements OnInit {
         },
       ],
       defaultStyle: {
-        font: 'THSarabunNew', alignment: "center"
-      }
+        font: 'THSarabunNew',
+        alignment: 'center',
+      },
     };
     pdfMake.createPdf(documentDefinition).open();
   }
@@ -172,7 +177,7 @@ export class ReportsComponent implements OnInit {
     ) {
       let firstDate =
         new Date(new Date(this.dateEnd).setHours(0, 0, 0, 0)).getTime() ===
-          new Date(new Date(this.dateStart).setHours(0, 0, 0, 0)).getTime()
+        new Date(new Date(this.dateStart).setHours(0, 0, 0, 0)).getTime()
           ? new Date(this.dateEnd.setDate(this.dateStart.getDate() + 1))
           : new Date(this.dateEnd);
       firstDate = new Date(new Date(firstDate).setHours(0, 0, 0, 0));
@@ -226,17 +231,20 @@ export class ReportsComponent implements OnInit {
       'ชนิดผ้า',
       'ประเภทผ้า',
       'จำนวน',
+      // 'ผ้าพิเศษ',
     ];
     this.rowHeaderPdf = ['*', '*', '*', '*', '*', '*', '*'];
     this.orderService.filterOrder(filterInput).subscribe(async (result) => {
       this.loading = false;
       if (!!result.data) {
-        const orders = JSON.parse(JSON.stringify(result.data.filterOrder)).sort((a: any, b: any) => {
-          const date1: any = new Date(a.created_at);
-          const date2: any = new Date(b.created_at)
-          const result = date1 - date2
-          return result;
-        });;
+        const orders = JSON.parse(JSON.stringify(result.data.filterOrder)).sort(
+          (a: any, b: any) => {
+            const date1: any = new Date(a.created_at);
+            const date2: any = new Date(b.created_at);
+            const result = date1 - date2;
+            return result;
+          }
+        );
         let ordersFilter: any[] = [];
 
         for (let order of orders) {
@@ -252,31 +260,31 @@ export class ReportsComponent implements OnInit {
                         ? clothe.sortClothe.name
                         : clothe.sortClothe
                     ) ===
-                    JSON.stringify(
-                      !!group.sortClothe
-                        ? group.sortClothe.name
-                        : group.sortClothe
-                    ) &&
+                      JSON.stringify(
+                        !!group.sortClothe
+                          ? group.sortClothe.name
+                          : group.sortClothe
+                      ) &&
                     JSON.stringify(
                       !!clothe.typeClothe
                         ? clothe.typeClothe.name
                         : clothe.typeClothe
                     ) ===
-                    JSON.stringify(
-                      !!group.typeClothe
-                        ? group.typeClothe.name
-                        : group.typeClothe
-                    ) &&
+                      JSON.stringify(
+                        !!group.typeClothe
+                          ? group.typeClothe.name
+                          : group.typeClothe
+                      ) &&
                     JSON.stringify(
                       !!clothe.specialClothe
                         ? clothe.specialClothe.name
                         : clothe.specialClothe
                     ) ===
-                    JSON.stringify(
-                      !!group.specialClothe
-                        ? group.specialClothe.name
-                        : group.specialClothe
-                    )
+                      JSON.stringify(
+                        !!group.specialClothe
+                          ? group.specialClothe.name
+                          : group.specialClothe
+                      )
                   )
                     groups[index].number++;
                   else
@@ -315,9 +323,12 @@ export class ReportsComponent implements OnInit {
               sortFilter = await sortFilter.concat(`<p>-</p><br>
             `);
 
-            if (!!clothe.typeClothe)
-              typeFilter =
-                await typeFilter.concat(`<p>${clothe.typeClothe.name}</p><br>
+            if (!!clothe.typeClothe || !!clothe.specialClothe)
+              typeFilter = await typeFilter.concat(`<p>${
+                !!clothe.typeClothe ? clothe.typeClothe.name : ''
+              }, ${
+                !!clothe.specialClothe ? clothe.specialClothe.name : ''
+              }</p><br>
             `);
             else
               typeFilter = await typeFilter.concat(`<p>-</p><br>
@@ -424,12 +435,14 @@ export class ReportsComponent implements OnInit {
     this.orderService.filterOrder(filterInput).subscribe(async (result) => {
       this.loading = false;
       if (!!result.data) {
-        const orders = JSON.parse(JSON.stringify(result.data.filterOrder)).sort((a: any, b: any) => {
-          const date1: any = new Date(a.created_at);
-          const date2: any = new Date(b.created_at)
-          const result = date1 - date2
-          return result;
-        });;
+        const orders = JSON.parse(JSON.stringify(result.data.filterOrder)).sort(
+          (a: any, b: any) => {
+            const date1: any = new Date(a.created_at);
+            const date2: any = new Date(b.created_at);
+            const result = date1 - date2;
+            return result;
+          }
+        );
         let ordersFilter: any[] = [];
 
         for (let order of orders) {
@@ -462,31 +475,31 @@ export class ReportsComponent implements OnInit {
                         ? clothe.sortClothe.name
                         : clothe.sortClothe
                     ) ===
-                    JSON.stringify(
-                      !!group.sortClothe
-                        ? group.sortClothe.name
-                        : group.sortClothe
-                    ) &&
+                      JSON.stringify(
+                        !!group.sortClothe
+                          ? group.sortClothe.name
+                          : group.sortClothe
+                      ) &&
                     JSON.stringify(
                       !!clothe.typeClothe
                         ? clothe.typeClothe.name
                         : clothe.typeClothe
                     ) ===
-                    JSON.stringify(
-                      !!group.typeClothe
-                        ? group.typeClothe.name
-                        : group.typeClothe
-                    ) &&
+                      JSON.stringify(
+                        !!group.typeClothe
+                          ? group.typeClothe.name
+                          : group.typeClothe
+                      ) &&
                     JSON.stringify(
                       !!clothe.specialClothe
                         ? clothe.specialClothe.name
                         : clothe.specialClothe
                     ) ===
-                    JSON.stringify(
-                      !!group.specialClothe
-                        ? group.specialClothe.name
-                        : group.specialClothe
-                    ) &&
+                      JSON.stringify(
+                        !!group.specialClothe
+                          ? group.specialClothe.name
+                          : group.specialClothe
+                      ) &&
                     isEqualProblem &&
                     isHasProblem
                   )
@@ -535,9 +548,12 @@ export class ReportsComponent implements OnInit {
                 sortFilter = await sortFilter.concat(`<p>-</p><br>
             `);
 
-              if (!!clothe.typeClothe)
-                typeFilter =
-                  await typeFilter.concat(`<p>${clothe.typeClothe.name}</p><br>
+              if (!!clothe.typeClothe || !!clothe.specialClothe)
+                typeFilter = await typeFilter.concat(`<p>${
+                  !!clothe.typeClothe ? clothe.typeClothe.name : ''
+                }, ${
+                  !!clothe.specialClothe ? clothe.specialClothe.name : ''
+                }</p><br>
             `);
               else
                 typeFilter = await typeFilter.concat(`<p>-</p><br>
@@ -629,12 +645,14 @@ export class ReportsComponent implements OnInit {
     this.customerService.customers().subscribe((result) => {
       this.loading = false;
       if (result.data) {
-        const customers = JSON.parse(JSON.stringify(result.data.customers)).sort((a: any, b: any) => {
+        const customers = JSON.parse(
+          JSON.stringify(result.data.customers)
+        ).sort((a: any, b: any) => {
           const date1: any = new Date(a.created_at);
-          const date2: any = new Date(b.created_at)
-          const result = date1 - date2
+          const date2: any = new Date(b.created_at);
+          const result = date1 - date2;
           return result;
-        });;
+        });
         let customersFilter = [];
         for (let customer of customers)
           if (
@@ -707,12 +725,14 @@ export class ReportsComponent implements OnInit {
     this.employeeService.employees().subscribe((result) => {
       this.loading = false;
       if (result.data) {
-        const employees = JSON.parse(JSON.stringify(result.data.employees)).sort((a: any, b: any) => {
+        const employees = JSON.parse(
+          JSON.stringify(result.data.employees)
+        ).sort((a: any, b: any) => {
           const date1: any = new Date(a.created_at);
-          const date2: any = new Date(b.created_at)
-          const result = date1 - date2
+          const date2: any = new Date(b.created_at);
+          const result = date1 - date2;
           return result;
-        });;
+        });
         let employeesFilter = [];
         for (let employee of employees)
           if (

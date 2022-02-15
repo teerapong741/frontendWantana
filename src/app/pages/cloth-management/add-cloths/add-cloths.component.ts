@@ -22,6 +22,8 @@ export class AddClothsComponent implements OnInit, OnDestroy {
   loading: boolean = false;
   $subscriptions: Subscription | undefined = undefined;
 
+  isDisable: boolean = false;
+
   ref: DynamicDialogRef | null = null;
 
   customerList: any[] = [];
@@ -48,7 +50,7 @@ export class AddClothsComponent implements OnInit, OnDestroy {
     private readonly employeeService: EmployeeService,
     private readonly authService: AuthService,
     private readonly dialog: dialog
-  ) { }
+  ) {}
 
   ngOnInit() {
     this.loading = true;
@@ -121,7 +123,10 @@ export class AddClothsComponent implements OnInit, OnDestroy {
       baseZIndex: 10000,
     });
 
+    this.isDisable = true;
+
     this.ref.onClose.subscribe(async (item: any) => {
+    this.isDisable =false;
       if (item) {
         const isExist: any[] = [];
         for (let cloth of this.clothList) {
@@ -139,12 +144,12 @@ export class AddClothsComponent implements OnInit, OnDestroy {
             if (
               JSON.stringify(cloth.type) === JSON.stringify(item.type) &&
               JSON.stringify(cloth.type_of_use) ===
-              JSON.stringify(item.type_of_use) &&
+                JSON.stringify(item.type_of_use) &&
               isEqualProblem &&
               JSON.stringify(cloth.type_special) ===
-              JSON.stringify(item.type_special) &&
+                JSON.stringify(item.type_special) &&
               JSON.stringify(cloth.is_out_process) ===
-              JSON.stringify(item.is_out_process) &&
+                JSON.stringify(item.is_out_process) &&
               JSON.stringify(cloth.key) !== JSON.stringify(item.key)
             )
               await isExist.push(cloth);
@@ -152,16 +157,15 @@ export class AddClothsComponent implements OnInit, OnDestroy {
             if (
               JSON.stringify(cloth.type) === JSON.stringify(item.type) &&
               JSON.stringify(cloth.type_of_use) ===
-              JSON.stringify(item.type_of_use) &&
+                JSON.stringify(item.type_of_use) &&
               JSON.stringify(cloth.type_special) ===
-              JSON.stringify(item.type_special) &&
+                JSON.stringify(item.type_special) &&
               JSON.stringify(cloth.is_out_process) ===
-              JSON.stringify(item.is_out_process) &&
+                JSON.stringify(item.is_out_process) &&
               JSON.stringify(cloth.key) !== JSON.stringify(item.key)
             )
               await isExist.push(cloth);
           }
-
         }
 
         if (isExist.length === 0)
@@ -191,6 +195,7 @@ export class AddClothsComponent implements OnInit, OnDestroy {
   }
 
   onEditItem(key: string): void {
+    this.isDisable = true;
     const index = this.clothList.findIndex((cloth) => cloth.key === key);
 
     this.ref = this.dialogService.open(EditClothComponent, {
@@ -206,6 +211,7 @@ export class AddClothsComponent implements OnInit, OnDestroy {
     });
 
     this.ref.onClose.subscribe(async (item: any) => {
+      this.isDisable = false;
       if (item) {
         const isExist: any[] = [];
         let isEqualProblem = true;
@@ -222,12 +228,12 @@ export class AddClothsComponent implements OnInit, OnDestroy {
           if (
             JSON.stringify(cloth.type) === JSON.stringify(item.type) &&
             JSON.stringify(cloth.type_of_use) ===
-            JSON.stringify(item.type_of_use) &&
+              JSON.stringify(item.type_of_use) &&
             isEqualProblem &&
             JSON.stringify(cloth.type_special) ===
-            JSON.stringify(item.type_special) &&
+              JSON.stringify(item.type_special) &&
             JSON.stringify(cloth.is_out_process) ===
-            JSON.stringify(item.is_out_process) &&
+              JSON.stringify(item.is_out_process) &&
             JSON.stringify(cloth.key) !== JSON.stringify(item.key)
           )
             await isExist.push(cloth);
@@ -339,5 +345,6 @@ export class AddClothsComponent implements OnInit, OnDestroy {
       this.ref.close();
     }
     if (!!this.$subscriptions) this.$subscriptions.unsubscribe();
+    this.isDisable = false;
   }
 }

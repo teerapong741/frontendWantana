@@ -76,6 +76,7 @@ export class OrderService {
       query: FIND_ONE_BY_PRIMARY_ID,
       variables: { id },
       errorPolicy: 'all',
+      fetchPolicy: 'network-only',
     }).valueChanges;
   }
 
