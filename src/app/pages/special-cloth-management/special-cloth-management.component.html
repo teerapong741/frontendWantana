@@ -60,14 +60,16 @@
   header="เพิ่มประเภทผ้าพิเศษ"
   [(visible)]="newSpecialClothVisible"
   (onHide)="onResetValue()"
+  [style]="{ width: '50vw', height: '30vh' }"
 >
-  <div class="container-add-texture">
+  <div class="h-full flex flex-column justify-content-around">
     <div class="field">
-      <label for="texture-type" class="block">ชื่อประเภทผ้าพิเศษ</label>
+      <label for="texture-type" class="block" [style]="{ 'font-size': '25px' }">ชื่อประเภทผ้าพิเศษ</label>
       <input
         id="texture-type"
         type="text"
         pInputText
+        class="p-inputtext-lg w-full"
         [(ngModel)]="newSpecialClothValue"
         placeholder="โปรดระบุประเภทผ้าชนิดพิเศษ"
       />
@@ -75,7 +77,7 @@
     <button
       pButton
       pRipple
-      class="p-button-success p-button-raised"
+      class="p-button-success p-button-raised p-button-lg"
       label="เพิ่ม"
       icon="fas fa-plus"
       style="width: 100%; margin-top: 1rem"

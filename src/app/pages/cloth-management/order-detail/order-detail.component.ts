@@ -48,25 +48,43 @@ export class OrderDetailComponent implements OnInit {
             (order: any) => order.status === 'OUT'
           );
 
-          const clothesIn = [];
-          const clothesOut = [];
+          const clothesIn: any = [];
+          const clothesOut: any = [];
           let clothesAll = [];
           for (let order of this.ordersIn)
-            for (let clothe of order.clothes)
+            for (let clothe of order.clothes) {
+              let clotheHasProblems = [];
+              let clotheHasProblemsAfter = [];
+              for (let problem of clothe.clotheHasProblems) {
+                if (problem.status === 'IN') clotheHasProblems.push(problem);
+                else clotheHasProblemsAfter.push(problem);
+              }
               clothesIn.push({
                 ...clothe,
                 is_out_process: order.isOutProcess,
+                clotheHasProblems: clotheHasProblems,
+                clotheHasProblemsAfter,
               });
+            }
           this.clothesIn = clothesIn;
+          console.log(this.ordersOut);
           for (let order of this.ordersOut)
-            for (let clothe of order.clothes)
+            for (let clothe of order.clothes) {
+              let clotheHasProblems = [];
+              let clotheHasProblemsAfter = [];
+              for (let problem of clothe.clotheHasProblems) {
+                if (problem.status === 'IN') clotheHasProblems.push(problem);
+                else clotheHasProblemsAfter.push(problem);
+              }
               clothesOut.push({
                 ...clothe,
                 is_out_process: order.isOutProcess,
+                clotheHasProblems: clotheHasProblems,
+                clotheHasProblemsAfter,
               });
+            }
           this.clothesOut = clothesOut;
           clothesAll = [...clothesIn, ...clothesOut];
-          console.log(clothesAll);
 
           clothesAll.map((cloth: any) => {
             this.totalCloths += 1;

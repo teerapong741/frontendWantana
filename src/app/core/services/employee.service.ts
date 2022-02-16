@@ -11,6 +11,7 @@ import {
 import {
   AUTH_EMPLOYEES,
   DELETED_EMPLOYEES,
+  EMPLOYEE,
   EMPLOYEES,
 } from '../schemas/employee/query.schema';
 import { Injectable } from '@angular/core';
@@ -21,6 +22,15 @@ import { createProblemClotheInput } from '../interfaces/cloth-problem.interface'
 @Injectable()
 export class EmployeeService {
   constructor(private readonly apollo: Apollo) {}
+
+  public employee(id: number): Observable<any> {
+    return this.apollo.watchQuery({
+      query: EMPLOYEE,
+      variables: { id },
+      errorPolicy: 'all',
+      fetchPolicy: 'network-only',
+    }).valueChanges;
+  }
 
   public employees(): Observable<any> {
     return this.apollo.watchQuery({
@@ -80,6 +90,12 @@ export class EmployeeService {
           query: DELETED_EMPLOYEES,
           fetchPolicy: 'network-only',
           errorPolicy: 'all',
+        },
+        {
+          query: EMPLOYEES,
+          variables: { id: updateEmployeeInput.id },
+          errorPolicy: 'all',
+          fetchPolicy: 'network-only',
         },
       ],
       awaitRefetchQueries: true,

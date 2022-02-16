@@ -14,6 +14,17 @@
   margin-left: 0.5rem;
 }
 
+:host ::ng-deep .p-chip.custom-chip-after {
+  background: #f1a863;
+  color: rgb(8, 8, 8);
+  margin-top: 0.5rem;
+  margin-left: 0.5rem;
+}
+
+td, th {
+  text-align: center !important;
+}
+
 .container {
   margin: auto;
   width: 50%;

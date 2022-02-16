@@ -360,7 +360,7 @@ export class ReportsComponent implements OnInit {
           this.bodyTablePdf = [];
           for (let [index, cs] of this.tableData.entries()) {
             let data = [];
-            data.push(`${new Date(cs.date).toDateString()}`);
+            data.push(`${new Date(cs.date).toLocaleDateString()}`);
             data.push(`${cs.key}`);
             data.push(`${cs.firstName}`);
             data.push(`${cs.lastName}`);
@@ -597,7 +597,7 @@ export class ReportsComponent implements OnInit {
           this.bodyTablePdf = [];
           for (let [index, cs] of this.tableData.entries()) {
             let data = [];
-            data.push(`${new Date(cs.date).toDateString()}`);
+            data.push(`${new Date(cs.date).toLocaleDateString()}`);
             data.push(`${cs.key}`);
             data.push(`${cs.firstName}`);
             data.push(`${cs.lastName}`);

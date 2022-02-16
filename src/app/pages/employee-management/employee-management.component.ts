@@ -344,9 +344,10 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy {
 
           this.$subscription = this.employeeService
             .updateEmployee(updateEmployeeInput)
-            .subscribe((result) => {
+            .subscribe(async (result) => {
               this.loading = false;
               if (result.data) {
+                const employee = result.data.updateEmployee;
                 this.editEmployeeVisible = false;
                 this.onResetValue();
               } else {

@@ -37,91 +37,76 @@ export class ConfirmOrderSenderComponent implements OnInit {
     private customerService: CustomerService
   ) {}
 
-  ngOnInit() {
+  async ngOnInit() {
     this.order = this.orderService.getOrder();
     this.clothes = this.order.clothes;
     this.loading = true;
-    this.orderService
-      .findOneByPrimaryId(this.order.order_id)
-      .subscribe((result) => {
-        if (result.data) {
-          this.loading = false;
-          const orders = JSON.parse(
-            JSON.stringify(result.data.findOneByPrimaryId)
-          );
-          if (
-            this.clothesTotalLength == 0 &&
-            this.clothesInLength == 0 &&
-            this.clothesOutLength == 0
-          ) {
-            for (let order of orders) {
-              this.clothesTotalLength += order.clothes.length;
-              if (order.status === Status.OUT)
-                this.clothesOutLength += order.clothes.length;
-              else this.clothesInLength += order.clothes.length;
+    await this.onFindOnePrimary();
+    this.loading = false;
+  }
+
+  onFindOnePrimary(): Promise<void> {
+    return new Promise(async (resolve, reject) => {
+      this.orderService
+        .findOneByPrimaryId(this.order.order_id)
+        .subscribe((result) => {
+          if (result.data) {
+            const orders = JSON.parse(
+              JSON.stringify(result.data.findOneByPrimaryId)
+            );
+            if (
+              this.clothesTotalLength == 0 &&
+              this.clothesInLength == 0 &&
+              this.clothesOutLength == 0
+            ) {
+              for (let order of orders) {
+                this.clothesTotalLength += order.clothes.length;
+                if (order.status === Status.OUT)
+                  this.clothesOutLength += order.clothes.length;
+                else this.clothesInLength += order.clothes.length;
+              }
             }
+            return resolve();
+          } else {
+            Swal.fire({
+              title: 'Error!',
+              text: result.errors[0].message,
+              icon: 'error',
+              confirmButtonText: 'ตกลง',
+            });
+            return reject();
           }
-        } else {
-          Swal.fire({
-            title: 'Error!',
-            text: result.errors[0].message,
-            icon: 'error',
-            confirmButtonText: 'ตกลง',
-          });
-        }
-      });
+        });
+    });
   }
 
   async onNext(): Promise<void> {
+    this.loading = true;
+    const isTimeOut = setTimeout(() => {
+      this.loading = false;
+      this.next.emit(false);
+    }, 60000);
     // this.orderService.setOrder(this.clothes);
-    let problemList: any[] = [];
+    let isOutClothes: any[] = [];
+    let isInClothes: any[] = [];
 
-    // create sub order
-    const createOrderInput: CreateOrderInput = {
-      customerId: this.order.customer_id,
-      employeeId: this.order.employee_id,
-      primaryOrderId: this.order.order_id,
-    };
-    const createdOrder: any = await this.onCreateOrder(createOrderInput).catch(
-      (error) => {
-        Swal.fire({
-          title: 'Error!',
-          text: error,
-          icon: 'error',
-          confirmButtonText: 'ตกลง',
-        });
-      }
-    );
+    // check order is out process
 
-    // update sub order to OUT
-    const updateSubOrderInput: UpdateOrderInput = {
-      id: createdOrder.id,
-      status: Status.OUT,
-      isOutProcess: false,
-    };
-    const updatedSubOrder: any = await this.onUpdateOrder(
-      updateSubOrderInput
-    ).catch((error) => {
-      Swal.fire({
-        title: 'Error!',
-        text: error,
-        icon: 'error',
-        confirmButtonText: 'ตกลง',
-      });
-    });
+    for (let clothe of this.order.clothes)
+      if (clothe.is_out_process) isOutClothes.push(clothe);
+      else isInClothes.push(clothe);
 
-    // if Clear order
-    if (
-      this.order.clothes.length + this.clothesOutLength ===
-      this.clothesTotalLength
-    ) {
-      const updateMainOrderInput: UpdateOrderInput = {
-        id: this.order.order_id,
-        status: Status.OUT,
-        isOutProcess: false,
+    if (isInClothes.length > 0) {
+      let problemList: any[] = [];
+
+      // create sub order
+      const createOrderInput: CreateOrderInput = {
+        customerId: this.order.customer_id,
+        employeeId: this.order.employee_id,
+        primaryOrderId: this.order.order_id,
       };
-      const updatedMainOrder: any = await this.onUpdateOrder(
-        updateMainOrderInput
+      const createdOrder: any = await this.onCreateOrder(
+        createOrderInput
       ).catch((error) => {
         Swal.fire({
           title: 'Error!',
@@ -131,52 +116,24 @@ export class ConfirmOrderSenderComponent implements OnInit {
         });
       });
 
-      this.customerService
-        .customer(this.order.customer_id)
-        .subscribe(async (result) => {
-          if (!!result.data) {
-            const customer = JSON.parse(JSON.stringify(result.data.customer));
-
-            await this.lineService.messageSendClearOrder(
-              customer,
-              this.order.clothes
-            );
-          } else {
-            Swal.fire({
-              title: 'Error!',
-              text: result.errors[0].message,
-              icon: 'error',
-              confirmButtonText: 'ตกลง',
-            });
-          }
+      // update sub order to OUT
+      const updateSubOrderInput: UpdateOrderInput = await {
+        id: createdOrder.id,
+        status: Status.OUT,
+        isOutProcess: false,
+      };
+      const updatedSubOrder: any = await this.onUpdateOrder(
+        updateSubOrderInput
+      ).catch((error) => {
+        Swal.fire({
+          title: 'Error!',
+          text: error,
+          icon: 'error',
+          confirmButtonText: 'ตกลง',
         });
-    } else {
-      this.customerService
-        .customer(this.order.customer_id)
-        .subscribe(async (result) => {
-          if (!!result.data) {
-            const customer = JSON.parse(JSON.stringify(result.data.customer));
+      });
 
-            await this.lineService.messageSendSeparateOrder(
-              customer,
-              this.order.clothes
-            );
-          } else {
-            Swal.fire({
-              title: 'Error!',
-              text: result.errors[0].message,
-              icon: 'error',
-              confirmButtonText: 'ตกลง',
-            });
-          }
-        });
-    }
-
-    // if new problem after
-    if (
-      !!this.order.clothes.clotheHasProblemsAfter &&
-      this.order.clothes.clotheHasProblemsAfter.length > 0
-    ) {
+      // if new problem after
       // merge problem
       const clothesProblem: any[] = [];
       for (let cloth of this.order.clothes)
@@ -214,7 +171,6 @@ export class ConfirmOrderSenderComponent implements OnInit {
           isExistProblem = isExistProblem.length > 0;
           if (isExistProblem) createClotheProblemInput.clotheIds.push(cloth.id);
         }
-
         // create cloth has problem
         await this.onCreateClothHasProblem(createClotheProblemInput).catch(
           (error) => {
@@ -227,35 +183,204 @@ export class ConfirmOrderSenderComponent implements OnInit {
           }
         );
       }
-    }
 
-    // update clothe (move clothe to sub order)
-    const clothesIds: any[] = this.order.clothes.map(({ id }: any) => id);
-    const updateClotheInput: UpdateClotheInput = {
-      ids: clothesIds,
-      orderId: Number(createdOrder.id),
-    };
-    const updateClothe: any = await this.onUpdateCloth(updateClotheInput).catch(
-      (error) => {
+      // update clothe (move clothe to sub order)
+      const clothesIds: any[] = isInClothes.map(({ id }: any) => id);
+      const updateClotheInput: UpdateClotheInput = {
+        ids: clothesIds,
+        orderId: Number(createdOrder.id),
+      };
+      const updateClothe: any = await this.onUpdateCloth(
+        updateClotheInput
+      ).catch((error) => {
         Swal.fire({
           title: 'Error!',
           text: error,
           icon: 'error',
           confirmButtonText: 'ตกลง',
         });
-      }
-    );
+      });
+    }
+    if (isOutClothes.length > 0) {
+      let problemList: any[] = [];
 
-    this.next.emit(true);
+      // create sub order
+      const createOrderInput: CreateOrderInput = {
+        customerId: this.order.customer_id,
+        employeeId: this.order.employee_id,
+        primaryOrderId: this.order.order_id,
+      };
+      const createdOrder: any = await this.onCreateOrder(
+        createOrderInput
+      ).catch((error) => {
+        Swal.fire({
+          title: 'Error!',
+          text: error,
+          icon: 'error',
+          confirmButtonText: 'ตกลง',
+        });
+      });
+
+      // update sub order to OUT
+      const updateSubOrderInput: UpdateOrderInput = {
+        id: createdOrder.id,
+        status: Status.OUT,
+        isOutProcess: true,
+      };
+      const updatedSubOrder: any = await this.onUpdateOrder(
+        updateSubOrderInput
+      ).catch((error) => {
+        Swal.fire({
+          title: 'Error!',
+          text: error,
+          icon: 'error',
+          confirmButtonText: 'ตกลง',
+        });
+      });
+
+      // if new problem after
+      // merge problem
+      const clothesProblem: any[] = [];
+      for (let cloth of this.order.clothes)
+        if (
+          !!cloth.clotheHasProblemsAfter &&
+          cloth.clotheHasProblemsAfter.length > 0
+        )
+          clothesProblem.push({
+            id: cloth.id,
+            problems: cloth.clotheHasProblemsAfter,
+          });
+
+      for (let cloth of clothesProblem) {
+        // await problemList.concat(cloth.problems);
+        problemList = await this.onMergeArrays(
+          [problemList, cloth.problems],
+          'id'
+        );
+      }
+
+      // filter id only
+      const problemIdsList = await problemList.map(({ id }: any) => id);
+
+      // filter clothe id by problem
+      for (let problemId of problemIdsList) {
+        const createClotheProblemInput: CreateClotheProblemInput = {
+          status: Status.OUT,
+          clotheIds: [],
+          problemClothes: problemId,
+        };
+        for (let cloth of clothesProblem) {
+          let isExistProblem = await cloth.problems.filter(
+            (problem: any) => problem.id === problemId
+          );
+          isExistProblem = isExistProblem.length > 0;
+          if (isExistProblem) createClotheProblemInput.clotheIds.push(cloth.id);
+        }
+        // create cloth has problem
+        await this.onCreateClothHasProblem(createClotheProblemInput).catch(
+          (error) => {
+            Swal.fire({
+              title: 'Error!',
+              text: error,
+              icon: 'error',
+              confirmButtonText: 'ตกลง',
+            });
+          }
+        );
+      }
+
+      // update clothe (move clothe to sub order)
+      const clothesIds: any[] = isOutClothes.map(({ id }: any) => id);
+      const updateClotheInput: UpdateClotheInput = {
+        ids: clothesIds,
+        orderId: Number(createdOrder.id),
+      };
+      const updateClothe: any = await this.onUpdateCloth(
+        updateClotheInput
+      ).catch((error) => {
+        Swal.fire({
+          title: 'Error!',
+          text: error,
+          icon: 'error',
+          confirmButtonText: 'ตกลง',
+        });
+      });
+    }
+
+    // if Clear order
+    if (
+      this.order.clothes.length + this.clothesOutLength ===
+      this.clothesTotalLength
+    ) {
+      const updateMainOrderInput: UpdateOrderInput = {
+        id: this.order.order_id,
+        status: Status.OUT,
+        isOutProcess: false,
+      };
+      const updatedMainOrder: any = await this.onUpdateOrder(
+        updateMainOrderInput
+      ).catch((error) => {
+        Swal.fire({
+          title: 'Error!',
+          text: error,
+          icon: 'error',
+          confirmButtonText: 'ตกลง',
+        });
+      });
+
+      this.customerService
+        .customer(this.order.customer_id)
+        .subscribe(async (result) => {
+          if (!!result.data) {
+            const customer = JSON.parse(JSON.stringify(result.data.customer));
+
+            await this.lineService
+              .messageSendClearOrder(customer, this.order.clothes)
+              .then(() => {
+                this.loading = false;
+                window.clearTimeout(isTimeOut);
+                this.next.emit(true);
+              });
+          } else {
+            Swal.fire({
+              title: 'Error!',
+              text: result.errors[0].message,
+              icon: 'error',
+              confirmButtonText: 'ตกลง',
+            });
+          }
+        });
+    } else {
+      this.customerService
+        .customer(this.order.customer_id)
+        .subscribe(async (result) => {
+          if (!!result.data) {
+            const customer = JSON.parse(JSON.stringify(result.data.customer));
+
+            await this.lineService
+              .messageSendSeparateOrder(customer, this.order.clothes)
+              .then(() => {
+                this.loading = false;
+                window.clearTimeout(isTimeOut);
+                this.next.emit(true);
+              });
+          } else {
+            Swal.fire({
+              title: 'Error!',
+              text: result.errors[0].message,
+              icon: 'error',
+              confirmButtonText: 'ตกลง',
+            });
+          }
+        });
+    }
   }
 
   async onCreateOrder(createOrderInput: CreateOrderInput): Promise<any> {
-    this.loading = true;
     return new Promise((resolve, reject) => {
       this.orderService
         .createOrder(createOrderInput)
         .subscribe((result: any) => {
-          this.loading = false;
           if (!!result.data) {
             const createdOrder = JSON.parse(
               JSON.stringify(result.data.createOrder)
@@ -269,12 +394,10 @@ export class ConfirmOrderSenderComponent implements OnInit {
   }
 
   async onUpdateOrder(updateOrderInput: UpdateOrderInput): Promise<any> {
-    this.loading = true;
     return new Promise((resolve, reject) => {
       this.orderService
         .updateOrder(updateOrderInput)
         .subscribe((result: any) => {
-          this.loading = false;
           if (!!result.data) {
             const updatedOrder = JSON.parse(
               JSON.stringify(result.data.updateOrder)
@@ -290,12 +413,10 @@ export class ConfirmOrderSenderComponent implements OnInit {
   async onCreateClothHasProblem(
     createClotheProblemInput: CreateClotheProblemInput
   ): Promise<any> {
-    this.loading = true;
     return new Promise((resolve, reject) => {
       this.clothService
         .createClotheHasProblem(createClotheProblemInput)
         .subscribe((result) => {
-          this.loading = false;
           if (!!result.data)
             resolve(
               JSON.parse(JSON.stringify(result.data.createClotheHasProblem))
@@ -306,10 +427,8 @@ export class ConfirmOrderSenderComponent implements OnInit {
   }
 
   async onUpdateCloth(updateClotheInput: UpdateClotheInput): Promise<any> {
-    this.loading = true;
     return new Promise((resolve, reject) => {
       this.clothService.updateClothe(updateClotheInput).subscribe((result) => {
-        this.loading = false;
         if (!!result.data)
           resolve(JSON.parse(JSON.stringify(result.data.updateClothe)));
         else reject(result.errors[0].message);

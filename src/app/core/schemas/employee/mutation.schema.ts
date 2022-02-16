@@ -12,6 +12,9 @@ export const UPDATE_EMPLOYEE = gql`
   mutation updateEmployee($updateEmployeeInput: UpdateEmployeeInput!) {
     updateEmployee(updateEmployeeInput: $updateEmployeeInput) {
       id
+      key
+      firstName
+      lastName
     }
   }
 `;

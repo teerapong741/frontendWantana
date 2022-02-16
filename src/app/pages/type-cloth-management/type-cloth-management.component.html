@@ -60,14 +60,18 @@
   header="เพิ่มประเภทการใช้งานผ้า"
   [(visible)]="newTypeClothVisible"
   (onHide)="onResetValue()"
+  [style]="{ width: '50vw', height: '30vh' }"
 >
-  <div class="container-add-texture">
+  <div class="h-full flex flex-column justify-content-around">
     <div class="field">
-      <label for="texture-type" class="block">ชื่อประเภทการใช้งาน</label>
+      <label for="texture-type" class="block" [style]="{ 'font-size': '25px' }"
+        >ชื่อประเภทการใช้งาน</label
+      >
       <input
         id="texture-type"
         type="text"
         pInputText
+        class="p-inputtext-lg w-full"
         [(ngModel)]="newTypeClothValue"
         placeholder="โปรดระบุประเภทการใช้งานผ้า"
       />
@@ -75,7 +79,7 @@
     <button
       pButton
       pRipple
-      class="p-button-success p-button-raised"
+      class="p-button-success p-button-raised p-button-lg"
       label="เพิ่ม"
       icon="fas fa-plus"
       style="width: 100%; margin-top: 1rem"

@@ -58,16 +58,16 @@
         />
       </div>
       <div class="field">
-        <label for="lineId" class="block">Line ID</label>
+        <label for="email" class="block">อีเมล</label>
         <input
-          id="lineId"
+          id="email"
           class="p-inputtext-lg"
           type="text"
           pInputText
           disabled="true"
           placeholder="Line ID"
           [disabled]="true"
-          [value]="orders[0].customer.lineUserId"
+          [value]="orders[0].customer.email"
         />
       </div>
     </div>
@@ -208,14 +208,25 @@
                 *ngFor="let problem of product.clotheHasProblemsAfter"
               >
                 <p-chip
-                  [label]="(!!problem ? problem.name : '-') | translate"
+                  [label]="
+                    (!!problem.problemClothe ? problem.problemClothe.name : '-')
+                      | translate
+                  "
                   styleClass="custom-chip-after"
                 ></p-chip>
               </ng-container>
             </ng-container>
           </td>
           <td [ngStyle]="{ color: product.is_out_process ? 'red' : 'green' }">
-            {{ !product.is_out_process }}
+            <i
+              class="fas"
+              [ngClass]="
+                !product.is_out_process ? 'fa-check-circle' : 'fa-times-circle'
+              "
+              [ngStyle]="
+                !product.is_out_process ? { color: 'green' } : { color: 'red' }
+              "
+            ></i>
           </td>
         </tr>
       </ng-template>
@@ -287,14 +298,25 @@
                 *ngFor="let problem of product.clotheHasProblemsAfter"
               >
                 <p-chip
-                  [label]="(!!problem ? problem.name : '-') | translate"
+                  [label]="
+                    (!!problem.problemClothe ? problem.problemClothe.name : '-')
+                      | translate
+                  "
                   styleClass="custom-chip-after"
                 ></p-chip>
               </ng-container>
             </ng-container>
           </td>
           <td [ngStyle]="{ color: product.is_out_process ? 'red' : 'green' }">
-            {{ !product.is_out_process }}
+            <i
+              class="fas"
+              [ngClass]="
+                !product.is_out_process ? 'fa-check-circle' : 'fa-times-circle'
+              "
+              [ngStyle]="
+                !product.is_out_process ? { color: 'green' } : { color: 'red' }
+              "
+            ></i>
           </td>
         </tr>
       </ng-template>

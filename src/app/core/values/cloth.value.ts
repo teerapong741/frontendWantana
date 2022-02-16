@@ -50,6 +50,10 @@ export const typeClothList: string[] = [
   'เสื้อแขนยาว',
   'กางเกงขายาว',
   'กระโปรงขายาว',
+  'ผ้านวม',
+  'รองเท้า',
+  'กระเป๋า',
+  'ผ้าปูที่นอน',
 ];
 export const specialClothList: string[] = [
   'ขนสัตว์',
@@ -58,10 +62,6 @@ export const specialClothList: string[] = [
   'ตุ๊กตา',
   'ยีนส์',
   'กำมะหยี่',
-  'ผ้านวม',
-  'รองเท้า',
-  'กระเป๋า',
-  'ผ้าปูที่นอน',
 ];
 export const problemClothList: string[] = [
   'ขาด',

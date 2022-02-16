@@ -1,3 +1,4 @@
+import { EmployeeService } from './../../services/employee.service';
 import { AuthService, AuthData } from './../../services/auth.service';
 import {
   Router,
@@ -17,12 +18,14 @@ export class NavbarComponent implements OnInit {
   username: string = 'ไม่ระบุตัวตน';
   visibleToggleMenu: boolean = false;
 
-  employee: AuthData | null = null;
+  id: number = 0;
+  employee: AuthData | null | any = null;
 
   constructor(
     private readonly router: Router,
     private readonly route: ActivatedRoute,
-    public authService: AuthService
+    public authService: AuthService,
+    private readonly employeeService: EmployeeService
   ) {
     this.router.events.subscribe((event: Event) => {
       if (event instanceof NavigationStart) {
@@ -53,8 +56,15 @@ export class NavbarComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.employee = this.authService.isCodeEmployee();
-    console.log(this.employee);
+    this.id = this.authService.isCodeEmployee().id;
+    console.log(this.id)
+    this.employeeService.employee(this.id).subscribe((result) => {
+      if (result.data) {
+        const employee = result.data.employee;
+        this.employee = employee;
+        console.log(result)
+      }
+    });
   }
 
   onBack(): void {

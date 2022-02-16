@@ -48,7 +48,7 @@ export class CustomerManagementComponent implements OnInit, OnDestroy {
           this.customerList = customers.sort((a: any, b: any) => {
             const date1: any = new Date(a.created_at);
             const date2: any = new Date(b.created_at);
-            const result = date2 - date1;
+            const result = date1 - date2;
             return result;
           });
         } else {

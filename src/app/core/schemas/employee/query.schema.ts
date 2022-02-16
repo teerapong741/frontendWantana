@@ -1,5 +1,25 @@
 import { gql } from 'apollo-angular';
 
+export const EMPLOYEE = gql`
+  query employee($id: Int!) {
+    employee(id: $id) {
+      id
+      key
+      idCard
+      firstName
+      lastName
+      address
+      phoneNumber
+      email
+      password
+      role
+      deleted_at
+      created_at
+      updated_at
+    }
+  }
+`;
+
 export const EMPLOYEES = gql`
   query employees {
     employees {

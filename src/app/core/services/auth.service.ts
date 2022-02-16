@@ -26,15 +26,19 @@ export class AuthService {
     return this.$isLogin.value;
   }
 
-  public setIsLogin(authData: AuthData | null): void {
-    let isLogin: boolean = false;
-    if (!!authData) {
-      isLogin = true;
-      localStorage.setItem(AUTH_DATA, JSON.stringify(authData));
-    } else {
-      localStorage.removeItem(AUTH_DATA);
-    }
-    this.$isLogin.next(isLogin);
+  public async setIsLogin(authData: AuthData | null): Promise<void> {
+    return new Promise(async (resolve, reject) => {
+      let isLogin: boolean = false;
+      if (!!authData) {
+        isLogin = true;
+        localStorage.setItem(AUTH_DATA, JSON.stringify(authData));
+        resolve();
+      } else {
+        localStorage.removeItem(AUTH_DATA);
+        resolve();
+      }
+      this.$isLogin.next(isLogin);
+    });
   }
 
   public isCodeEmployee(): any {

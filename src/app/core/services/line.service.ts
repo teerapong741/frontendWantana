@@ -5,26 +5,34 @@ import { Injectable } from '@angular/core';
 export class LineService {
   constructor(private http: HttpClient) {}
 
-  messageToCustomer = (lineText: string, lineUserId: string) => {
-    const myHeaders = new Headers();
-    myHeaders.append('Content-Type', 'application/json');
+  messageToCustomer = (lineText: string, lineUserId: string): Promise<void> => {
+    return new Promise(async (resolve) => {
+      const myHeaders = new Headers();
+      myHeaders.append('Content-Type', 'application/json');
 
-    const raw = JSON.stringify({
-      lineText,
-      lineUserId,
+      const raw = JSON.stringify({
+        lineText,
+        lineUserId,
+      });
+
+      const requestOptions: any = {
+        method: 'POST',
+        headers: myHeaders,
+        body: raw,
+        redirect: 'follow',
+      };
+
+      fetch(
+        'https://linewantana.herokuapp.com/messageToCustomer',
+        requestOptions
+      )
+        .then(() => {
+          return resolve();
+        })
+        // .then((response) => response.text())
+        // .then((result) => console.log(result))
+        .catch((error) => console.error('error', error));
     });
-
-    const requestOptions: any = {
-      method: 'POST',
-      headers: myHeaders,
-      body: raw,
-      redirect: 'follow',
-    };
-
-    fetch('https://linewantana.herokuapp.com/messageToCustomer', requestOptions)
-      // .then((response) => response.text())
-      // .then((result) => console.log(result))
-      .catch((error) => console.error('error', error));
   };
 
   async messageCreateOrder(
@@ -39,8 +47,9 @@ export class LineService {
     inProcess: number,
     outProcess: number
   ): Promise<void> {
-    let message =
-      await `คุณ ${orderDetail.customer.firstName} ${orderDetail.customer.lastName} (${orderDetail.customer.key})
+    return new Promise(async (resolve, reject) => {
+      let message =
+        await `คุณ ${orderDetail.customer.firstName} ${orderDetail.customer.lastName} (${orderDetail.customer.key})
 ทางร้านได้นำรายการผ้าเข้าสู่ระบบเรียบร้อยแล้ว
 -------------------------------
 
@@ -48,110 +57,114 @@ export class LineService {
 ✅  รายการผ้าที่นำเข้าซัก  ✅
 `;
 
-    if (processOrder.length > 0) {
-      for (let [index, order] of processOrder.entries()) {
-        const number = index + 1;
-        let problemMessage = '';
-        if (!!order.fabric_problem && order.fabric_problem.length > 0) {
-          for (let problem of order.fabric_problem) {
-            problemMessage = await problemMessage.concat(`${problem.name} , `);
+      if (processOrder.length > 0) {
+        for (let [index, order] of processOrder.entries()) {
+          const number = index + 1;
+          let problemMessage = '';
+          if (!!order.fabric_problem && order.fabric_problem.length > 0) {
+            for (let problem of order.fabric_problem) {
+              problemMessage = await problemMessage.concat(
+                `${problem.name} , `
+              );
+            }
           }
-        }
-        message = await message.concat(
-          `
+          message = await message.concat(
+            `
 ${number}) ${!!order.type ? order.type.name : '-'}  |  ${
-            !!order.type_of_use && !!order.type_of_use.value
-              ? order.type_of_use.name
-              : '-'
-          }  |  ${!!order.type_special ? order.type_special.name : '-'}
+              !!order.type_of_use && !!order.type_of_use.value
+                ? order.type_of_use.name
+                : '-'
+            }  |  ${!!order.type_special ? order.type_special.name : '-'}
   ปัญหา:   ${!!problemMessage ? problemMessage : '-'}
   จำนวน:   ${order.number} ตัว 
        --------------------- \
             `
-        );
+          );
+        }
       }
-    }
 
-    if (outProcessOrder.length > 0) {
-      message = await message.concat(`
+      if (outProcessOrder.length > 0) {
+        message = await message.concat(`
 
 
 
 ⛔️  รายการผ้าที่ไม่นำเข้าซัก  ⛔️
         `);
-      for (let [index, order] of outProcessOrder.entries()) {
-        const number = (await index) + 1;
-        let problemMessage = '';
-        if (!!order.fabric_problem && order.fabric_problem.length > 0) {
-          for (let problem of order.fabric_problem) {
-            problemMessage = await problemMessage.concat(`${problem.name} , `);
+        for (let [index, order] of outProcessOrder.entries()) {
+          const number = (await index) + 1;
+          let problemMessage = '';
+          if (!!order.fabric_problem && order.fabric_problem.length > 0) {
+            for (let problem of order.fabric_problem) {
+              problemMessage = await problemMessage.concat(
+                `${problem.name} , `
+              );
+            }
           }
-        }
-        message = await message.concat(
-          `
+          message = await message.concat(
+            `
 ${number}) ${!!order.type ? order.type.name : '-'}  |  ${
-            !!order.type_of_use && !!order.type_of_use.value
-              ? order.type_of_use.name
-              : '-'
-          }  |  ${!!order.type_special ? order.type_special.name : '-'}
+              !!order.type_of_use && !!order.type_of_use.value
+                ? order.type_of_use.name
+                : '-'
+            }  |  ${!!order.type_special ? order.type_special.name : '-'}
   ปัญหา:   ${!!problemMessage ? problemMessage : '-'}
   จำนวน:   ${order.number} ตัว
        --------------------- \
             `
-        );
+          );
+        }
       }
-    }
 
-    message = await message.concat(`
+      message = await message.concat(`
 
 
 
 📣  สรุปรายการ  📣
         `);
 
-    if (totalCloths)
-      message = await message.concat(
-        `
+      if (totalCloths)
+        message = await message.concat(
+          `
 - จำนวนผ้าทั้งหมด ${totalCloths} ตัว \
           `
-      );
-    if (thickCloths)
-      message = await message.concat(
-        `
+        );
+      if (thickCloths)
+        message = await message.concat(
+          `
 - ผ้าหนา ${thickCloths} ตัว \
           `
-      );
-    if (thinCloths)
-      message = await message.concat(
-        `
+        );
+      if (thinCloths)
+        message = await message.concat(
+          `
 - ผ้าบาง ${thinCloths} ตัว \
           `
-      );
-    if (specialCloths)
-      message = await message.concat(
-        `
+        );
+      if (specialCloths)
+        message = await message.concat(
+          `
 - ผ้าพิเศษ ${specialCloths} ตัว \
           `
-      );
-    if (problemCloths)
-      message = await message.concat(
-        `
+        );
+      if (problemCloths)
+        message = await message.concat(
+          `
 - เป็นผ้ามีปัญหาจำนวน   ${problemCloths} ตัว \
           `
-      );
-    if (inProcess)
-      message = await message.concat(
-        `
+        );
+      if (inProcess)
+        message = await message.concat(
+          `
 - นำเข้าซัก ${inProcess} ตัว \
           `
-      );
-    if (outProcess)
-      message = await message.concat(
-        `
+        );
+      if (outProcess)
+        message = await message.concat(
+          `
 - ไม่นำเข้าซัก ${outProcess} ตัว \
           `
-      );
-    message = await message.concat(`
+        );
+      message = await message.concat(`
         
         
 -------------------------------
@@ -159,17 +172,19 @@ ${number}) ${!!order.type ? order.type.name : '-'}  |  ${
   🙏  ขอบคุณที่ใช้บริการ  🙏
         `);
 
-    console.log(orderDetail)
-
-    await this.messageToCustomer(message, orderDetail.line_id);
+      await this.messageToCustomer(message, orderDetail.line_id).then(() => {
+        return resolve();
+      });
+    });
   }
 
   async messageSendSeparateOrder(
     customer: any,
     senderOrder: any
   ): Promise<void> {
-    let message =
-      await `คุณ ${customer.firstName} ${customer.lastName} (${customer.key})
+    return new Promise(async (resolve, reject) => {
+      let message =
+        await `คุณ ${customer.firstName} ${customer.lastName} (${customer.key})
 ทางร้านได้นำผ้าบางรายการส่งคืนให้ลูกค้าแล้ว
 -------------------------------
 
@@ -177,49 +192,52 @@ ${number}) ${!!order.type ? order.type.name : '-'}  |  ${
 🚚  รายการผ้าที่นำส่ง  🚚
 `;
 
-    for (let [index, order] of senderOrder.entries()) {
-      const number = index + 1;
-      let problemMessage = '';
-      let problemAfterMessage = '';
-      if (!!order.clotheHasProblems && order.clotheHasProblems.length > 0) {
-        for (let problem of order.clotheHasProblems) {
-          problemMessage = await problemMessage.concat(
-            `${problem.problemClothe.name} , `
-          );
+      for (let [index, order] of senderOrder.entries()) {
+        const number = index + 1;
+        let problemMessage = '';
+        let problemAfterMessage = '';
+        if (!!order.clotheHasProblems && order.clotheHasProblems.length > 0) {
+          for (let problem of order.clotheHasProblems) {
+            problemMessage = await problemMessage.concat(
+              `${problem.problemClothe.name} , `
+            );
+          }
         }
-      }
-      if (
-        !!order.clotheHasProblemsAfter &&
-        order.clotheHasProblemsAfter.length > 0
-      ) {
-        for (let problem of order.clotheHasProblemsAfter) {
-          problemAfterMessage = await problemAfterMessage.concat(
-            `${problem.name} , `
-          );
+        if (
+          !!order.clotheHasProblemsAfter &&
+          order.clotheHasProblemsAfter.length > 0
+        ) {
+          for (let problem of order.clotheHasProblemsAfter) {
+            problemAfterMessage = await problemAfterMessage.concat(
+              `${problem.name} , `
+            );
+          }
         }
-      }
-      message = await message.concat(
-        `
+        message = await message.concat(
+          `
 ${number}) ${!!order.sortClothe ? order.sortClothe.name : '-'}  |  ${
-          !!order.typeClothe && !!order.typeClothe.value
-            ? order.typeClothe.name
-            : '-'
-        }  |  ${!!order.specialClothe ? order.specialClothe.name : '-'}
+            !!order.typeClothe && !!order.typeClothe.name
+              ? order.typeClothe.name
+              : '-'
+          }  |  ${!!order.specialClothe ? order.specialClothe.name : '-'}
   ปัญหาก่อนซัก:   ${!!problemMessage ? problemMessage : '-'}
   ปัญหาหลังซัก:   ${!!problemAfterMessage ? problemAfterMessage : '-'}
   จำนวน:   1 ตัว
        --------------------- \
             `
-      );
-    }
+        );
+      }
 
-    console.log(customer)
-    await this.messageToCustomer(message, customer.lineUserId);
+      await this.messageToCustomer(message, customer.lineUserId).then(() => {
+        return resolve();
+      });
+    });
   }
 
   async messageSendClearOrder(customer: any, senderOrder: any): Promise<void> {
-    let message =
-      await `คุณ ${customer.firstName} ${customer.lastName} (${customer.key})
+    return new Promise(async (resolve, reject) => {
+      let message =
+        await `คุณ ${customer.firstName} ${customer.lastName} (${customer.key})
 ทางร้านได้นำผ้าส่งคืนให้ลูกค้าแล้ว
 -------------------------------
 
@@ -227,49 +245,52 @@ ${number}) ${!!order.sortClothe ? order.sortClothe.name : '-'}  |  ${
 🚚  รายการผ้าที่นำส่ง  🚚
 `;
 
-    for (let [index, order] of senderOrder.entries()) {
-      const number = index + 1;
-      let problemMessage = '';
-      let problemAfterMessage = '';
-      if (!!order.clotheHasProblems && order.clotheHasProblems.length > 0) {
-        for (let problem of order.clotheHasProblems) {
-          problemMessage = await problemMessage.concat(
-            `${problem.problemClothe.name} , `
-          );
+      for (let [index, order] of senderOrder.entries()) {
+        const number = index + 1;
+        let problemMessage = '';
+        let problemAfterMessage = '';
+        if (!!order.clotheHasProblems && order.clotheHasProblems.length > 0) {
+          for (let problem of order.clotheHasProblems) {
+            problemMessage = await problemMessage.concat(
+              `${problem.problemClothe.name} , `
+            );
+          }
         }
-      }
-      if (
-        !!order.clotheHasProblemsAfter &&
-        order.clotheHasProblemsAfter.length > 0
-      ) {
-        for (let problem of order.clotheHasProblemsAfter) {
-          problemAfterMessage = await problemAfterMessage.concat(
-            `${problem.name} , `
-          );
+        if (
+          !!order.clotheHasProblemsAfter &&
+          order.clotheHasProblemsAfter.length > 0
+        ) {
+          for (let problem of order.clotheHasProblemsAfter) {
+            problemAfterMessage = await problemAfterMessage.concat(
+              `${problem.name} , `
+            );
+          }
         }
-      }
-      message = await message.concat(
-        `
+        message = await message.concat(
+          `
 ${number}) ${!!order.sortClothe ? order.sortClothe.name : '-'}  |  ${
-          !!order.typeClothe && !!order.typeClothe.value
-            ? order.typeClothe.name
-            : '-'
-        }  |  ${!!order.specialClothe ? order.specialClothe.name : '-'}
+            !!order.typeClothe && !!order.typeClothe.name
+              ? order.typeClothe.name
+              : '-'
+          }  |  ${!!order.specialClothe ? order.specialClothe.name : '-'}
   ปัญหาก่อนซัก:   ${!!problemMessage ? problemMessage : '-'}
   ปัญหาหลังซัก:   ${!!problemAfterMessage ? problemAfterMessage : '-'}
   จำนวน:   1 ตัว
        --------------------- \
             `
-      );
-    }
+        );
+      }
 
-    message = await message.concat(`
+      message = await message.concat(`
         
         
 -------------------------------
   🙏  ขอบคุณที่ใช้บริการ  🙏
         `);
 
-    await this.messageToCustomer(message, customer.lineUserId);
+      await this.messageToCustomer(message, customer.lineUserId).then(() => {
+        return resolve();
+      });
+    });
   }
 }

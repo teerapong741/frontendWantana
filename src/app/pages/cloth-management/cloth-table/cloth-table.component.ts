@@ -26,7 +26,7 @@ export class ClothTableComponent implements OnInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute,
     private lineService: LineService
-  ) { }
+  ) {}
 
   async ngOnInit() {
     this.loading = true;
@@ -38,8 +38,8 @@ export class ClothTableComponent implements OnInit, OnDestroy {
           const orders = JSON.parse(JSON.stringify(result.data.primaryOrders));
           this.clothList = orders.sort(function (a: any, b: any) {
             const date1: any = new Date(a.created_at);
-            const date2: any = new Date(b.created_at)
-            const result = date2 - date1
+            const date2: any = new Date(b.created_at);
+            const result = date2 - date1;
             return result;
           });
           // .filter(
@@ -54,6 +54,7 @@ export class ClothTableComponent implements OnInit, OnDestroy {
           });
         }
       });
+    await this.orderService.setOrder(null);
   }
 
   async onOrders(): Promise<any> {
@@ -96,7 +97,7 @@ export class ClothTableComponent implements OnInit, OnDestroy {
 
     ref.onClose.subscribe((result) => {
       this.orderService.setOrder(null);
-      window.location.reload()
+      window.location.reload();
     });
   }
 
