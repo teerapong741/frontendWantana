@@ -126,12 +126,13 @@ export class AddClothsComponent implements OnInit, OnDestroy {
     this.isDisable = true;
 
     this.ref.onClose.subscribe(async (item: any) => {
-    this.isDisable =false;
+      this.isDisable = false;
       if (item) {
         const isExist: any[] = [];
         for (let cloth of this.clothList) {
           let isEqualProblem = false;
-          if (!!item.fabric_problem) {
+          console.log(item);
+          if (!!item.fabric_problem && item.fabric_problem.length > 0) {
             if (!!cloth.fabric_problem && !!item.fabric_problem) {
               const clothProblem = cloth.fabric_problem.map(
                 ({ name }: any) => name
@@ -160,6 +161,7 @@ export class AddClothsComponent implements OnInit, OnDestroy {
                 JSON.stringify(item.type_of_use) &&
               JSON.stringify(cloth.type_special) ===
                 JSON.stringify(item.type_special) &&
+              cloth.fabric_problem == null &&
               JSON.stringify(cloth.is_out_process) ===
                 JSON.stringify(item.is_out_process) &&
               JSON.stringify(cloth.key) !== JSON.stringify(item.key)
