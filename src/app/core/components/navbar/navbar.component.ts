@@ -57,12 +57,12 @@ export class NavbarComponent implements OnInit {
 
   ngOnInit() {
     this.id = this.authService.isCodeEmployee().id;
-    console.log(this.id)
+    // console.log(this.id)
     this.employeeService.employee(this.id).subscribe((result) => {
       if (result.data) {
         const employee = result.data.employee;
         this.employee = employee;
-        console.log(result)
+        // console.log(result)
       }
     });
   }

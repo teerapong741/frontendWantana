@@ -16,6 +16,7 @@ import Swal from 'sweetalert2';
 export class ClothTableComponent implements OnInit, OnDestroy {
   loading: boolean = false;
   $subscriptions: Subscription | undefined = undefined;
+  isDisable: boolean = false;
 
   clothList: any[] = [];
 
@@ -83,6 +84,7 @@ export class ClothTableComponent implements OnInit, OnDestroy {
   }
 
   onSendOrder(order: any): void {
+    this.isDisable = true;
     const ref = this.dialogService.open(SendOrderComponent, {
       header: 'ส่งผ้า',
       width: '95%',
@@ -96,6 +98,7 @@ export class ClothTableComponent implements OnInit, OnDestroy {
     });
 
     ref.onClose.subscribe((result) => {
+      this.isDisable = false;
       this.orderService.setOrder(null);
       window.location.reload();
     });

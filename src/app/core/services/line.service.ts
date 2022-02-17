@@ -191,6 +191,112 @@ ${number}) ${!!order.type ? order.type.name : '-'}  |  ${
 
 🚚  รายการผ้าที่นำส่ง  🚚
 `;
+      let clothList: any[] = [];
+      for (let item of senderOrder) {
+        const isExist: any[] = [];
+        for (let cloth of clothList) {
+          let isEqualProblem = false;
+          let isEqualProblemAfter = false;
+          if (
+            (!!item.clotheHasProblems && item.clotheHasProblems.length > 0) ||
+            (!!item.clotheHasProblemsAfter &&
+              item.clotheHasProblemsAfter.length > 0)
+          ) {
+            if (!!cloth.clotheHasProblems && !!item.clotheHasProblems) {
+              const clothProblem = cloth.clotheHasProblems.map(
+                ({ problemClothe }: any) => problemClothe.name
+              );
+              const itemProblem = item.clotheHasProblems.map(
+                ({ problemClothe }: any) => problemClothe.name
+              );
+              isEqualProblem = this.compare(clothProblem, itemProblem);
+            }
+            if (
+              !!cloth.clotheHasProblemsAfter &&
+              !!item.clotheHasProblemsAfter
+            ) {
+              const clothProblem = cloth.clotheHasProblemsAfter.map(
+                (problemClothe: any) => problemClothe.name
+              );
+              const itemProblem = item.clotheHasProblems.map(
+                (problemClothe: any) => problemClothe.name
+              );
+              isEqualProblemAfter = this.compare(clothProblem, itemProblem);
+            }
+            if (
+              !!cloth.clotheHasProblems &&
+              !!item.clotheHasProblems &&
+              isEqualProblem &&
+              !cloth.clotheHasProblemsAfter &&
+              !item.clotheHasProblemsAfter
+            )
+              isEqualProblemAfter = true;
+            if (
+              !cloth.clotheHasProblems &&
+              !item.clotheHasProblems &&
+              isEqualProblemAfter &&
+              !!cloth.clotheHasProblemsAfter &&
+              !!item.clotheHasProblemsAfter
+            )
+              isEqualProblem = true;
+            if (
+              JSON.stringify(cloth.sortClothe) ===
+                JSON.stringify(item.sortClothe) &&
+              JSON.stringify(cloth.typeClothe) ===
+                JSON.stringify(item.typeClothe) &&
+              isEqualProblem &&
+              isEqualProblemAfter &&
+              JSON.stringify(cloth.specialClothe) ===
+                JSON.stringify(item.specialClothe) &&
+              JSON.stringify(cloth.key) !== JSON.stringify(item.key)
+            )
+              await isExist.push(cloth);
+          } else {
+            let isEqualProblemElse = true;
+            if (
+              !!item.clotheHasProblems &&
+              item.clotheHasProblems.length > 0 &&
+              !!cloth.clotheHasProblems &&
+              cloth.clotheHasProblems.length > 0
+            ) {
+              isEqualProblemElse = await this.compare(
+                item.clotheHasProblems,
+                cloth.clotheHasProblems
+              );
+            } else isEqualProblemElse = true;
+
+            if (
+              JSON.stringify(cloth.sortClothe) ===
+                JSON.stringify(item.sortClothe) &&
+              JSON.stringify(cloth.typeClothe) ===
+                JSON.stringify(item.typeClothe) &&
+              JSON.stringify(cloth.specialClothe) ===
+                JSON.stringify(item.specialClothe) &&
+              isEqualProblemElse &&
+              ((!!item.clothHasProblemsAfter &&
+                !!cloth.clothHasProblemsAfter &&
+                item.clothHasProblemsAfter == cloth.clothHasProblemsAfter) ||
+                (!item.clothHasProblemsAfter &&
+                  !cloth.clothHasProblemsAfter)) &&
+              JSON.stringify(cloth.key) !== JSON.stringify(item.key)
+            )
+              await isExist.push(cloth);
+          }
+        }
+
+        if (isExist.length === 0)
+          clothList.push({
+            ...item,
+            number: 1,
+          });
+        else {
+          const index = clothList.findIndex(
+            (cloth) => cloth.key === isExist[0].key
+          );
+          clothList[index].number = clothList[index].number + 1;
+        }
+      }
+      senderOrder = clothList;
 
       for (let [index, order] of senderOrder.entries()) {
         const number = index + 1;
@@ -222,7 +328,7 @@ ${number}) ${!!order.sortClothe ? order.sortClothe.name : '-'}  |  ${
           }  |  ${!!order.specialClothe ? order.specialClothe.name : '-'}
   ปัญหาก่อนซัก:   ${!!problemMessage ? problemMessage : '-'}
   ปัญหาหลังซัก:   ${!!problemAfterMessage ? problemAfterMessage : '-'}
-  จำนวน:   1 ตัว
+  จำนวน:   ${order.number} ตัว
        --------------------- \
             `
         );
@@ -244,6 +350,112 @@ ${number}) ${!!order.sortClothe ? order.sortClothe.name : '-'}  |  ${
 
 🚚  รายการผ้าที่นำส่ง  🚚
 `;
+      let clothList: any[] = [];
+      for (let item of senderOrder) {
+        const isExist: any[] = [];
+        for (let cloth of clothList) {
+          let isEqualProblem = false;
+          let isEqualProblemAfter = false;
+          if (
+            (!!item.clotheHasProblems && item.clotheHasProblems.length > 0) ||
+            (!!item.clotheHasProblemsAfter &&
+              item.clotheHasProblemsAfter.length > 0)
+          ) {
+            if (!!cloth.clotheHasProblems && !!item.clotheHasProblems) {
+              const clothProblem = cloth.clotheHasProblems.map(
+                ({ problemClothe }: any) => problemClothe.name
+              );
+              const itemProblem = item.clotheHasProblems.map(
+                ({ problemClothe }: any) => problemClothe.name
+              );
+              isEqualProblem = this.compare(clothProblem, itemProblem);
+            }
+            if (
+              !!cloth.clotheHasProblemsAfter &&
+              !!item.clotheHasProblemsAfter
+            ) {
+              const clothProblem = cloth.clotheHasProblemsAfter.map(
+                (problemClothe: any) => problemClothe.name
+              );
+              const itemProblem = item.clotheHasProblems.map(
+                (problemClothe: any) => problemClothe.name
+              );
+              isEqualProblemAfter = this.compare(clothProblem, itemProblem);
+            }
+            if (
+              !!cloth.clotheHasProblems &&
+              !!item.clotheHasProblems &&
+              isEqualProblem &&
+              !cloth.clotheHasProblemsAfter &&
+              !item.clotheHasProblemsAfter
+            )
+              isEqualProblemAfter = true;
+            if (
+              !cloth.clotheHasProblems &&
+              !item.clotheHasProblems &&
+              isEqualProblemAfter &&
+              !!cloth.clotheHasProblemsAfter &&
+              !!item.clotheHasProblemsAfter
+            )
+              isEqualProblem = true;
+            if (
+              JSON.stringify(cloth.sortClothe) ===
+                JSON.stringify(item.sortClothe) &&
+              JSON.stringify(cloth.typeClothe) ===
+                JSON.stringify(item.typeClothe) &&
+              isEqualProblem &&
+              isEqualProblemAfter &&
+              JSON.stringify(cloth.specialClothe) ===
+                JSON.stringify(item.specialClothe) &&
+              JSON.stringify(cloth.key) !== JSON.stringify(item.key)
+            )
+              await isExist.push(cloth);
+          } else {
+            let isEqualProblemElse = true;
+            if (
+              !!item.clotheHasProblems &&
+              item.clotheHasProblems.length > 0 &&
+              !!cloth.clotheHasProblems &&
+              cloth.clotheHasProblems.length > 0
+            ) {
+              isEqualProblemElse = await this.compare(
+                item.clotheHasProblems,
+                cloth.clotheHasProblems
+              );
+            } else isEqualProblemElse = true;
+
+            if (
+              JSON.stringify(cloth.sortClothe) ===
+                JSON.stringify(item.sortClothe) &&
+              JSON.stringify(cloth.typeClothe) ===
+                JSON.stringify(item.typeClothe) &&
+              JSON.stringify(cloth.specialClothe) ===
+                JSON.stringify(item.specialClothe) &&
+              isEqualProblemElse &&
+              ((!!item.clothHasProblemsAfter &&
+                !!cloth.clothHasProblemsAfter &&
+                item.clothHasProblemsAfter == cloth.clothHasProblemsAfter) ||
+                (!item.clothHasProblemsAfter &&
+                  !cloth.clothHasProblemsAfter)) &&
+              JSON.stringify(cloth.key) !== JSON.stringify(item.key)
+            )
+              await isExist.push(cloth);
+          }
+        }
+
+        if (isExist.length === 0)
+          clothList.push({
+            ...item,
+            number: 1,
+          });
+        else {
+          const index = clothList.findIndex(
+            (cloth) => cloth.key === isExist[0].key
+          );
+          clothList[index].number = clothList[index].number + 1;
+        }
+      }
+      senderOrder = clothList;
 
       for (let [index, order] of senderOrder.entries()) {
         const number = index + 1;
@@ -275,7 +487,7 @@ ${number}) ${!!order.sortClothe ? order.sortClothe.name : '-'}  |  ${
           }  |  ${!!order.specialClothe ? order.specialClothe.name : '-'}
   ปัญหาก่อนซัก:   ${!!problemMessage ? problemMessage : '-'}
   ปัญหาหลังซัก:   ${!!problemAfterMessage ? problemAfterMessage : '-'}
-  จำนวน:   1 ตัว
+  จำนวน:   ${order.number} ตัว
        --------------------- \
             `
         );
@@ -292,5 +504,24 @@ ${number}) ${!!order.sortClothe ? order.sortClothe.name : '-'}  |  ${
         return resolve();
       });
     });
+  }
+
+  compare(array1: any[], array2: any[]) {
+    if (array1.length != array2.length) {
+      return false;
+    }
+
+    array1 = array1.slice();
+    array1.sort();
+    array2 = array2.slice();
+    array2.sort();
+
+    for (var i = 0; i < array1.length; i++) {
+      if (array1[i] != array2[i]) {
+        return false;
+      }
+    }
+
+    return true;
   }
 }

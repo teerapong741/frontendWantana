@@ -9,6 +9,7 @@
       icon="fas fa-plus"
       class="p-button-raised p-button-success p-button-lg container__btn-add"
       routerLink="./../add-cloths"
+      [disabled]="isDisable"
     ></button>
   </div>
   <p-table
@@ -56,6 +57,7 @@
             icon="fas fa-eye"
             class="p-button-rounded p-button-raised p-button-help"
             (click)="onViewDetail(cloth.id)"
+            [disabled]="isDisable"
           ></button>
           <button
             pButton
@@ -63,8 +65,8 @@
             type="button"
             icon="fas fa-paper-plane"
             class="p-button-rounded p-button-raised p-button-success container__action--btn-send-order"
-            [disabled]="cloth.status !== 'IN'"
             (click)="onSendOrder(cloth)"
+            [disabled]="isDisable || cloth.status !== 'IN'"
           ></button>
           <button
             pButton
@@ -73,6 +75,7 @@
             icon="fas fa-trash"
             class="p-button-rounded p-button-raised p-button-danger"
             (click)="onDelete(cloth.id)"
+            [disabled]="isDisable"
           ></button>
         </td>
       </tr>

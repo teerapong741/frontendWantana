@@ -56,7 +56,7 @@ export class AddClothComponent implements OnInit, OnDestroy {
           const typeCloths = JSON.parse(
             JSON.stringify(result.data.typeClothes)
           );
-          const typeClothsFilter = [this.defaultOption];
+          const typeClothsFilter = [];
           for (let type of typeCloths) {
             if (!type.isDisable)
               typeClothsFilter.push({
@@ -66,6 +66,7 @@ export class AddClothComponent implements OnInit, OnDestroy {
           }
 
           this.typeOfUseOptions = typeClothsFilter;
+          this.typeOfUseSelected = typeClothsFilter[0];
         } else {
           Swal.fire({
             title: 'Error!',
