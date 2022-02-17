@@ -54,12 +54,12 @@ export const typeClothList: string[] = [
   'รองเท้า',
   'กระเป๋า',
   'ผ้าปูที่นอน',
+  'ตุ๊กตา',
 ];
 export const specialClothList: string[] = [
   'ขนสัตว์',
   'ผ้าไหม',
   'ผ้าลูกไม้',
-  'ตุ๊กตา',
   'ยีนส์',
   'กำมะหยี่',
 ];
