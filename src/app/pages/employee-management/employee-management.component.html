@@ -21,13 +21,13 @@
   >
     <ng-template pTemplate="header">
       <tr>
-        <th>ลำดับที่</th>
+        <th>ลำดับ</th>
         <th>รหัส</th>
         <th>ชื่อ</th>
         <th>นามสกุล</th>
-        <th>ที่อยู่</th>
-        <th>เบอร์โทร</th>
-        <th>อีเมล์</th>
+        <!-- <th>ที่อยู่</th> -->
+        <!-- <th>เบอร์โทร</th> -->
+        <!-- <th>อีเมล์</th> -->
         <th>สิทธิ์ผู้ใช้</th>
         <th>สถานะ</th>
         <th></th>
@@ -67,27 +67,27 @@
         >
           {{ employee.lastName }}
         </td>
-        <td
+        <!-- <td
           [ngStyle]="{
             'font-weight': employee.key === employeeLogin.key ? '700' : null
           }"
         >
           {{ employee.address }}
-        </td>
-        <td
+        </td> -->
+        <!-- <td
           [ngStyle]="{
             'font-weight': employee.key === employeeLogin.key ? '700' : null
           }"
         >
           {{ employee.phoneNumber }}
-        </td>
-        <td
+        </td> -->
+        <!-- <td
           [ngStyle]="{
             'font-weight': employee.key === employeeLogin.key ? '700' : null
           }"
         >
           {{ employee.email }}
-        </td>
+        </td> -->
         <td
           [ngStyle]="{
             'font-weight': employee.key === employeeLogin.key ? '700' : null
@@ -114,7 +114,10 @@
         <td class="container__action">
           <button
             *ngIf="
-              (!employee.deleted_at && authService.isRole() === 'ADMIN') ||
+              (!employee.deleted_at &&
+                ((authService.isRole() === 'ADMIN' &&
+                  employee.role !== 'HEAD_ADMIN') ||
+                  authService.isRole() === 'HEAD_ADMIN')) ||
               employee.key == employeeLogin.key
             "
             pButton
@@ -125,7 +128,12 @@
             (click)="onVisibleEditEmployee(employee)"
           ></button>
           <button
-            *ngIf="!employee.deleted_at && employee.key === employeeLogin.key"
+            *ngIf="
+              (!employee.deleted_at && employee.key == employeeLogin.key) ||
+              (authService.isRole() === 'ADMIN' &&
+                employee.role !== 'HEAD_ADMIN') ||
+              authService.isRole() === 'HEAD_ADMIN'
+            "
             pButton
             pRipple
             type="button"
@@ -134,7 +142,12 @@
             (click)="onVisibleEditPassword(employee)"
           ></button>
           <button
-            *ngIf="!employee.deleted_at && authService.isRole() === 'ADMIN'"
+            *ngIf="
+              (!employee.deleted_at && employee.key == employeeLogin.key) ||
+              (authService.isRole() === 'ADMIN' &&
+                employee.role !== 'HEAD_ADMIN') ||
+              authService.isRole() === 'HEAD_ADMIN'
+            "
             pButton
             pRipple
             type="button"
@@ -145,9 +158,11 @@
           <button
             *ngIf="
               !employee.deleted_at &&
-              authService.isRole() === 'ADMIN' &&
-              employee.key !== employeeLogin.key &&
-              employee.role !== 'ADMIN'
+              ((authService.isRole() === 'HEAD_ADMIN' &&
+                employee.role !== 'HEAD_ADMIN') ||
+                (authService.isRole() === 'ADMIN' &&
+                  employee.role !== 'HEAD_ADMIN')) &&
+              employee.key !== employeeLogin.key
             "
             pButton
             pRipple
@@ -156,6 +171,22 @@
             class="p-button-rounded p-button-raised p-button-danger"
             (click)="onDelete(employee.id)"
           ></button>
+          <button
+            *ngIf="
+              !!employee.deleted_at &&
+              ((authService.isRole() === 'HEAD_ADMIN' &&
+                employee.role !== 'HEAD_ADMIN') ||
+                (authService.isRole() === 'ADMIN' &&
+                  employee.role !== 'HEAD_ADMIN')) &&
+              employee.key !== employeeLogin.key
+            "
+            pButton
+            pRipple
+            type="button"
+            icon="fas fa-undo"
+            class="p-button-rounded p-button-raised p-button-danger"
+            (click)="onRestoreEmployee(employee.id)"
+          ></button>
         </td>
       </tr>
     </ng-template>
@@ -163,6 +194,7 @@
 </div>
 
 <p-dialog
+  [modal]="true" [draggable]="false"
   header="เพิ่มพนักงานใหม่"
   [(visible)]="newEmployeeVisible"
   (onHide)="onResetValue()"
@@ -253,6 +285,7 @@
 </p-dialog>
 
 <p-dialog
+  [modal]="true" [draggable]="false"
   header="แก้ไขข้อมูลพนักงาน"
   [(visible)]="editEmployeeVisible"
   (onHide)="onResetValue()"
@@ -266,6 +299,7 @@
         pInputText
         [(ngModel)]="idCard"
         placeholder="โปรดระบุรหัสบัตรประชาชน"
+        [disabled]="idEmployee !== employeeLogin.id"
       />
     </div>
     <div class="field">
@@ -320,7 +354,10 @@
     </div>
     <div
       class="field"
-      *ngIf="authService.isRole() === 'ADMIN' && role === 'SUB_ADMIN'"
+      *ngIf="
+        (authService.isRole() === 'ADMIN' && role === 'SUB_ADMIN') ||
+        authService.isRole() === 'SUPER_ADMIN'
+      "
     >
       <label for="role" class="block">สิทธิ์ผู้ใช้</label>
       <p-dropdown
@@ -346,6 +383,7 @@
 </p-dialog>
 
 <p-dialog
+  [modal]="true" [draggable]="false"
   header="แก้ไขรหัสผ่าน"
   [(visible)]="editPasswordVisible"
   (onHide)="onResetValue()"

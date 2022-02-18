@@ -1,3 +1,4 @@
+import { UpdateProblemClotheInput } from './../../core/interfaces/cloth-problem.interface';
 import { problemClothList } from './../../core/values/cloth.value';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
@@ -80,11 +81,11 @@ export class ClothProblemManagementComponent implements OnInit, OnDestroy {
             this.onResetValue();
           } else {
             Swal.fire({
-            title: 'Error!',
-            text: result.errors[0].message,
-            icon: 'error',
-            confirmButtonText: 'ตกลง',
-          });
+              title: 'Error!',
+              text: result.errors[0].message,
+              icon: 'error',
+              confirmButtonText: 'ตกลง',
+            });
           }
         });
     }
@@ -98,28 +99,32 @@ export class ClothProblemManagementComponent implements OnInit, OnDestroy {
     this.newClothProblemVisible = true;
   }
 
-  onDelete(id: string): void {
+  onDelete(id: string, disable: boolean): void {
     this.confirmationService.confirm({
-      message: 'ต้องการจะลบใช่หรือไม่',
-      acceptLabel: 'ลบ',
+      message: `ต้องการจะ${!disable ? 'ปิดการมองเห็น' : 'กู้คืน'}ใช่หรือไม่`,
+      acceptLabel: `${!disable ? 'ปิดการมองเห็น' : 'กู้คืน'}`,
       acceptIcon: 'fas fa-trash',
       acceptButtonStyleClass: 'p-button-danger p-button-raised',
-      rejectLabel: 'ยกลิก',
+      rejectLabel: 'ยกเลิก',
       rejectButtonStyleClass: 'p-button-warning p-button-raised',
       accept: () => {
         this.loading = true;
+        const updateInput: UpdateProblemClotheInput = {
+          isDisable: !disable,
+          id: Number(id),
+        };
         this.$subscription = this.clothProblemService
-          .removeProblemClothe(Number(id))
+          .disableProblemClothe(updateInput)
           .subscribe((result) => {
             this.loading = false;
             if (!!result.data) {
             } else {
               Swal.fire({
-            title: 'Error!',
-            text: result.errors[0].message,
-            icon: 'error',
-            confirmButtonText: 'ตกลง',
-          });
+                title: 'Error!',
+                text: result.errors[0].message,
+                icon: 'error',
+                confirmButtonText: 'ตกลง',
+              });
             }
           });
       },

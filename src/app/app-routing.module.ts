@@ -18,7 +18,7 @@ const routes: Routes = [
     path: 'dashboard',
     component: DashboardComponent,
     canActivate: [AuthGuard],
-    data: { role: ['ADMIN', 'SUB_ADMIN'] },
+    data: { role: ['HEAD_ADMIN', 'ADMIN', 'SUB_ADMIN'] },
   },
   {
     path: 'cloth-management',
@@ -27,50 +27,50 @@ const routes: Routes = [
         (m) => m.ClothManagementModule
       ),
     canActivate: [AuthGuard],
-    data: { role: ['ADMIN', 'SUB_ADMIN'] },
+    data: { role: ['HEAD_ADMIN', 'ADMIN', 'SUB_ADMIN'] },
   },
   {
     path: 'texture-cloth-management',
     component: TextureClothManagementComponent,
     canActivate: [AuthGuard],
-    data: { role: ['ADMIN', 'SUB_ADMIN'] },
+    data: { role: ['HEAD_ADMIN', 'ADMIN', 'SUB_ADMIN'] },
   },
   {
     path: 'type-cloth-management',
     component: TypeClothManagementComponent,
     canActivate: [AuthGuard],
-    data: { role: ['ADMIN', 'SUB_ADMIN'] },
+    data: { role: ['HEAD_ADMIN', 'ADMIN', 'SUB_ADMIN'] },
   },
   {
     path: 'special-cloth-management',
     component: SpecialClothManagementComponent,
     canActivate: [AuthGuard],
-    data: { role: ['ADMIN', 'SUB_ADMIN'] },
+    data: { role: ['HEAD_ADMIN', 'ADMIN', 'SUB_ADMIN'] },
   },
   {
     path: 'cloth-problem-management',
     component: ClothProblemManagementComponent,
     canActivate: [AuthGuard],
-    data: { role: ['ADMIN', 'SUB_ADMIN'] },
+    data: { role: ['HEAD_ADMIN', 'ADMIN', 'SUB_ADMIN'] },
   },
   {
     path: 'employee-management',
     component: EmployeeManagementComponent,
     canActivate: [AuthGuard],
-    data: { role: ['ADMIN', 'SUB_ADMIN'] },
+    data: { role: ['HEAD_ADMIN', 'ADMIN', 'SUB_ADMIN'] },
   },
   {
     path: 'customer-management',
     component: CustomerManagementComponent,
     canActivate: [AuthGuard],
-    data: { role: ['ADMIN', 'SUB_ADMIN'] },
+    data: { role: ['HEAD_ADMIN', 'ADMIN', 'SUB_ADMIN'] },
   },
   {
     path: 'reports',
     loadChildren: () =>
       import('./pages/reports/reports.module').then((m) => m.ReportsModule),
     canActivate: [AuthGuard],
-    data: { role: ['ADMIN', 'SUB_ADMIN'] },
+    data: { role: ['HEAD_ADMIN', 'ADMIN', 'SUB_ADMIN'] },
   },
   { path: '**', redirectTo: 'login', pathMatch: 'full' },
 ];

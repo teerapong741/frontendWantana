@@ -71,16 +71,22 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy {
               const deletedEmployees = JSON.parse(
                 JSON.stringify(result.data.deletedEmployees)
               );
-              const totalEmployees = [...employees, ...deletedEmployees];
-              this.employeeList = totalEmployees.sort((a: any, b: any) => {
-                if (a.role < b.role) {
-                  return -1;
-                }
-                if (a.role > b.role) {
-                  return 1;
-                }
-                return 0;
-              });
+              const employeeSuperAdmin = employees.filter(
+                (em: any) => em.role === 'HEAD_ADMIN'
+              );
+              let employeeAdmin = employees.filter(
+                (em: any) => em.role === 'ADMIN'
+              );
+              let employeesFilter = employees.filter(
+                (em: any) => em.role !== 'ADMIN' && em.role !== 'HEAD_ADMIN'
+              );
+              const totalEmployees = [
+                ...employeeSuperAdmin,
+                ...employeeAdmin,
+                ...employeesFilter,
+                ...deletedEmployees,
+              ];
+              this.employeeList = totalEmployees;
             });
         } else {
           Swal.fire({
@@ -410,6 +416,34 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy {
         this.loading = true;
         this.$subscription = this.employeeService
           .softRemoveEmployee(Number(id))
+          .subscribe((result) => {
+            this.loading = false;
+            if (!!result.data) {
+            } else {
+              Swal.fire({
+                title: 'Error!',
+                text: result.errors[0].message,
+                icon: 'error',
+                confirmButtonText: 'ตกลง',
+              });
+            }
+          });
+      },
+    });
+  }
+
+  onRestoreEmployee(id: string): void {
+    this.confirmationService.confirm({
+      message: 'ต้องการจะคืนสิทธิ์พนักงานใช่หรือไม่',
+      acceptLabel: 'ลบ',
+      acceptIcon: 'fas fa-trash',
+      acceptButtonStyleClass: 'p-button-danger p-button-raised',
+      rejectLabel: 'ยกลิก',
+      rejectButtonStyleClass: 'p-button-warning p-button-raised',
+      accept: () => {
+        this.loading = true;
+        this.$subscription = this.employeeService
+          .restoreEmployee(Number(id))
           .subscribe((result) => {
             this.loading = false;
             if (!!result.data) {

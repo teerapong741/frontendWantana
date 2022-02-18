@@ -20,7 +20,7 @@
   >
     <ng-template pTemplate="header">
       <tr>
-        <th>ลำดับที่</th>
+        <th>ลำดับ</th>
         <th>รหัส</th>
         <th>ชื่อชนิดเนื้อผ้า</th>
         <th></th>
@@ -42,7 +42,6 @@
             [queryParams]="{ id: cloth.id }"
           ></button> -->
           <button
-            *ngIf="!textureClothes.includes(cloth.name)"
             pButton
             pRipple
             type="button"
@@ -61,10 +60,12 @@
   [(visible)]="newTextureVisible"
   (onHide)="onResetValue()"
   [style]="{ width: '50vw', height: '30vh' }"
+  [modal]="true"
+  [draggable]="false"
 >
-  <div class="container-add-texture flex flex-column  justify-content-around">
+  <div class="container-add-texture flex flex-column justify-content-around">
     <div class="field">
-      <label for="texture-type" class="block" [style]="{ 'font-size': '25px' }"
+      <label for="texture-type" class="block" [style]="{ 'font-size': 'large' }"
         >ชื่อชนิดเนื้อผ้า</label
       >
       <input
@@ -88,9 +89,43 @@
   </div>
 </p-dialog>
 
+<!-- <p-dialog
+  header="แก้ไขชนิดเนื้อผ้า"
+  [(visible)]="newTextureVisible"
+  (onHide)="onResetValue()"
+  [style]="{ width: '50vw', height: '30vh' }"
+  [modal]="true"
+  [draggable]="false"
+>
+  <div class="container-add-texture flex flex-column justify-content-around">
+    <div class="field">
+      <label for="texture-type" class="block" [style]="{ 'font-size': 'large' }"
+        >ชื่อชนิดเนื้อผ้า</label
+      >
+      <input
+        id="texture-type"
+        type="text"
+        pInputText
+        class="p-inputtext-lg w-full"
+        [(ngModel)]="newTextureValue"
+        placeholder="โปรดระบุชนิดเนื้อผ้า"
+      />
+    </div>
+    <button
+      pButton
+      pRipple
+      class="p-button-success p-button-raised p-button-lg"
+      label="แก้ไข"
+      icon="fas fa-edit"
+      style="width: 100%; margin-top: 1rem"
+      (click)="onEditTexture()"
+    ></button>
+  </div>
+</p-dialog> -->
+
 <p-confirmDialog
   header="Warning"
   icon="pi pi-exclamation-triangle"
-  [style]="{ width: '30vw' }"
+  [style]="{ width: '30vw', 'font-size': 'large' }"
   [baseZIndex]="10000"
 ></p-confirmDialog>

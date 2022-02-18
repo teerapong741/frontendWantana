@@ -51,8 +51,8 @@ export class ReportsComponent implements OnInit {
   tableData: any[] = [];
   cols: any[] = [];
 
-  defaultRow = ['*', '*', '*', '*', '*', '*'];
-  defaultBody = ['null', 'null', 'null', 'null', 'null', 'null'];
+  defaultRow = ['auto', 'auto', 'auto', 'auto', 'auto', 'auto', 'auto'];
+  defaultBody = ['null', 'null', 'null', 'null', 'null', 'null', 'null'];
   headerTablePdf: any[] = [];
   rowHeaderPdf: any[] = this.defaultRow;
   bodyTablePdf: any[] = this.defaultBody;
@@ -69,6 +69,7 @@ export class ReportsComponent implements OnInit {
     dateMidNight.setHours(0, 0, 0, 0);
     dateMidNight = new Date(dateMidNight);
     this.dateStart = dateMidNight;
+    this.dateEnd = new Date();
     this.headerTablePdf = [
       'Date',
       'Code',
@@ -165,6 +166,7 @@ export class ReportsComponent implements OnInit {
         font: 'THSarabunNew',
         alignment: 'center',
       },
+      unbreakable: true,
     };
     pdfMake.createPdf(documentDefinition).open();
   }
@@ -175,16 +177,21 @@ export class ReportsComponent implements OnInit {
       this.reportTypeSelected.value === 'orders' ||
       this.reportTypeSelected.value === 'clothe_problems'
     ) {
-      let firstDate =
+      let firstDate: any =
         new Date(new Date(this.dateEnd).setHours(0, 0, 0, 0)).getTime() ===
         new Date(new Date(this.dateStart).setHours(0, 0, 0, 0)).getTime()
-          ? new Date(this.dateEnd.setDate(this.dateStart.getDate() + 1))
-          : new Date(this.dateEnd);
-      firstDate = new Date(new Date(firstDate).setHours(0, 0, 0, 0));
+          ? null
+          : new Date(new Date(this.dateEnd).setHours(0, 0, 0, 0));
 
       let lastDate = new Date(this.dateStart);
-      lastDate = new Date(new Date(lastDate).setHours(0, 0, 0, 0));
+      lastDate =
+        new Date(new Date(lastDate).setHours(0, 0, 0, 0)).getTime() ===
+        new Date(new Date().setHours(0, 0, 0, 0)).getTime()
+          ? new Date(new Date().setHours(0, 0, 0, 0))
+          : new Date(lastDate);
 
+      console.log(firstDate);
+      console.log(lastDate);
       let filterInput: FilterInput = {
         customerName:
           !!this.customerSelected.name && this.customerSelected.value !== 'all'
@@ -214,6 +221,7 @@ export class ReportsComponent implements OnInit {
   ordersTableData(filterInput: FilterInput): void {
     this.tableData = [];
     this.cols = [
+      { header: 'ลำดับ', field: 'num' },
       { header: 'วันที่', field: 'date' },
       { header: 'รหัส', field: 'key' },
       { header: 'ชื่อ', field: 'firstName' },
@@ -224,6 +232,7 @@ export class ReportsComponent implements OnInit {
       // { header: 'สาเหตุผ้ามีปัญหา', field: 'problems' },
     ];
     this.headerTablePdf = [
+      'ลำดับ',
       'วันที่',
       'รหัส',
       'ชื่อ',
@@ -233,7 +242,16 @@ export class ReportsComponent implements OnInit {
       'จำนวน',
       // 'ผ้าพิเศษ',
     ];
-    this.rowHeaderPdf = ['*', '*', '*', '*', '*', '*', '*'];
+    this.rowHeaderPdf = [
+      'auto',
+      'auto',
+      'auto',
+      'auto',
+      'auto',
+      '*',
+      '*',
+      'auto',
+    ];
     this.orderService.filterOrder(filterInput).subscribe(async (result) => {
       this.loading = false;
       if (!!result.data) {
@@ -309,7 +327,7 @@ export class ReportsComponent implements OnInit {
         }
 
         let ordersFilterResult: any = [];
-        for (let order of ordersFilter) {
+        for (let [index, order] of ordersFilter.entries()) {
           let resultOrder: any = null;
           let sortFilter: string = '';
           let typeFilter: string = '';
@@ -326,7 +344,7 @@ export class ReportsComponent implements OnInit {
             if (!!clothe.typeClothe || !!clothe.specialClothe)
               typeFilter = await typeFilter.concat(`<p>${
                 !!clothe.typeClothe ? clothe.typeClothe.name : ''
-              }, ${
+              } ${!!clothe.typeClothe && !!clothe.specialClothe ? ',' : ''} ${
                 !!clothe.specialClothe ? clothe.specialClothe.name : ''
               }</p><br>
             `);
@@ -339,6 +357,7 @@ export class ReportsComponent implements OnInit {
             `);
 
             resultOrder = await {
+              num: index + 1,
               date: clothe.created_at,
               key: clothe.key,
               firstName: clothe.customer.firstName,
@@ -360,6 +379,7 @@ export class ReportsComponent implements OnInit {
           this.bodyTablePdf = [];
           for (let [index, cs] of this.tableData.entries()) {
             let data = [];
+            data.push(`${index + 1}`);
             data.push(`${new Date(cs.date).toLocaleDateString()}`);
             data.push(`${cs.key}`);
             data.push(`${cs.firstName}`);
@@ -377,7 +397,16 @@ export class ReportsComponent implements OnInit {
           }
         } else {
           this.rowHeaderPdf = this.defaultRow;
-          this.bodyTablePdf = ['null', 'null', 'null', 'null', 'null', 'null'];
+          this.bodyTablePdf = [
+            'null',
+            'null',
+            'null',
+            'null',
+            'null',
+            'null',
+            'null',
+            'null',
+          ];
         }
       } else {
         Swal.fire({
@@ -412,6 +441,7 @@ export class ReportsComponent implements OnInit {
   problemTableData(filterInput: FilterInput): void {
     this.tableData = [];
     this.cols = [
+      { header: 'ลำดับ', field: 'num' },
       { header: 'วันที่', field: 'date' },
       { header: 'รหัส', field: 'key' },
       { header: 'ชื่อ', field: 'firstName' },
@@ -422,6 +452,7 @@ export class ReportsComponent implements OnInit {
       { header: 'สาเหตุผ้ามีปัญหา', field: 'problems' },
     ];
     this.headerTablePdf = [
+      'ลำดับ',
       'วันที่',
       'รหัส',
       'ชื่อ',
@@ -431,7 +462,17 @@ export class ReportsComponent implements OnInit {
       'จำนวน',
       'สาเหตุผ้ามีปัญหา',
     ];
-    this.rowHeaderPdf = ['*', '*', '*', '*', '*', '*', '*', '*'];
+    this.rowHeaderPdf = [
+      'auto',
+      'auto',
+      'auto',
+      'auto',
+      'auto',
+      '*',
+      '*',
+      'auto',
+      '*',
+    ];
     this.orderService.filterOrder(filterInput).subscribe(async (result) => {
       this.loading = false;
       if (!!result.data) {
@@ -533,7 +574,7 @@ export class ReportsComponent implements OnInit {
 
         let ordersFilterResult: any = [];
         if (ordersFilter.length > 0)
-          for (let order of ordersFilter) {
+          for (let [index, order] of ordersFilter.entries()) {
             let resultOrder: any = null;
             let sortFilter: string = '';
             let typeFilter: string = '';
@@ -551,7 +592,7 @@ export class ReportsComponent implements OnInit {
               if (!!clothe.typeClothe || !!clothe.specialClothe)
                 typeFilter = await typeFilter.concat(`<p>${
                   !!clothe.typeClothe ? clothe.typeClothe.name : ''
-                }, ${
+                } ${!!clothe.typeClothe && !!clothe.specialClothe ? ',' : ''} ${
                   !!clothe.specialClothe ? clothe.specialClothe.name : ''
                 }</p><br>
             `);
@@ -564,9 +605,12 @@ export class ReportsComponent implements OnInit {
             `);
 
               if (!!clothe.clotheHasProblems)
-                for (let problem of clothe.clotheHasProblems) {
+                for (let [
+                  index,
+                  problem,
+                ] of clothe.clotheHasProblems.entries()) {
                   problemsFilter = await problemsFilter.concat(
-                    `<span>${problem.problemClothe.name}, </span>`
+                    `<span>${problem.problemClothe.name} </span>`
                   );
                 }
               else
@@ -574,6 +618,7 @@ export class ReportsComponent implements OnInit {
             `);
 
               resultOrder = await {
+                num: index + 1,
                 date: clothe.created_at,
                 key: clothe.key,
                 firstName: clothe.customer.firstName,
@@ -584,6 +629,7 @@ export class ReportsComponent implements OnInit {
                 problems: !!problemsFilter ? problemsFilter : 'ไม่ได้ระบุ',
               };
             }
+            console.log(resultOrder);
 
             await ordersFilterResult.push({
               ...resultOrder,
@@ -597,6 +643,7 @@ export class ReportsComponent implements OnInit {
           this.bodyTablePdf = [];
           for (let [index, cs] of this.tableData.entries()) {
             let data = [];
+            data.push(`${index + 1}`);
             data.push(`${new Date(cs.date).toLocaleDateString()}`);
             data.push(`${cs.key}`);
             data.push(`${cs.firstName}`);
@@ -610,7 +657,16 @@ export class ReportsComponent implements OnInit {
           }
         } else {
           this.rowHeaderPdf = this.defaultRow;
-          this.bodyTablePdf = ['null', 'null', 'null', 'null', 'null', 'null'];
+          this.bodyTablePdf = [
+            'null',
+            'null',
+            'null',
+            'null',
+            'null',
+            'null',
+            'null',
+            'null',
+          ];
         }
       } else {
         Swal.fire({
@@ -626,6 +682,7 @@ export class ReportsComponent implements OnInit {
   customersTableData(): void {
     this.tableData = [];
     this.cols = [
+      { header: 'ลำดับ', field: 'num' },
       { header: 'วันที่', field: 'date' },
       { header: 'รหัส', field: 'key' },
       { header: 'ชื่อ', field: 'firstName' },
@@ -634,6 +691,7 @@ export class ReportsComponent implements OnInit {
       { header: 'เบอร์ติดต่อ', field: 'phone' },
     ];
     this.headerTablePdf = [
+      'ลำดับ',
       'วันที่',
       'รหัส',
       'ชื่อ',
@@ -641,7 +699,7 @@ export class ReportsComponent implements OnInit {
       'ที่อยู่',
       'เบอร์ติดต่อ',
     ];
-    this.rowHeaderPdf = ['*', '*', '*', '*', '*', '*'];
+    this.rowHeaderPdf = ['auto', 'auto', 'auto', '*', '*', '*', 'auto'];
     this.customerService.customers().subscribe((result) => {
       this.loading = false;
       if (result.data) {
@@ -654,7 +712,7 @@ export class ReportsComponent implements OnInit {
           return result;
         });
         let customersFilter = [];
-        for (let customer of customers)
+        for (let [index, customer] of customers.entries())
           if (
             new Date(
               new Date(customer.created_at).setHours(0, 0, 0, 0)
@@ -664,6 +722,7 @@ export class ReportsComponent implements OnInit {
             ).getTime() <= new Date(this.dateEnd).getTime()
           )
             customersFilter.push({
+              num: index + 1,
               date: customer.created_at,
               key: customer.key,
               firstName: customer.firstName,
@@ -678,6 +737,7 @@ export class ReportsComponent implements OnInit {
 
           for (let [index, cs] of this.tableData.entries()) {
             let data: string[] = [];
+            data.push(`${index + 1}`);
             data.push(`${new Date(cs.date).toLocaleDateString()}`);
             data.push(`${cs.key}`);
             data.push(`${cs.firstName}`);
@@ -688,7 +748,16 @@ export class ReportsComponent implements OnInit {
           }
         } else {
           this.rowHeaderPdf = this.defaultRow;
-          this.bodyTablePdf = ['null', 'null', 'null', 'null', 'null', 'null'];
+          this.bodyTablePdf = [
+            'null',
+            'null',
+            'null',
+            'null',
+            'null',
+            'null',
+            'null',
+            'null',
+          ];
         }
       } else {
         Swal.fire({
@@ -704,6 +773,7 @@ export class ReportsComponent implements OnInit {
   employeesTableData(): void {
     this.tableData = [];
     this.cols = [
+      { header: 'ลำดับ', field: 'num' },
       { header: 'วันที่', field: 'date' },
       { header: 'รหัส', field: 'key' },
       { header: 'ชื่อ', field: 'firstName' },
@@ -713,6 +783,7 @@ export class ReportsComponent implements OnInit {
       { header: 'อีเมล์', field: 'email' },
     ];
     this.headerTablePdf = [
+      'ลำดับ',
       'วันที่',
       'รหัส',
       'ชื่อ',
@@ -721,7 +792,7 @@ export class ReportsComponent implements OnInit {
       'เบอร์ติดต่อ',
       'อีเมล์',
     ];
-    this.rowHeaderPdf = ['*', '*', '*', '*', '*', '*', '*'];
+    this.rowHeaderPdf = ['auto', 'auto', 'auto', '*', '*', '*', 'auto', 'auto'];
     this.employeeService.employees().subscribe((result) => {
       this.loading = false;
       if (result.data) {
@@ -734,7 +805,7 @@ export class ReportsComponent implements OnInit {
           return result;
         });
         let employeesFilter = [];
-        for (let employee of employees)
+        for (let [index, employee] of employees.entries())
           if (
             new Date(
               new Date(employee.created_at).setHours(0, 0, 0, 0)
@@ -744,6 +815,7 @@ export class ReportsComponent implements OnInit {
             ).getTime() <= new Date(this.dateEnd).getTime()
           )
             employeesFilter.push({
+              num: index + 1,
               date: employee.created_at,
               key: employee.key,
               firstName: employee.firstName,
@@ -758,6 +830,7 @@ export class ReportsComponent implements OnInit {
           this.bodyTablePdf = [];
           for (let [index, em] of this.tableData.entries()) {
             let data: string[] = [];
+            data.push(`${index + 1}`);
             data.push(`${new Date(em.date).toLocaleDateString()}`);
             data.push(`${em.key}`);
             data.push(`${em.firstName}`);
@@ -769,7 +842,16 @@ export class ReportsComponent implements OnInit {
           }
         } else {
           this.rowHeaderPdf = this.defaultRow;
-          this.bodyTablePdf = ['null', 'null', 'null', 'null', 'null', 'null'];
+          this.bodyTablePdf = [
+            'null',
+            'null',
+            'null',
+            'null',
+            'null',
+            'null',
+            'null',
+            'null',
+          ];
         }
       } else {
         Swal.fire({

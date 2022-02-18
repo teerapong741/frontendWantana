@@ -20,7 +20,7 @@
   >
     <ng-template pTemplate="header">
       <tr>
-        <th>ลำดับที่</th>
+        <th>ลำดับ</th>
         <th>รหัส</th>
         <th>ชื่อประเภทการใช้งาน</th>
         <th></th>
@@ -42,7 +42,6 @@
             [queryParams]="{ id: cloth.id }"
           ></button> -->
           <button
-            *ngIf="!typeClothes.includes(cloth.name)"
             pButton
             pRipple
             type="button"
@@ -61,10 +60,12 @@
   [(visible)]="newTypeClothVisible"
   (onHide)="onResetValue()"
   [style]="{ width: '50vw', height: '30vh' }"
+  [modal]="true"
+  [draggable]="false"
 >
   <div class="h-full flex flex-column justify-content-around">
     <div class="field">
-      <label for="texture-type" class="block" [style]="{ 'font-size': '25px' }"
+      <label for="texture-type" class="block" [style]="{ 'font-size': 'large' }"
         >ชื่อประเภทการใช้งาน</label
       >
       <input
@@ -88,9 +89,43 @@
   </div>
 </p-dialog>
 
+<!-- <p-dialog
+  header="แก้ไขประเภทการใช้งานผ้า"
+  [(visible)]="editTypeClothVisible"
+  (onHide)="onResetValue()"
+  [style]="{ width: '50vw', height: '30vh' }"
+  [modal]="true"
+  [draggable]="false"
+>
+  <div class="h-full flex flex-column justify-content-around">
+    <div class="field">
+      <label for="texture-type" class="block" [style]="{ 'font-size': 'large' }"
+        >ชื่อประเภทการใช้งาน</label
+      >
+      <input
+        id="texture-type"
+        type="text"
+        pInputText
+        class="p-inputtext-lg w-full"
+        [(ngModel)]="editTypeClothValue"
+        placeholder="โปรดระบุประเภทการใช้งานผ้า"
+      />
+    </div>
+    <button
+      pButton
+      pRipple
+      class="p-button-success p-button-raised p-button-lg"
+      label="แก้ไข"
+      icon="fas fa-edit"
+      style="width: 100%; margin-top: 1rem"
+      (click)="onEditTypeCloth()"
+    ></button>
+  </div>
+</p-dialog> -->
+
 <p-confirmDialog
   header="Warning"
   icon="pi pi-exclamation-triangle"
-  [style]="{ width: '30vw' }"
+  [style]="{ width: '30vw', 'font-size': 'large' }"
   [baseZIndex]="10000"
 ></p-confirmDialog>

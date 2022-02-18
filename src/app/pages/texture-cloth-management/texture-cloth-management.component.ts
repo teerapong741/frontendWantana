@@ -55,6 +55,7 @@ export class TextureClothManagementComponent implements OnInit, OnDestroy {
   onNewTexture(): void {
     if (!this.newTextureValue) {
       this.confirmationService.confirm({
+
         message: 'โปรดใส่ชื่อชนิดเนื้อผ้า',
         acceptVisible: true,
         acceptLabel: 'ตกลง',

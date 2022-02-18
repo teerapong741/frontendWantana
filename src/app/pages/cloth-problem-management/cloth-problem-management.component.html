@@ -20,7 +20,7 @@
   >
     <ng-template pTemplate="header">
       <tr>
-        <th>ลำดับที่</th>
+        <th>ลำดับ</th>
         <th>รหัส</th>
         <th>ประเภทผ้ามีปัญหา</th>
         <th></th>
@@ -42,13 +42,12 @@
             [queryParams]="{ id: cloth.id }"
           ></button> -->
           <button
-            *ngIf="!problemClothes.includes(cloth.name)"
             pButton
             pRipple
             type="button"
-            icon="fas fa-trash"
+            [icon]="'fas ' + (cloth.isDisable ? 'fa-undo' : 'fa-eye-slash')"
             class="p-button-rounded p-button-raised p-button-danger"
-            (click)="onDelete(cloth.id)"
+            (click)="onDelete(cloth.id, cloth.isDisable)"
           ></button>
         </td>
       </tr>
@@ -61,10 +60,12 @@
   [(visible)]="newClothProblemVisible"
   (onHide)="onResetValue()"
   [style]="{ width: '50vw', height: '30vh' }"
+  [modal]="true"
+  [draggable]="false"
 >
   <div class="h-full flex flex-column justify-content-around">
     <div class="field">
-      <label for="texture-type" class="block" [style]="{ 'font-size': '25px' }"
+      <label for="texture-type" class="block" [style]="{ 'font-size': 'large' }"
         >ประเภทผ้ามีปัญหา</label
       >
       <input
@@ -88,9 +89,43 @@
   </div>
 </p-dialog>
 
+<!-- <p-dialog
+  header="แก้ไขประเภทผ้ามีปัญหา"
+  [(visible)]="editClothProblemVisible"
+  (onHide)="onResetValue()"
+  [style]="{ width: '50vw', height: '30vh' }"
+  [modal]="true"
+  [draggable]="false"
+>
+  <div class="h-full flex flex-column justify-content-around">
+    <div class="field">
+      <label for="texture-type" class="block" [style]="{ 'font-size': 'large' }"
+        >ประเภทผ้ามีปัญหา</label
+      >
+      <input
+        id="texture-type"
+        type="text"
+        pInputText
+        class="p-inputtext-lg w-full"
+        [(ngModel)]="editClothProblemValue"
+        placeholder="โปรดระบุประเภทผ้ามีปัญหา"
+      />
+    </div>
+    <button
+      pButton
+      pRipple
+      class="p-button-success p-button-raised p-button-lg"
+      label="แก้ไข"
+      icon="fas fa-edit"
+      style="width: 100%; margin-top: 1rem"
+      (click)="onEditClothProblem()"
+    ></button>
+  </div>
+</p-dialog> -->
+
 <p-confirmDialog
   header="Warning"
   icon="pi pi-exclamation-triangle"
-  [style]="{ width: '30vw' }"
+  [style]="{ width: '30vw', 'font-size': 'large' }"
   [baseZIndex]="10000"
 ></p-confirmDialog>

@@ -9,3 +9,6 @@ export const PROBLEM_CLOTHES = gql`
     }
   }
 `;
+
+      // isDisable;
+

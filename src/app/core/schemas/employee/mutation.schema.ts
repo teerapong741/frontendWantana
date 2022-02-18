@@ -34,3 +34,11 @@ export const SOFT_REMOVE_EMPLOYEE = gql`
     }
   }
 `;
+
+export const RESTORE_EMPLOYEE = gql`
+  mutation restoreEmployee($id: Int!) {
+    restoreEmployee(id: $id) {
+      id
+    }
+  }
+`;

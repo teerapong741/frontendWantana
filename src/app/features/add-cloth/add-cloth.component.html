@@ -3,6 +3,7 @@
   <div class="field">
     <label class="block">ชนิดผ้า</label>
     <p-selectButton
+      [style]="{ 'font-size': 'larger' }"
       [options]="typeOptions"
       [(ngModel)]="typeSelected"
       optionLabel="name"
@@ -12,22 +13,26 @@
   <div class="field">
     <label class="block">ประเภทการใช้งานผ้า</label>
     <p-selectButton
+      [style]="{ 'font-size': 'larger' }"
       [options]="typeOfUseOptions"
       [(ngModel)]="typeOfUseSelected"
       optionLabel="name"
     ></p-selectButton>
   </div>
-  <div *ngIf="typeSelected.name === 'ผ้าพิเศษ'" class="field">
-    <label class="block">เลือกผ้าชนิดพิเศษ</label>
+  <div *ngIf="typeSelected.name === 'ผ้าพิเศษ'" class="field field-special">
+    <label class="block label-special">เลือกผ้าชนิดพิเศษ</label>
     <p-selectButton
+      [style]="{ 'font-size': 'larger' }"
       [options]="typeSpecialOptions"
       [(ngModel)]="typeSpecialSelected"
       optionLabel="name"
+      class="special"
     ></p-selectButton>
   </div>
   <div class="field">
     <label class="block">ผ้ามีปัญหา</label>
     <p-selectButton
+      [style]="{ 'font-size': 'larger' }"
       [options]="fabricProblemOptions"
       [(ngModel)]="fabricProblemSelected"
       [multiple]="true"
@@ -57,7 +62,7 @@
       [binary]="true"
       inputId="binary"
     ></p-checkbox>
-    <label for="binary">ไม่ต้องเข้ากระบวนการซัก</label>
+    <label for="binary" style="font-size: 15px;">ไม่ต้องเข้ากระบวนการซัก</label>
   </div>
   <button
     pButton

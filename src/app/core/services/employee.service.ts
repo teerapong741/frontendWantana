@@ -5,6 +5,7 @@ import {
 import {
   CREATE_EMPLOYEE,
   REMOVE_EMPLOYEE,
+  RESTORE_EMPLOYEE,
   SOFT_REMOVE_EMPLOYEE,
   UPDATE_EMPLOYEE,
 } from './../schemas/employee/mutation.schema';
@@ -123,6 +124,23 @@ export class EmployeeService {
   public softRemoveEmployee(id: number): Observable<any> {
     return this.apollo.mutate({
       mutation: SOFT_REMOVE_EMPLOYEE,
+      variables: { id },
+      refetchQueries: [
+        { query: EMPLOYEES, fetchPolicy: 'network-only', errorPolicy: 'all' },
+        {
+          query: DELETED_EMPLOYEES,
+          fetchPolicy: 'network-only',
+          errorPolicy: 'all',
+        },
+      ],
+      awaitRefetchQueries: true,
+      errorPolicy: 'all',
+    });
+  }
+
+  public restoreEmployee(id: number): Observable<any> {
+    return this.apollo.mutate({
+      mutation: RESTORE_EMPLOYEE,
       variables: { id },
       refetchQueries: [
         { query: EMPLOYEES, fetchPolicy: 'network-only', errorPolicy: 'all' },

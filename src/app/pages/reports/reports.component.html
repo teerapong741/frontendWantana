@@ -61,6 +61,8 @@
       <p-calendar
         [(ngModel)]="dateStart"
         (ngModelChange)="onChangeFilter()"
+        dateFormat="dd/mm/yy"
+        [showTime]="true"
       ></p-calendar>
     </div>
     <div class="field inline-block">
@@ -68,6 +70,8 @@
       <p-calendar
         [(ngModel)]="dateEnd"
         (ngModelChange)="onChangeFilter()"
+        dateFormat="dd/mm/yy"
+        [showTime]="true"
       ></p-calendar>
     </div>
   </div>
