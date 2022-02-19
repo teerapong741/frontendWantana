@@ -91,7 +91,6 @@ export class ConfirmOrderSenderComponent implements OnInit {
     let isInClothes: any[] = [];
 
     // check order is out process
-
     for (let clothe of this.order.clothes)
       if (clothe.is_out_process) isOutClothes.push(clothe);
       else isInClothes.push(clothe);

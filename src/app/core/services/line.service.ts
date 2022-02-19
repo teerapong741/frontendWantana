@@ -172,7 +172,11 @@ ${number}) ${!!order.type ? order.type.name : '-'}  |  ${
   🙏  ขอบคุณที่ใช้บริการ  🙏
         `);
 
-      await this.messageToCustomer(message, orderDetail.line_id).then(() => {
+      await this.messageToCustomer(
+        message,
+        orderDetail.line_id,
+        // 'Ufe652df5e990d154d7030b2b1ee67e86'
+      ).then(() => {
         return resolve();
       });
     });
@@ -334,7 +338,11 @@ ${number}) ${!!order.sortClothe ? order.sortClothe.name : '-'}  |  ${
         );
       }
 
-      await this.messageToCustomer(message, customer.lineUserId).then(() => {
+      await this.messageToCustomer(
+        message,
+        customer.lineUserId
+        // 'Ufe652df5e990d154d7030b2b1ee67e86'
+      ).then(() => {
         return resolve();
       });
     });
@@ -500,7 +508,11 @@ ${number}) ${!!order.sortClothe ? order.sortClothe.name : '-'}  |  ${
   🙏  ขอบคุณที่ใช้บริการ  🙏
         `);
 
-      await this.messageToCustomer(message, customer.lineUserId).then(() => {
+      await this.messageToCustomer(
+        message,
+        customer.lineUserId
+        // 'Ufe652df5e990d154d7030b2b1ee67e86'
+      ).then(() => {
         return resolve();
       });
     });
