@@ -72,7 +72,14 @@ export class ReportsComponent implements OnInit {
     dateMidNight.setHours(0, 0, 0, 0);
     dateMidNight = new Date(dateMidNight);
     this.dateStart = dateMidNight;
-    this.dateEnd = new Date();
+    this.dateEnd = new Date(
+      new Date(new Date().setHours(59, 59, 59, 59)).setDate(
+        new Date().getDate()
+      )
+    );
+
+    console.log(this.dateEnd);
+    console.log(this.dateStart);
     this.headerTablePdf = [
       'Date',
       'Code',
@@ -148,24 +155,52 @@ export class ReportsComponent implements OnInit {
     this.dateStartReport = `${new Date(this.dateStart).toLocaleDateString(
       'th-TH'
     )} ${
-      new Date(this.dateStart).getHours().toString().length === 1
-        ? '0' + new Date(this.dateStart).getHours().toString()
-        : new Date(this.dateStart).getHours().toString()
+      new Date(new Date(this.dateStart).setHours(59, 59, 59))
+        .getHours()
+        .toString().length === 1
+        ? '0' +
+          new Date(new Date(this.dateStart).setHours(59, 59, 59))
+            .getHours()
+            .toString()
+        : new Date(new Date(this.dateStart).setHours(59, 59, 59))
+            .getHours()
+            .toString()
     }:${
-      new Date(this.dateStart).getMinutes().toString().length === 1
-        ? '0' + new Date(this.dateStart).getMinutes().toString()
-        : new Date(this.dateStart).getMinutes().toString()
+      new Date(new Date(this.dateStart).setHours(59, 59, 59))
+        .getMinutes()
+        .toString().length === 1
+        ? '0' +
+          new Date(new Date(this.dateStart).setHours(59, 59, 59))
+            .getMinutes()
+            .toString()
+        : new Date(new Date(this.dateStart).setHours(59, 59, 59))
+            .getMinutes()
+            .toString()
     } น.`;
     this.dateEndReport = `${new Date(this.dateEnd).toLocaleDateString(
       'th-TH'
     )} ${
-      new Date(this.dateEnd).getHours().toString().length === 1
-        ? '0' + new Date(this.dateEnd).getHours().toString()
-        : new Date(this.dateEnd).getHours().toString()
+      new Date(new Date(this.dateEnd).setHours(0, 0, 0, 0))
+        .getHours()
+        .toString().length === 1
+        ? '0' +
+          new Date(new Date(this.dateEnd).setHours(0, 0, 0, 0))
+            .getHours()
+            .toString()
+        : new Date(new Date(this.dateEnd).setHours(0, 0, 0, 0))
+            .getHours()
+            .toString()
     }:${
-      new Date(this.dateEnd).getMinutes().toString().length === 1
-        ? '0' + new Date(this.dateEnd).getMinutes().toString()
-        : new Date(this.dateEnd).getMinutes().toString()
+      new Date(new Date(this.dateEnd).setHours(0, 0, 0, 0))
+        .getMinutes()
+        .toString().length === 1
+        ? '0' +
+          new Date(new Date(this.dateEnd).setHours(0, 0, 0, 0))
+            .getMinutes()
+            .toString()
+        : new Date(new Date(this.dateEnd).setHours(0, 0, 0, 0))
+            .getMinutes()
+            .toString()
     } น.`;
     const documentDefinition: any = {
       pageOrientation: 'landscape',
@@ -245,18 +280,18 @@ export class ReportsComponent implements OnInit {
       this.reportTypeSelected.value === 'orders' ||
       this.reportTypeSelected.value === 'clothe_problems'
     ) {
-      let firstDate: any =
-        new Date(new Date(this.dateEnd).setHours(0, 0, 0, 0)).getTime() ===
-        new Date(new Date(this.dateStart).setHours(0, 0, 0, 0)).getTime()
-          ? null
-          : new Date(new Date(this.dateEnd).setHours(0, 0, 0, 0));
+      let x = this.dateEnd;
+      let firstDate: any = new Date(x.setHours(59, 59));
+      let lastDate: any = this.dateStart;
 
-      let lastDate = new Date(this.dateStart);
-      lastDate =
-        new Date(new Date(lastDate).setHours(0, 0, 0, 0)).getTime() ===
-        new Date(new Date().setHours(0, 0, 0, 0)).getTime()
-          ? new Date(new Date().setHours(0, 0, 0, 0))
-          : new Date(lastDate);
+      //   first       last
+      // 20 59:59 => 20 00:00
+      // 20 59:59 => 19 00:00
+      // 20 59:59 => 18 00:00
+      // 19 59:59 => 19 00:00
+
+      console.log(this.dateEnd);
+      console.log(this.dateStart);
 
       let filterInput: FilterInput = {
         customerName:
