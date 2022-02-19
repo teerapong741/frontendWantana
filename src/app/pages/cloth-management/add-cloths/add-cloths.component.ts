@@ -41,6 +41,8 @@ export class AddClothsComponent implements OnInit, OnDestroy {
   tabList: any[] = [];
   tabActive: string = '';
 
+  totalNumber: number = 0;
+
   constructor(
     public dialogService: DialogService,
     private confirmationService: ConfirmationService,
@@ -131,7 +133,6 @@ export class AddClothsComponent implements OnInit, OnDestroy {
         const isExist: any[] = [];
         for (let cloth of this.clothList) {
           let isEqualProblem = false;
-          console.log(item);
           if (!!item.fabric_problem && item.fabric_problem.length > 0) {
             if (!!cloth.fabric_problem && !!item.fabric_problem) {
               const clothProblem = cloth.fabric_problem.map(
@@ -170,17 +171,19 @@ export class AddClothsComponent implements OnInit, OnDestroy {
           }
         }
 
-        if (isExist.length === 0)
+        if (isExist.length === 0) {
           this.clothList.push({
             key: (Math.random() + 1).toString(36).substring(7),
             ...item,
           });
-        else {
+          this.totalNumber += item.number;
+        } else {
           const index = this.clothList.findIndex(
             (cloth) => cloth.key === isExist[0].key
           );
           this.clothList[index].number =
             this.clothList[index].number + item.number;
+          this.totalNumber += item.number;
         }
 
         let tabList = this.clothList.filter(
@@ -199,6 +202,7 @@ export class AddClothsComponent implements OnInit, OnDestroy {
   onEditItem(key: string): void {
     this.isDisable = true;
     const index = this.clothList.findIndex((cloth) => cloth.key === key);
+    let oldItemNumber = this.clothList[index].number;
 
     this.ref = this.dialogService.open(EditClothComponent, {
       header: 'แก้ไขรายการผ้า',
@@ -215,6 +219,8 @@ export class AddClothsComponent implements OnInit, OnDestroy {
     this.ref.onClose.subscribe(async (item: any) => {
       this.isDisable = false;
       if (item) {
+        this.totalNumber -= oldItemNumber;
+        this.totalNumber += item.number;
         const isExist: any[] = [];
         let isEqualProblem = true;
         for (let cloth of this.clothList) {
@@ -285,6 +291,9 @@ export class AddClothsComponent implements OnInit, OnDestroy {
   onRemoveItem(key: string): void {
     const index = this.clothList.findIndex((cloth) => cloth.key === key);
     let tab = this.clothList[index].type.name;
+    this.totalNumber -= this.clothList.filter(
+      (clothe, i) => index == i
+    )[0].number;
     this.clothList = this.clothList.filter((cloth, i) => index !== i);
     let clothInType = this.clothList.filter(({ type }) => type.name == tab);
     if (this.clothList.length > 0 && clothInType.length === 0)
