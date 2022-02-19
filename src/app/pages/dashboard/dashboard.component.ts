@@ -101,6 +101,9 @@ export class DashboardComponent implements OnInit {
       for (let order of ordersFilter) {
         const numResult = await this.onFindOnePrimary(order.id);
         num = num + numResult;
+        let index = this.orders.findIndex((o: any) => o.id === order.id);
+        this.orders[index].num = numResult;
+        console.log(num)
       }
       return resolve(num);
     });

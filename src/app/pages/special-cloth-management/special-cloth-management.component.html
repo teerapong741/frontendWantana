@@ -17,7 +17,22 @@
     [paginator]="true"
     responsiveLayout="scroll"
     styleClass="p-datatable-lg"
-  >
+    #tb
+    [globalFilterFields]="['key', 'name']"
+    ><ng-template pTemplate="caption">
+      <div class="flex">
+        <span class="p-input-icon-left ml-auto">
+          <i class="pi pi-search"></i>
+          <input
+            #inputSearch
+            pInputText
+            type="text"
+            (input)="tb.filterGlobal(inputSearch.value, 'contains')"
+            placeholder="ค้นหา"
+          />
+        </span>
+      </div>
+    </ng-template>
     <ng-template pTemplate="header">
       <tr>
         <th>ลำดับที่</th>
@@ -59,11 +74,15 @@
   header="เพิ่มประเภทผ้าพิเศษ"
   [(visible)]="newSpecialClothVisible"
   (onHide)="onResetValue()"
-  [style]="{ width: '50vw', height: '30vh' }"[modal]="true" [draggable]="false"
+  [style]="{ width: '50vw', height: '30vh' }"
+  [modal]="true"
+  [draggable]="false"
 >
   <div class="h-full flex flex-column justify-content-around">
     <div class="field">
-      <label for="texture-type" class="block" [style]="{ 'font-size': 'large' }">ชื่อประเภทผ้าพิเศษ</label>
+      <label for="texture-type" class="block" [style]="{ 'font-size': 'large' }"
+        >ชื่อประเภทผ้าพิเศษ</label
+      >
       <input
         id="texture-type"
         type="text"
@@ -118,6 +137,6 @@
 <p-confirmDialog
   header="Warning"
   icon="pi pi-exclamation-triangle"
-  [style]="{ width: '30vw','font-size': 'large' }"
+  [style]="{ width: '30vw', 'font-size': 'large' }"
   [baseZIndex]="10000"
 ></p-confirmDialog>

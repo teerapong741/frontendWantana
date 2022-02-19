@@ -97,6 +97,7 @@ export class AddClothsComponent implements OnInit, OnDestroy {
       this.customerSelected = orderDetail.customer;
       this.onSelectedCustomer();
       this.clothList = orderDetail.cloth_list;
+      this.totalNumber = orderDetail.totalNumber;
     }
     this.onFilterTabList();
   }
@@ -344,6 +345,7 @@ export class AddClothsComponent implements OnInit, OnDestroy {
           employee_id: this.employeeId,
           employee_key: this.employeeCode,
           cloth_list: this.clothList,
+          totalNumber: this.totalNumber
         })
         .then(() => {
           this.router.navigate(['./../cloth-management/confirm-order']);

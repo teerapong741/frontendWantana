@@ -144,10 +144,11 @@ export class AddClothComponent implements OnInit, OnDestroy {
           );
           const problemClothesFilter = [];
           for (let special of problemClothes) {
-            problemClothesFilter.push({
-              ...special,
-              value: special.name,
-            });
+            if (!special.isDisable)
+              problemClothesFilter.push({
+                ...special,
+                value: special.name,
+              });
           }
 
           this.fabricProblemOptions = problemClothesFilter;

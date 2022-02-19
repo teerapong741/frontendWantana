@@ -3,7 +3,10 @@
   <div>
     <label class="container__label">ข้อมูลพนักงาน</label>
     <button
-      *ngIf="authService.isRole() === 'ADMIN'"
+      *ngIf="
+        authService.isRole() === 'ADMIN' ||
+        authService.isRole() === 'HEAD_ADMIN'
+      "
       pButton
       pRipple
       label="เพิ่มพนักงานใหม่"
@@ -18,7 +21,23 @@
     [paginator]="true"
     responsiveLayout="scroll"
     styleClass="p-datatable-lg"
+    #tb
+    [globalFilterFields]="['key', 'firstName','lastName']"
   >
+    <ng-template pTemplate="caption">
+      <div class="flex">
+        <span class="p-input-icon-left ml-auto">
+          <i class="pi pi-search"></i>
+          <input
+            #inputSearch
+            pInputText
+            type="text"
+            (input)="tb.filterGlobal(inputSearch.value, 'contains')"
+            placeholder="ค้นหา"
+          />
+        </span>
+      </div>
+    </ng-template>
     <ng-template pTemplate="header">
       <tr>
         <th>ลำดับ</th>
@@ -143,9 +162,9 @@
           ></button>
           <button
             *ngIf="
-              (!employee.deleted_at && employee.key == employeeLogin.key) ||
-              (authService.isRole() === 'ADMIN' &&
-                employee.role !== 'HEAD_ADMIN') ||
+              (!employee.deleted_at &&
+                authService.isRole() === 'ADMIN' &&
+                  employee.role !== 'HEAD_ADMIN') ||
               authService.isRole() === 'HEAD_ADMIN'
             "
             pButton
@@ -194,7 +213,8 @@
 </div>
 
 <p-dialog
-  [modal]="true" [draggable]="false"
+  [modal]="true"
+  [draggable]="false"
   header="เพิ่มพนักงานใหม่"
   [(visible)]="newEmployeeVisible"
   (onHide)="onResetValue()"
@@ -285,7 +305,8 @@
 </p-dialog>
 
 <p-dialog
-  [modal]="true" [draggable]="false"
+  [modal]="true"
+  [draggable]="false"
   header="แก้ไขข้อมูลพนักงาน"
   [(visible)]="editEmployeeVisible"
   (onHide)="onResetValue()"
@@ -383,7 +404,8 @@
 </p-dialog>
 
 <p-dialog
-  [modal]="true" [draggable]="false"
+  [modal]="true"
+  [draggable]="false"
   header="แก้ไขรหัสผ่าน"
   [(visible)]="editPasswordVisible"
   (onHide)="onResetValue()"

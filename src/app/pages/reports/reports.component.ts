@@ -51,7 +51,10 @@ export class ReportsComponent implements OnInit {
   tableData: any[] = [];
   cols: any[] = [];
 
-  defaultRow = ['auto', 'auto', 'auto', 'auto', 'auto', 'auto', 'auto'];
+  dateStartReport: any = '';
+  dateEndReport: any = '';
+
+  defaultRow = ['*', '*', '*', '*', '*', '*', '*'];
   defaultBody = ['null', 'null', 'null', 'null', 'null', 'null', 'null'];
   headerTablePdf: any[] = [];
   rowHeaderPdf: any[] = this.defaultRow;
@@ -142,29 +145,94 @@ export class ReportsComponent implements OnInit {
   }
 
   generatePdf() {
+    this.dateStartReport = `${new Date(this.dateStart).toLocaleDateString(
+      'th-TH'
+    )} ${
+      new Date(this.dateStart).getHours().toString().length === 1
+        ? '0' + new Date(this.dateStart).getHours().toString()
+        : new Date(this.dateStart).getHours().toString()
+    }:${
+      new Date(this.dateStart).getMinutes().toString().length === 1
+        ? '0' + new Date(this.dateStart).getMinutes().toString()
+        : new Date(this.dateStart).getMinutes().toString()
+    } น.`;
+    this.dateEndReport = `${new Date(this.dateEnd).toLocaleDateString(
+      'th-TH'
+    )} ${
+      new Date(this.dateEnd).getHours().toString().length === 1
+        ? '0' + new Date(this.dateEnd).getHours().toString()
+        : new Date(this.dateEnd).getHours().toString()
+    }:${
+      new Date(this.dateEnd).getMinutes().toString().length === 1
+        ? '0' + new Date(this.dateEnd).getMinutes().toString()
+        : new Date(this.dateEnd).getMinutes().toString()
+    } น.`;
     const documentDefinition: any = {
       pageOrientation: 'landscape',
       pageSize: 'A4',
       content: [
         {
-          text: `${this.reportTypeSelected.name}`,
+          text: `ร้านวันทนาซักรีด`,
           bold: true,
           fontSize: 18,
           alignment: 'center',
         },
         {
-          // layout: 'lightHorizontalLines', // optional
-          pageOrientation: 'landscape',
+          text: `240/6 ถนนสาธุประดิษฐ์ แขวงบางโพงพาง เขตยานนาวา กรุงเทพฯ 10120`,
+          bold: true,
+          fontSize: 18,
+          alignment: 'center',
+        },
+        {
+          text: `ออกรายงาน${this.reportTypeSelected.name}`,
+          bold: true,
+          fontSize: 18,
+          alignment: 'center',
+        },
+        {
+          text: `สําหรับรอบระยะเวลาตั้งแต่วันที่ ${this.dateStartReport} ถึงวันที่ ${this.dateEndReport}`,
+          bold: true,
+          fontSize: 18,
+          alignment: 'center',
+          margin: [0, 0, 0, 40],
+        },
+        {
           table: {
             headerRows: 1,
             widths: this.rowHeaderPdf,
             body: [this.headerTablePdf, ...this.bodyTablePdf],
+            alignment: 'center',
           },
+          alignment: 'center',
         },
       ],
       defaultStyle: {
         font: 'THSarabunNew',
         alignment: 'center',
+      },
+      footer: function (currentPage: any, pageCount: any) {
+        return {
+          margin: 10,
+          columns: [
+            {
+              fontSize: 9,
+              text: [
+                {
+                  text:
+                    '--------------------------------------------------------------------------' +
+                    '\n',
+                  margin: [0, 20],
+                },
+                {
+                  text:
+                    'หน้าที่ ' + currentPage.toString() + ' จาก ' + pageCount,
+                  fontSize: 10,
+                },
+              ],
+              alignment: 'center',
+            },
+          ],
+        };
       },
       unbreakable: true,
     };
@@ -190,8 +258,6 @@ export class ReportsComponent implements OnInit {
           ? new Date(new Date().setHours(0, 0, 0, 0))
           : new Date(lastDate);
 
-      console.log(firstDate);
-      console.log(lastDate);
       let filterInput: FilterInput = {
         customerName:
           !!this.customerSelected.name && this.customerSelected.value !== 'all'
@@ -242,16 +308,7 @@ export class ReportsComponent implements OnInit {
       'จำนวน',
       // 'ผ้าพิเศษ',
     ];
-    this.rowHeaderPdf = [
-      'auto',
-      'auto',
-      'auto',
-      'auto',
-      'auto',
-      '*',
-      '*',
-      'auto',
-    ];
+    this.rowHeaderPdf = ['*', '*', '*', '*', '*', '*', '*', '*'];
     this.orderService.filterOrder(filterInput).subscribe(async (result) => {
       this.loading = false;
       if (!!result.data) {
@@ -308,6 +365,7 @@ export class ReportsComponent implements OnInit {
                   else
                     groups.push({
                       ...clothe,
+                      key: order.key,
                       number: 1,
                       customer: order.customer,
                       created_at: order.created_at,
@@ -316,6 +374,7 @@ export class ReportsComponent implements OnInit {
               } else {
                 groups.push({
                   ...clothe,
+                  key: order.key,
                   number: 1,
                   customer: order.customer,
                   created_at: order.created_at,
@@ -335,31 +394,30 @@ export class ReportsComponent implements OnInit {
           for (let clothe of order) {
             if (!!clothe.sortClothe)
               sortFilter =
-                await sortFilter.concat(`<p>${clothe.sortClothe.name}</p><br>
+                await sortFilter.concat(`<span>${clothe.sortClothe.name}</span><br>
             `);
             else
               sortFilter = await sortFilter.concat(`<p>-</p><br>
             `);
 
             if (!!clothe.typeClothe || !!clothe.specialClothe)
-              typeFilter = await typeFilter.concat(`<p>${
+              typeFilter = await typeFilter.concat(`<span>${
                 !!clothe.typeClothe ? clothe.typeClothe.name : ''
-              } ${!!clothe.typeClothe && !!clothe.specialClothe ? ',' : ''} ${
+              } ${
                 !!clothe.specialClothe ? clothe.specialClothe.name : ''
-              }</p><br>
+              }</span><br>
             `);
             else
-              typeFilter = await typeFilter.concat(`<p>-</p><br>
+              typeFilter = await typeFilter.concat(`<span>-</span><br>
             `);
 
             numberFilter =
-              await numberFilter.concat(`<p>${clothe.number}</p><br>
+              await numberFilter.concat(`<span>${clothe.number}</span><br>
             `);
-
             resultOrder = await {
               num: index + 1,
               date: clothe.created_at,
-              key: clothe.key,
+              key: order[0].key,
               firstName: clothe.customer.firstName,
               lastName: clothe.customer.lastName,
               sort: !!sortFilter ? sortFilter : 'ไม่ได้ระบุ',
@@ -380,7 +438,17 @@ export class ReportsComponent implements OnInit {
           for (let [index, cs] of this.tableData.entries()) {
             let data = [];
             data.push(`${index + 1}`);
-            data.push(`${new Date(cs.date).toLocaleDateString()}`);
+            data.push(
+              `${new Date(cs.date).toLocaleDateString('th-TH')} | ${
+                new Date(cs.date).getHours().toString().length === 1
+                  ? '0' + new Date(cs.date).getHours().toString()
+                  : new Date(cs.date).getHours()
+              }:${
+                new Date(cs.date).getMinutes().toString().length === 1
+                  ? '0' + new Date(cs.date).getMinutes()
+                  : new Date(cs.date).getMinutes()
+              }`
+            );
             data.push(`${cs.key}`);
             data.push(`${cs.firstName}`);
             data.push(`${cs.lastName}`);
@@ -462,17 +530,7 @@ export class ReportsComponent implements OnInit {
       'จำนวน',
       'สาเหตุผ้ามีปัญหา',
     ];
-    this.rowHeaderPdf = [
-      'auto',
-      'auto',
-      'auto',
-      'auto',
-      'auto',
-      '*',
-      '*',
-      'auto',
-      '*',
-    ];
+    this.rowHeaderPdf = ['*', '*', '*', '*', '*', '*', '*', '*', '*'];
     this.orderService.filterOrder(filterInput).subscribe(async (result) => {
       this.loading = false;
       if (!!result.data) {
@@ -548,6 +606,7 @@ export class ReportsComponent implements OnInit {
                   else if (isEqualProblem && isHasProblem) {
                     groups.push({
                       ...clothe,
+                      key: order.key,
                       number: 1,
                       customer: order.customer,
                       created_at: order.created_at,
@@ -561,6 +620,7 @@ export class ReportsComponent implements OnInit {
                 ) {
                   groups.push({
                     ...clothe,
+                    key: order.key,
                     number: 1,
                     customer: order.customer,
                     created_at: order.created_at,
@@ -583,25 +643,25 @@ export class ReportsComponent implements OnInit {
             for (let clothe of order) {
               if (!!clothe.sortClothe)
                 sortFilter =
-                  await sortFilter.concat(`<p>${clothe.sortClothe.name}</p><br>
+                  await sortFilter.concat(`<span>${clothe.sortClothe.name}</span><br>
             `);
               else
-                sortFilter = await sortFilter.concat(`<p>-</p><br>
+                sortFilter = await sortFilter.concat(`<span>-</span><br>
             `);
 
               if (!!clothe.typeClothe || !!clothe.specialClothe)
-                typeFilter = await typeFilter.concat(`<p>${
+                typeFilter = await typeFilter.concat(`<span>${
                   !!clothe.typeClothe ? clothe.typeClothe.name : ''
-                } ${!!clothe.typeClothe && !!clothe.specialClothe ? ',' : ''} ${
+                } ${
                   !!clothe.specialClothe ? clothe.specialClothe.name : ''
-                }</p><br>
+                }</span><br>
             `);
               else
-                typeFilter = await typeFilter.concat(`<p>-</p><br>
+                typeFilter = await typeFilter.concat(`<span>-</span><br>
             `);
 
               numberFilter =
-                await numberFilter.concat(`<p>${clothe.number}</p><br>
+                await numberFilter.concat(`<span>${clothe.number}</span><br>
             `);
 
               if (!!clothe.clotheHasProblems)
@@ -614,13 +674,13 @@ export class ReportsComponent implements OnInit {
                   );
                 }
               else
-                problemsFilter = await problemsFilter.concat(`<p>-</p><br>
+                problemsFilter = await problemsFilter.concat(`<span>-</span><br>
             `);
 
               resultOrder = await {
                 num: index + 1,
                 date: clothe.created_at,
-                key: clothe.key,
+                key: order[0].key,
                 firstName: clothe.customer.firstName,
                 lastName: clothe.customer.lastName,
                 sort: !!sortFilter ? sortFilter : 'ไม่ได้ระบุ',
@@ -629,7 +689,6 @@ export class ReportsComponent implements OnInit {
                 problems: !!problemsFilter ? problemsFilter : 'ไม่ได้ระบุ',
               };
             }
-            console.log(resultOrder);
 
             await ordersFilterResult.push({
               ...resultOrder,
@@ -644,7 +703,17 @@ export class ReportsComponent implements OnInit {
           for (let [index, cs] of this.tableData.entries()) {
             let data = [];
             data.push(`${index + 1}`);
-            data.push(`${new Date(cs.date).toLocaleDateString()}`);
+            data.push(
+              `${new Date(cs.date).toLocaleDateString('th-TH')} | ${
+                new Date(cs.date).getHours().toString().length === 1
+                  ? '0' + new Date(cs.date).getHours().toString()
+                  : new Date(cs.date).getHours()
+              }:${
+                new Date(cs.date).getMinutes().toString().length === 1
+                  ? '0' + new Date(cs.date).getMinutes()
+                  : new Date(cs.date).getMinutes()
+              }`
+            );
             data.push(`${cs.key}`);
             data.push(`${cs.firstName}`);
             data.push(`${cs.lastName}`);
@@ -699,7 +768,7 @@ export class ReportsComponent implements OnInit {
       'ที่อยู่',
       'เบอร์ติดต่อ',
     ];
-    this.rowHeaderPdf = ['auto', 'auto', 'auto', '*', '*', '*', 'auto'];
+    this.rowHeaderPdf = ['*', '*', '*', '*', '*', '*', '*'];
     this.customerService.customers().subscribe((result) => {
       this.loading = false;
       if (result.data) {
@@ -738,7 +807,17 @@ export class ReportsComponent implements OnInit {
           for (let [index, cs] of this.tableData.entries()) {
             let data: string[] = [];
             data.push(`${index + 1}`);
-            data.push(`${new Date(cs.date).toLocaleDateString()}`);
+            data.push(
+              `${new Date(cs.date).toLocaleDateString('th-TH')} | ${
+                new Date(cs.date).getHours().toString().length === 1
+                  ? '0' + new Date(cs.date).getHours().toString()
+                  : new Date(cs.date).getHours()
+              }:${
+                new Date(cs.date).getMinutes().toString().length === 1
+                  ? '0' + new Date(cs.date).getMinutes().toString()
+                  : new Date(cs.date).getMinutes()
+              }`
+            );
             data.push(`${cs.key}`);
             data.push(`${cs.firstName}`);
             data.push(`${cs.lastName}`);
@@ -792,7 +871,7 @@ export class ReportsComponent implements OnInit {
       'เบอร์ติดต่อ',
       'อีเมล์',
     ];
-    this.rowHeaderPdf = ['auto', 'auto', 'auto', '*', '*', '*', 'auto', 'auto'];
+    this.rowHeaderPdf = ['*', '*', '*', '*', '*', '*', '*', '*'];
     this.employeeService.employees().subscribe((result) => {
       this.loading = false;
       if (result.data) {
@@ -831,7 +910,17 @@ export class ReportsComponent implements OnInit {
           for (let [index, em] of this.tableData.entries()) {
             let data: string[] = [];
             data.push(`${index + 1}`);
-            data.push(`${new Date(em.date).toLocaleDateString()}`);
+            data.push(
+              `${new Date(em.date).toLocaleDateString('th-TH')} | ${
+                new Date(em.date).getHours().toString().length === 1
+                  ? '0' + new Date(em.date).getHours().toString()
+                  : new Date(em.date).getHours()
+              }:${
+                new Date(em.date).getMinutes().toString().length === 1
+                  ? '0' + new Date(em.date).getMinutes().toString()
+                  : new Date(em.date).getMinutes()
+              }`
+            );
             data.push(`${em.key}`);
             data.push(`${em.firstName}`);
             data.push(`${em.lastName}`);

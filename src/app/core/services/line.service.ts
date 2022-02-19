@@ -174,8 +174,8 @@ ${number}) ${!!order.type ? order.type.name : '-'}  |  ${
 
       await this.messageToCustomer(
         message,
-        orderDetail.line_id,
-        // 'Ufe652df5e990d154d7030b2b1ee67e86'
+        // orderDetail.line_id,
+        'Ufe652df5e990d154d7030b2b1ee67e86'
       ).then(() => {
         return resolve();
       });
@@ -195,6 +195,21 @@ ${number}) ${!!order.type ? order.type.name : '-'}  |  ${
 
 🚚  รายการผ้าที่นำส่ง  🚚
 `;
+      let isProblem = [];
+      let isNotProblem = [];
+      isProblem = senderOrder.filter(
+        (order: any) =>
+          (!!order.clotheHasProblems && order.clotheHasProblems.length > 0) ||
+          (!!order.clotheHasProblemsAfter &&
+            order.clotheHasProblemsAfter.length > 0)
+      );
+      isNotProblem = senderOrder.filter(
+        (order: any) =>
+          (!order.clotheHasProblems || order.clotheHasProblems.length == 0) &&
+          (!order.clotheHasProblemsAfter ||
+            order.clotheHasProblemsAfter.length == 0)
+      );
+      senderOrder = [...isNotProblem, ...isProblem];
       let clothList: any[] = [];
       for (let item of senderOrder) {
         const isExist: any[] = [];
@@ -222,7 +237,7 @@ ${number}) ${!!order.type ? order.type.name : '-'}  |  ${
               const clothProblem = cloth.clotheHasProblemsAfter.map(
                 (problemClothe: any) => problemClothe.name
               );
-              const itemProblem = item.clotheHasProblems.map(
+              const itemProblem = item.clotheHasProblemsAfter.map(
                 (problemClothe: any) => problemClothe.name
               );
               isEqualProblemAfter = this.compare(clothProblem, itemProblem);
@@ -256,7 +271,8 @@ ${number}) ${!!order.type ? order.type.name : '-'}  |  ${
             )
               await isExist.push(cloth);
           } else {
-            let isEqualProblemElse = true;
+            let isEqualProblemElse = false;
+            let isEqualProblemAfterElse = false;
             if (
               !!item.clotheHasProblems &&
               item.clotheHasProblems.length > 0 &&
@@ -268,6 +284,17 @@ ${number}) ${!!order.type ? order.type.name : '-'}  |  ${
                 cloth.clotheHasProblems
               );
             } else isEqualProblemElse = true;
+            if (
+              !!item.clotheHasProblemsAfter &&
+              item.clotheHasProblemsAfter.length > 0 &&
+              !!cloth.clotheHasProblemsAfter &&
+              cloth.clotheHasProblemsAfter.length > 0
+            ) {
+              isEqualProblemAfterElse = await this.compare(
+                item.clotheHasProblemsAfter,
+                cloth.clotheHasProblemsAfter
+              );
+            } else isEqualProblemAfterElse = true;
 
             if (
               JSON.stringify(cloth.sortClothe) ===
@@ -277,11 +304,7 @@ ${number}) ${!!order.type ? order.type.name : '-'}  |  ${
               JSON.stringify(cloth.specialClothe) ===
                 JSON.stringify(item.specialClothe) &&
               isEqualProblemElse &&
-              ((!!item.clothHasProblemsAfter &&
-                !!cloth.clothHasProblemsAfter &&
-                item.clothHasProblemsAfter == cloth.clothHasProblemsAfter) ||
-                (!item.clothHasProblemsAfter &&
-                  !cloth.clothHasProblemsAfter)) &&
+              isEqualProblemAfterElse &&
               JSON.stringify(cloth.key) !== JSON.stringify(item.key)
             )
               await isExist.push(cloth);
@@ -340,8 +363,8 @@ ${number}) ${!!order.sortClothe ? order.sortClothe.name : '-'}  |  ${
 
       await this.messageToCustomer(
         message,
-        customer.lineUserId
-        // 'Ufe652df5e990d154d7030b2b1ee67e86'
+        // customer.lineUserId
+        'Ufe652df5e990d154d7030b2b1ee67e86'
       ).then(() => {
         return resolve();
       });
@@ -358,6 +381,21 @@ ${number}) ${!!order.sortClothe ? order.sortClothe.name : '-'}  |  ${
 
 🚚  รายการผ้าที่นำส่ง  🚚
 `;
+      let isProblem = [];
+      let isNotProblem = [];
+      isProblem = senderOrder.filter(
+        (order: any) =>
+          (!!order.clotheHasProblems && order.clotheHasProblems.length > 0) ||
+          (!!order.clotheHasProblemsAfter &&
+            order.clotheHasProblemsAfter.length > 0)
+      );
+      isNotProblem = senderOrder.filter(
+        (order: any) =>
+          (!order.clotheHasProblems || order.clotheHasProblems.length == 0) &&
+          (!order.clotheHasProblemsAfter ||
+            order.clotheHasProblemsAfter.length == 0)
+      );
+      senderOrder = [...isNotProblem, ...isProblem];
       let clothList: any[] = [];
       for (let item of senderOrder) {
         const isExist: any[] = [];
@@ -385,7 +423,7 @@ ${number}) ${!!order.sortClothe ? order.sortClothe.name : '-'}  |  ${
               const clothProblem = cloth.clotheHasProblemsAfter.map(
                 (problemClothe: any) => problemClothe.name
               );
-              const itemProblem = item.clotheHasProblems.map(
+              const itemProblem = item.clotheHasProblemsAfter.map(
                 (problemClothe: any) => problemClothe.name
               );
               isEqualProblemAfter = this.compare(clothProblem, itemProblem);
@@ -419,7 +457,8 @@ ${number}) ${!!order.sortClothe ? order.sortClothe.name : '-'}  |  ${
             )
               await isExist.push(cloth);
           } else {
-            let isEqualProblemElse = true;
+            let isEqualProblemElse = false;
+            let isEqualProblemAfterElse = false;
             if (
               !!item.clotheHasProblems &&
               item.clotheHasProblems.length > 0 &&
@@ -431,6 +470,17 @@ ${number}) ${!!order.sortClothe ? order.sortClothe.name : '-'}  |  ${
                 cloth.clotheHasProblems
               );
             } else isEqualProblemElse = true;
+            if (
+              !!item.clotheHasProblemsAfter &&
+              item.clotheHasProblemsAfter.length > 0 &&
+              !!cloth.clotheHasProblemsAfter &&
+              cloth.clotheHasProblemsAfter.length > 0
+            ) {
+              isEqualProblemAfterElse = await this.compare(
+                item.clotheHasProblemsAfter,
+                cloth.clotheHasProblemsAfter
+              );
+            } else isEqualProblemAfterElse = true;
 
             if (
               JSON.stringify(cloth.sortClothe) ===
@@ -440,11 +490,7 @@ ${number}) ${!!order.sortClothe ? order.sortClothe.name : '-'}  |  ${
               JSON.stringify(cloth.specialClothe) ===
                 JSON.stringify(item.specialClothe) &&
               isEqualProblemElse &&
-              ((!!item.clothHasProblemsAfter &&
-                !!cloth.clothHasProblemsAfter &&
-                item.clothHasProblemsAfter == cloth.clothHasProblemsAfter) ||
-                (!item.clothHasProblemsAfter &&
-                  !cloth.clothHasProblemsAfter)) &&
+              isEqualProblemAfterElse &&
               JSON.stringify(cloth.key) !== JSON.stringify(item.key)
             )
               await isExist.push(cloth);
@@ -510,8 +556,8 @@ ${number}) ${!!order.sortClothe ? order.sortClothe.name : '-'}  |  ${
 
       await this.messageToCustomer(
         message,
-        customer.lineUserId
-        // 'Ufe652df5e990d154d7030b2b1ee67e86'
+        // customer.lineUserId
+        'Ufe652df5e990d154d7030b2b1ee67e86'
       ).then(() => {
         return resolve();
       });

@@ -17,7 +17,25 @@
     [paginator]="true"
     responsiveLayout="scroll"
     styleClass="p-datatable-lg"
-  >
+    #tb
+    [globalFilterFields]="[
+      'key',
+      'name',
+    ]"
+    ><ng-template pTemplate="caption">
+      <div class="flex">
+        <span class="p-input-icon-left ml-auto">
+          <i class="pi pi-search"></i>
+          <input
+            #inputSearch
+            pInputText
+            type="text"
+            (input)="tb.filterGlobal(inputSearch.value, 'contains')"
+            placeholder="ค้นหา"
+          />
+        </span>
+      </div>
+    </ng-template>
     <ng-template pTemplate="header">
       <tr>
         <th>ลำดับ</th>

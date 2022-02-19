@@ -100,7 +100,7 @@ export class ClothTableComponent implements OnInit, OnDestroy {
     ref.onClose.subscribe((result) => {
       this.isDisable = false;
       this.orderService.setOrder(null);
-      window.location.reload();
+      // window.location.reload();
     });
   }
 

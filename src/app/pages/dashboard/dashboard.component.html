@@ -33,6 +33,7 @@
         <th>ลูกค้า</th>
         <th>สถานะ</th>
         <th>จำนวนผ้าที่ยังไม่ได้ส่ง</th>
+        <th>จำนวนผ้าที่ส่งไปแล้ว</th>
       </tr>
     </ng-template>
     <ng-template
@@ -67,6 +68,10 @@
         <td>
           <span class="p-column-title">จำนวนผ้าที่ยังไม่ได้ส่ง</span
           >{{ order.numClothe }}
+        </td>
+        <td>
+          <span class="p-column-title">จำนวนผ้าที่ส่งไปแล้ว</span
+          >{{ order.num }}
         </td>
       </tr>
     </ng-template>
