@@ -78,8 +78,6 @@ export class ReportsComponent implements OnInit {
       )
     );
 
-    console.log(this.dateEnd);
-    console.log(this.dateStart);
     this.headerTablePdf = [
       'Date',
       'Code',
@@ -281,17 +279,8 @@ export class ReportsComponent implements OnInit {
       this.reportTypeSelected.value === 'clothe_problems'
     ) {
       let x = this.dateEnd;
-      let firstDate: any = new Date(x.setHours(59, 59));
+      let firstDate: any = x.setHours(23, 59, 59);
       let lastDate: any = this.dateStart;
-
-      //   first       last
-      // 20 59:59 => 20 00:00
-      // 20 59:59 => 19 00:00
-      // 20 59:59 => 18 00:00
-      // 19 59:59 => 19 00:00
-
-      console.log(this.dateEnd);
-      console.log(this.dateStart);
 
       let filterInput: FilterInput = {
         customerName:
