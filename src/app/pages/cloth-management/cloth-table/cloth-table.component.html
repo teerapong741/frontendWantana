@@ -19,7 +19,7 @@
     responsiveLayout="stack"
     styleClass="p-datatable-lg"
   >
-    <ng-template pTemplate="header">
+    <ng-template pTemplate="header"  let-columns>
       <tr>
         <th>ลำดับ</th>
         <th>วันที่</th>
@@ -30,14 +30,14 @@
         <th></th>
       </tr>
     </ng-template>
-    <ng-template pTemplate="body" let-cloth let-index="rowIndex">
+    <ng-template pTemplate="body" let-cloth let-index="rowIndex"  let-columns="columns">
       <tr>
-        <td>{{ index + 1 }}</td>
-        <td>{{ cloth.created_at | thaidate: "short" }}</td>
-        <td>{{ cloth.key }}</td>
-        <td>{{ cloth.customer.firstName }} {{ cloth.customer.lastName }}</td>
-        <td>{{ cloth.numClothe }}</td>
-        <td>
+        <td><span class="p-column-title">ลำดับ</span>{{ index + 1 }}</td>
+        <td><span class="p-column-title">วันที่</span>{{ cloth.created_at | thaidate: "short" }}</td>
+        <td><span class="p-column-title">เลขที่รายการ</span>{{ cloth.key }}</td>
+        <td><span class="p-column-title">ชื่อลูกค้า</span>{{ cloth.customer.firstName }} {{ cloth.customer.lastName }}</td>
+        <td><span class="p-column-title">จำนวนผ้าที่ยังไม่ได้ส่ง</span>{{ cloth.numClothe }}</td>
+        <td><span class="p-column-title">สถานะ</span>
           <p-tag
             styleClass="mr-2 font-bold"
             [style]="{

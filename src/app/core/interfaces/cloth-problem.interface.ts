@@ -3,5 +3,6 @@ export interface createProblemClotheInput {
 }
 export interface UpdateProblemClotheInput {
   id: number;
+  name: string;
   isDisable: boolean;
 }

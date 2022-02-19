@@ -26,7 +26,7 @@
     styleClass="p-datatable-lg"
     [paginator]="true"
   >
-    <ng-template pTemplate="header">
+    <ng-template pTemplate="header" let-columns>
       <tr>
         <th>ลำดับ</th>
         <th>วันที่</th>
@@ -35,12 +35,24 @@
         <th>จำนวนผ้าที่ยังไม่ได้ส่ง</th>
       </tr>
     </ng-template>
-    <ng-template pTemplate="body" let-order let-index="rowIndex">
+    <ng-template
+      pTemplate="body"
+      let-order
+      let-index="rowIndex"
+      let-columns="columns"
+    >
       <tr>
-        <td>{{ index + 1 }}</td>
-        <td>{{ order.created_at | thaidate: "short" }}</td>
-        <td>{{ order.customer.firstName + " " + order.customer.lastName }}</td>
+        <td><span class="p-column-title">ลำดับ</span>{{ index + 1 }}</td>
         <td>
+          <span class="p-column-title">วันที่</span
+          >{{ order.created_at | thaidate: "short" }}
+        </td>
+        <td>
+          <span class="p-column-title">ลูกค้า</span
+          >{{ order.customer.firstName + " " + order.customer.lastName }}
+        </td>
+        <td>
+          <span class="p-column-title">สถานะ</span>
           <p-tag
             styleClass="mr-2 font-bold"
             [style]="{
@@ -52,7 +64,10 @@
             [rounded]="true"
           ></p-tag>
         </td>
-        <td>{{ order.numClothe }}</td>
+        <td>
+          <span class="p-column-title">จำนวนผ้าที่ยังไม่ได้ส่ง</span
+          >{{ order.numClothe }}
+        </td>
       </tr>
     </ng-template>
   </p-table>

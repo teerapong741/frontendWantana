@@ -6,9 +6,8 @@ export const PROBLEM_CLOTHES = gql`
       id
       key
       name
+      isDisable
+
     }
   }
 `;
-
-      // isDisable;
-

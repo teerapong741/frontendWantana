@@ -99,7 +99,7 @@ export class ClothProblemManagementComponent implements OnInit, OnDestroy {
     this.newClothProblemVisible = true;
   }
 
-  onDelete(id: string, disable: boolean): void {
+  onDelete(id: string,name: string, disable: boolean): void {
     this.confirmationService.confirm({
       message: `ต้องการจะ${!disable ? 'ปิดการมองเห็น' : 'กู้คืน'}ใช่หรือไม่`,
       acceptLabel: `${!disable ? 'ปิดการมองเห็น' : 'กู้คืน'}`,
@@ -111,6 +111,7 @@ export class ClothProblemManagementComponent implements OnInit, OnDestroy {
         this.loading = true;
         const updateInput: UpdateProblemClotheInput = {
           isDisable: !disable,
+          name: name,
           id: Number(id),
         };
         this.$subscription = this.clothProblemService
