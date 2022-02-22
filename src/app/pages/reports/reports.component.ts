@@ -348,7 +348,6 @@ export class ReportsComponent implements OnInit {
 
         for (let order of orders) {
           let groups: any[] = [];
-
           if (!!order.clothes && order.clothes.length > 0) {
             for (let clothe of order.clothes) {
               if (groups.length > 0) {
@@ -384,16 +383,77 @@ export class ReportsComponent implements OnInit {
                           ? group.specialClothe.name
                           : group.specialClothe
                       )
-                  )
-                    groups[index].number++;
-                  else
-                    groups.push({
-                      ...clothe,
-                      key: order.key,
-                      number: 1,
-                      customer: order.customer,
-                      created_at: order.created_at,
-                    });
+                  ) {
+                    let findIndex = groups.findIndex(
+                      (g: any) =>
+                        JSON.stringify(
+                          !!g.sortClothe ? g.sortClothe.name : g.sortClothe
+                        ) ===
+                          JSON.stringify(
+                            !!group.sortClothe
+                              ? group.sortClothe.name
+                              : group.sortClothe
+                          ) &&
+                        JSON.stringify(
+                          !!g.typeClothe ? g.typeClothe.name : g.typeClothe
+                        ) ===
+                          JSON.stringify(
+                            !!group.typeClothe
+                              ? group.typeClothe.name
+                              : group.typeClothe
+                          ) &&
+                        JSON.stringify(
+                          !!g.specialClothe
+                            ? g.specialClothe.name
+                            : g.specialClothe
+                        ) ===
+                          JSON.stringify(
+                            !!group.specialClothe
+                              ? group.specialClothe.name
+                              : group.specialClothe
+                          )
+                    );
+
+                    groups[findIndex].number += 1;
+                  } else {
+                    let findIndex = groups.findIndex(
+                      (g: any) =>
+                        JSON.stringify(
+                          !!g.sortClothe ? g.sortClothe.name : g.sortClothe
+                        ) ===
+                          JSON.stringify(
+                            !!clothe.sortClothe
+                              ? clothe.sortClothe.name
+                              : clothe.sortClothe
+                          ) &&
+                        JSON.stringify(
+                          !!g.typeClothe ? g.typeClothe.name : g.typeClothe
+                        ) ===
+                          JSON.stringify(
+                            !!clothe.typeClothe
+                              ? clothe.typeClothe.name
+                              : clothe.typeClothe
+                          ) &&
+                        JSON.stringify(
+                          !!g.specialClothe
+                            ? g.specialClothe.name
+                            : g.specialClothe
+                        ) ===
+                          JSON.stringify(
+                            !!clothe.specialClothe
+                              ? clothe.specialClothe.name
+                              : clothe.specialClothe
+                          )
+                    );
+                    if (findIndex === -1)
+                      groups.push({
+                        ...clothe,
+                        key: order.key,
+                        number: 0,
+                        customer: order.customer,
+                        created_at: order.created_at,
+                      });
+                  }
                 }
               } else {
                 groups.push({
@@ -410,34 +470,105 @@ export class ReportsComponent implements OnInit {
         }
 
         let ordersFilterResult: any = [];
+        let ordersFilterResultPdf: any = [];
         for (let [index, order] of ordersFilter.entries()) {
           let resultOrder: any = null;
           let sortFilter: string = '';
           let typeFilter: string = '';
           let numberFilter: string = '';
+
+          let resultOrderPdf: any = null;
+          let sortFilterPdf: string = '';
+          let typeFilterPdf: string = '';
+          let numberFilterPdf: string = '';
           for (let clothe of order) {
-            if (!!clothe.sortClothe)
+            let sortLength = 0;
+            let typeLength = 0;
+            let sortLengthPdf = 0;
+            let typeLengthPdf = 0;
+            let mostValue = 0;
+            let mostValuePdf = 0;
+
+            if (!!clothe.sortClothe) {
+              sortLength = 1;
+            }
+            if (!!clothe.typeClothe && !!clothe.specialClothe) {
+              typeLength = 2;
+              typeLengthPdf = 1;
+              sortLength--;
+              sortLengthPdf--;
+            } else if (!!clothe.typeClothe) {
+              typeLength = 1;
+              typeLengthPdf = 1;
+            } else if (!!clothe.specialClothe) {
+              typeLength = 1;
+              typeLengthPdf = 1;
+            }
+            mostValue = await Math.max(sortLength, typeLength);
+            mostValuePdf = await Math.max(sortLengthPdf, typeLengthPdf);
+
+            if (!!clothe.sortClothe) {
               sortFilter =
                 await sortFilter.concat(`<span>${clothe.sortClothe.name}</span><br>
             `);
-            else
+              sortFilterPdf =
+                await sortFilterPdf.concat(`<span>${clothe.sortClothe.name}</span><br>
+            `);
+              for (let i = 0; i < mostValue - sortLength; i++) {
+                sortFilter = await sortFilter.concat(`<br>`);
+              }
+              for (let i = 0; i < mostValuePdf - sortLengthPdf; i++) {
+                sortFilterPdf = await sortFilterPdf.concat(`<br>`);
+              }
+            } else {
               sortFilter = await sortFilter.concat(`<p>-</p><br>
             `);
+              sortFilterPdf = await sortFilterPdf.concat(`<p>-</p><br>
+            `);
+            }
 
-            if (!!clothe.typeClothe || !!clothe.specialClothe)
+            if (!!clothe.typeClothe || !!clothe.specialClothe) {
               typeFilter = await typeFilter.concat(`<span>${
                 !!clothe.typeClothe ? clothe.typeClothe.name : ''
-              } ${
+              }</span>${
+                !!clothe.specialClothe
+                  ? `<p>${clothe.specialClothe.name}</p>`
+                  : ''
+              }<br>
+            `);
+
+              typeFilterPdf = await typeFilterPdf.concat(`<span>${
+                !!clothe.typeClothe ? clothe.typeClothe.name : ''
+              }</span> <span>${
                 !!clothe.specialClothe ? clothe.specialClothe.name : ''
               }</span><br>
             `);
-            else
+              for (let i = 0; i < mostValue - typeLength; i++) {
+                typeFilter = await typeFilter.concat(`<br>`);
+              }
+              for (let i = 0; i < typeLengthPdf; i++) {
+                typeFilterPdf = await typeFilterPdf.concat(`<br>`);
+              }
+            } else {
               typeFilter = await typeFilter.concat(`<span>-</span><br>
             `);
+              typeFilterPdf = await typeFilterPdf.concat(`<span>-</span><br>
+            `);
+            }
 
             numberFilter =
               await numberFilter.concat(`<span>${clothe.number}</span><br>
             `);
+            for (let i = 0; i < mostValue - sortLength; i++) {
+              numberFilter = await numberFilter.concat(`<br>`);
+            }
+            numberFilterPdf =
+              await numberFilterPdf.concat(`<span>${clothe.number}</span><br>
+            `);
+            for (let i = 0; i < mostValuePdf - sortLengthPdf; i++) {
+              numberFilterPdf = await numberFilterPdf.concat(`<br>`);
+            }
+
             resultOrder = await {
               num: index + 1,
               date: clothe.created_at,
@@ -449,17 +580,34 @@ export class ReportsComponent implements OnInit {
               number: numberFilter,
               problems: null,
             };
+
+            resultOrderPdf = await {
+              num: index + 1,
+              date: clothe.created_at,
+              key: order[0].key,
+              firstName: clothe.customer.firstName,
+              lastName: clothe.customer.lastName,
+              sort: !!sortFilterPdf ? sortFilterPdf : 'ไม่ได้ระบุ',
+              type: !!typeFilterPdf ? typeFilterPdf : 'ไม่ได้ระบุ',
+              number: numberFilterPdf,
+              problems: null,
+            };
           }
 
           await ordersFilterResult.push({
             ...resultOrder,
           });
+
+          await ordersFilterResultPdf.push({
+            ...resultOrderPdf,
+          });
         }
 
         this.tableData = ordersFilterResult;
+        let tableDataPdf = ordersFilterResultPdf;
         if (this.tableData.length > 0) {
           this.bodyTablePdf = [];
-          for (let [index, cs] of this.tableData.entries()) {
+          for (let [index, cs] of tableDataPdf.entries()) {
             let data = [];
             data.push(`${index + 1}`);
             data.push(
@@ -569,11 +717,12 @@ export class ReportsComponent implements OnInit {
         let ordersFilter: any[] = [];
 
         for (let order of orders) {
-          let groups: any[] = [];
+          let groups: any = [];
 
           if (!!order.clothes && order.clothes.length > 0) {
             for (let clothe of order.clothes) {
               if (groups.length > 0) {
+                let isEqualLength = 0;
                 for (let [index, group] of groups.entries()) {
                   let isEqualProblem = false;
                   let isHasProblem: boolean = false;
@@ -590,6 +739,10 @@ export class ReportsComponent implements OnInit {
                     );
                     const itemProblem = group.clotheHasProblems.map(
                       ({ name }: any) => name
+                    );
+                    isEqualProblem = await this.compare(
+                      clothProblem,
+                      itemProblem
                     );
                   }
                   if (
@@ -625,17 +778,28 @@ export class ReportsComponent implements OnInit {
                       ) &&
                     isEqualProblem &&
                     isHasProblem
-                  )
-                    groups[index].number++;
-                  else if (isEqualProblem && isHasProblem) {
-                    groups.push({
-                      ...clothe,
-                      key: order.key,
-                      number: 1,
-                      customer: order.customer,
-                      created_at: order.created_at,
-                    });
+                  ) {
+                    const findIndex = await groups.findIndex(
+                      (g: any) => g.code === group.code
+                    );
+                    groups[findIndex].number++;
+                  } else {
+                    isEqualLength++;
                   }
+                }
+                if (
+                  isEqualLength === groups.length &&
+                  !!clothe.clotheHasProblems &&
+                  clothe.clotheHasProblems.length > 0
+                ) {
+                  groups.push({
+                    ...clothe,
+                    code: (Math.random() + 1).toString(36).substring(7),
+                    key: order.key,
+                    number: 1,
+                    customer: order.customer,
+                    created_at: order.created_at,
+                  });
                 }
               } else {
                 if (
@@ -644,6 +808,7 @@ export class ReportsComponent implements OnInit {
                 ) {
                   groups.push({
                     ...clothe,
+                    code: (Math.random() + 1).toString(36).substring(7),
                     key: order.key,
                     number: 1,
                     customer: order.customer,
@@ -652,11 +817,13 @@ export class ReportsComponent implements OnInit {
                 }
               }
             }
+            console.log(groups);
             ordersFilter.push(groups);
           }
         }
 
         let ordersFilterResult: any = [];
+        let ordersFilterResultPdf: any = [];
         if (ordersFilter.length > 0)
           for (let [index, order] of ordersFilter.entries()) {
             let resultOrder: any = null;
@@ -664,40 +831,84 @@ export class ReportsComponent implements OnInit {
             let typeFilter: string = '';
             let problemsFilter: string = '';
             let numberFilter: string = '';
+
+            let resultOrderPdf: any = null;
+            let sortFilterPdf: string = '';
+            let typeFilterPdf: string = '';
+            let problemsFilterPdf: string = '';
+            let numberFilterPdf: string = '';
+
             for (let clothe of order) {
-              if (!!clothe.sortClothe)
+              //! Normal
+              let sortLength = 0;
+              let typeLength = 0;
+              let problemLength = 0;
+              let mostValue = 0;
+              if (!!clothe.sortClothe) {
+                sortLength = 1;
+              }
+              if (!!clothe.clotheHasProblems) {
+                for (let problem of clothe.clotheHasProblems) {
+                  problemLength++;
+                }
+              }
+              if (!!clothe.typeClothe && !!clothe.specialClothe) {
+                typeLength = 2;
+                sortLength--;
+                problemLength--;
+              } else if (!!clothe.typeClothe) {
+                typeLength = 1;
+              } else if (!!clothe.specialClothe) {
+                typeLength = 1;
+              }
+              mostValue = await Math.max(sortLength, typeLength, problemLength);
+              if (!!clothe.sortClothe) {
                 sortFilter =
                   await sortFilter.concat(`<span>${clothe.sortClothe.name}</span><br>
             `);
-              else
+                for (let i = 0; i < mostValue - sortLength; i++) {
+                  sortFilter = await sortFilter.concat(`<br>`);
+                }
+              } else
                 sortFilter = await sortFilter.concat(`<span>-</span><br>
             `);
 
-              if (!!clothe.typeClothe || !!clothe.specialClothe)
+              if (!!clothe.typeClothe || !!clothe.specialClothe) {
                 typeFilter = await typeFilter.concat(`<span>${
                   !!clothe.typeClothe ? clothe.typeClothe.name : ''
-                } ${
-                  !!clothe.specialClothe ? clothe.specialClothe.name : ''
-                }</span><br>
+                }</span>${
+                  !!clothe.specialClothe
+                    ? `<p>${clothe.specialClothe.name}</p>`
+                    : ''
+                }<br>
             `);
-              else
+                for (let i = 0; i < mostValue - typeLength; i++) {
+                  typeFilter = await typeFilter.concat(`<br>`);
+                }
+              } else
                 typeFilter = await typeFilter.concat(`<span>-</span><br>
             `);
 
               numberFilter =
                 await numberFilter.concat(`<span>${clothe.number}</span><br>
             `);
+              for (let i = 0; i < mostValue - sortLength; i++) {
+                numberFilter = await numberFilter.concat(`<br>`);
+              }
 
-              if (!!clothe.clotheHasProblems)
+              if (!!clothe.clotheHasProblems) {
                 for (let [
                   index,
                   problem,
                 ] of clothe.clotheHasProblems.entries()) {
                   problemsFilter = await problemsFilter.concat(
-                    `<span>${problem.problemClothe.name} </span>`
+                    `<span>${problem.problemClothe.name} </span><br>`
                   );
                 }
-              else
+                for (let i = 0; i < mostValue - problemLength; i++) {
+                  problemsFilter = await problemsFilter.concat(`<br>`);
+                }
+              } else
                 problemsFilter = await problemsFilter.concat(`<span>-</span><br>
             `);
 
@@ -712,19 +923,114 @@ export class ReportsComponent implements OnInit {
                 number: numberFilter,
                 problems: !!problemsFilter ? problemsFilter : 'ไม่ได้ระบุ',
               };
+
+              //! PDF
+              let sortLengthPdf = 0;
+              let typeLengthPdf = 0;
+              let problemLengthPdf = 0;
+              let mostValuePdf = 0;
+              if (!!clothe.sortClothe) {
+                sortLengthPdf = 1;
+              }
+              if (!!clothe.clotheHasProblems) {
+                for (let problem of clothe.clotheHasProblems) {
+                  problemLengthPdf++;
+                }
+              }
+              if (!!clothe.typeClothe && !!clothe.specialClothe) {
+                typeLengthPdf = 2;
+              } else if (!!clothe.typeClothe) {
+                typeLengthPdf = 1;
+              } else if (!!clothe.specialClothe) {
+                typeLengthPdf = 1;
+              }
+              mostValuePdf = await Math.max(
+                sortLengthPdf,
+                typeLengthPdf,
+                problemLengthPdf
+              );
+              if (!!clothe.sortClothe) {
+                sortFilterPdf =
+                  await sortFilterPdf.concat(`<span>${clothe.sortClothe.name}</span><br>
+            `);
+                for (let i = 0; i < mostValuePdf - sortLengthPdf; i++) {
+                  sortFilterPdf = await sortFilterPdf.concat(`<br>`);
+                }
+              } else
+                sortFilterPdf = await sortFilterPdf.concat(`<span>-</span><br>
+            `);
+
+              if (!!clothe.typeClothe || !!clothe.specialClothe) {
+                typeFilterPdf = await typeFilterPdf.concat(`<span>${
+                  !!clothe.typeClothe ? clothe.typeClothe.name : ''
+                }</span> <span>${
+                  !!clothe.specialClothe ? clothe.specialClothe.name : ''
+                }</span><br>
+            `);
+                for (let i = 0; i < mostValuePdf - typeLengthPdf; i++) {
+                  typeFilterPdf = await typeFilterPdf.concat(`<br>`);
+                }
+              } else
+                typeFilterPdf = await typeFilterPdf.concat(`<span>-</span><br>
+            `);
+
+              numberFilterPdf =
+                await numberFilterPdf.concat(`<span>${clothe.number}</span><br>
+            `);
+              for (let i = 0; i < mostValuePdf - sortLengthPdf; i++) {
+                numberFilterPdf = await numberFilterPdf.concat(`<br>`);
+              }
+
+              if (!!clothe.clotheHasProblems) {
+                for (let [
+                  index,
+                  problem,
+                ] of clothe.clotheHasProblems.entries()) {
+                  problemsFilterPdf = await problemsFilterPdf.concat(
+                    `<span>${problem.problemClothe.name} </span><br>`
+                  );
+                }
+                for (let i = 0; i < mostValuePdf - problemLengthPdf; i++) {
+                  problemsFilterPdf = await problemsFilterPdf.concat(`<br>`);
+                }
+              } else
+                problemsFilterPdf =
+                  await problemsFilterPdf.concat(`<span>-</span><br>
+            `);
+
+              resultOrderPdf = await {
+                num: index + 1,
+                date: clothe.created_at,
+                key: order[0].key,
+                firstName: clothe.customer.firstName,
+                lastName: clothe.customer.lastName,
+                sort: !!sortFilterPdf ? sortFilterPdf : 'ไม่ได้ระบุ',
+                type: !!typeFilterPdf ? typeFilterPdf : 'ไม่ได้ระบุ',
+                number: numberFilterPdf,
+                problems: !!problemsFilterPdf
+                  ? problemsFilterPdf
+                  : 'ไม่ได้ระบุ',
+              };
             }
 
             await ordersFilterResult.push({
               ...resultOrder,
+            });
+
+            await ordersFilterResultPdf.push({
+              ...resultOrderPdf,
             });
           }
 
         this.tableData = ordersFilterResult.filter(
           (order: any) => Object.keys(order).length !== 0
         );
+        let tableDataPdf = ordersFilterResultPdf.filter(
+          (order: any) => Object.keys(order).length !== 0
+        );
         if (this.tableData.length > 0) {
           this.bodyTablePdf = [];
-          for (let [index, cs] of this.tableData.entries()) {
+          for (let [index, cs] of tableDataPdf.entries()) {
             let data = [];
             data.push(`${index + 1}`);
             data.push(
