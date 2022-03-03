@@ -43,7 +43,7 @@
       <tr>
         <th>ลำดับ</th>
         <th>วันที่</th>
-        <th>เลขที่รายการ</th>
+        <th>รหัสรายการ</th>
         <th>ชื่อลูกค้า</th>
         <th>จำนวนผ้าที่ยังไม่ได้ส่ง</th>
         <th>สถานะ</th>
@@ -62,7 +62,7 @@
           <span class="p-column-title">วันที่</span
           >{{ cloth.created_at | thaidate: "short" }}
         </td>
-        <td><span class="p-column-title">เลขที่รายการ</span>{{ cloth.key }}</td>
+        <td><span class="p-column-title">รหัสรายการ</span>{{ cloth.key }}</td>
         <td>
           <span class="p-column-title">ชื่อลูกค้า</span
           >{{ cloth.customer.firstName }} {{ cloth.customer.lastName }}

@@ -13,9 +13,9 @@ import * as htmlToText from 'html-to-text';
   // Default font should still be available
   THSarabunNew: {
     normal: 'THSarabunNew.ttf',
-    bold: 'THSarabunNew Bold.ttf',
-    italics: 'THSarabunNew Italic.ttf',
-    bolditalics: 'THSarabunNew BoldItalic.ttf',
+    bold: 'THSarabunNew_Bold.ttf',
+    italics: 'THSarabunNew_Italic.ttf',
+    bolditalics: 'THSarabunNew_BoldItalic.ttf',
   },
   Roboto: {
     normal: 'Roboto-Regular.ttf',
@@ -217,7 +217,7 @@ export class ReportsComponent implements OnInit {
           alignment: 'center',
         },
         {
-          text: `ออกรายงาน${this.reportTypeSelected.name}`,
+          text: `รายงาน${this.reportTypeSelected.name}`,
           bold: true,
           fontSize: 18,
           alignment: 'center',
@@ -313,7 +313,7 @@ export class ReportsComponent implements OnInit {
     this.cols = [
       { header: 'ลำดับ', field: 'num' },
       { header: 'วันที่', field: 'date' },
-      { header: 'รหัส', field: 'key' },
+      { header: 'รหัสรายการ', field: 'key' },
       { header: 'ชื่อ', field: 'firstName' },
       { header: 'นามสกุล', field: 'lastName' },
       { header: 'ชนิดผ้า', field: 'sort' },
@@ -324,7 +324,7 @@ export class ReportsComponent implements OnInit {
     this.headerTablePdf = [
       'ลำดับ',
       'วันที่',
-      'รหัส',
+      'รหัสรายการ',
       'ชื่อ',
       'นามสกุล',
       'ชนิดผ้า',
@@ -683,24 +683,24 @@ export class ReportsComponent implements OnInit {
     this.cols = [
       { header: 'ลำดับ', field: 'num' },
       { header: 'วันที่', field: 'date' },
-      { header: 'รหัส', field: 'key' },
+      { header: 'รหัสรายการ', field: 'key' },
       { header: 'ชื่อ', field: 'firstName' },
       { header: 'นามสกุล', field: 'lastName' },
       { header: 'ชนิดผ้า', field: 'sort' },
       { header: 'ประเภทผ้า', field: 'type' },
       { header: 'จำนวน', field: 'number' },
-      { header: 'สาเหตุผ้ามีปัญหา', field: 'problems' },
+      { header: 'หมายเหตุ', field: 'problems' },
     ];
     this.headerTablePdf = [
       'ลำดับ',
       'วันที่',
-      'รหัส',
+      'รหัสรายการ',
       'ชื่อ',
       'นามสกุล',
       'ชนิดผ้า',
       'ประเภทผ้า',
       'จำนวน',
-      'สาเหตุผ้ามีปัญหา',
+      'หมายเหตุ',
     ];
     this.rowHeaderPdf = ['*', '*', '*', '*', '*', '*', '*', '*', '*'];
     this.orderService.filterOrder(filterInput).subscribe(async (result) => {
@@ -1083,7 +1083,7 @@ export class ReportsComponent implements OnInit {
     this.cols = [
       { header: 'ลำดับ', field: 'num' },
       { header: 'วันที่', field: 'date' },
-      { header: 'รหัส', field: 'key' },
+      { header: 'รหัสลูกค้า', field: 'key' },
       { header: 'ชื่อ', field: 'firstName' },
       { header: 'นามสกุล', field: 'lastName' },
       { header: 'ที่อยู่', field: 'address' },
@@ -1092,7 +1092,7 @@ export class ReportsComponent implements OnInit {
     this.headerTablePdf = [
       'ลำดับ',
       'วันที่',
-      'รหัส',
+      'รหัสลูกค้า',
       'ชื่อ',
       'นามสกุล',
       'ที่อยู่',
@@ -1184,7 +1184,7 @@ export class ReportsComponent implements OnInit {
     this.cols = [
       { header: 'ลำดับ', field: 'num' },
       { header: 'วันที่', field: 'date' },
-      { header: 'รหัส', field: 'key' },
+      { header: 'รหัสพนักงาน', field: 'key' },
       { header: 'ชื่อ', field: 'firstName' },
       { header: 'นามสกุล', field: 'lastName' },
       { header: 'ที่อยู่', field: 'address' },
@@ -1194,7 +1194,7 @@ export class ReportsComponent implements OnInit {
     this.headerTablePdf = [
       'ลำดับ',
       'วันที่',
-      'รหัส',
+      'รหัสพนักงาน',
       'ชื่อ',
       'นามสกุล',
       'ที่อยู่',

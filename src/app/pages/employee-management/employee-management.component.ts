@@ -247,7 +247,7 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy {
       });
     } else {
       Swal.fire({
-        title: 'Warning',
+        title: 'คำเตือน',
         text: 'ต้องการแก้ไขใช่หรือไม่',
         icon: 'question',
         confirmButtonText: 'ยืนยัน',
@@ -327,7 +327,7 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy {
       });
     } else {
       Swal.fire({
-        title: 'Warning',
+        title: 'คำเตือน',
         text: 'ต้องการแก้ไขใช่หรือไม่',
         icon: 'question',
         confirmButtonText: 'ยืนยัน',
@@ -410,7 +410,7 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy {
       acceptLabel: 'ลบ',
       acceptIcon: 'fas fa-trash',
       acceptButtonStyleClass: 'p-button-danger p-button-raised',
-      rejectLabel: 'ยกลิก',
+      rejectLabel: 'ยกเลิก',
       rejectButtonStyleClass: 'p-button-warning p-button-raised',
       accept: () => {
         this.loading = true;
@@ -438,7 +438,7 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy {
       acceptLabel: 'ลบ',
       acceptIcon: 'fas fa-trash',
       acceptButtonStyleClass: 'p-button-danger p-button-raised',
-      rejectLabel: 'ยกลิก',
+      rejectLabel: 'ยกเลิก',
       rejectButtonStyleClass: 'p-button-warning p-button-raised',
       accept: () => {
         this.loading = true;

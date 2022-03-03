@@ -76,7 +76,7 @@ ${number}) ${!!order.type ? order.type.name : '-'}  |  ${
                 : '-'
             }  |  ${!!order.type_special ? order.type_special.name : '-'}
   ปัญหา:   ${!!problemMessage ? problemMessage : '-'}
-  จำนวน:   ${order.number} ตัว 
+  จำนวน:   ${order.number} ชิ้น 
        --------------------- \
             `
           );
@@ -108,7 +108,7 @@ ${number}) ${!!order.type ? order.type.name : '-'}  |  ${
                 : '-'
             }  |  ${!!order.type_special ? order.type_special.name : '-'}
   ปัญหา:   ${!!problemMessage ? problemMessage : '-'}
-  จำนวน:   ${order.number} ตัว
+  จำนวน:   ${order.number} ชิ้น
        --------------------- \
             `
           );
@@ -125,43 +125,43 @@ ${number}) ${!!order.type ? order.type.name : '-'}  |  ${
       if (totalCloths)
         message = await message.concat(
           `
-- จำนวนผ้าทั้งหมด ${totalCloths} ตัว \
+- จำนวนผ้าทั้งหมด ${totalCloths} ชิ้น \
           `
         );
       if (thickCloths)
         message = await message.concat(
           `
-- ผ้าหนา ${thickCloths} ตัว \
+- ผ้าหนา ${thickCloths} ชิ้น \
           `
         );
       if (thinCloths)
         message = await message.concat(
           `
-- ผ้าบาง ${thinCloths} ตัว \
+- ผ้าบาง ${thinCloths} ชิ้น \
           `
         );
       if (specialCloths)
         message = await message.concat(
           `
-- ผ้าพิเศษ ${specialCloths} ตัว \
+- ผ้าพิเศษ ${specialCloths} ชิ้น \
           `
         );
       if (problemCloths)
         message = await message.concat(
           `
-- เป็นผ้ามีปัญหาจำนวน   ${problemCloths} ตัว \
+- เป็นผ้ามีปัญหาจำนวน   ${problemCloths} ชิ้น \
           `
         );
       if (inProcess)
         message = await message.concat(
           `
-- นำเข้าซัก ${inProcess} ตัว \
+- นำเข้าซัก ${inProcess} ชิ้น \
           `
         );
       if (outProcess)
         message = await message.concat(
           `
-- ไม่นำเข้าซัก ${outProcess} ตัว \
+- ไม่นำเข้าซัก ${outProcess} ชิ้น \
           `
         );
       message = await message.concat(`
@@ -355,7 +355,7 @@ ${number}) ${!!order.sortClothe ? order.sortClothe.name : '-'}  |  ${
           }  |  ${!!order.specialClothe ? order.specialClothe.name : '-'}
   ปัญหาก่อนซัก:   ${!!problemMessage ? problemMessage : '-'}
   ปัญหาหลังซัก:   ${!!problemAfterMessage ? problemAfterMessage : '-'}
-  จำนวน:   ${order.number} ตัว
+  จำนวน:   ${order.number} ชิ้น
        --------------------- \
             `
         );
@@ -541,7 +541,7 @@ ${number}) ${!!order.sortClothe ? order.sortClothe.name : '-'}  |  ${
           }  |  ${!!order.specialClothe ? order.specialClothe.name : '-'}
   ปัญหาก่อนซัก:   ${!!problemMessage ? problemMessage : '-'}
   ปัญหาหลังซัก:   ${!!problemAfterMessage ? problemAfterMessage : '-'}
-  จำนวน:   ${order.number} ตัว
+  จำนวน:   ${order.number} ชิ้น
        --------------------- \
             `
         );

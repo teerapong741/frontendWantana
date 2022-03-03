@@ -109,9 +109,9 @@ export class ConfirmOrderComponent implements OnInit, OnDestroy {
 
   onSuccess(): void {
     Swal.fire({
-      title: 'คำเตือน',
-      text: 'โปรดตรวจสอบรายการให้ถูกต้องก่อนยืนยัน',
-      icon: 'warning',
+      title: 'ยืนยัน',
+      text: 'หากกดตกลงจะไม่สามารถย้อนกลับได้',
+      icon: 'question',
       confirmButtonText: 'ตกลง',
       showCancelButton: true,
       cancelButtonText: 'ยกเลิก',

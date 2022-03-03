@@ -5,7 +5,7 @@
     <button
       pButton
       pRipple
-      label="เพิ่มลูกค้าใหม่"
+      label="เพิ่มข้อมูลลูกค้า"
       icon="fas fa-plus"
       class="p-button-raised p-button-success p-button-lg container__btn-add"
       (click)="onVisibleNewCustomer()"
@@ -37,7 +37,7 @@
     <ng-template pTemplate="header">
       <tr>
         <th>ลำดับ</th>
-        <th>รหัส</th>
+        <th>รหัสลูกค้า</th>
         <th>ชื่อ</th>
         <th>นามสกุล</th>
         <th>ที่อยู่</th>
@@ -83,7 +83,7 @@
 <p-dialog
   [modal]="true"
   [draggable]="false"
-  header="เพิ่มลูกค้าใหม่"
+  header="เพิ่มข้อมูลลูกค้า"
   [(visible)]="newCustomerVisible"
   (onHide)="onResetValue()"
 >
@@ -164,7 +164,7 @@
   [modal]="true"
   [draggable]="false"
   [draggable]="false"
-  header="แก้ไขข้อมูลลูกค้าใหม่"
+  header="แก้ไขข้อมูลลูกค้า"
   [(visible)]="editCustomerVisible"
   (onHide)="onResetValue()"
 >
@@ -253,7 +253,7 @@
 </p-dialog>
 
 <p-confirmDialog
-  header="Warning"
+  header="คำเตือน"
   icon="pi pi-exclamation-triangle"
   [style]="{ width: '30vw' }"
   [baseZIndex]="10000"

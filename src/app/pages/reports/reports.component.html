@@ -94,9 +94,12 @@
           </th>
         </tr>
       </ng-template>
-      <ng-template pTemplate="body" let-rowData let-columns="columns">
+      <ng-template pTemplate="body" let-rowData let-columns="columns" let-index="rowIndex">
         <tr>
           <td *ngFor="let col of columns" [style]="{ 'text-align': 'center' }">
+            <div *ngIf="col.field == 'num'">
+              {{ index + 1 }}
+            </div>
             <div *ngIf="col.field == 'date'">
               {{ rowData[col.field] | thaidate: "short" }}
             </div>
@@ -115,7 +118,8 @@
                 col.field !== 'type' &&
                 col.field !== 'date' &&
                 col.field !== 'number' &&
-                col.field !== 'problems'
+                col.field !== 'problems'&&
+                col.field !== 'num'
               "
             >
               {{ rowData[col.field] }}

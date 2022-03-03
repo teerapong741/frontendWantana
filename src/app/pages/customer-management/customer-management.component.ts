@@ -205,7 +205,7 @@ export class CustomerManagementComponent implements OnInit, OnDestroy {
       });
     } else {
       Swal.fire({
-        title: 'Warning',
+        title: 'คำเตือน',
         text: 'ต้องการแก้ไขใช่หรือไม่',
         icon: 'question',
         confirmButtonText: 'ยืนยัน',

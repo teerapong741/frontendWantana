@@ -331,7 +331,7 @@ export class AddClothsComponent implements OnInit, OnDestroy {
     ) {
       Swal.fire({
         title: 'คำเตือน',
-        text: 'โปรดกรอกข้อมูลให้ครบ',
+        text: 'โปรดกรอกข้อมูลให้ครบถ้วน',
         icon: 'warning',
         confirmButtonText: 'ตกลง',
       });
