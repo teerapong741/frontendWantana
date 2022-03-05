@@ -61,7 +61,7 @@ export class TextureClothManagementComponent implements OnInit, OnDestroy {
         acceptLabel: 'ตกลง',
         rejectVisible: false,
       });
-    } else if (names.includes(this.newTextureValue)) {
+    } else if (names.includes(this.newTextureValue.trim())) {
       this.confirmationService.confirm({
         message: 'มีชนิดเนื้อผ้านี้แล้ว',
         acceptVisible: true,

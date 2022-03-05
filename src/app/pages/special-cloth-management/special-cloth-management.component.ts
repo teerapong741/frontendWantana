@@ -62,7 +62,7 @@ export class SpecialClothManagementComponent implements OnInit, OnDestroy {
         acceptLabel: 'ตกลง',
         rejectVisible: false,
       });
-    } else if (names.includes(this.newSpecialClothValue)) {
+    } else if (names.includes(this.newSpecialClothValue.trim())) {
       this.confirmationService.confirm({
         message: 'มีประเภทผ้าพิเศษนี้แล้ว',
         acceptVisible: true,

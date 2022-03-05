@@ -36,35 +36,21 @@
     </ng-template>
     <ng-template pTemplate="header">
       <tr>
-<<<<<<< Updated upstream
-        <th>ลำดับ</th>
-        <th>รหัสลูกค้า</th>
-        <th>ชื่อ</th>
-        <th>นามสกุล</th>
-        <th>ที่อยู่</th>
-        <th>เบอร์โทร</th>
-        <th>อีเมล</th>
-        <!-- <th>@Line ID</th> -->
-        <th></th>
-=======
         <th class="text-center">ลำดับ</th>
         <th class="text-center">รหัส</th>
-        <th class="text-center">ชื่อ</th>
-        <th class="text-center">นามสกุล</th>
+        <th class="text-center">ชื่อ - นามสกุล</th>
         <th class="text-center">ที่อยู่</th>
         <th class="text-center">เบอร์โทร</th>
         <th class="text-center">อีเมล</th>
         <!-- <th class="text-center">@Line ID</th> -->
         <th class="text-center"></th>
->>>>>>> Stashed changes
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-cloth let-index="rowIndex">
       <tr>
         <td class="text-center">{{ index + 1 }}</td>
         <td class="text-left">{{ cloth.key }}</td>
-        <td class="text-left">{{ cloth.firstName }}</td>
-        <td class="text-left">{{ cloth.lastName }}</td>
+        <td class="text-left">{{ cloth.firstName }} {{ cloth.lastName }}</td>
         <td class="text-left">{{ cloth.address }}</td>
         <td class="text-left">{{ cloth.phoneNumber }}</td>
         <td class="text-left">{{ cloth.email }}</td>
@@ -75,7 +61,7 @@
             pRipple
             type="button"
             icon="fas fa-edit"
-            class="p-button-rounded p-button-raised p-button-warning"
+            class="p-button-rounded p-button-raised p-button-warning mx-1"
             (click)="onVisibleEditCustomer(cloth)"
           ></button>
           <!-- <button

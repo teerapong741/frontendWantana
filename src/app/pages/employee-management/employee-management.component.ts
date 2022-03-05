@@ -102,6 +102,12 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy {
   }
 
   onNewEmployee(): void {
+    const names: string[] = this.employeeList.map(
+      ({ fname, lname }: any) => `${fname} ${lname}`
+    );
+    const idCards: string[] = this.employeeList.map(
+      ({ idCard }: any) => idCard
+    );
     if (
       !this.idCard ||
       !this.fname ||
@@ -151,6 +157,16 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy {
         icon: 'warning',
         confirmButtonText: 'ตกลง',
       });
+    } else if (
+      names.includes(`${this.fname.trim()} ${this.lname.trim()}`) ||
+      idCards.includes(this.idCard.trim())
+    ) {
+      Swal.fire({
+        title: 'คำเตือน',
+        text: 'มีข้อมูลนี้อยู่ในระบบแล้ว',
+        icon: 'warning',
+        confirmButtonText: 'ตกลง',
+      });
     } else {
       this.loading = true;
       const createEmployeeInput: createEmployeeInput = {
@@ -160,7 +176,7 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy {
         address: this.address,
         phoneNumber: this.phone,
         email: this.email,
-        password: this.idCard,
+        password: this.phone,
         role: this.role,
       };
 

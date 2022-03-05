@@ -60,9 +60,17 @@ export class ClothProblemManagementComponent implements OnInit, OnDestroy {
   }
 
   onNewClothProblem(): void {
+    const names: string[] = this.clothProblemList.map(({ name }: any) => name);
     if (!this.newClothProblemValue) {
       this.confirmationService.confirm({
         message: 'โปรดใส่ชื่อประเภทผ้ามีปัญหา',
+        acceptVisible: true,
+        acceptLabel: 'ตกลง',
+        rejectVisible: false,
+      });
+    } else if (names.includes(this.newClothProblemValue.trim())) {
+      this.confirmationService.confirm({
+        message: 'มีประเภทผ้ามีปัญหานี้แล้ว',
         acceptVisible: true,
         acceptLabel: 'ตกลง',
         rejectVisible: false,
@@ -99,7 +107,7 @@ export class ClothProblemManagementComponent implements OnInit, OnDestroy {
     this.newClothProblemVisible = true;
   }
 
-  onDelete(id: string,name: string, disable: boolean): void {
+  onDelete(id: string, name: string, disable: boolean): void {
     this.confirmationService.confirm({
       message: `ต้องการจะ${!disable ? 'ปิดการมองเห็น' : 'กู้คืน'}ใช่หรือไม่`,
       acceptLabel: `${!disable ? 'ปิดการมองเห็น' : 'กู้คืน'}`,

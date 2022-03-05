@@ -59,19 +59,12 @@
     <div class="field inline-block">
       <label class="mr-2">เลือกวันที่</label>
       <p-calendar
-        [(ngModel)]="dateStart"
+        #selectedDateRange
+        [(ngModel)]="dateRange"
         (ngModelChange)="onChangeFilter()"
         dateFormat="dd/mm/yy"
         [showTime]="false"
-      ></p-calendar>
-    </div>
-    <div class="field inline-block">
-      <label class="mx-2">ถึง</label>
-      <p-calendar
-        [(ngModel)]="dateEnd"
-        (ngModelChange)="onChangeFilter()"
-        dateFormat="dd/mm/yy"
-        [showTime]="false"
+        selectionMode="range"
       ></p-calendar>
     </div>
   </div>
@@ -94,15 +87,6 @@
           </th>
         </tr>
       </ng-template>
-<<<<<<< Updated upstream
-      <ng-template pTemplate="body" let-rowData let-columns="columns" let-index="rowIndex">
-        <tr>
-          <td *ngFor="let col of columns" [style]="{ 'text-align': 'center' }">
-            <div *ngIf="col.field == 'num'">
-              {{ index + 1 }}
-            </div>
-            <div *ngIf="col.field == 'date'">
-=======
       <ng-template
         pTemplate="body"
         let-rowData
@@ -115,7 +99,6 @@
               {{ index + 1 }}
             </div>
             <div *ngIf="col.field == 'date'" class="text-left">
->>>>>>> Stashed changes
               {{ rowData[col.field] | thaidate: "short" }}
             </div>
             <div
@@ -134,11 +117,7 @@
                 col.field !== 'type' &&
                 col.field !== 'date' &&
                 col.field !== 'number' &&
-<<<<<<< Updated upstream
-                col.field !== 'problems'&&
-=======
                 col.field !== 'problems' &&
->>>>>>> Stashed changes
                 col.field !== 'num'
               "
             >

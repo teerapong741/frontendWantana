@@ -41,29 +41,15 @@
     </ng-template>
     <ng-template pTemplate="header">
       <tr>
-<<<<<<< Updated upstream
-        <th>ลำดับ</th>
-        <th>รหัสพนักงาน</th>
-        <th>ชื่อ</th>
-        <th>นามสกุล</th>
-        <!-- <th>ที่อยู่</th> -->
-        <!-- <th>เบอร์โทร</th> -->
-        <!-- <th>อีเมล์</th> -->
-        <th>สิทธิ์ผู้ใช้</th>
-        <th>สถานะ</th>
-        <th></th>
-=======
         <th class="text-center">ลำดับ</th>
         <th class="text-center">รหัส</th>
-        <th class="text-center">ชื่อ</th>
-        <th class="text-center">นามสกุล</th>
+        <th class="text-center">ชื่อ - นามสกุล</th>
         <!-- <th class="text-center">ที่อยู่</th> -->
         <!-- <th class="text-center">เบอร์โทร</th> -->
         <!-- <th class="text-center">อีเมล์</th> -->
         <th class="text-center">สิทธิ์ผู้ใช้</th>
         <th class="text-center">สถานะ</th>
         <th class="text-center"></th>
->>>>>>> Stashed changes
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-employee let-index="rowIndex">
@@ -94,15 +80,7 @@
             'font-weight': employee.key === employeeLogin.key ? '700' : null
           }"
         >
-          {{ employee.firstName }}
-        </td>
-        <td
-          class="text-left"
-          [ngStyle]="{
-            'font-weight': employee.key === employeeLogin.key ? '700' : null
-          }"
-        >
-          {{ employee.lastName }}
+          {{ employee.firstName }} {{ employee.lastName }}
         </td>
         <!-- <td class="text-left"
           [ngStyle]="{
@@ -163,7 +141,7 @@
             pRipple
             type="button"
             icon="fas fa-edit"
-            class="p-button-rounded p-button-raised p-button-warning"
+            class="p-button-rounded p-button-raised p-button-warning mx-1"
             (click)="onVisibleEditEmployee(employee)"
           ></button>
           <button
@@ -177,7 +155,7 @@
             pRipple
             type="button"
             icon="fas fa-key"
-            class="p-button-rounded p-button-raised p-button-help"
+            class="p-button-rounded p-button-raised p-button-help mx-1"
             (click)="onVisibleEditPassword(employee)"
           ></button>
           <button
@@ -191,8 +169,8 @@
             pRipple
             type="button"
             icon="fas fa-sync"
-            class="p-button-rounded p-button-raised p-button-info"
-            (click)="onResetPassword(employee.id, employee.idCard)"
+            class="p-button-rounded p-button-raised p-button-info mx-1"
+            (click)="onResetPassword(employee.id, employee.phone)"
           ></button>
           <button
             *ngIf="
@@ -207,7 +185,7 @@
             pRipple
             type="button"
             icon="fas fa-trash"
-            class="p-button-rounded p-button-raised p-button-danger"
+            class="p-button-rounded p-button-raised p-button-danger mx-1"
             (click)="onDelete(employee.id)"
           ></button>
           <button
@@ -223,7 +201,7 @@
             pRipple
             type="button"
             icon="fas fa-undo"
-            class="p-button-rounded p-button-raised p-button-danger"
+            class="p-button-rounded p-button-raised p-button-danger mx-1"
             (click)="onRestoreEmployee(employee.id)"
           ></button>
         </td>

@@ -63,6 +63,12 @@ export class CustomerManagementComponent implements OnInit, OnDestroy {
   }
 
   onNewCustomer(): void {
+    const names: string[] = this.customerList.map(
+      ({ fname, lname }: any) => `${fname} ${lname}`
+    );
+    const idCards: string[] = this.customerList.map(
+      ({ idCard }: any) => idCard
+    );
     if (
       !this.idCard ||
       !this.fname ||
@@ -101,6 +107,16 @@ export class CustomerManagementComponent implements OnInit, OnDestroy {
       Swal.fire({
         title: 'คำเตือน',
         text: 'รูปแบบอีเมล์ไม่ถูกต้อง',
+        icon: 'warning',
+        confirmButtonText: 'ตกลง',
+      });
+    } else if (
+      names.includes(`${this.fname.trim()} ${this.lname.trim()}`) ||
+      idCards.includes(this.idCard.trim())
+    ) {
+      Swal.fire({
+        title: 'คำเตือน',
+        text: 'มีข้อมูลนี้อยู่ในระบบแล้ว',
         icon: 'warning',
         confirmButtonText: 'ตกลง',
       });

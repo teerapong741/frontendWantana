@@ -41,15 +41,6 @@
     </ng-template>
     <ng-template pTemplate="header" let-columns>
       <tr>
-<<<<<<< Updated upstream
-        <th>ลำดับ</th>
-        <th>วันที่</th>
-        <th>รหัสรายการ</th>
-        <th>ชื่อลูกค้า</th>
-        <th>จำนวนผ้าที่ยังไม่ได้ส่ง</th>
-        <th>สถานะ</th>
-        <th></th>
-=======
         <th class="text-center">ลำดับ</th>
         <th class="text-center">วันที่</th>
         <th class="text-center">เลขที่รายการ</th>
@@ -57,7 +48,6 @@
         <th class="text-center">จำนวนผ้าที่ยังไม่ได้ส่ง</th>
         <th class="text-center">สถานะ</th>
         <th class="text-center"></th>
->>>>>>> Stashed changes
       </tr>
     </ng-template>
     <ng-template
@@ -72,13 +62,8 @@
           <span class="p-column-title">วันที่</span
           >{{ cloth.created_at | thaidate: "short" }}
         </td>
-<<<<<<< Updated upstream
-        <td><span class="p-column-title">รหัสรายการ</span>{{ cloth.key }}</td>
-        <td>
-=======
         <td class="text-left"><span class="p-column-title">เลขที่รายการ</span>{{ cloth.key }}</td>
         <td class="text-left">
->>>>>>> Stashed changes
           <span class="p-column-title">ชื่อลูกค้า</span
           >{{ cloth.customer.firstName }} {{ cloth.customer.lastName }}
         </td>
