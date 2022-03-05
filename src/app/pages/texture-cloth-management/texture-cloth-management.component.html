@@ -38,18 +38,25 @@
     </ng-template>
     <ng-template pTemplate="header">
       <tr>
+<<<<<<< Updated upstream
         <th>ลำดับ</th>
         <th>รหัสชนิดเนื้อผ้า</th>
         <th>ชื่อชนิดเนื้อผ้า</th>
         <th></th>
+=======
+        <th class="text-center">ลำดับ</th>
+        <th class="text-center">รหัส</th>
+        <th class="text-center">ชื่อชนิดเนื้อผ้า</th>
+        <th class="text-center"></th>
+>>>>>>> Stashed changes
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-cloth let-index="rowIndex">
       <tr>
-        <td>{{ index + 1 }}</td>
-        <td>{{ cloth.key }}</td>
-        <td>{{ cloth.name }}</td>
-        <td class="container__action">
+        <td class="text-center">{{ index + 1 }}</td>
+        <td class="text-left">{{ cloth.key }}</td>
+        <td class="text-left">{{ cloth.name }}</td>
+        <td class="container__action" class="text-center">
           <!-- <button
             pButton
             pRipple

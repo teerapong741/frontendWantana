@@ -94,6 +94,7 @@
           </th>
         </tr>
       </ng-template>
+<<<<<<< Updated upstream
       <ng-template pTemplate="body" let-rowData let-columns="columns" let-index="rowIndex">
         <tr>
           <td *ngFor="let col of columns" [style]="{ 'text-align': 'center' }">
@@ -101,29 +102,53 @@
               {{ index + 1 }}
             </div>
             <div *ngIf="col.field == 'date'">
+=======
+      <ng-template
+        pTemplate="body"
+        let-rowData
+        let-columns="columns"
+        let-index="rowIndex"
+      >
+        <tr>
+          <td *ngFor="let col of columns" [style]="{ 'text-align': 'center' }">
+            <div *ngIf="col.field === 'num'" class="text-center">
+              {{ index + 1 }}
+            </div>
+            <div *ngIf="col.field == 'date'" class="text-left">
+>>>>>>> Stashed changes
               {{ rowData[col.field] | thaidate: "short" }}
             </div>
             <div
+              class="text-left"
               *ngIf="
                 col.field == 'sort' ||
                 col.field == 'type' ||
-                col.field == 'number' ||
                 col.field == 'problems'
               "
               [innerHtml]="rowData[col.field]"
             ></div>
             <div
+              class="text-left"
               *ngIf="
                 col.field !== 'sort' &&
                 col.field !== 'type' &&
                 col.field !== 'date' &&
                 col.field !== 'number' &&
+<<<<<<< Updated upstream
                 col.field !== 'problems'&&
+=======
+                col.field !== 'problems' &&
+>>>>>>> Stashed changes
                 col.field !== 'num'
               "
             >
               {{ rowData[col.field] }}
             </div>
+            <div
+              class="text-left"
+              *ngIf="col.field === 'number'"
+              [innerHtml]="rowData[col.field]"
+            ></div>
           </td>
         </tr>
       </ng-template>

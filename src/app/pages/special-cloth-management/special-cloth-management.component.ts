@@ -54,9 +54,17 @@ export class SpecialClothManagementComponent implements OnInit, OnDestroy {
   }
 
   onNewSpecialCloth(): void {
+    const names: any = this.specialClothList.map(({ name }: any) => name);
     if (!this.newSpecialClothValue) {
       this.confirmationService.confirm({
         message: 'โปรดใส่ชื่อประเภทผ้าพิเศษ',
+        acceptVisible: true,
+        acceptLabel: 'ตกลง',
+        rejectVisible: false,
+      });
+    } else if (names.includes(this.newSpecialClothValue)) {
+      this.confirmationService.confirm({
+        message: 'มีประเภทผ้าพิเศษนี้แล้ว',
         acceptVisible: true,
         acceptLabel: 'ตกลง',
         rejectVisible: false,
@@ -75,11 +83,11 @@ export class SpecialClothManagementComponent implements OnInit, OnDestroy {
             this.onResetValue();
           } else {
             Swal.fire({
-            title: 'Error!',
-            text: result.errors[0].message,
-            icon: 'error',
-            confirmButtonText: 'ตกลง',
-          });
+              title: 'Error!',
+              text: result.errors[0].message,
+              icon: 'error',
+              confirmButtonText: 'ตกลง',
+            });
           }
         });
     }
@@ -114,11 +122,11 @@ export class SpecialClothManagementComponent implements OnInit, OnDestroy {
             if (!!result.data) {
             } else {
               Swal.fire({
-            title: 'Error!',
-            text: result.errors[0].message,
-            icon: 'error',
-            confirmButtonText: 'ตกลง',
-          });
+                title: 'Error!',
+                text: result.errors[0].message,
+                icon: 'error',
+                confirmButtonText: 'ตกลง',
+              });
             }
           });
       },

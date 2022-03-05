@@ -54,9 +54,17 @@ export class TypeClothManagementComponent implements OnInit, OnDestroy {
   }
 
   onNewTypeCloth(): void {
+    const names = this.typeClothList.map(({ name }: any) => name);
     if (!this.newTypeClothValue) {
       this.confirmationService.confirm({
         message: 'โปรดใส่ประเภทการใช้งานผ้า',
+        acceptVisible: true,
+        acceptLabel: 'ตกลง',
+        rejectVisible: false,
+      });
+    } else if (names.includes(this.newTypeClothValue)) {
+      this.confirmationService.confirm({
+        message: 'มีผระเภทการใช้งานนี้แล้ว',
         acceptVisible: true,
         acceptLabel: 'ตกลง',
         rejectVisible: false,
@@ -75,11 +83,11 @@ export class TypeClothManagementComponent implements OnInit, OnDestroy {
             this.onResetValue();
           } else {
             Swal.fire({
-            title: 'Error!',
-            text: result.errors[0].message,
-            icon: 'error',
-            confirmButtonText: 'ตกลง',
-          });
+              title: 'Error!',
+              text: result.errors[0].message,
+              icon: 'error',
+              confirmButtonText: 'ตกลง',
+            });
           }
         });
     }
@@ -114,11 +122,11 @@ export class TypeClothManagementComponent implements OnInit, OnDestroy {
             if (!!result.data) {
             } else {
               Swal.fire({
-            title: 'Error!',
-            text: result.errors[0].message,
-            icon: 'error',
-            confirmButtonText: 'ตกลง',
-          });
+                title: 'Error!',
+                text: result.errors[0].message,
+                icon: 'error',
+                confirmButtonText: 'ตกลง',
+              });
             }
           });
       },

@@ -53,10 +53,17 @@ export class TextureClothManagementComponent implements OnInit, OnDestroy {
   }
 
   onNewTexture(): void {
+    const names = this.textureClothList.map(({ name }: any) => name);
     if (!this.newTextureValue) {
       this.confirmationService.confirm({
-
         message: 'โปรดใส่ชื่อชนิดเนื้อผ้า',
+        acceptVisible: true,
+        acceptLabel: 'ตกลง',
+        rejectVisible: false,
+      });
+    } else if (names.includes(this.newTextureValue)) {
+      this.confirmationService.confirm({
+        message: 'มีชนิดเนื้อผ้านี้แล้ว',
         acceptVisible: true,
         acceptLabel: 'ตกลง',
         rejectVisible: false,
@@ -75,11 +82,11 @@ export class TextureClothManagementComponent implements OnInit, OnDestroy {
             this.onResetValue();
           } else {
             Swal.fire({
-            title: 'Error!',
-            text: result.errors[0].message,
-            icon: 'error',
-            confirmButtonText: 'ตกลง',
-          });
+              title: 'Error!',
+              text: result.errors[0].message,
+              icon: 'error',
+              confirmButtonText: 'ตกลง',
+            });
           }
         });
     }
@@ -115,11 +122,11 @@ export class TextureClothManagementComponent implements OnInit, OnDestroy {
             if (!!result.data) {
             } else {
               Swal.fire({
-            title: 'Error!',
-            text: result.errors[0].message,
-            icon: 'error',
-            confirmButtonText: 'ตกลง',
-          });
+                title: 'Error!',
+                text: result.errors[0].message,
+                icon: 'error',
+                confirmButtonText: 'ตกลง',
+              });
             }
           });
       },

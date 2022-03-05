@@ -22,7 +22,7 @@
     responsiveLayout="scroll"
     styleClass="p-datatable-lg"
     #tb
-    [globalFilterFields]="['key', 'firstName','lastName']"
+    [globalFilterFields]="['key', 'firstName', 'lastName']"
   >
     <ng-template pTemplate="caption">
       <div class="flex">
@@ -41,6 +41,7 @@
     </ng-template>
     <ng-template pTemplate="header">
       <tr>
+<<<<<<< Updated upstream
         <th>ลำดับ</th>
         <th>รหัสพนักงาน</th>
         <th>ชื่อ</th>
@@ -51,6 +52,18 @@
         <th>สิทธิ์ผู้ใช้</th>
         <th>สถานะ</th>
         <th></th>
+=======
+        <th class="text-center">ลำดับ</th>
+        <th class="text-center">รหัส</th>
+        <th class="text-center">ชื่อ</th>
+        <th class="text-center">นามสกุล</th>
+        <!-- <th class="text-center">ที่อยู่</th> -->
+        <!-- <th class="text-center">เบอร์โทร</th> -->
+        <!-- <th class="text-center">อีเมล์</th> -->
+        <th class="text-center">สิทธิ์ผู้ใช้</th>
+        <th class="text-center">สถานะ</th>
+        <th class="text-center"></th>
+>>>>>>> Stashed changes
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-employee let-index="rowIndex">
@@ -60,6 +73,7 @@
         }"
       >
         <td
+          class="text-center"
           [ngStyle]="{
             'font-weight': employee.key === employeeLogin.key ? '700' : null
           }"
@@ -67,6 +81,7 @@
           {{ index + 1 }}
         </td>
         <td
+          class="text-left"
           [ngStyle]="{
             'font-weight': employee.key === employeeLogin.key ? '700' : null
           }"
@@ -74,6 +89,7 @@
           {{ employee.key }}
         </td>
         <td
+          class="text-left"
           [ngStyle]="{
             'font-weight': employee.key === employeeLogin.key ? '700' : null
           }"
@@ -81,27 +97,28 @@
           {{ employee.firstName }}
         </td>
         <td
+          class="text-left"
           [ngStyle]="{
             'font-weight': employee.key === employeeLogin.key ? '700' : null
           }"
         >
           {{ employee.lastName }}
         </td>
-        <!-- <td
+        <!-- <td class="text-left"
           [ngStyle]="{
             'font-weight': employee.key === employeeLogin.key ? '700' : null
           }"
         >
           {{ employee.address }}
         </td> -->
-        <!-- <td
+        <!-- <td class="text-left"
           [ngStyle]="{
             'font-weight': employee.key === employeeLogin.key ? '700' : null
           }"
         >
           {{ employee.phoneNumber }}
         </td> -->
-        <!-- <td
+        <!-- <td class="text-left"
           [ngStyle]="{
             'font-weight': employee.key === employeeLogin.key ? '700' : null
           }"
@@ -109,6 +126,7 @@
           {{ employee.email }}
         </td> -->
         <td
+          class="text-left"
           [ngStyle]="{
             'font-weight': employee.key === employeeLogin.key ? '700' : null
           }"
@@ -116,6 +134,7 @@
           <p-chip label="{{ employee.role | translate }}"></p-chip>
         </td>
         <td
+          class="text-left"
           [ngStyle]="{
             'font-weight': employee.key === employeeLogin.key ? '700' : null
           }"
@@ -131,7 +150,7 @@
             [rounded]="true"
           ></p-tag>
         </td>
-        <td class="container__action">
+        <td class="container__action" class="text-center">
           <button
             *ngIf="
               (!employee.deleted_at &&
@@ -165,7 +184,7 @@
             *ngIf="
               (!employee.deleted_at &&
                 authService.isRole() === 'ADMIN' &&
-                  employee.role !== 'HEAD_ADMIN') ||
+                employee.role !== 'HEAD_ADMIN') ||
               authService.isRole() === 'HEAD_ADMIN'
             "
             pButton

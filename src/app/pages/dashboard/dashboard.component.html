@@ -44,15 +44,15 @@
     >
       <tr>
         <td><span class="p-column-title">ลำดับ</span>{{ index + 1 }}</td>
-        <td>
+        <td class="text-left">
           <span class="p-column-title">วันที่</span
           >{{ order.created_at | thaidate: "short" }}
         </td>
-        <td>
+        <td class="text-left">
           <span class="p-column-title">ลูกค้า</span
           >{{ order.customer.firstName + " " + order.customer.lastName }}
         </td>
-        <td>
+        <td class="text-left">
           <span class="p-column-title">สถานะ</span>
           <p-tag
             styleClass="mr-2 font-bold"
@@ -65,11 +65,11 @@
             [rounded]="true"
           ></p-tag>
         </td>
-        <td>
+        <td class="text-right">
           <span class="p-column-title">จำนวนผ้าที่ยังไม่ได้ส่ง</span
           >{{ order.numClothe }}
         </td>
-        <td>
+        <td class="text-right">
           <span class="p-column-title">จำนวนผ้าที่ส่งไปแล้ว</span
           >{{ order.num }}
         </td>
