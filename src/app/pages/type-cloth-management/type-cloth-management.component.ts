@@ -62,7 +62,7 @@ export class TypeClothManagementComponent implements OnInit, OnDestroy {
         acceptLabel: 'ตกลง',
         rejectVisible: false,
       });
-    } else if (names.includes(this.newTypeClothValue.trim())) {
+    } else if (names.includes(this.newTypeClothValue.trim().split(' ').join(''))) {
       this.confirmationService.confirm({
         message: 'มีผระเภทการใช้งานนี้แล้ว',
         acceptVisible: true,

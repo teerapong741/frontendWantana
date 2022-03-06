@@ -68,7 +68,7 @@ export class ClothProblemManagementComponent implements OnInit, OnDestroy {
         acceptLabel: 'ตกลง',
         rejectVisible: false,
       });
-    } else if (names.includes(this.newClothProblemValue.trim())) {
+    } else if (names.includes(this.newClothProblemValue.trim().split(' ').join(''))) {
       this.confirmationService.confirm({
         message: 'มีประเภทผ้ามีปัญหานี้แล้ว',
         acceptVisible: true,
