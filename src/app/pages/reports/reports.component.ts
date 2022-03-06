@@ -302,9 +302,11 @@ export class ReportsComponent implements OnInit {
       this.dateStart.getTime > new Date().getTime
     ) {
       Swal.fire({
-        title: 'ไม่พบข้อมูล',
+        title: 'วันที่เกินวันปัจจุบัน',
         icon: 'info',
       });
+      this.dateEnd = new Date();
+      this.dateStart = new Date();
     } else if (!!this.dateRange[1] && !!this.dateRange[0]) {
       this.loading = true;
       if (
@@ -667,10 +669,6 @@ export class ReportsComponent implements OnInit {
             'null',
             'null',
           ];
-          Swal.fire({
-            title: 'ไม่พบข้อมูล',
-            icon: 'info',
-          });
         }
       } else {
         Swal.fire({
@@ -1074,10 +1072,6 @@ export class ReportsComponent implements OnInit {
             'null',
             'null',
           ];
-          Swal.fire({
-            title: 'ไม่พบข้อมูล',
-            icon: 'info',
-          });
         }
       } else {
         Swal.fire({
@@ -1134,7 +1128,7 @@ export class ReportsComponent implements OnInit {
               num: index + 1,
               key: customer.key,
               fullName: `${customer.firstName} ${customer.lastName}`,
-              address: `${customer.address}, อำเภอ: ${customer.disTrict}, จังหวัด: ${customer.proVince}, รหัสไปรษณีฺ: ${customer.postalCode}`,
+              address: `${customer.address} อ.${customer.disTrict} จ.${customer.proVince} ${customer.postalCode}`,
               phone: customer.phoneNumber,
               date: customer.created_at,
             });
@@ -1150,17 +1144,7 @@ export class ReportsComponent implements OnInit {
             data.push(`${cs.fullName}`);
             data.push(`${cs.address}`);
             data.push(`${cs.phone}`);
-            data.push(
-              `${new Date(cs.date).toLocaleDateString('th-TH')} | ${
-                new Date(cs.date).getHours().toString().length === 1
-                  ? '0' + new Date(cs.date).getHours().toString()
-                  : new Date(cs.date).getHours()
-              }:${
-                new Date(cs.date).getMinutes().toString().length === 1
-                  ? '0' + new Date(cs.date).getMinutes().toString()
-                  : new Date(cs.date).getMinutes()
-              }`
-            );
+            data.push(`${new Date(cs.date).toLocaleDateString('th-TH')}`);
             this.bodyTablePdf.push(data);
           }
         } else {
@@ -1175,10 +1159,6 @@ export class ReportsComponent implements OnInit {
             'null',
             'null',
           ];
-          Swal.fire({
-            title: 'ไม่พบข้อมูล',
-            icon: 'info',
-          });
         }
       } else {
         Swal.fire({
@@ -1237,7 +1217,7 @@ export class ReportsComponent implements OnInit {
               num: index + 1,
               key: employee.key,
               fullName: `${employee.firstName} ${employee.lastName}`,
-              address: `${employee.address}, อำเภอ: ${employee.disTrict}, จังหวัด: ${employee.proVince}, รหัสไปรษณีฺ: ${employee.postalCode}`,
+              address: `${employee.address} อ.${employee.disTrict} จ.${employee.proVince} ${employee.postalCode}`,
               phone: employee.phoneNumber,
               email: employee.email,
               date: employee.created_at,
@@ -1254,17 +1234,7 @@ export class ReportsComponent implements OnInit {
             data.push(`${em.address}`);
             data.push(`${em.phone}`);
             data.push(`${em.email}`);
-            data.push(
-              `${new Date(em.date).toLocaleDateString('th-TH')} | ${
-                new Date(em.date).getHours().toString().length === 1
-                  ? '0' + new Date(em.date).getHours().toString()
-                  : new Date(em.date).getHours()
-              }:${
-                new Date(em.date).getMinutes().toString().length === 1
-                  ? '0' + new Date(em.date).getMinutes().toString()
-                  : new Date(em.date).getMinutes()
-              }`
-            );
+            data.push(`${new Date(em.date).toLocaleDateString('th-TH')}`);
             this.bodyTablePdf.push(data);
           }
         } else {
@@ -1279,10 +1249,6 @@ export class ReportsComponent implements OnInit {
             'null',
             'null',
           ];
-          Swal.fire({
-            title: 'ไม่พบข้อมูล',
-            icon: 'info',
-          });
         }
       } else {
         Swal.fire({

@@ -263,20 +263,6 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy {
         acceptLabel: 'ตกลง',
         rejectVisible: false,
       });
-    } else if (!this.password) {
-      this.confirmationService.confirm({
-        message: 'โปรดกรอกรหัสผ่าน',
-        acceptVisible: true,
-        acceptLabel: 'ตกลง',
-        rejectVisible: false,
-      });
-    } else if (this.password.trim() !== this.confirmPassword.trim()) {
-      this.confirmationService.confirm({
-        message: 'โปรดใส่รหัสผ่านให้ตรงกัน',
-        acceptVisible: true,
-        acceptLabel: 'ตกลง',
-        rejectVisible: false,
-      });
     } else if (this.idCard.length !== 13) {
       Swal.fire({
         title: 'คำเตือน',
@@ -364,6 +350,9 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy {
     this.editOldPassword = '';
     this.email = '';
     this.role = Role.SUB_ADMIN;
+    this.provinceSelected = null;
+    this.districtSelected = null;
+    this.postAddress = '';
   }
 
   onVisibleNewEmployee(): void {

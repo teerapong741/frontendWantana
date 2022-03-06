@@ -77,7 +77,6 @@
       (click)="generatePdf()"
     ></button>
   </div>
-
   <div class="mt-4">
     <p-table
       [columns]="cols"
@@ -151,6 +150,15 @@
               *ngIf="col.field === 'number'"
               [innerHtml]="rowData[col.field]"
             ></div>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage" let-columns>
+        <tr>
+          <td [attr.colspan]="columns.length">
+            <div class="text-center" style="padding-top: 50px">
+              <h1 style="font-size: 30px; font-weight: bolder">ไม่พบข้อมูล</h1>
+            </div>
           </td>
         </tr>
       </ng-template>

@@ -300,6 +300,9 @@ export class CustomerManagementComponent implements OnInit, OnDestroy {
     this.address = '';
     this.lineId = '';
     this.email = '';
+    this.provinceSelected = null;
+    this.districtSelected = null;
+    this.postAddress = '';
   }
 
   onVisibleNewCustomer(): void {
