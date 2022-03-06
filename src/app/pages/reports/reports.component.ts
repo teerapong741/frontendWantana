@@ -154,68 +154,13 @@ export class ReportsComponent implements OnInit {
 
   generatePdf() {
     const userReport = this.authService.isCodeEmployee();
-    const dateReport = `${new Date().toLocaleDateString('th-TH')} ${
-      new Date(new Date().setHours(59, 59, 59)).getHours().toString().length ===
-      1
-        ? '0' + new Date(new Date().setHours(59, 59, 59)).getHours().toString()
-        : new Date(new Date().setHours(59, 59, 59)).getHours().toString()
-    }:${
-      new Date(new Date().setHours(59, 59, 59)).getMinutes().toString()
-        .length === 1
-        ? '0' +
-          new Date(new Date().setHours(59, 59, 59)).getMinutes().toString()
-        : new Date(new Date().setHours(59, 59, 59)).getMinutes().toString()
-    } น.`;
+    const dateReport = `${new Date().toLocaleDateString('th-TH')}`;
     this.dateStartReport = `${new Date(this.dateStart).toLocaleDateString(
       'th-TH'
-    )} ${
-      new Date(new Date(this.dateStart).setHours(59, 59, 59))
-        .getHours()
-        .toString().length === 1
-        ? '0' +
-          new Date(new Date(this.dateStart).setHours(59, 59, 59))
-            .getHours()
-            .toString()
-        : new Date(new Date(this.dateStart).setHours(59, 59, 59))
-            .getHours()
-            .toString()
-    }:${
-      new Date(new Date(this.dateStart).setHours(59, 59, 59))
-        .getMinutes()
-        .toString().length === 1
-        ? '0' +
-          new Date(new Date(this.dateStart).setHours(59, 59, 59))
-            .getMinutes()
-            .toString()
-        : new Date(new Date(this.dateStart).setHours(59, 59, 59))
-            .getMinutes()
-            .toString()
-    } น.`;
+    )}`;
     this.dateEndReport = `${new Date(this.dateEnd).toLocaleDateString(
       'th-TH'
-    )} ${
-      new Date(new Date(this.dateEnd).setHours(0, 0, 0, 0))
-        .getHours()
-        .toString().length === 1
-        ? '0' +
-          new Date(new Date(this.dateEnd).setHours(0, 0, 0, 0))
-            .getHours()
-            .toString()
-        : new Date(new Date(this.dateEnd).setHours(0, 0, 0, 0))
-            .getHours()
-            .toString()
-    }:${
-      new Date(new Date(this.dateEnd).setHours(0, 0, 0, 0))
-        .getMinutes()
-        .toString().length === 1
-        ? '0' +
-          new Date(new Date(this.dateEnd).setHours(0, 0, 0, 0))
-            .getMinutes()
-            .toString()
-        : new Date(new Date(this.dateEnd).setHours(0, 0, 0, 0))
-            .getMinutes()
-            .toString()
-    } น.`;
+    )}`;
     const documentDefinition: any = {
       pageOrientation: 'landscape',
       pageSize: 'A4',
