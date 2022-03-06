@@ -5,6 +5,9 @@ export interface CreateCustomerInput {
   address: string;
   phoneNumber: string;
   email: string;
+  proVince: string;
+  disTrict: string;
+  postalCode: number;
 }
 
 export interface UpdateCustomerInput {
@@ -16,4 +19,7 @@ export interface UpdateCustomerInput {
   phoneNumber?: string;
   email?: string;
   lineUserId?: string;
+  proVince?: string;
+  disTrict?: string;
+  postalCode?: number;
 }

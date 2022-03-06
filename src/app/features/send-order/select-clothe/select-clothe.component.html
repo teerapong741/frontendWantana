@@ -1,4 +1,5 @@
-<loading *ngIf="loading"></loading><p-pickList
+<loading *ngIf="loading"></loading
+><p-pickList
   [source]="sourceClothes"
   [target]="targetClothes"
   sourceHeader="รายการผ้าในระบบ"
@@ -84,12 +85,43 @@
     </div>
   </ng-template>
 </p-pickList>
-<div class="flex justify-content-center my-3">
+<div
+  class="flex justify-content-start my-3 align-items-center"
+  [style]="{ 'margin-left': '5rem' }"
+>
+  <button
+    pButton
+    pRipple
+    type="button"
+    icon="fas fa-tshirt"
+    class="p-button-rounded p-button-success"
+  ></button>
+  <span class="ml-2 mr-5">ประเภทการใช้งานผ้า</span>
+
+  <button
+    pButton
+    pRipple
+    type="button"
+    icon="fas fa-star"
+    class="p-button-rounded p-button-warning"
+  ></button>
+  <span class="ml-2 mr-6">ผ้าพิเศษ</span>
+
+  <button
+    pButton
+    pRipple
+    type="button"
+    icon="fas fa-screwdriver"
+    class="p-button-rounded p-button-danger"
+  ></button>
+  <span class="ml-2 mr-5">ปัญหาของผ้า</span>
+</div>
+<div class="flex justify-content-end my-3">
   <button
     pButton
     pRipple
     class="p-button p-button-success"
-    [style]="{ width: '50%', margin: 'auto 1rem' }"
+    [style]="{ width: 'auto', margin: 'auto 5rem' }"
     label="ถัดไป"
     (click)="onNext()"
   ></button>

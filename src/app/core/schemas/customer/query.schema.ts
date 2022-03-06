@@ -12,6 +12,9 @@ export const CUSTOMER = gql`
       phoneNumber
       lineUserId
       email
+      proVince
+      disTrict
+      postalCode
     }
   }
 `;
@@ -28,6 +31,9 @@ export const CUSTOMERS = gql`
       phoneNumber
       lineUserId
       email
+      proVince
+      disTrict
+      postalCode
       created_at
     }
   }

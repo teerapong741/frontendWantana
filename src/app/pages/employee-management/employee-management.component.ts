@@ -1,3 +1,4 @@
+import { AddressService } from './../../core/services/address.service';
 import { AuthService } from './../../core/services/auth.service';
 import {
   createEmployeeInput,
@@ -42,13 +43,22 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy {
   email: string = '';
   role: Role = Role.SUB_ADMIN;
 
+  provinces: any[] = [];
+  provinceSelected: any = null;
+  districts: any[] = [];
+  districtSelected: any = null;
+  subDistricts: any[] = [];
+  subDistrictSelected: any = null;
+  postAddress: string = '';
+
   fakeInput: string = '';
 
   constructor(
     private confirmationService: ConfirmationService,
     private router: Router,
     private employeeService: EmployeeService,
-    public authService: AuthService
+    public authService: AuthService,
+    private readonly addressService: AddressService
   ) {}
 
   ngOnInit() {
@@ -56,6 +66,20 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy {
       { name: 'ผู้จัดการ', value: Role.ADMIN },
       { name: 'พนักงาน', value: Role.SUB_ADMIN },
     ];
+
+    this.addressService.provinces().subscribe((result) => {
+      if (result.data) {
+        const provinces = result.data;
+        const filter = [];
+        for (let p of provinces) {
+          filter.push({
+            name: p.province,
+            label: p.province,
+          });
+        }
+        this.provinces = filter;
+      }
+    });
 
     this.loading = true;
     this.$subscription = this.employeeService
@@ -100,6 +124,47 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy {
 
     this.employeeLogin = this.authService.isCodeEmployee();
   }
+  onSelectedProvince(): void {
+    this.districtSelected = null;
+    this.subDistrictSelected = null;
+    this.addressService
+      .districtsOfProvince(this.provinceSelected.name)
+      .subscribe((result) => {
+        if (result.data) {
+          const districts = result.data;
+          const filter = [];
+          for (let p of districts) {
+            filter.push({
+              name: p,
+              label: p,
+            });
+          }
+          this.districts = filter;
+        }
+      });
+  }
+
+  onSelectedDistrict(): void {
+    this.subDistrictSelected = null;
+    this.addressService
+      .subDistrictsOfDistrict(
+        this.provinceSelected.name,
+        this.districtSelected.name
+      )
+      .subscribe((result) => {
+        if (result.data) {
+          const subDistricts = result.data;
+          const filter = [];
+          for (let p of subDistricts) {
+            filter.push({
+              name: p,
+              label: p,
+            });
+          }
+          this.subDistricts = filter;
+        }
+      });
+  }
 
   onNewEmployee(): void {
     const names: string[] = this.employeeList.map(
@@ -108,17 +173,92 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy {
     const idCards: string[] = this.employeeList.map(
       ({ idCard }: any) => idCard
     );
-    if (
-      !this.idCard ||
-      !this.fname ||
-      !this.lname ||
-      !this.phone ||
-      !this.address ||
-      !this.role ||
-      !this.email
-    ) {
+    const emails: string[] = this.employeeList.map(({ email }) => email);
+    const phones: string[] = this.employeeList.map(
+      ({ phoneNumber }) => phoneNumber
+    );
+    if (!this.idCard) {
       this.confirmationService.confirm({
-        message: 'โปรดใส่ข้อมูลพนักงานให้ครบ',
+        message: 'โปรดกรอกข้อมูลเลขบัตรประชาชน',
+        acceptVisible: true,
+        acceptLabel: 'ตกลง',
+        rejectVisible: false,
+      });
+    } else if (!this.fname) {
+      this.confirmationService.confirm({
+        message: 'โปรดใส่ชื่อ',
+        acceptVisible: true,
+        acceptLabel: 'ตกลง',
+        rejectVisible: false,
+      });
+    } else if (!this.lname) {
+      this.confirmationService.confirm({
+        message: 'โปรดใส่นามสกุล',
+        acceptVisible: true,
+        acceptLabel: 'ตกลง',
+        rejectVisible: false,
+      });
+    } else if (!this.phone) {
+      this.confirmationService.confirm({
+        message: 'โปรดใส่เบอร์มือถือ',
+        acceptVisible: true,
+        acceptLabel: 'ตกลง',
+        rejectVisible: false,
+      });
+    } else if (!this.address) {
+      this.confirmationService.confirm({
+        message: 'โปรดกรอกที่อยู่ให้ครบ',
+        acceptVisible: true,
+        acceptLabel: 'ตกลง',
+        rejectVisible: false,
+      });
+    } else if (!this.provinceSelected) {
+      this.confirmationService.confirm({
+        message: 'โปรดเลือกจังหวัด',
+        acceptVisible: true,
+        acceptLabel: 'ตกลง',
+        rejectVisible: false,
+      });
+    } else if (!this.districtSelected) {
+      this.confirmationService.confirm({
+        message: 'โปรดเลือกอำเภอ',
+        acceptVisible: true,
+        acceptLabel: 'ตกลง',
+        rejectVisible: false,
+      });
+    } else if (!this.postAddress) {
+      this.confirmationService.confirm({
+        message: 'โปรดใส่รหัสไปรษณีย์',
+        acceptVisible: true,
+        acceptLabel: 'ตกลง',
+        rejectVisible: false,
+      });
+    }
+    // else if (!this.subDistrictSelected) {
+    //   this.confirmationService.confirm({
+    //     message: 'โปรดเลือกตำบล',
+    //     acceptVisible: true,
+    //     acceptLabel: 'ตกลง',
+    //     rejectVisible: false,
+    //   });
+    // }
+    else if (!this.email) {
+      this.confirmationService.confirm({
+        message: 'โปรดใส่อีเมล์',
+        acceptVisible: true,
+        acceptLabel: 'ตกลง',
+        rejectVisible: false,
+      });
+    } else if (!this.role) {
+      this.confirmationService.confirm({
+        message: 'โปรดเลือกสิทธิ์',
+        acceptVisible: true,
+        acceptLabel: 'ตกลง',
+        rejectVisible: false,
+      });
+    } else if (!this.password) {
+      this.confirmationService.confirm({
+        message: 'โปรดกรอกรหัสผ่าน',
         acceptVisible: true,
         acceptLabel: 'ตกลง',
         rejectVisible: false,
@@ -159,7 +299,9 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy {
       });
     } else if (
       names.includes(`${this.fname.trim()} ${this.lname.trim()}`) ||
-      idCards.includes(this.idCard.trim())
+      idCards.includes(this.idCard.trim()) ||
+      emails.includes(this.email) ||
+      phones.includes(this.phone)
     ) {
       Swal.fire({
         title: 'คำเตือน',
@@ -178,6 +320,9 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy {
         email: this.email,
         password: this.phone,
         role: this.role,
+        proVince: this.provinceSelected.name,
+        disTrict: this.districtSelected.name,
+        postalCode: +this.postAddress,
       };
 
       this.$subscription = this.employeeService
@@ -219,6 +364,34 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy {
   }
 
   onVisibleEditEmployee(employee: any): void {
+    this.addressService.provinces().subscribe((result) => {
+      if (result.data) {
+        const provinces = result.data;
+        const filter = [];
+        for (let p of provinces) {
+          filter.push({
+            name: p.province,
+            label: p.province,
+          });
+        }
+        this.provinces = filter;
+      }
+    });
+    this.addressService
+      .districtsOfProvince(employee.proVince)
+      .subscribe((result) => {
+        if (result.data) {
+          const districts = result.data;
+          const filter = [];
+          for (let p of districts) {
+            filter.push({
+              name: p,
+              label: p,
+            });
+          }
+          this.districts = filter;
+        }
+      });
     this.editEmployeeVisible = true;
     this.idEmployee = employee.id;
     this.idCard = employee.idCard;
@@ -229,6 +402,15 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy {
     this.email = employee.email;
     this.password = employee.password;
     this.role = employee.role;
+    this.provinceSelected = {
+      name: employee.proVince,
+      label: employee.proVince,
+    };
+    this.districtSelected = {
+      name: employee.disTrict,
+      label: employee.disTrict,
+    };
+    this.postAddress = employee.postalCode;
   }
 
   onVisibleEditPassword(employee: any): void {
@@ -299,17 +481,95 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy {
   }
 
   onEditEmployee(): void {
-    if (
-      !this.idCard ||
-      !this.fname ||
-      !this.lname ||
-      !this.phone ||
-      !this.address ||
-      !this.role ||
-      !this.email
-    ) {
+    const names: any[] = this.employeeList.map(
+      ({ id, fname, lname }: any): any => {
+        if (id !== this.idEmployee) return `${fname} ${lname}`;
+      }
+    );
+    const idCards: any[] = this.employeeList.map(({ id, idCard }: any) => {
+      if (id !== this.idEmployee) return idCard;
+    });
+    const emails: any[] = this.employeeList.map(({ id, email }) => {
+      if (id !== this.idEmployee) return email;
+    });
+    const phones: any[] = this.employeeList.map(({ id, phoneNumber }) => {
+      if (id !== this.idEmployee) return phoneNumber;
+    });
+    if (!this.idCard) {
       this.confirmationService.confirm({
-        message: 'โปรดใส่ข้อมูลพนักงานให้ครบ',
+        message: 'โปรดกรอกข้อมูลเลขบัตรประชาชน',
+        acceptVisible: true,
+        acceptLabel: 'ตกลง',
+        rejectVisible: false,
+      });
+    } else if (!this.fname) {
+      this.confirmationService.confirm({
+        message: 'โปรดใส่ชื่อ',
+        acceptVisible: true,
+        acceptLabel: 'ตกลง',
+        rejectVisible: false,
+      });
+    } else if (!this.lname) {
+      this.confirmationService.confirm({
+        message: 'โปรดใส่นามสกุล',
+        acceptVisible: true,
+        acceptLabel: 'ตกลง',
+        rejectVisible: false,
+      });
+    } else if (!this.phone) {
+      this.confirmationService.confirm({
+        message: 'โปรดใส่เบอร์มือถือ',
+        acceptVisible: true,
+        acceptLabel: 'ตกลง',
+        rejectVisible: false,
+      });
+    } else if (!this.address) {
+      this.confirmationService.confirm({
+        message: 'โปรดกรอกที่อยู่ให้ครบ',
+        acceptVisible: true,
+        acceptLabel: 'ตกลง',
+        rejectVisible: false,
+      });
+    } else if (!this.provinceSelected) {
+      this.confirmationService.confirm({
+        message: 'โปรดเลือกจังหวัด',
+        acceptVisible: true,
+        acceptLabel: 'ตกลง',
+        rejectVisible: false,
+      });
+    } else if (!this.districtSelected) {
+      this.confirmationService.confirm({
+        message: 'โปรดเลือกอำเภอ',
+        acceptVisible: true,
+        acceptLabel: 'ตกลง',
+        rejectVisible: false,
+      });
+    } else if (!this.postAddress) {
+      this.confirmationService.confirm({
+        message: 'โปรดใส่รหัสไปรษณีย์',
+        acceptVisible: true,
+        acceptLabel: 'ตกลง',
+        rejectVisible: false,
+      });
+    }
+    // else if (!this.subDistrictSelected) {
+    //   this.confirmationService.confirm({
+    //     message: 'โปรดเลือกตำบล',
+    //     acceptVisible: true,
+    //     acceptLabel: 'ตกลง',
+    //     rejectVisible: false,
+    //   });
+    // }
+    else if (!this.email) {
+      this.confirmationService.confirm({
+        message: 'โปรดใส่อีเมล์',
+        acceptVisible: true,
+        acceptLabel: 'ตกลง',
+        rejectVisible: false,
+      });
+    } else if (!this.role) {
+      this.confirmationService.confirm({
+        message: 'โปรดเลือกสิทธิ์',
         acceptVisible: true,
         acceptLabel: 'ตกลง',
         rejectVisible: false,
@@ -341,6 +601,18 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy {
         icon: 'warning',
         confirmButtonText: 'ตกลง',
       });
+    } else if (
+      names.includes(`${this.fname.trim()} ${this.lname.trim()}`) ||
+      idCards.includes(this.idCard.trim()) ||
+      emails.includes(this.email) ||
+      phones.includes(this.phone)
+    ) {
+      Swal.fire({
+        title: 'คำเตือน',
+        text: 'มีข้อมูลนี้อยู่ในระบบแล้ว',
+        icon: 'warning',
+        confirmButtonText: 'ตกลง',
+      });
     } else {
       Swal.fire({
         title: 'คำเตือน',
@@ -362,6 +634,9 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy {
             email: this.email,
             password: this.idCard,
             role: this.role,
+            proVince: this.provinceSelected.name,
+            disTrict: this.districtSelected.name,
+            postalCode: +this.postAddress,
           };
 
           this.$subscription = this.employeeService

@@ -24,6 +24,7 @@ import { SidebarModule } from './core/components/sidebar/sidebar.module';
 
 // PrimeNg
 import { TableModule } from 'primeng/table';
+import { AddressService } from './core/services/address.service';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http);
@@ -56,6 +57,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     TextureClothService,
     SpecialClothService,
     ClothProblemService,
+    AddressService
   ],
   bootstrap: [AppComponent],
 })

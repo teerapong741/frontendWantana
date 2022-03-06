@@ -16,7 +16,7 @@
     [rows]="10"
     [paginator]="true"
     responsiveLayout="scroll"
-    styleClass="p-datatable-lg"
+    styleClass="p-datatable-lg p-datatable-gridlines"
     #tb
     [globalFilterFields]="['key', 'firstName', 'lastName']"
     ><ng-template pTemplate="caption">
@@ -36,12 +36,12 @@
     </ng-template>
     <ng-template pTemplate="header">
       <tr>
-        <th class="text-center">ลำดับ</th>
-        <th class="text-center">รหัส</th>
-        <th class="text-center">ชื่อ - นามสกุล</th>
-        <th class="text-center">ที่อยู่</th>
-        <th class="text-center">เบอร์โทร</th>
-        <th class="text-center">อีเมล</th>
+        <th class="text-center" [style]="{ width: '5%' }">ลำดับ</th>
+        <th class="text-center" [style]="{ width: '10%' }">รหัส</th>
+        <th class="text-center" [style]="{ width: '20%' }">ชื่อ - นามสกุล</th>
+        <th class="text-center" [style]="{ width: '35%' }">ที่อยู่</th>
+        <th class="text-center" [style]="{ width: '15%' }">เบอร์โทร</th>
+        <th class="text-center" [style]="{ width: '15%' }">อีเมล</th>
         <!-- <th class="text-center">@Line ID</th> -->
         <th class="text-center"></th>
       </tr>
@@ -126,6 +126,100 @@
         placeholder="โปรดระบุที่อยู่"
       />
     </div>
+
+    <div class="field">
+      <label class="block">จังหวัด</label>
+      <p-dropdown
+        [style]="{ width: '100%' }"
+        [options]="provinces"
+        [(ngModel)]="provinceSelected"
+        optionLabel="name"
+        [filter]="true"
+        filterBy="name"
+        [showClear]="false"
+        placeholder="โปรดเลือก"
+        (onChange)="onSelectedProvince()"
+      >
+        <ng-template pTemplate="selectedItem">
+          <div class="country-item country-item-value" *ngIf="provinceSelected">
+            <div>{{ provinceSelected.name }}</div>
+          </div>
+        </ng-template>
+        <ng-template let-country pTemplate="item">
+          <div class="country-item">
+            <div>{{ country.name }}</div>
+          </div>
+        </ng-template>
+      </p-dropdown>
+    </div>
+
+    <div class="field">
+      <label class="block">อำเภอ</label>
+      <p-dropdown
+        [style]="{ width: '100%' }"
+        [disabled]="!provinceSelected"
+        [options]="districts"
+        [(ngModel)]="districtSelected"
+        optionLabel="name"
+        [filter]="true"
+        filterBy="name"
+        [showClear]="false"
+        (onChange)="onSelectedDistrict()"
+        placeholder="โปรดเลือก"
+      >
+        <ng-template pTemplate="selectedItem">
+          <div class="country-item country-item-value" *ngIf="districtSelected">
+            <div>{{ districtSelected.name }}</div>
+          </div>
+        </ng-template>
+        <ng-template let-country pTemplate="item">
+          <div class="country-item">
+            <div>{{ country.name }}</div>
+          </div>
+        </ng-template>
+      </p-dropdown>
+    </div>
+
+    <!-- <div class="field">
+      <label class="block">ตำบล</label>
+      <p-dropdown
+        [style]="{ width: '100%' }"
+        [disabled]="!districtSelected"
+        [options]="subDistricts"
+        [(ngModel)]="subDistrictSelected"
+        optionLabel="name"
+        [filter]="true"
+        filterBy="name"
+        [showClear]="false"
+        placeholder="โปรดเลือก"
+      >
+        <ng-template pTemplate="selectedItem">
+          <div
+            class="country-item country-item-value"
+            *ngIf="subDistrictSelected"
+          >
+            <div>{{ subDistrictSelected.name }}</div>
+          </div>
+        </ng-template>
+        <ng-template let-country pTemplate="item">
+          <div class="country-item">
+            <div>{{ country.name }}</div>
+          </div>
+        </ng-template>
+      </p-dropdown>
+    </div> -->
+
+    <div class="field">
+      <label for="postAddress" class="block">รหัสไปรษณีย์</label>
+      <input
+        id="postAddress"
+        type="postAddress"
+        pInputText
+        [(ngModel)]="postAddress"
+        placeholder="โปรดระบุเลขไปรษณีย์"
+      />
+    </div>
+
     <div class="field">
       <label for="email" class="block">อีเมล</label>
       <input
@@ -207,6 +301,100 @@
         placeholder="โปรดระบุที่อยู่"
       />
     </div>
+
+    <div class="field">
+      <label class="block">จังหวัด</label>
+      <p-dropdown
+        [style]="{ width: '100%' }"
+        [options]="provinces"
+        [(ngModel)]="provinceSelected"
+        optionLabel="name"
+        [filter]="true"
+        filterBy="name"
+        [showClear]="false"
+        placeholder="โปรดเลือก"
+        (onChange)="onSelectedProvince()"
+      >
+        <ng-template pTemplate="selectedItem">
+          <div class="country-item country-item-value" *ngIf="provinceSelected">
+            <div>{{ provinceSelected.name }}</div>
+          </div>
+        </ng-template>
+        <ng-template let-country pTemplate="item">
+          <div class="country-item">
+            <div>{{ country.name }}</div>
+          </div>
+        </ng-template>
+      </p-dropdown>
+    </div>
+
+    <div class="field">
+      <label class="block">อำเภอ</label>
+      <p-dropdown
+        [style]="{ width: '100%' }"
+        [disabled]="!provinceSelected"
+        [options]="districts"
+        [(ngModel)]="districtSelected"
+        optionLabel="name"
+        [filter]="true"
+        filterBy="name"
+        [showClear]="false"
+        (onChange)="onSelectedDistrict()"
+        placeholder="โปรดเลือก"
+      >
+        <ng-template pTemplate="selectedItem">
+          <div class="country-item country-item-value" *ngIf="districtSelected">
+            <div>{{ districtSelected.name }}</div>
+          </div>
+        </ng-template>
+        <ng-template let-country pTemplate="item">
+          <div class="country-item">
+            <div>{{ country.name }}</div>
+          </div>
+        </ng-template>
+      </p-dropdown>
+    </div>
+
+    <!-- <div class="field">
+      <label class="block">ตำบล</label>
+      <p-dropdown
+        [style]="{ width: '100%' }"
+        [disabled]="!districtSelected"
+        [options]="subDistricts"
+        [(ngModel)]="subDistrictSelected"
+        optionLabel="name"
+        [filter]="true"
+        filterBy="name"
+        [showClear]="false"
+        placeholder="โปรดเลือก"
+      >
+        <ng-template pTemplate="selectedItem">
+          <div
+            class="country-item country-item-value"
+            *ngIf="subDistrictSelected"
+          >
+            <div>{{ subDistrictSelected.name }}</div>
+          </div>
+        </ng-template>
+        <ng-template let-country pTemplate="item">
+          <div class="country-item">
+            <div>{{ country.name }}</div>
+          </div>
+        </ng-template>
+      </p-dropdown>
+    </div> -->
+
+    <div class="field">
+      <label for="postAddress" class="block">รหัสไปรษณีย์</label>
+      <input
+        id="postAddress"
+        type="postAddress"
+        pInputText
+        [(ngModel)]="postAddress"
+        placeholder="โปรดระบุเลขไปรษณีย์"
+      />
+    </div>
+
     <div class="field">
       <label for="email" class="block">อีเมล</label>
       <input

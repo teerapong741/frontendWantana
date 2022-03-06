@@ -79,10 +79,19 @@
   </div>
 
   <div class="mt-4">
-    <p-table [columns]="cols" [value]="tableData" responsiveLayout="scroll">
+    <p-table
+      [columns]="cols"
+      [value]="tableData"
+      responsiveLayout="scroll"
+      class="p-datatable-lg p-datatable-gridlines"
+      styleClass="p-datatable-gridlines"
+    >
       <ng-template pTemplate="header" let-columns>
         <tr>
-          <th *ngFor="let col of columns" [style]="{ 'text-align': 'center' }">
+          <th
+            *ngFor="let col of columns"
+            [style]="{ width: col.colSpan + '%', 'text-align': 'center' }"
+          >
             {{ col.header }}
           </th>
         </tr>
@@ -93,12 +102,24 @@
         let-columns="columns"
         let-index="rowIndex"
       >
-        <tr>
-          <td *ngFor="let col of columns" [style]="{ 'text-align': 'center' }">
-            <div *ngIf="col.field === 'num'" class="text-center">
+        <tr [style]="{ height: '60px' }">
+          <td
+            *ngFor="let col of columns"
+            [style]="{ 'text-align': 'center', height: '60px' }"
+            class="relative"
+          >
+            <div
+              *ngIf="col.field === 'num'"
+              class="text-center absolute"
+              [style]="{ top: '15px', left: '45%' }"
+            >
               {{ index + 1 }}
             </div>
-            <div *ngIf="col.field == 'date'" class="text-left">
+            <div
+              *ngIf="col.field == 'date'"
+              class="text-left absolute"
+              [style]="{ top: '15px' }"
+            >
               {{ rowData[col.field] | thaidate: "short" }}
             </div>
             <div
@@ -111,7 +132,8 @@
               [innerHtml]="rowData[col.field]"
             ></div>
             <div
-              class="text-left"
+              class="text-left absolute"
+              [style]="{ top: '15px' }"
               *ngIf="
                 col.field !== 'sort' &&
                 col.field !== 'type' &&
@@ -124,7 +146,8 @@
               {{ rowData[col.field] }}
             </div>
             <div
-              class="text-left"
+              class="text-right absolute"
+              [style]="{ top: '15px', right: '15px' }"
               *ngIf="col.field === 'number'"
               [innerHtml]="rowData[col.field]"
             ></div>
@@ -133,6 +156,4 @@
       </ng-template>
     </p-table>
   </div>
-
-  <router-outlet></router-outlet>
 </div>
