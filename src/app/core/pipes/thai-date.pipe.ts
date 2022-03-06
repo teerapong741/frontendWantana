@@ -61,13 +61,34 @@ export class ThaiDatePipe implements PipeTransform {
       dataDate[1],
       shortThaiMonth[dataDate[2]],
       dataDate[3] + 543,
-      `| ${dataDate[4].toString().length === 1 ? '0' + dataDate[4].toString() : dataDate[4].toString()}:${dataDate[5].toString().length === 1 ? '0' + dataDate[5].toString() : dataDate[5].toString()} น.`,
+      `| ${
+        dataDate[4].toString().length === 1
+          ? '0' + dataDate[4].toString()
+          : dataDate[4].toString()
+      }:${
+        dataDate[5].toString().length === 1
+          ? '0' + dataDate[5].toString()
+          : dataDate[5].toString()
+      } น.`,
+    ];
+    let outputDateShortNoTime = [
+      dataDate[1],
+      shortThaiMonth[dataDate[2]],
+      dataDate[3] + 543,
     ];
     let outputDateMedium = [
       dataDate[1],
       longThaiMonth[dataDate[2]],
       dataDate[3] + 543,
-      `| ${dataDate[4].toString().length === 1 ? '0' + dataDate[4].toString() : dataDate[4].toString()}:${dataDate[5].toString().length === 1 ? '0' + dataDate[5].toString() : dataDate[5].toString()} น.`,
+      `| ${
+        dataDate[4].toString().length === 1
+          ? '0' + dataDate[4].toString()
+          : dataDate[4].toString()
+      }:${
+        dataDate[5].toString().length === 1
+          ? '0' + dataDate[5].toString()
+          : dataDate[5].toString()
+      } น.`,
     ];
     let returnDate: string;
     returnDate = outputDateMedium.join(' ');
@@ -79,6 +100,9 @@ export class ThaiDatePipe implements PipeTransform {
     }
     if (format == 'short') {
       returnDate = outputDateShort.join(' ');
+    }
+    if (format == 'shortNoTime') {
+      returnDate = outputDateShortNoTime.join(' ');
     }
     return returnDate;
   }

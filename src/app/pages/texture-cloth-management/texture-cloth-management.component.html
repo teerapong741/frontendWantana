@@ -18,10 +18,7 @@
     responsiveLayout="scroll"
     styleClass="p-datatable-lg p-datatable-gridlines"
     #tb
-    [globalFilterFields]="[
-      'key',
-      'name',
-    ]"
+    [globalFilterFields]="['key', 'name']"
     ><ng-template pTemplate="caption">
       <div class="flex">
         <span class="p-input-icon-left ml-auto">
@@ -101,7 +98,7 @@
       class="p-button-success p-button-raised p-button-lg"
       label="เพิ่ม"
       icon="fas fa-plus"
-      style="width: 100%; margin-top: 1rem"
+      style="margin-top: 1rem; width: fit-content; align-self: flex-end !important;"
       (click)="onNewTexture()"
     ></button>
   </div>

@@ -43,13 +43,13 @@
       <tr>
         <th class="text-center" [style]="{ width: '5%' }">ลำดับ</th>
         <th class="text-center" [style]="{ width: '10%' }">รหัส</th>
-        <th class="text-center" [style]="{ width: '20%' }">ชื่อ - นามสกุล</th>
+        <th class="text-center" [style]="{ width: '30%' }">ชื่อ - นามสกุล</th>
         <!-- <th class="text-center">ที่อยู่</th> -->
         <!-- <th class="text-center">เบอร์โทร</th> -->
         <!-- <th class="text-center">อีเมล์</th> -->
-        <th class="text-center" [style]="{ width: '35%' }">สิทธิ์ผู้ใช้</th>
+        <th class="text-center" [style]="{ width: '15%' }">สิทธิ์ผู้ใช้</th>
         <th class="text-center" [style]="{ width: '15%' }">สถานะ</th>
-        <th class="text-center" [style]="{ width: '15%' }"></th>
+        <th class="text-center" [style]="{ width: '25%' }"></th>
       </tr>
     </ng-template>
     <ng-template pTemplate="body" let-employee let-index="rowIndex">
@@ -217,7 +217,10 @@
   [(visible)]="newEmployeeVisible"
   (onHide)="onResetValue()"
 >
-  <div class="container-add-texture">
+  <div
+    class="container-add-texture"
+    style="padding-left: 15%; padding-right: 15%"
+  >
     <div class="field">
       <label for="idCard" class="block">รหัสบัตรประชาชน</label>
       <input
@@ -228,7 +231,7 @@
         placeholder="โปรดระบุรหัสบัตรประชาชน"
       />
     </div>
-    <div class="field">
+    <div class="field inline-block mx-1" style="width: 49%">
       <label for="fname" class="block">ชื่อ</label>
       <input
         id="fname"
@@ -238,7 +241,7 @@
         placeholder="โปรดระบุชื่อ"
       />
     </div>
-    <div class="field">
+    <div class="field inline-block" style="width: 50%">
       <label for="lname" class="block">นามสกุล</label>
       <input
         id="lname"
@@ -269,7 +272,7 @@
       />
     </div>
 
-    <div class="field">
+    <div class="field inline-block my-1" style="width: 49%">
       <label class="block">จังหวัด</label>
       <p-dropdown
         [style]="{ width: '100%' }"
@@ -295,7 +298,7 @@
       </p-dropdown>
     </div>
 
-    <div class="field">
+    <div class="field inline-block my-1 mx-1" style="width: 50%">
       <label class="block">อำเภอ</label>
       <p-dropdown
         [style]="{ width: '100%' }"
@@ -351,7 +354,7 @@
       </p-dropdown>
     </div> -->
 
-    <div class="field">
+    <div class="field inline-block mt-3" style="width: 100%">
       <label for="postAddress" class="block">รหัสไปรษณีย์</label>
       <input
         id="postAddress"
@@ -384,15 +387,17 @@
         [style]="{ width: '30rem' }"
       ></p-dropdown>
     </div>
-    <button
-      pButton
-      pRipple
-      class="p-button-success p-button-raised"
-      label="เพิ่ม"
-      icon="fas fa-plus"
-      style="width: 100%; margin-top: 1rem"
-      (click)="onNewEmployee()"
-    ></button>
+    <div class="flex justify-content-end">
+      <button
+        pButton
+        pRipple
+        class="p-button-success p-button-raised"
+        label="เพิ่ม"
+        icon="fas fa-plus"
+        style="margin-top: 1rem"
+        (click)="onNewEmployee()"
+      ></button>
+    </div>
   </div>
 </p-dialog>
 
@@ -403,7 +408,10 @@
   [(visible)]="editEmployeeVisible"
   (onHide)="onResetValue()"
 >
-  <div class="container-add-texture">
+  <div
+    class="container-add-texture"
+    style="padding-left: 15%; padding-right: 15%"
+  >
     <div class="field">
       <label for="idCard" class="block">รหัสบัตรประชาชน</label>
       <input
@@ -415,7 +423,7 @@
         [disabled]="idEmployee !== employeeLogin.id"
       />
     </div>
-    <div class="field">
+    <div class="field inline-block mx-1" style="width: 49%">
       <label for="fname" class="block">ชื่อ</label>
       <input
         id="fname"
@@ -425,7 +433,7 @@
         placeholder="โปรดระบุชื่อ"
       />
     </div>
-    <div class="field">
+    <div class="field inline-block" style="width: 50%">
       <label for="lname" class="block">นามสกุล</label>
       <input
         id="lname"
@@ -456,7 +464,7 @@
       />
     </div>
 
-    <div class="field">
+    <div class="field inline-block my-1" style="width: 49%">
       <label class="block">จังหวัด</label>
       <p-dropdown
         [style]="{ width: '100%' }"
@@ -482,7 +490,7 @@
       </p-dropdown>
     </div>
 
-    <div class="field">
+    <div class="field inline-block my-1 mx-1" style="width: 50%">
       <label class="block">อำเภอ</label>
       <p-dropdown
         [style]="{ width: '100%' }"
@@ -538,7 +546,7 @@
       </p-dropdown>
     </div> -->
 
-    <div class="field">
+    <div class="field inline-block mt-3" style="width: 100%">
       <label for="postAddress" class="block">รหัสไปรษณีย์</label>
       <input
         id="postAddress"
@@ -577,15 +585,17 @@
         [style]="{ width: '30rem' }"
       ></p-dropdown>
     </div>
-    <button
-      pButton
-      pRipple
-      class="p-button-success p-button-raised"
-      label="แก้ไข"
-      icon="fas fa-plus"
-      style="width: 100%; margin-top: 1rem"
-      (click)="onEditEmployee()"
-    ></button>
+    <div class="flex justify-content-end">
+      <button
+        pButton
+        pRipple
+        class="p-button-success p-button-raised"
+        label="แก้ไข"
+        icon="fas fa-plus"
+        style="margin-top: 1rem"
+        (click)="onEditEmployee()"
+      ></button>
+    </div>
   </div>
 </p-dialog>
 
@@ -596,7 +606,10 @@
   [(visible)]="editPasswordVisible"
   (onHide)="onResetValue()"
 >
-  <div class="container-add-texture">
+  <div
+    class="container-add-texture"
+    style="padding-left: 15%; padding-right: 15%"
+  >
     <p-password
       [(ngModel)]="fakeInput"
       [style]="{ display: 'none' }"
@@ -630,15 +643,17 @@
         [feedback]="false"
       ></p-password>
     </div>
-    <button
-      pButton
-      pRipple
-      class="p-button-success p-button-raised"
-      label="แก้ไข"
-      icon="fas fa-plus"
-      style="width: 100%; margin-top: 1rem"
-      (click)="onEditPassword()"
-    ></button>
+    <div class="flex justify-content-end">
+      <button
+        pButton
+        pRipple
+        class="p-button-success p-button-raised"
+        label="แก้ไข"
+        icon="fas fa-plus"
+        style="margin-top: 1rem"
+        (click)="onEditPassword()"
+      ></button>
+    </div>
   </div>
 </p-dialog>
 

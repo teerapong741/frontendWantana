@@ -214,7 +214,7 @@ export class ReportsComponent implements OnInit {
         },
       ],
       defaultStyle: {
-        font: 'THSarabunNew',
+        // font: 'THSarabunNew',
         alignment: 'center',
       },
       footer: function (currentPage: any, pageCount: any) {
@@ -297,7 +297,15 @@ export class ReportsComponent implements OnInit {
   onChangeFilter(): void {
     this.dateEnd = this.dateRange[1];
     this.dateStart = this.dateRange[0];
-    if (!!this.dateRange[1] && !!this.dateRange[0]) {
+    if (
+      this.dateEnd.getTime > new Date().getTime ||
+      this.dateStart.getTime > new Date().getTime
+    ) {
+      Swal.fire({
+        title: 'ไม่พบข้อมูล',
+        icon: 'info',
+      });
+    } else if (!!this.dateRange[1] && !!this.dateRange[0]) {
       this.loading = true;
       if (
         this.reportTypeSelected.value === 'orders' ||
@@ -339,11 +347,11 @@ export class ReportsComponent implements OnInit {
     this.tableData = [];
     this.cols = [
       { header: 'ลำดับ', field: 'num', colSpan: 5 },
-      { header: 'วันที่', field: 'date', colSpan: 20 },
+      { header: 'วันที่', field: 'date', colSpan: 10 },
       { header: 'รหัสรายการ', field: 'key', colSpan: 10 },
       { header: 'ชื่อ - นามสกุล', field: 'fullName', colSpan: 35 },
       { header: 'ชนิดผ้า', field: 'sort', colSpan: 20 },
-      { header: 'ประเภทผ้า', field: 'type', colSpan: 10 },
+      { header: 'ประเภทผ้า', field: 'type', colSpan: 20 },
       { header: 'จำนวน', field: 'number', colSpan: 10 },
       // { header: 'สาเหตุผ้ามีปัญหา', field: 'problems' },
     ];
@@ -633,17 +641,7 @@ export class ReportsComponent implements OnInit {
           for (let [index, cs] of tableDataPdf.entries()) {
             let data = [];
             data.push(`${index + 1}`);
-            data.push(
-              `${new Date(cs.date).toLocaleDateString('th-TH')} | ${
-                new Date(cs.date).getHours().toString().length === 1
-                  ? '0' + new Date(cs.date).getHours().toString()
-                  : new Date(cs.date).getHours()
-              }:${
-                new Date(cs.date).getMinutes().toString().length === 1
-                  ? '0' + new Date(cs.date).getMinutes()
-                  : new Date(cs.date).getMinutes()
-              }`
-            );
+            data.push(`${new Date(cs.date).toLocaleDateString('th-TH')}`);
             data.push(`${cs.key}`);
             data.push(`${cs.fullName}`);
             data.push(
@@ -669,6 +667,10 @@ export class ReportsComponent implements OnInit {
             'null',
             'null',
           ];
+          Swal.fire({
+            title: 'ไม่พบข้อมูล',
+            icon: 'info',
+          });
         }
       } else {
         Swal.fire({
@@ -704,12 +706,12 @@ export class ReportsComponent implements OnInit {
     this.tableData = [];
     this.cols = [
       { header: 'ลำดับ', field: 'num', colSpan: 5 },
-      { header: 'วันที่', field: 'date', colSpan: 20 },
+      { header: 'วันที่', field: 'date', colSpan: 10 },
       { header: 'รหัสรายการ', field: 'key', colSpan: 10 },
       { header: 'ชื่อ - นามสกุล', field: 'fullName', colSpan: 20 },
-      { header: 'ชนิดผ้า', field: 'sort', colSpan: 10 },
-      { header: 'ประเภทผ้า', field: 'type', colSpan: 10 },
-      { header: 'จำนวน', field: 'number', colSpan: 10 },
+      { header: 'ชนิดผ้า', field: 'sort', colSpan: 13 },
+      { header: 'ประเภทผ้า', field: 'type', colSpan: 13 },
+      { header: 'จำนวน', field: 'number', colSpan: 13.5 },
       { header: 'หมายเหตุ', field: 'problems', colSpan: 15 },
     ];
     this.headerTablePdf = [
@@ -1050,17 +1052,7 @@ export class ReportsComponent implements OnInit {
           for (let [index, cs] of tableDataPdf.entries()) {
             let data = [];
             data.push(`${index + 1}`);
-            data.push(
-              `${new Date(cs.date).toLocaleDateString('th-TH')} | ${
-                new Date(cs.date).getHours().toString().length === 1
-                  ? '0' + new Date(cs.date).getHours().toString()
-                  : new Date(cs.date).getHours()
-              }:${
-                new Date(cs.date).getMinutes().toString().length === 1
-                  ? '0' + new Date(cs.date).getMinutes()
-                  : new Date(cs.date).getMinutes()
-              }`
-            );
+            data.push(`${new Date(cs.date).toLocaleDateString('th-TH')}`);
             data.push(`${cs.key}`);
             data.push(`${cs.fullName}`);
             data.push(`${htmlToText.fromString(cs.sort, { wordwrap: 7 })}`);
@@ -1082,6 +1074,10 @@ export class ReportsComponent implements OnInit {
             'null',
             'null',
           ];
+          Swal.fire({
+            title: 'ไม่พบข้อมูล',
+            icon: 'info',
+          });
         }
       } else {
         Swal.fire({
@@ -1099,10 +1095,10 @@ export class ReportsComponent implements OnInit {
     this.cols = [
       { header: 'ลำดับ', field: 'num', colSpan: 5 },
       { header: 'รหัสลูกค้า', field: 'key', colSpan: 10 },
-      { header: 'ชื่อ - นามสกุล', field: 'fullName', colSpan: 20 },
-      { header: 'ที่อยู่', field: 'address', colSpan: 25 },
-      { header: 'เบอร์ติดต่อ', field: 'phone', colSpan: 15 },
-      { header: 'วันที่เป็นสมาชิก', field: 'date', colSpan: 15 },
+      { header: 'ชื่อ - นามสกุล', field: 'fullName', colSpan: 25 },
+      { header: 'ที่อยู่', field: 'address', colSpan: 30 },
+      { header: 'เบอร์ติดต่อ', field: 'phone', colSpan: 10 },
+      { header: 'วันที่เป็นสมาชิก', field: 'date', colSpan: 10 },
     ];
     this.headerTablePdf = [
       'ลำดับ',
@@ -1138,7 +1134,7 @@ export class ReportsComponent implements OnInit {
               num: index + 1,
               key: customer.key,
               fullName: `${customer.firstName} ${customer.lastName}`,
-              address: customer.address,
+              address: `${customer.address}, อำเภอ: ${customer.disTrict}, จังหวัด: ${customer.proVince}, รหัสไปรษณีฺ: ${customer.postalCode}`,
               phone: customer.phoneNumber,
               date: customer.created_at,
             });
@@ -1179,6 +1175,10 @@ export class ReportsComponent implements OnInit {
             'null',
             'null',
           ];
+          Swal.fire({
+            title: 'ไม่พบข้อมูล',
+            icon: 'info',
+          });
         }
       } else {
         Swal.fire({
@@ -1196,11 +1196,11 @@ export class ReportsComponent implements OnInit {
     this.cols = [
       { header: 'ลำดับ', field: 'num', colSpan: 5 },
       { header: 'รหัสพนักงาน', field: 'key', colSpan: 10 },
-      { header: 'ชื่อ - นามสกุล', field: 'fullName', colSpan: 20 },
-      { header: 'ที่อยู่', field: 'address', colSpan: 20 },
+      { header: 'ชื่อ - นามสกุล', field: 'fullName', colSpan: 15 },
+      { header: 'ที่อยู่', field: 'address', colSpan: 30 },
       { header: 'เบอร์ติดต่อ', field: 'phone', colSpan: 10 },
-      { header: 'อีเมล์', field: 'email', colSpan: 15 },
-      { header: 'วันที่รับเข้าทำงาน', field: 'date', colSpan: 20 },
+      { header: 'อีเมล์', field: 'email', colSpan: 20 },
+      { header: 'วันที่รับเข้าทำงาน', field: 'date', colSpan: 10 },
     ];
     this.headerTablePdf = [
       'ลำดับ',
@@ -1237,7 +1237,7 @@ export class ReportsComponent implements OnInit {
               num: index + 1,
               key: employee.key,
               fullName: `${employee.firstName} ${employee.lastName}`,
-              address: employee.address,
+              address: `${employee.address}, อำเภอ: ${employee.disTrict}, จังหวัด: ${employee.proVince}, รหัสไปรษณีฺ: ${employee.postalCode}`,
               phone: employee.phoneNumber,
               email: employee.email,
               date: employee.created_at,
@@ -1279,6 +1279,10 @@ export class ReportsComponent implements OnInit {
             'null',
             'null',
           ];
+          Swal.fire({
+            title: 'ไม่พบข้อมูล',
+            icon: 'info',
+          });
         }
       } else {
         Swal.fire({

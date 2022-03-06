@@ -51,7 +51,10 @@
         <td class="text-center">{{ index + 1 }}</td>
         <td class="text-left">{{ cloth.key }}</td>
         <td class="text-left">{{ cloth.firstName }} {{ cloth.lastName }}</td>
-        <td class="text-left">{{ cloth.address }}</td>
+        <td class="text-left">
+          {{ cloth.address }}, อำเภอ: {{ cloth.disTrict }}, จังหวัด:
+          {{ cloth.proVince }}, รหัสไปรษณีฺ: {{ cloth.postalCode }}
+        </td>
         <td class="text-left">{{ cloth.phoneNumber }}</td>
         <td class="text-left">{{ cloth.email }}</td>
         <!-- <td class="text-left">{{ !!cloth.lineUserId ? cloth.lineUserId : "ไม่ได้ระบุ" }}</td> -->
@@ -85,8 +88,11 @@
   [(visible)]="newCustomerVisible"
   (onHide)="onResetValue()"
 >
-  <div class="container-add-texture">
-    <div class="field">
+  <div
+    class="container-add-texture"
+    style="padding-left: 15%; padding-right: 15%"
+  >
+    <div class="field inline-block mx-1" style="width: 49%">
       <label for="fname" class="block">ชื่อ</label>
       <input
         id="fname"
@@ -96,7 +102,7 @@
         placeholder="โปรดระบุชื่อ"
       />
     </div>
-    <div class="field">
+    <div class="field inline-block" style="width: 50%">
       <label for="lname" class="block">นามสกุล</label>
       <input
         id="lname"
@@ -127,7 +133,7 @@
       />
     </div>
 
-    <div class="field">
+    <div class="field inline-block my-1" style="width: 49%">
       <label class="block">จังหวัด</label>
       <p-dropdown
         [style]="{ width: '100%' }"
@@ -153,7 +159,7 @@
       </p-dropdown>
     </div>
 
-    <div class="field">
+    <div class="field inline-block my-1 mx-1" style="width: 50%">
       <label class="block">อำเภอ</label>
       <p-dropdown
         [style]="{ width: '100%' }"
@@ -209,7 +215,7 @@
       </p-dropdown>
     </div> -->
 
-    <div class="field">
+    <div class="field inline-block mt-3" style="width: 100%">
       <label for="postAddress" class="block">รหัสไปรษณีย์</label>
       <input
         id="postAddress"
@@ -240,15 +246,17 @@
         placeholder="โปรดระบุเลขบัตรประชาชน"
       />
     </div>
-    <button
-      pButton
-      pRipple
-      class="p-button-success p-button-raised"
-      label="เพิ่ม"
-      icon="fas fa-plus"
-      style="width: 100%; margin-top: 1rem"
-      (click)="onNewCustomer()"
-    ></button>
+    <div class="flex justify-content-end">
+      <button
+        pButton
+        pRipple
+        class="p-button-success p-button-raised"
+        label="เพิ่ม"
+        icon="fas fa-plus"
+        style="margin-top: 1rem"
+        (click)="onNewCustomer()"
+      ></button>
+    </div>
   </div>
 </p-dialog>
 
@@ -260,8 +268,11 @@
   [(visible)]="editCustomerVisible"
   (onHide)="onResetValue()"
 >
-  <div class="container-add-texture">
-    <div class="field">
+  <div
+    class="container-add-texture"
+    style="padding-left: 15%; padding-right: 15%"
+  >
+    <div class="field inline-block mx-1" style="width: 49%">
       <label for="fname" class="block">ชื่อ</label>
       <input
         id="fname"
@@ -271,7 +282,7 @@
         placeholder="โปรดระบุชื่อ"
       />
     </div>
-    <div class="field">
+    <div class="field inline-block" style="width: 50%">
       <label for="lname" class="block">นามสกุล</label>
       <input
         id="lname"
@@ -302,7 +313,7 @@
       />
     </div>
 
-    <div class="field">
+    <div class="field inline-block my-1" style="width: 49%">
       <label class="block">จังหวัด</label>
       <p-dropdown
         [style]="{ width: '100%' }"
@@ -328,7 +339,7 @@
       </p-dropdown>
     </div>
 
-    <div class="field">
+    <div class="field inline-block my-1 mx-1" style="width: 50%">
       <label class="block">อำเภอ</label>
       <p-dropdown
         [style]="{ width: '100%' }"
@@ -384,7 +395,7 @@
       </p-dropdown>
     </div> -->
 
-    <div class="field">
+    <div class="field inline-block mt-3" style="width: 100%">
       <label for="postAddress" class="block">รหัสไปรษณีย์</label>
       <input
         id="postAddress"
@@ -426,15 +437,17 @@
         placeholder="โปรดระบุไลน์ไอดี"
       />
     </div> -->
-    <button
-      pButton
-      pRipple
-      class="p-button-success p-button-raised"
-      label="ยืนยัน"
-      icon="fas fa-plus"
-      style="width: 100%; margin-top: 1rem"
-      (click)="onEditCustomer()"
-    ></button>
+    <div class="flex justify-content-end">
+      <button
+        pButton
+        pRipple
+        class="p-button-success p-button-raised"
+        label="ยืนยัน"
+        icon="fas fa-plus"
+        style="margin-top: 1rem"
+        (click)="onEditCustomer()"
+      ></button>
+    </div>
   </div>
 </p-dialog>
 

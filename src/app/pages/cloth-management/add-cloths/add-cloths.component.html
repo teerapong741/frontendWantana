@@ -196,14 +196,16 @@
   >
     <span>จำนวนรวมทั้งหมด: {{ totalNumber }} ชิ้น</span>
   </div>
-  <button
-    pButton
-    pRipple
-    label="ถัดไป"
-    class="p-button-raised p-button-success p-button-lg container__btn-success"
-    [disabled]="isDisable"
-    (click)="onNext()"
-  ></button>
+  <div class="flex justify-content-end">
+    <button
+      pButton
+      pRipple
+      label="ถัดไป"
+      class="p-button-raised p-button-success p-button-lg container__btn-success text-right w-1"
+      [disabled]="isDisable"
+      (click)="onNext()"
+    ></button>
+  </div>
 </div>
 <p-confirmDialog
   header="Warning"

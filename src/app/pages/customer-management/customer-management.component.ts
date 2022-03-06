@@ -196,6 +196,13 @@ export class CustomerManagementComponent implements OnInit, OnDestroy {
         acceptLabel: 'ตกลง',
         rejectVisible: false,
       });
+    } else if (this.postAddress.toString().length !== 5) {
+      this.confirmationService.confirm({
+        message: 'รูปแบบรหัสไปรษณีย์ไม่ถูกต้อง',
+        acceptVisible: true,
+        acceptLabel: 'ตกลง',
+        rejectVisible: false,
+      });
     }
     // else if (!this.subDistrictSelected) {
     //   this.confirmationService.confirm({
@@ -417,6 +424,13 @@ export class CustomerManagementComponent implements OnInit, OnDestroy {
     } else if (!this.postAddress) {
       this.confirmationService.confirm({
         message: 'โปรดใส่รหัสไปรษณีย์',
+        acceptVisible: true,
+        acceptLabel: 'ตกลง',
+        rejectVisible: false,
+      });
+    } else if (this.postAddress.toString().length !== 5) {
+      this.confirmationService.confirm({
+        message: 'รูปแบบรหัสไปรษณีย์ไม่ถูกต้อง',
         acceptVisible: true,
         acceptLabel: 'ตกลง',
         rejectVisible: false,

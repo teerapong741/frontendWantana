@@ -62,14 +62,16 @@
       [binary]="true"
       inputId="binary"
     ></p-checkbox>
-    <label for="binary" style="font-size: 15px;">ไม่ต้องเข้ากระบวนการซัก</label>
+    <label for="binary" style="font-size: 15px">ไม่ต้องเข้ากระบวนการซัก</label>
   </div>
-  <button
-    pButton
-    pRipple
-    class="p-button-success p-button-raised p-button-sm btn-add"
-    label="เพิ่ม"
-    icon="fas fa-plus"
-    (click)="onAdd()"
-  ></button>
+  <div class="flex justify-content-end align-items-end">
+    <button
+      pButton
+      pRipple
+      class="p-button-success p-button-raised p-button-sm btn-add"
+      label="เพิ่ม"
+      icon="fas fa-plus"
+      (click)="onAdd()"
+    ></button>
+  </div>
 </div>
