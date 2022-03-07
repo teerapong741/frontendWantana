@@ -29,9 +29,9 @@
     <ng-template pTemplate="header" let-columns>
       <tr>
         <th [style]="{ width: '5%' }">ลำดับ</th>
-        <th [style]="{ width: '20%' }">วันที่</th>
+        <th [style]="{ width: '15%' }">วันที่</th>
         <th [style]="{ width: '20%' }">ลูกค้า</th>
-        <th [style]="{ width: '15%' }">สถานะ</th>
+        <th [style]="{ width: '12%' }">สถานะ</th>
         <th [style]="{ width: '15%' }">จำนวนผ้าที่ยังไม่ได้ส่ง</th>
         <th [style]="{ width: '15%' }">จำนวนผ้าที่ส่งไปแล้ว</th>
       </tr>
@@ -44,7 +44,7 @@
     >
       <tr>
         <td><span class="p-column-title">ลำดับ</span>{{ index + 1 }}</td>
-        <td class="text-left">
+        <td class="text-center">
           <span class="p-column-title">วันที่</span
           >{{ order.created_at | thaidate: "short" }}
         </td>
@@ -52,7 +52,7 @@
           <span class="p-column-title">ลูกค้า</span
           >{{ order.customer.firstName + " " + order.customer.lastName }}
         </td>
-        <td class="text-left">
+        <td class="text-center">
           <span class="p-column-title">สถานะ</span>
           <p-tag
             styleClass="mr-2 font-bold"

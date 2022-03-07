@@ -58,11 +58,11 @@
     >
       <tr>
         <td class="text-center"><span class="p-column-title">ลำดับ</span>{{ index + 1 }}</td>
-        <td>
+        <td class="text-center">
           <span class="p-column-title">วันที่</span
           >{{ cloth.created_at | thaidate: "short" }}
         </td>
-        <td class="text-left"><span class="p-column-title">เลขที่รายการ</span>{{ cloth.key }}</td>
+        <td class="text-center"><span class="p-column-title">เลขที่รายการ</span>{{ cloth.key }}</td>
         <td class="text-left">
           <span class="p-column-title">ชื่อลูกค้า</span
           >{{ cloth.customer.firstName }} {{ cloth.customer.lastName }}
@@ -71,7 +71,7 @@
           <span class="p-column-title">จำนวนผ้าที่ยังไม่ได้ส่ง</span
           >{{ cloth.numClothe }}
         </td>
-        <td class="text-left">
+        <td class="text-center">
           <span class="p-column-title">สถานะ</span>
           <p-tag
             styleClass="mr-2 font-bold"

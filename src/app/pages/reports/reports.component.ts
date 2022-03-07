@@ -57,7 +57,7 @@ export class ReportsComponent implements OnInit {
   dateStartReport: any = '';
   dateEndReport: any = '';
 
-  defaultRow = ['*', '*', '*', '*', '*', '*', '*'];
+  defaultRow = ['*', '*', '*', '*', '*', '*', '*']; //edit row
   defaultBody = ['null', 'null', 'null', 'null', 'null', 'null', 'null'];
   headerTablePdf: any[] = [];
   rowHeaderPdf: any[] = this.defaultRow;
@@ -188,7 +188,7 @@ export class ReportsComponent implements OnInit {
           bold: true,
           fontSize: 18,
           alignment: 'center',
-        },
+        },'\n\n',
         // {
         //   text: `สําหรับรอบระยะเวลาตั้งแต่วันที่ ${this.dateStartReport} ถึงวันที่ ${this.dateEndReport}`,
         //   bold: true,
@@ -214,7 +214,7 @@ export class ReportsComponent implements OnInit {
         },
       ],
       defaultStyle: {
-        // font: 'THSarabunNew',
+        font: 'THSarabunNew',
         alignment: 'center',
       },
       footer: function (currentPage: any, pageCount: any) {
@@ -351,10 +351,10 @@ export class ReportsComponent implements OnInit {
       { header: 'ลำดับ', field: 'num', colSpan: 5 },
       { header: 'วันที่', field: 'date', colSpan: 10 },
       { header: 'รหัสรายการ', field: 'key', colSpan: 10 },
-      { header: 'ชื่อ - นามสกุล', field: 'fullName', colSpan: 35 },
+      { header: 'ชื่อ - นามสกุล', field: 'fullName', colSpan: 25 },
       { header: 'ชนิดผ้า', field: 'sort', colSpan: 20 },
       { header: 'ประเภทผ้า', field: 'type', colSpan: 20 },
-      { header: 'จำนวน', field: 'number', colSpan: 10 },
+      { header: 'จำนวน', field: 'number', colSpan: 20 },
       // { header: 'สาเหตุผ้ามีปัญหา', field: 'problems' },
     ];
     this.headerTablePdf = [
@@ -367,7 +367,7 @@ export class ReportsComponent implements OnInit {
       'จำนวน',
       // 'ผ้าพิเศษ',
     ];
-    this.rowHeaderPdf = ['*', '*', '*', '*', '*', '*', '*'];
+    this.rowHeaderPdf = [40, 70, 70, 180, 120, 120, 80];
     this.orderService.filterOrder(filterInput).subscribe(async (result) => {
       this.loading = false;
       if (!!result.data) {
@@ -722,7 +722,7 @@ export class ReportsComponent implements OnInit {
       'จำนวน',
       'หมายเหตุ',
     ];
-    this.rowHeaderPdf = ['*', '*', '*', '*', '*', '*', '*', '*'];
+    this.rowHeaderPdf = [30, 80, 80, 150, 100, 100, 50, 100];
     this.orderService.filterOrder(filterInput).subscribe(async (result) => {
       this.loading = false;
       if (!!result.data) {
@@ -1102,7 +1102,7 @@ export class ReportsComponent implements OnInit {
       'เบอร์ติดต่อ',
       'วันที่เป็นสมาชิก',
     ];
-    this.rowHeaderPdf = ['*', '*', '*', '*', '*', '*'];
+    this.rowHeaderPdf = [30,100,160,270,75,80];
     this.customerService.customers().subscribe((result) => {
       this.loading = false;
       if (result.data) {
@@ -1176,10 +1176,10 @@ export class ReportsComponent implements OnInit {
     this.cols = [
       { header: 'ลำดับ', field: 'num', colSpan: 5 },
       { header: 'รหัสพนักงาน', field: 'key', colSpan: 10 },
-      { header: 'ชื่อ - นามสกุล', field: 'fullName', colSpan: 15 },
+      { header: 'ชื่อ - นามสกุล', field: 'fullName', colSpan: 20 },
       { header: 'ที่อยู่', field: 'address', colSpan: 30 },
       { header: 'เบอร์ติดต่อ', field: 'phone', colSpan: 10 },
-      { header: 'อีเมล์', field: 'email', colSpan: 20 },
+      { header: 'อีเมล์', field: 'email', colSpan: 15 },
       { header: 'วันที่รับเข้าทำงาน', field: 'date', colSpan: 10 },
     ];
     this.headerTablePdf = [
@@ -1191,7 +1191,7 @@ export class ReportsComponent implements OnInit {
       'อีเมล์',
       'วันที่รับเข้าทำงาน',
     ];
-    this.rowHeaderPdf = ['*', '*', '*', '*', '*', '*', '*'];
+    this.rowHeaderPdf = [30, 60, 155, 200, 80, 90,90 ];
     this.employeeService.employees().subscribe((result) => {
       this.loading = false;
       if (result.data) {

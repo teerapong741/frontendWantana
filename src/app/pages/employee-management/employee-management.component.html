@@ -9,7 +9,7 @@
       "
       pButton
       pRipple
-      label="เพิ่มพนักงานใหม่"
+      label="เพิ่มข้อมูลพนักงาน"
       icon="fas fa-plus"
       class="p-button-raised p-button-success p-button-lg container__btn-add"
       (click)="onVisibleNewEmployee()"
@@ -67,7 +67,7 @@
           {{ index + 1 }}
         </td>
         <td
-          class="text-left"
+          class="text-center"
           [ngStyle]="{
             'font-weight': employee.key === employeeLogin.key ? '700' : null
           }"
@@ -104,7 +104,7 @@
           {{ employee.email }}
         </td> -->
         <td
-          class="text-left"
+          class="text-center"
           [ngStyle]="{
             'font-weight': employee.key === employeeLogin.key ? '700' : null
           }"
@@ -112,7 +112,7 @@
           <p-chip label="{{ employee.role | translate }}"></p-chip>
         </td>
         <td
-          class="text-left"
+          class="text-center"
           [ngStyle]="{
             'font-weight': employee.key === employeeLogin.key ? '700' : null
           }"
@@ -128,7 +128,7 @@
             [rounded]="true"
           ></p-tag>
         </td>
-        <td class="container__action" class="text-center">
+        <td class="container__action" class="text-left">
           <button
             *ngIf="
               (!employee.deleted_at &&
@@ -141,7 +141,7 @@
             pRipple
             type="button"
             icon="fas fa-edit"
-            class="p-button-rounded p-button-raised p-button-warning mx-1"
+            class="p-button-rounded p-button-raised p-button-warning mx-3"
             (click)="onVisibleEditEmployee(employee)"
           ></button>
           <button
@@ -155,7 +155,7 @@
             pRipple
             type="button"
             icon="fas fa-key"
-            class="p-button-rounded p-button-raised p-button-help mx-1"
+            class="p-button-rounded p-button-raised p-button-help mx-3"
             (click)="onVisibleEditPassword(employee)"
           ></button>
           <button
@@ -169,7 +169,7 @@
             pRipple
             type="button"
             icon="fas fa-sync"
-            class="p-button-rounded p-button-raised p-button-info mx-1"
+            class="p-button-rounded p-button-raised p-button-info mx-3"
             (click)="onResetPassword(employee.id, employee.phone)"
           ></button>
           <button
@@ -185,7 +185,7 @@
             pRipple
             type="button"
             icon="fas fa-trash"
-            class="p-button-rounded p-button-raised p-button-danger mx-1"
+            class="p-button-rounded p-button-raised p-button-danger mx-3"
             (click)="onDelete(employee.id)"
           ></button>
           <button
@@ -213,7 +213,7 @@
 <p-dialog
   [modal]="true"
   [draggable]="false"
-  header="เพิ่มพนักงานใหม่"
+  header="เพิ่มข้อมูลพนักงาน"
   [(visible)]="newEmployeeVisible"
   (onHide)="onResetValue()"
 >

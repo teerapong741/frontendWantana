@@ -49,12 +49,12 @@
     <ng-template pTemplate="body" let-cloth let-index="rowIndex">
       <tr>
         <td class="text-center">{{ index + 1 }}</td>
-        <td class="text-left">{{ cloth.key }}</td>
+        <td class="text-center">{{ cloth.key }}</td>
         <td class="text-left">{{ cloth.firstName }} {{ cloth.lastName }}</td>
         <td class="text-left">
           {{ cloth.address }} อ.{{ cloth.disTrict }} จ.{{ cloth.proVince }} {{ cloth.postalCode }}
         </td>
-        <td class="text-left">{{ cloth.phoneNumber }}</td>
+        <td class="text-center">{{ cloth.phoneNumber }}</td>
         <td class="text-left">{{ cloth.email }}</td>
         <!-- <td class="text-left">{{ !!cloth.lineUserId ? cloth.lineUserId : "ไม่ได้ระบุ" }}</td> -->
         <td class="container__action" class="text-center">
