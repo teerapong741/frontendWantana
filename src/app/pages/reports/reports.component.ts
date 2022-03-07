@@ -162,7 +162,7 @@ export class ReportsComponent implements OnInit {
       'th-TH'
     )}`;
     const documentDefinition: any = {
-      pageOrientation: 'landscape',
+      pageOrientation: 'portrait',
       pageSize: 'A4',
       content: [
         {
@@ -231,7 +231,7 @@ export class ReportsComponent implements OnInit {
                   margin: [0, 20],
                 },
                 {
-                  text: `พิมพ์วันที่: ${dateReport}`,
+                  text: `พิมพ์วันที่: ${dateReport}    ออกโดย: ${userReport.firstName} ${userReport.lastName}`,
                   fontSize: 10,
                 },
               ],
@@ -246,10 +246,10 @@ export class ReportsComponent implements OnInit {
                     '\n',
                   margin: [0, 20],
                 },
-                {
-                  text: `ออกโดย: ${userReport.firstName} ${userReport.lastName}`,
-                  fontSize: 10,
-                },
+                // {
+                //   text: `ออกโดย: ${userReport.firstName} ${userReport.lastName}`,
+                //   fontSize: 10,
+                // },
               ],
               alignment: 'center',
             },
@@ -262,10 +262,10 @@ export class ReportsComponent implements OnInit {
                     '\n',
                   margin: [0, 20],
                 },
-                {
-                  text: 'ร้านวันทนาซักรีด',
-                  fontSize: 10,
-                },
+                // {
+                //   text: 'ร้านวันทนาซักรีด',
+                //   fontSize: 10,
+                // },
               ],
               alignment: 'center',
             },
@@ -284,7 +284,7 @@ export class ReportsComponent implements OnInit {
                   fontSize: 10,
                 },
               ],
-              alignment: 'center',
+              alignment: 'right',
             },
           ],
         };
@@ -367,7 +367,7 @@ export class ReportsComponent implements OnInit {
       'จำนวน',
       // 'ผ้าพิเศษ',
     ];
-    this.rowHeaderPdf = [40, 70, 70, 180, 120, 120, 80];
+    this.rowHeaderPdf = [25, 45, 45, 115, 90, 90, 50];
     this.orderService.filterOrder(filterInput).subscribe(async (result) => {
       this.loading = false;
       if (!!result.data) {
@@ -722,7 +722,7 @@ export class ReportsComponent implements OnInit {
       'จำนวน',
       'หมายเหตุ',
     ];
-    this.rowHeaderPdf = [30, 80, 80, 150, 100, 100, 50, 100];
+    this.rowHeaderPdf = [20, 50, 50, 100, 60, 60, 40, 65];
     this.orderService.filterOrder(filterInput).subscribe(async (result) => {
       this.loading = false;
       if (!!result.data) {
@@ -1102,7 +1102,7 @@ export class ReportsComponent implements OnInit {
       'เบอร์ติดต่อ',
       'วันที่เป็นสมาชิก',
     ];
-    this.rowHeaderPdf = [30,100,160,270,75,80];
+    this.rowHeaderPdf = [20,50,100,165,65,70];
     this.customerService.customers().subscribe((result) => {
       this.loading = false;
       if (result.data) {
@@ -1191,7 +1191,7 @@ export class ReportsComponent implements OnInit {
       'อีเมล์',
       'วันที่รับเข้าทำงาน',
     ];
-    this.rowHeaderPdf = [30, 60, 155, 200, 80, 90,90 ];
+    this.rowHeaderPdf = [20, 45, 80, 130, 50, 75,60 ];
     this.employeeService.employees().subscribe((result) => {
       this.loading = false;
       if (result.data) {
