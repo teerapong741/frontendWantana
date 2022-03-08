@@ -197,7 +197,7 @@ export class ReportsComponent implements OnInit {
         },
       ],
       defaultStyle: {
-        // font: 'THSarabunNew',
+        font: 'THSarabunNew',
         alignment: 'center',
       },
 
@@ -253,7 +253,7 @@ export class ReportsComponent implements OnInit {
                 //   margin: [0, 20],
                 // },
                 {
-                  text: `ออกโดย: ${userReport.firstName} ${userReport.lastName}`,
+                  text: `พิมพ์วันที่: ${dateReport} ออกโดย: ${userReport.firstName} ${userReport.lastName}`,
                   fontSize: 12,
                   margin: [0, 20],
                 },

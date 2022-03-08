@@ -241,14 +241,14 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy {
         rejectVisible: false,
       });
     }
-    // else if (!this.subDistrictSelected) {
-    //   this.confirmationService.confirm({
-    //     message: 'โปรดเลือกตำบล',
-    //     acceptVisible: true,
-    //     acceptLabel: 'ตกลง',
-    //     rejectVisible: false,
-    //   });
-    // }
+    else if (!this.subDistrictSelected) {
+      this.confirmationService.confirm({
+        message: 'โปรดเลือกตำบล',
+        acceptVisible: true,
+        acceptLabel: 'ตกลง',
+        rejectVisible: false,
+      });
+    }
     else if (!this.email) {
       this.confirmationService.confirm({
         message: 'โปรดใส่อีเมล์',
@@ -313,6 +313,7 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy {
         email: this.email,
         password: this.phone,
         role: this.role,
+        subDistrict:this.subDistrictSelected.name,
         proVince: this.provinceSelected.name,
         disTrict: this.districtSelected.name,
         postalCode: +this.postAddress,
@@ -555,14 +556,14 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy {
         rejectVisible: false,
       });
     }
-    // else if (!this.subDistrictSelected) {
-    //   this.confirmationService.confirm({
-    //     message: 'โปรดเลือกตำบล',
-    //     acceptVisible: true,
-    //     acceptLabel: 'ตกลง',
-    //     rejectVisible: false,
-    //   });
-    // }
+    else if (!this.subDistrictSelected) {
+      this.confirmationService.confirm({
+        message: 'โปรดเลือกตำบล',
+        acceptVisible: true,
+        acceptLabel: 'ตกลง',
+        rejectVisible: false,
+      });
+    }
     else if (!this.email) {
       this.confirmationService.confirm({
         message: 'โปรดใส่อีเมล์',

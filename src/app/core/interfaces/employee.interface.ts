@@ -9,6 +9,7 @@ export interface createEmployeeInput {
   email: string;
   password: string;
   role: Role;
+  subDistrict: string;
   proVince: string;
   disTrict: string;
   postalCode: number;
@@ -24,6 +25,7 @@ export interface updateEmployeeInput {
   email?: string;
   password?: string;
   role?: Role;
+  subDistrict?: string;
   proVince?: string;
   disTrict?: string;
   postalCode?: number;

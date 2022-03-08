@@ -128,6 +128,26 @@ export class CustomerManagementComponent implements OnInit, OnDestroy {
         }
       });
   }
+  onSelectedsubDistrict(): void {
+    this.addressService
+      .subDistrictsOfDistrict(
+        this.provinceSelected.name,
+        this.districtSelected.name,
+      )
+      .subscribe((result) => {
+        if (result.data) {
+          const subDistricts = result.data;
+          const filter = [];
+          for (let p of subDistricts) {
+            filter.push({
+              name: p,
+              label: p,
+            });
+          }
+          this.subDistricts = filter;
+        }
+      });
+  }
 
   onNewCustomer(): void {
     const names: string[] = this.customerList.map(
@@ -204,14 +224,14 @@ export class CustomerManagementComponent implements OnInit, OnDestroy {
         rejectVisible: false,
       });
     }
-    // else if (!this.subDistrictSelected) {
-    //   this.confirmationService.confirm({
-    //     message: 'โปรดเลือกตำบล',
-    //     acceptVisible: true,
-    //     acceptLabel: 'ตกลง',
-    //     rejectVisible: false,
-    //   });
-    // }
+    else if (!this.subDistrictSelected) {
+      this.confirmationService.confirm({
+        message: 'โปรดเลือกตำบล',
+        acceptVisible: true,
+        acceptLabel: 'ตกลง',
+        rejectVisible: false,
+      });
+    }
     else if (!this.email) {
       this.confirmationService.confirm({
         message: 'โปรดกรอกอีเมล',
@@ -267,6 +287,7 @@ export class CustomerManagementComponent implements OnInit, OnDestroy {
         address: this.address,
         phoneNumber: this.phone,
         email: this.email,
+        subDistrict: this.subDistrictSelected.name,
         proVince: this.provinceSelected.name,
         disTrict: this.districtSelected.name,
         postalCode: +this.postAddress,
@@ -300,6 +321,7 @@ export class CustomerManagementComponent implements OnInit, OnDestroy {
     this.address = '';
     this.lineId = '';
     this.email = '';
+    this.subDistrictSelected =null;
     this.provinceSelected = null;
     this.districtSelected = null;
     this.postAddress = '';
@@ -439,14 +461,14 @@ export class CustomerManagementComponent implements OnInit, OnDestroy {
         rejectVisible: false,
       });
     }
-    // else if (!this.subDistrictSelected) {
-    //   this.confirmationService.confirm({
-    //     message: 'โปรดเลือกตำบล',
-    //     acceptVisible: true,
-    //     acceptLabel: 'ตกลง',
-    //     rejectVisible: false,
-    //   });
-    // }
+    else if (!this.subDistrictSelected) {
+      this.confirmationService.confirm({
+        message: 'โปรดเลือกตำบล',
+        acceptVisible: true,
+        acceptLabel: 'ตกลง',
+        rejectVisible: false,
+      });
+    }
     else if (!this.email) {
       this.confirmationService.confirm({
         message: 'โปรดกรอกอีเมล',
@@ -513,6 +535,7 @@ export class CustomerManagementComponent implements OnInit, OnDestroy {
             phoneNumber: this.phone,
             email: this.email,
             lineUserId: this.lineId,
+            subDistrict: this.subDistrictSelected.name,
             proVince: this.provinceSelected.name,
             disTrict: this.districtSelected.name,
             postalCode: +this.postAddress,

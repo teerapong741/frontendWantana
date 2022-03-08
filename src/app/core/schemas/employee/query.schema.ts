@@ -16,6 +16,7 @@ export const EMPLOYEE = gql`
       deleted_at
       created_at
       updated_at
+      subDistrict
       proVince
       disTrict
       postalCode
@@ -39,6 +40,7 @@ export const EMPLOYEES = gql`
       deleted_at
       created_at
       updated_at
+      subDistrict
       proVince
       disTrict
       postalCode

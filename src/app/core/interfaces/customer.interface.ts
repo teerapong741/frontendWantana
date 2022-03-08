@@ -4,6 +4,7 @@ export interface CreateCustomerInput {
   lastName: string;
   address: string;
   phoneNumber: string;
+  subDistrict: string;
   email: string;
   proVince: string;
   disTrict: string;
@@ -19,6 +20,7 @@ export interface UpdateCustomerInput {
   phoneNumber?: string;
   email?: string;
   lineUserId?: string;
+  subDistrict?: string;
   proVince?: string;
   disTrict?: string;
   postalCode?: number;

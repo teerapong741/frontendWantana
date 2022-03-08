@@ -12,6 +12,7 @@ export const CUSTOMER = gql`
       phoneNumber
       lineUserId
       email
+      subDistrict
       proVince
       disTrict
       postalCode
@@ -31,6 +32,7 @@ export const CUSTOMERS = gql`
       phoneNumber
       lineUserId
       email
+      subDistrict
       proVince
       disTrict
       postalCode
