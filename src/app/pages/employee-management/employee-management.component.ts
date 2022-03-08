@@ -240,16 +240,14 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy {
         acceptLabel: 'ตกลง',
         rejectVisible: false,
       });
-    }
-    else if (!this.subDistrictSelected) {
+    } else if (!this.subDistrictSelected) {
       this.confirmationService.confirm({
         message: 'โปรดเลือกตำบล',
         acceptVisible: true,
         acceptLabel: 'ตกลง',
         rejectVisible: false,
       });
-    }
-    else if (!this.email) {
+    } else if (!this.email) {
       this.confirmationService.confirm({
         message: 'โปรดใส่อีเมล์',
         acceptVisible: true,
@@ -313,7 +311,7 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy {
         email: this.email,
         password: this.phone,
         role: this.role,
-        subDistrict:this.subDistrictSelected.name,
+        subDistrict: this.subDistrictSelected.name,
         proVince: this.provinceSelected.name,
         disTrict: this.districtSelected.name,
         postalCode: +this.postAddress,
@@ -389,6 +387,21 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy {
           this.districts = filter;
         }
       });
+    this.addressService
+      .subDistrictsOfDistrict(employee.proVince, employee.disTrict)
+      .subscribe((result) => {
+        if (result.data) {
+          const districts = result.data;
+          const filter = [];
+          for (let p of districts) {
+            filter.push({
+              name: p,
+              label: p,
+            });
+          }
+          this.subDistricts = filter;
+        }
+      });
     this.editEmployeeVisible = true;
     this.idEmployee = employee.id;
     this.idCard = employee.idCard;
@@ -407,6 +420,11 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy {
       name: employee.disTrict,
       label: employee.disTrict,
     };
+    this.subDistrictSelected = {
+      name: employee.subDistrict,
+      label: employee.subDistrict,
+    };
+    console.log(employee);
     this.postAddress = employee.postalCode;
   }
 
@@ -555,16 +573,14 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy {
         acceptLabel: 'ตกลง',
         rejectVisible: false,
       });
-    }
-    else if (!this.subDistrictSelected) {
+    } else if (!this.subDistrictSelected) {
       this.confirmationService.confirm({
         message: 'โปรดเลือกตำบล',
         acceptVisible: true,
         acceptLabel: 'ตกลง',
         rejectVisible: false,
       });
-    }
-    else if (!this.email) {
+    } else if (!this.email) {
       this.confirmationService.confirm({
         message: 'โปรดใส่อีเมล์',
         acceptVisible: true,
@@ -640,6 +656,7 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy {
             role: this.role,
             proVince: this.provinceSelected.name,
             disTrict: this.districtSelected.name,
+            subDistrict: this.subDistrictSelected.name,
             postalCode: +this.postAddress,
           };
 

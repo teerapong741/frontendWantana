@@ -216,6 +216,7 @@
   header="เพิ่มข้อมูลพนักงาน"
   [(visible)]="newEmployeeVisible"
   (onHide)="onResetValue()"
+  [style]="{width: '50vw'}"
 >
   <div
     class="container-add-texture"
@@ -281,7 +282,7 @@
         placeholder="โปรดระบุที่อยู่"
       />
     </div>
-    <div class="field inline-block my-1 " style="width: 50%;">
+    <div class="field inline-block my-1 " style="width: 175%;">
       <label class="block">แขวง/ตำบล</label>
       <p-dropdown
         [style]="{ width: '100%' }"
@@ -311,7 +312,7 @@
     </div>
     
 
-    <div class="field inline-block my-1 mx-1" style="width: 50%;">
+    <div class="field inline-block my-1 mx-1" style="width: 175%;">
       <label class="block">
         เขต/อำเภอ
       </label>
@@ -340,7 +341,7 @@
       </p-dropdown>
     </div>
 
-    <div class="field inline-block my-1" style="width: 50%;">
+    <div class="field inline-block my-1" style="width: 175%;">
       <label class="block">
         จังหวัด
       </label>
@@ -368,7 +369,7 @@
       </p-dropdown>
     </div>
 
-    <div class="field inline-block mt-3" style="width: 50%;">
+    <div class="field block mt-3" style="width: 50%;">
       <label for="postAddress" class="block">
         รหัสไปรษณีย์
       </label>
