@@ -1,7 +1,12 @@
 <loading *ngIf="loading"></loading>
 <div class="container">
+  <div class="text-center">
+    <h1  style="font-size: xx-large; font-weight: bolder">รายงาน{{ headerLabel }}</h1>
+  </div>
   <div class="field inline-block">
-    <label class="block">ประเภทรายงาน</label>
+    <label class="block" style="font-size: large; font-weight: bold"
+      >ประเภทรายงาน</label
+    >
     <p-dropdown
       [options]="reportsOptions"
       [(ngModel)]="reportTypeSelected"
@@ -19,7 +24,9 @@
   >
     <div class="inline-block mx-3">
       <div class="field inline-block">
-        <label class="mr-2 block">ลูกค้า</label>
+        <label class="mr-2 block"
+          >ลูกค้า</label
+        >
         <p-dropdown
           [options]="customersOptions"
           [(ngModel)]="customerSelected"
@@ -32,7 +39,9 @@
     </div>
     <div class="inline-block mx-3">
       <div class="field inline-block">
-        <label class="mr-2 block">ผ้ามีปัญหา</label>
+        <label class="mr-2 block" 
+          >ผ้ามีปัญหา</label
+        >
         <p-dropdown
           [options]="clotheProblemsOptions"
           [(ngModel)]="clotheProblemSelected"
@@ -43,7 +52,9 @@
         ></p-dropdown>
       </div>
       <div class="field inline-block mx-3">
-        <label class="mr-2 block">ได้รับการซัก</label>
+        <label class="mr-2 block"
+          >ได้รับการซัก</label
+        >
         <p-dropdown
           [options]="clotheStatusOptions"
           [(ngModel)]="clotheStatusSelected"
@@ -57,7 +68,9 @@
   </ng-container>
   <div class="block">
     <div class="field inline-block">
-      <label class="mr-2">เลือกวันที่</label>
+      <label class="mr-2"
+        >เลือกวันที่</label
+      >
       <p-calendar
         #selectedDateRange
         [(ngModel)]="dateRange"
@@ -117,12 +130,12 @@
             <div
               *ngIf="col.field == 'date'"
               class="text-center absolute"
-              [style]="{ top: '15px' }"
+              [style]="{ top: '15px', left: '20%' }"
             >
               {{ rowData[col.field] | thaidate: "shortNoTime" }}
             </div>
             <div
-              class="text-left"
+              class="text-center"
               *ngIf="
                 col.field == 'sort' ||
                 col.field == 'type' ||
@@ -139,14 +152,30 @@
                 col.field !== 'date' &&
                 col.field !== 'number' &&
                 col.field !== 'problems' &&
-                col.field !== 'num'
+                col.field !== 'num' &&
+                col.field !== 'phone' &&
+                col.field !== 'key'
               "
             >
               {{ rowData[col.field] }}
             </div>
             <div
+              class="text-center absolute"
+              [style]="{ top: '15px', left: '20%' }"
+              *ngIf="col.field === 'phone'"
+            >
+              {{ rowData[col.field] }}
+            </div>
+            <div
+              class="text-center absolute"
+              [style]="{ top: '15px', left: '27%' }"
+              *ngIf="col.field === 'key'"
+            >
+              {{ rowData[col.field] }}
+            </div>
+            <div
               class="text-right absolute"
-              [style]="{ top: '15px', right: '15px' }"
+              [style]="{ top: '15px', left: '45%' }"
               *ngIf="col.field === 'number'"
               [innerHtml]="rowData[col.field]"
             ></div>

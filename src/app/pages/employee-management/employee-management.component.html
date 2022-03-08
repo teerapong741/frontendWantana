@@ -222,7 +222,9 @@
     style="padding-left: 15%; padding-right: 15%"
   >
     <div class="field">
-      <label for="idCard" class="block">รหัสบัตรประชาชน</label>
+      <label for="idCard" class="block"
+        >รหัสบัตรประชาชน <span style="color: red">*</span></label
+      >
       <input
         id="idCard"
         type="text"
@@ -232,7 +234,9 @@
       />
     </div>
     <div class="field inline-block mx-1" style="width: 49%">
-      <label for="fname" class="block">ชื่อ</label>
+      <label for="fname" class="block"
+        >ชื่อ <span style="color: red">*</span></label
+      >
       <input
         id="fname"
         type="text"
@@ -242,7 +246,9 @@
       />
     </div>
     <div class="field inline-block" style="width: 50%">
-      <label for="lname" class="block">นามสกุล</label>
+      <label for="lname" class="block"
+        >นามสกุล <span style="color: red">*</span></label
+      >
       <input
         id="lname"
         type="text"
@@ -252,7 +258,9 @@
       />
     </div>
     <div class="field">
-      <label for="phone" class="block">เบอร์มือถือ</label>
+      <label for="phone" class="block"
+        >เบอร์มือถือ <span style="color: red">*</span></label
+      >
       <input
         id="phone"
         type="text"
@@ -262,7 +270,9 @@
       />
     </div>
     <div class="field">
-      <label for="address" class="block">ที่อยู่</label>
+      <label for="address" class="block"
+        >ที่อยู่ <span style="color: red">*</span></label
+      >
       <input
         id="address"
         type="text"
@@ -273,7 +283,7 @@
     </div>
 
     <div class="field inline-block my-1" style="width: 49%">
-      <label class="block">จังหวัด</label>
+      <label class="block">จังหวัด <span style="color: red">*</span></label>
       <p-dropdown
         [style]="{ width: '100%' }"
         [options]="provinces"
@@ -299,7 +309,7 @@
     </div>
 
     <div class="field inline-block my-1 mx-1" style="width: 50%">
-      <label class="block">อำเภอ</label>
+      <label class="block">อำเภอ <span style="color: red">*</span></label>
       <p-dropdown
         [style]="{ width: '100%' }"
         [disabled]="!provinceSelected"
@@ -355,7 +365,9 @@
     </div> -->
 
     <div class="field inline-block mt-3" style="width: 100%">
-      <label for="postAddress" class="block">รหัสไปรษณีย์</label>
+      <label for="postAddress" class="block"
+        >รหัสไปรษณีย์ <span style="color: red">*</span></label
+      >
       <input
         id="postAddress"
         type="postAddress"
@@ -366,7 +378,9 @@
     </div>
 
     <div class="field">
-      <label for="email" class="block">อีเมล์</label>
+      <label for="email" class="block"
+        >อีเมล์ <span style="color: red">*</span></label
+      >
       <input
         id="email"
         type="text"
@@ -376,7 +390,9 @@
       />
     </div>
     <div class="field">
-      <label for="role" class="block">สิทธิ์ผู้ใช้</label>
+      <label for="role" class="block"
+        >สิทธิ์ผู้ใช้ <span style="color: red">*</span></label
+      >
       <p-dropdown
         [options]="roleOptions"
         [(ngModel)]="role"
@@ -413,7 +429,9 @@
     style="padding-left: 15%; padding-right: 15%"
   >
     <div class="field">
-      <label for="idCard" class="block">รหัสบัตรประชาชน</label>
+      <label for="idCard" class="block"
+        >รหัสบัตรประชาชน <span style="color: red">*</span></label
+      >
       <input
         id="idCard"
         type="text"
@@ -424,7 +442,9 @@
       />
     </div>
     <div class="field inline-block mx-1" style="width: 49%">
-      <label for="fname" class="block">ชื่อ</label>
+      <label for="fname" class="block"
+        >ชื่อ <span style="color: red">*</span></label
+      >
       <input
         id="fname"
         type="text"
@@ -434,7 +454,9 @@
       />
     </div>
     <div class="field inline-block" style="width: 50%">
-      <label for="lname" class="block">นามสกุล</label>
+      <label for="lname" class="block"
+        >นามสกุล <span style="color: red">*</span></label
+      >
       <input
         id="lname"
         type="text"
@@ -444,7 +466,9 @@
       />
     </div>
     <div class="field">
-      <label for="phone" class="block">เบอร์มือถือ</label>
+      <label for="phone" class="block"
+        >เบอร์มือถือ <span style="color: red">*</span></label
+      >
       <input
         id="phone"
         type="text"
@@ -454,7 +478,9 @@
       />
     </div>
     <div class="field">
-      <label for="address" class="block">ที่อยู่</label>
+      <label for="address" class="block"
+        >ที่อยู่ <span style="color: red">*</span></label
+      >
       <input
         id="address"
         type="text"
@@ -465,7 +491,7 @@
     </div>
 
     <div class="field inline-block my-1" style="width: 49%">
-      <label class="block">จังหวัด</label>
+      <label class="block">จังหวัด <span style="color: red">*</span></label>
       <p-dropdown
         [style]="{ width: '100%' }"
         [options]="provinces"
@@ -491,7 +517,7 @@
     </div>
 
     <div class="field inline-block my-1 mx-1" style="width: 50%">
-      <label class="block">อำเภอ</label>
+      <label class="block">เขต/อำเภอ <span style="color: red">*</span></label>
       <p-dropdown
         [style]="{ width: '100%' }"
         [disabled]="!provinceSelected"
@@ -547,7 +573,9 @@
     </div> -->
 
     <div class="field inline-block mt-3" style="width: 100%">
-      <label for="postAddress" class="block">รหัสไปรษณีย์</label>
+      <label for="postAddress" class="block"
+        >รหัสไปรษณีย์ <span style="color: red">*</span></label
+      >
       <input
         id="postAddress"
         type="postAddress"
@@ -558,7 +586,9 @@
     </div>
 
     <div class="field">
-      <label for="email" class="block">อีเมล์</label>
+      <label for="email" class="block"
+        >อีเมล์ <span style="color: red">*</span></label
+      >
       <input
         id="email"
         type="text"
@@ -574,7 +604,9 @@
         authService.isRole() === 'SUPER_ADMIN'
       "
     >
-      <label for="role" class="block">สิทธิ์ผู้ใช้</label>
+      <label for="role" class="block"
+        >สิทธิ์ผู้ใช้ <span style="color: red">*</span></label
+      >
       <p-dropdown
         [options]="roleOptions"
         [(ngModel)]="role"
@@ -615,7 +647,9 @@
       [style]="{ display: 'none' }"
     ></p-password>
     <div class="field">
-      <label class="block">รหัสผ่านเดิม</label>
+      <label class="block"
+        >รหัสผ่านเดิม <span style="color: red">*</span></label
+      >
       <p-password
         [toggleMask]="true"
         [(ngModel)]="editOldPassword"
@@ -625,7 +659,9 @@
       ></p-password>
     </div>
     <div class="field">
-      <label class="block">รหัสผ่านใหม่</label>
+      <label class="block"
+        >รหัสผ่านใหม่ <span style="color: red">*</span></label
+      >
       <p-password
         [toggleMask]="true"
         [(ngModel)]="editPassword"
@@ -634,7 +670,9 @@
       ></p-password>
     </div>
     <div class="field">
-      <label class="block">ยืนยันรหัสผ่านใหม่</label>
+      <label class="block"
+        >ยืนยันรหัสผ่านใหม่ <span style="color: red">*</span></label
+      >
       <p-password
         [toggleMask]="true"
         [(ngModel)]="confirmPassword"
