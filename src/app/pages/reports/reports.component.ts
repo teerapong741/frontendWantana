@@ -79,7 +79,7 @@ export class ReportsComponent implements OnInit {
     dateMidNight = new Date(dateMidNight);
     this.dateStart = dateMidNight;
     this.dateEnd = new Date(
-      new Date(new Date().setHours(59, 59, 59, 59)).setDate(
+      new Date(new Date().setHours(23, 59, 59, 59)).setDate(
         new Date().getDate()
       )
     );
@@ -273,9 +273,9 @@ export class ReportsComponent implements OnInit {
     this.dateStart = this.dateRange[0];
     if (
       this.dateEnd.getTime() >
-        new Date(new Date().setHours(59, 59, 59, 59)).getTime() ||
+        new Date(new Date().setHours(23, 59, 59, 59)).getTime() ||
       this.dateStart.getTime() >
-        new Date(new Date().setHours(59, 59, 59, 59)).getTime()
+        new Date(new Date().setHours(23, 59, 59, 59)).getTime()
     ) {
       Swal.fire({
         title: 'วันที่เกินวันปัจจุบัน',
@@ -286,7 +286,7 @@ export class ReportsComponent implements OnInit {
       dateMidNight = new Date(dateMidNight);
       this.dateStart = dateMidNight;
       this.dateEnd = new Date(
-        new Date(new Date().setHours(59, 59, 59, 59)).setDate(
+        new Date(new Date().setHours(23, 59, 59, 59)).setDate(
           new Date().getDate()
         )
       );
