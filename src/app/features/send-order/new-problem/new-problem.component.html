@@ -63,7 +63,7 @@
         <button
           pButton
           pRipple
-          class="p-button p-button-warning p-button-raised"
+          class="p-button p-button-info p-button-raised "
           label="เพิ่มผ้ามีปัญหาหลังซัก"
           [disabled]="product.is_out_process"
           (click)="onAddProblem(product.id)"
@@ -73,12 +73,12 @@
   </ng-template>
 </p-table>
 
-<div class="flex justify-content-between my-3">
+<div class="flex justify-content-end my-3">
   <button
     pButton
     pRipple
     class="p-button p-button-warning"
-    [style]="{ width: 'auto', margin: 'auto 2rem' }"
+    [style]="{ width: '110px', margin: 'auto 2rem' }"
     label="ย้อนกลับ"
     (click)="onBack()"
   ></button>
@@ -86,7 +86,7 @@
     pButton
     pRipple
     class="p-button p-button-success"
-    [style]="{ width: 'auto', margin: 'auto 5rem auto 1rem' }"
+    [style]="{ width: '110px', margin: 'auto 7rem auto 1rem' }"
     label="ตรวจสอบข้อมูล"
     (click)="onNext()"
   ></button>

@@ -1,17 +1,17 @@
-import { AuthService } from './../../core/services/auth.service';
-import { ImageIconStore } from './../../../assets/images/icon-store';
-import { FilterInput } from './../../core/interfaces/order.interface';
-import { OrderService } from 'src/app/core/services/order.service';
-import { ClothProblemService } from 'src/app/core/services/cloth-problem.service';
-import Swal from 'sweetalert2';
-import { EmployeeService } from './../../core/services/employee.service';
-import { CustomerService } from './../../core/services/customer.service';
-import { Component, OnInit } from '@angular/core';
-import * as pdfMake from 'pdfmake/build/pdfmake';
-import * as pdfFonts from 'pdfmake/build/vfs_fonts';
-import * as htmlToText from 'html-to-text';
-(pdfMake as any).vfs = pdfFonts.pdfMake.vfs;
-(pdfMake as any).fonts = {
+import { AuthService } from './../../core/services/auth.service'
+import { ImageIconStore } from './../../../assets/images/icon-store'
+import { FilterInput } from './../../core/interfaces/order.interface'
+import { OrderService } from 'src/app/core/services/order.service'
+import { ClothProblemService } from 'src/app/core/services/cloth-problem.service'
+import Swal from 'sweetalert2'
+import { EmployeeService } from './../../core/services/employee.service'
+import { CustomerService } from './../../core/services/customer.service'
+import { Component, OnInit } from '@angular/core'
+import * as pdfMake from 'pdfmake/build/pdfmake'
+import * as pdfFonts from 'pdfmake/build/vfs_fonts'
+import * as htmlToText from 'html-to-text'
+;(pdfMake as any).vfs = pdfFonts.pdfMake.vfs
+;(pdfMake as any).fonts = {
   // Default font should still be available
   THSarabunNew: {
     normal: 'THSarabunNew.ttf',
@@ -25,7 +25,7 @@ import * as htmlToText from 'html-to-text';
     italics: 'Roboto-Italic.ttf',
     bolditalics: 'Roboto-MediumItalic.ttf',
   },
-};
+}
 
 @Component({
   selector: 'app-reports',
@@ -33,54 +33,54 @@ import * as htmlToText from 'html-to-text';
   styleUrls: ['./reports.component.scss'],
 })
 export class ReportsComponent implements OnInit {
-  loading: boolean = false;
+  loading: boolean = false
 
-  reportsOptions: any[] = [];
-  reportTypeSelected: any = null;
+  reportsOptions: any[] = []
+  reportTypeSelected: any = null
 
-  customersOptions: any[] = [];
-  customerSelected: any = null;
+  customersOptions: any[] = []
+  customerSelected: any = null
 
-  clotheProblemsOptions: any[] = [];
-  clotheProblemSelected: any = null;
+  clotheProblemsOptions: any[] = []
+  clotheProblemSelected: any = null
 
-  clotheStatusOptions: any[] = [];
-  clotheStatusSelected: any = null;
+  clotheStatusOptions: any[] = []
+  clotheStatusSelected: any = null
 
-  dateRange: any[] = [new Date(), new Date()];
-  dateStart: Date = new Date();
-  dateEnd: Date = new Date();
+  dateRange: any[] = [new Date(), new Date()]
+  dateStart: Date = new Date()
+  dateEnd: Date = new Date()
 
-  tableData: any[] = [];
-  cols: any[] = [];
+  tableData: any[] = []
+  cols: any[] = []
 
-  dateStartReport: any = '';
-  dateEndReport: any = '';
+  dateStartReport: any = ''
+  dateEndReport: any = ''
 
-  defaultRow = ['*', '*', '*', '*', '*', '*', '*']; //edit row
-  defaultBody = ['null', 'null', 'null', 'null', 'null', 'null', 'null'];
-  headerTablePdf: any[] = [];
-  rowHeaderPdf: any[] = this.defaultRow;
-  bodyTablePdf: any[] = this.defaultBody;
+  defaultRow = ['*', '*', '*', '*', '*', '*', '*'] //edit row
+  defaultBody = ['null', 'null', 'null', 'null', 'null', 'null', 'null']
+  headerTablePdf: any[] = []
+  rowHeaderPdf: any[] = this.defaultRow
+  bodyTablePdf: any[] = this.defaultBody
 
   constructor(
     private customerService: CustomerService,
     private employeeService: EmployeeService,
     private problemService: ClothProblemService,
     private orderService: OrderService,
-    private readonly authService: AuthService
+    private readonly authService: AuthService,
   ) {}
 
   ngOnInit() {
-    let dateMidNight: any = new Date();
-    dateMidNight.setHours(0, 0, 0, 0);
-    dateMidNight = new Date(dateMidNight);
-    this.dateStart = dateMidNight;
+    let dateMidNight: any = new Date()
+    dateMidNight.setHours(0, 0, 0, 0)
+    dateMidNight = new Date(dateMidNight)
+    this.dateStart = dateMidNight
     this.dateEnd = new Date(
       new Date(new Date().setHours(59, 59, 59, 59)).setDate(
-        new Date().getDate()
-      )
-    );
+        new Date().getDate(),
+      ),
+    )
 
     this.headerTablePdf = [
       'Date',
@@ -89,9 +89,9 @@ export class ReportsComponent implements OnInit {
       'Last Name',
       'Address',
       'Phone',
-    ];
-    this.rowHeaderPdf = this.defaultRow;
-    this.bodyTablePdf = this.defaultBody;
+    ]
+    this.rowHeaderPdf = this.defaultRow
+    this.bodyTablePdf = this.defaultBody
 
     this.cols = [
       { header: 'รหัส', field: 'key', colSpan: 10 },
@@ -99,68 +99,66 @@ export class ReportsComponent implements OnInit {
       { header: 'ที่อยู่', field: 'address', colSpan: 15 },
       { header: 'เบอร์ติดต่อ', field: 'phone', colSpan: 15 },
       { header: 'วันที่เป็นสมาชิก', field: 'date', colSpan: 5 },
-    ];
+    ]
 
     this.reportsOptions = [
       { name: 'ข้อมูลลูกค้า', value: 'customers', id: null },
       { name: 'ข้อมูลพนักงาน', value: 'employees', id: null },
       { name: 'การรับผ้าเข้าร้าน', value: 'orders', id: null },
       { name: 'ผ้ามีปัญหา', value: 'clothe_problems', id: null },
-    ];
-    this.reportTypeSelected = this.reportsOptions[0];
+    ]
+    this.reportTypeSelected = this.reportsOptions[0]
 
-    this.customersOptions.push({ name: 'ทั้งหมด', value: 'all' });
-    this.customerSelected = { name: 'ทั้งหมด', value: 'all' };
+    this.customersOptions.push({ name: 'ทั้งหมด', value: 'all' })
+    this.customerSelected = { name: 'ทั้งหมด', value: 'all' }
 
     this.clotheProblemsOptions.push(
       { name: 'ทั้งหมด', value: 'all' },
       { name: 'มีผ้ามีปัญหา', value: true },
-      { name: 'ไม่มีผ้ามีปัญหา', value: false }
-    );
-    this.clotheProblemSelected = { name: 'ทั้งหมด', value: 'all' };
+      { name: 'ไม่มีผ้ามีปัญหา', value: false },
+    )
+    this.clotheProblemSelected = { name: 'ทั้งหมด', value: 'all' }
 
     this.clotheStatusOptions.push(
       { name: 'ทั้งหมด', value: 'all' },
       { name: 'อยู่ในระบบ', value: 'IN' },
-      { name: 'นำส่งแล้ว', value: 'OUT' }
-    );
-    this.clotheStatusSelected = { name: 'ทั้งหมด', value: 'all' };
+      { name: 'นำส่งแล้ว', value: 'OUT' },
+    )
+    this.clotheStatusSelected = { name: 'ทั้งหมด', value: 'all' }
 
-    this.loading = true;
+    this.loading = true
     this.customerService.customers().subscribe((result) => {
-      this.loading = false;
+      this.loading = false
       if (!!result.data) {
-        const customers = JSON.parse(JSON.stringify(result.data.customers));
+        const customers = JSON.parse(JSON.stringify(result.data.customers))
 
-        let customersFilter = [];
+        let customersFilter = []
         for (let customer of customers)
           customersFilter.push({
             name: `${customer.firstName} ${customer.lastName}`,
             value: customer.id,
-          });
-        this.customersOptions = [...this.customersOptions, ...customersFilter];
+          })
+        this.customersOptions = [...this.customersOptions, ...customersFilter]
       } else {
         Swal.fire({
           title: 'Error',
           text: result.errors[0].message,
           icon: 'error',
           confirmButtonText: 'ตกลง',
-        });
+        })
       }
-    });
+    })
 
-    this.onChangeFilter();
+    this.onChangeFilter()
   }
 
   generatePdf() {
-    const userReport = this.authService.isCodeEmployee();
-    const dateReport = `${new Date().toLocaleDateString('th-TH')}`;
+    const userReport = this.authService.isCodeEmployee()
+    const dateReport = `${new Date().toLocaleDateString('th-TH')}`
     this.dateStartReport = `${new Date(this.dateStart).toLocaleDateString(
-      'th-TH'
-    )}`;
-    this.dateEndReport = `${new Date(this.dateEnd).toLocaleDateString(
-      'th-TH'
-    )}`;
+      'th-TH',
+    )}`
+    this.dateEndReport = `${new Date(this.dateEnd).toLocaleDateString('th-TH')}`
     const documentDefinition: any = {
       pageOrientation: 'portrait',
       pageSize: 'A4',
@@ -188,14 +186,15 @@ export class ReportsComponent implements OnInit {
           bold: true,
           fontSize: 18,
           alignment: 'center',
-        },'\n\n',
-        // {
-        //   text: `สําหรับรอบระยะเวลาตั้งแต่วันที่ ${this.dateStartReport} ถึงวันที่ ${this.dateEndReport}`,
-        //   bold: true,
-        //   fontSize: 18,
-        //   alignment: 'center',
-        //   margin: [0, 0, 0, 40],
-        // },
+        },
+        {
+          text: `สําหรับรอบระยะเวลาตั้งแต่วันที่ ${this.dateStartReport} - ${this.dateEndReport}`,
+          bold: true,
+          fontSize: 18,
+          alignment: 'center',
+          margin: [0, 0, 0, 40],
+        },
+        '\n',
         // {
         //   text: `ณ วันที่ ${dateReport}`,
         //   bold: true,
@@ -217,86 +216,65 @@ export class ReportsComponent implements OnInit {
         font: 'THSarabunNew',
         alignment: 'center',
       },
-      footer: function (currentPage: any, pageCount: any) {
+
+      header: function (currentPage: any, pageCount: any) {
         return {
-          margin: 10,
+          margin: 20,
           columns: [
             {
-              fontSize: 9,
+              fontSize: 12,
               text: [
                 {
-                  text:
-                    '--------------------------------------------------------------------------' +
-                    '\n',
-                  margin: [0, 20],
-                },
-                {
-                  text: `พิมพ์วันที่: ${dateReport}    ออกโดย: ${userReport.firstName} ${userReport.lastName}`,
-                  fontSize: 10,
-                },
-              ],
-              alignment: 'center',
-            },
-            {
-              fontSize: 9,
-              text: [
-                {
-                  text:
-                    '--------------------------------------------------------------------------' +
-                    '\n',
-                  margin: [0, 20],
+                  text: 'หน้าที่ ' + currentPage.toString() + ' / ' + pageCount,
+                  fontSize: 12,
                 },
                 // {
-                //   text: `ออกโดย: ${userReport.firstName} ${userReport.lastName}`,
-                //   fontSize: 10,
+                //   text:
+                //     '--------------------------------------------------------------------------' +
+                //     '\n',
+                //   margin: [0, 20],
                 // },
-              ],
-              alignment: 'center',
-            },
-            {
-              fontSize: 9,
-              text: [
-                {
-                  text:
-                    '--------------------------------------------------------------------------' +
-                    '\n',
-                  margin: [0, 20],
-                },
-                // {
-                //   text: 'ร้านวันทนาซักรีด',
-                //   fontSize: 10,
-                // },
-              ],
-              alignment: 'center',
-            },
-            {
-              fontSize: 9,
-              text: [
-                {
-                  text:
-                    '--------------------------------------------------------------------------' +
-                    '\n',
-                  margin: [0, 20],
-                },
-                {
-                  text:
-                    'หน้าที่ ' + currentPage.toString() + ' จาก ' + pageCount,
-                  fontSize: 10,
-                },
               ],
               alignment: 'right',
             },
           ],
-        };
+        }
+      },
+      footer: function (currentPage: any, pageCount: any) {
+        return {
+          margin: 20,
+          columns: [
+            
+            {
+              fontSize: 12,
+              text: [
+                // {
+                //   text:
+                //     '--------------------------------------------------------------------------' +
+                //     '\n',
+                //   margin: [0, 20],
+                // },
+                {
+                  text: `ออกโดย: ${userReport.firstName} ${userReport.lastName}` ,
+                  fontSize: 12,
+                  margin: [0, 20],
+                },
+              ],
+              alignment: 'right',
+            },
+            
+            
+          ],
+        }
       },
       unbreakable: true,
-    };
-    pdfMake.createPdf(documentDefinition).open();
+    }
+    pdfMake.createPdf(documentDefinition).open()
   }
 
   onChangeFilter(): void {
-    this.dateEnd = this.dateRange[1];
-    this.dateStart = this.dateRange[0];
+    this.dateEnd = this.dateRange[1]
+    this.dateStart = this.dateRange[0]
     if (
       this.dateEnd.getTime > new Date().getTime ||
       this.dateStart.getTime > new Date().getTime
@@ -304,18 +282,18 @@ export class ReportsComponent implements OnInit {
       Swal.fire({
         title: 'วันที่เกินวันปัจจุบัน',
         icon: 'info',
-      });
-      this.dateEnd = new Date();
-      this.dateStart = new Date();
+      })
+      this.dateEnd = new Date()
+      this.dateStart = new Date()
     } else if (!!this.dateRange[1] && !!this.dateRange[0]) {
-      this.loading = true;
+      this.loading = true
       if (
         this.reportTypeSelected.value === 'orders' ||
         this.reportTypeSelected.value === 'clothe_problems'
       ) {
-        let x = this.dateEnd;
-        let firstDate: any = x.setHours(23, 59, 59);
-        let lastDate: any = this.dateStart;
+        let x = this.dateEnd
+        let firstDate: any = x.setHours(23, 59, 59)
+        let lastDate: any = this.dateStart
 
         let filterInput: FilterInput = {
           customerName:
@@ -333,20 +311,20 @@ export class ReportsComponent implements OnInit {
             this.clotheProblemSelected.value == 'all'
               ? null
               : this.clotheProblemSelected.value,
-        };
+        }
         if (this.reportTypeSelected.value !== 'orders')
-          this.problemTableData(filterInput);
-        else this.ordersTableData(filterInput);
+          this.problemTableData(filterInput)
+        else this.ordersTableData(filterInput)
       } else if (this.reportTypeSelected.value === 'customers') {
-        this.customersTableData();
+        this.customersTableData()
       } else if (this.reportTypeSelected.value === 'employees') {
-        this.employeesTableData();
+        this.employeesTableData()
       }
     }
   }
 
   ordersTableData(filterInput: FilterInput): void {
-    this.tableData = [];
+    this.tableData = []
     this.cols = [
       { header: 'ลำดับ', field: 'num', colSpan: 5 },
       { header: 'วันที่', field: 'date', colSpan: 10 },
@@ -354,9 +332,9 @@ export class ReportsComponent implements OnInit {
       { header: 'ชื่อ - นามสกุล', field: 'fullName', colSpan: 25 },
       { header: 'ชนิดผ้า', field: 'sort', colSpan: 20 },
       { header: 'ประเภทผ้า', field: 'type', colSpan: 20 },
-      { header: 'จำนวน', field: 'number', colSpan: 20 },
+      { header: 'จำนวน(ชิ้น)', field: 'number', colSpan: 20 },
       // { header: 'สาเหตุผ้ามีปัญหา', field: 'problems' },
-    ];
+    ]
     this.headerTablePdf = [
       'ลำดับ',
       'วันที่',
@@ -364,25 +342,25 @@ export class ReportsComponent implements OnInit {
       'ชื่อ - นามสกุล',
       'ชนิดผ้า',
       'ประเภทผ้า',
-      'จำนวน',
+      'จำนวน(ชิ้น)',
       // 'ผ้าพิเศษ',
-    ];
-    this.rowHeaderPdf = [25, 45, 45, 115, 90, 90, 50];
+    ]
+    this.rowHeaderPdf = [25, 45, 45, 115, 90, 90, 50]
     this.orderService.filterOrder(filterInput).subscribe(async (result) => {
-      this.loading = false;
+      this.loading = false
       if (!!result.data) {
         const orders = JSON.parse(JSON.stringify(result.data.filterOrder)).sort(
           (a: any, b: any) => {
-            const date1: any = new Date(a.created_at);
-            const date2: any = new Date(b.created_at);
-            const result = date1 - date2;
-            return result;
-          }
-        );
-        let ordersFilter: any[] = [];
+            const date1: any = new Date(a.created_at)
+            const date2: any = new Date(b.created_at)
+            const result = date1 - date2
+            return result
+          },
+        )
+        let ordersFilter: any[] = []
 
         for (let order of orders) {
-          let groups: any[] = [];
+          let groups: any[] = []
           if (!!order.clothes && order.clothes.length > 0) {
             for (let clothe of order.clothes) {
               if (groups.length > 0) {
@@ -391,95 +369,95 @@ export class ReportsComponent implements OnInit {
                     JSON.stringify(
                       !!clothe.sortClothe
                         ? clothe.sortClothe.name
-                        : clothe.sortClothe
+                        : clothe.sortClothe,
                     ) ===
                       JSON.stringify(
                         !!group.sortClothe
                           ? group.sortClothe.name
-                          : group.sortClothe
+                          : group.sortClothe,
                       ) &&
                     JSON.stringify(
                       !!clothe.typeClothe
                         ? clothe.typeClothe.name
-                        : clothe.typeClothe
+                        : clothe.typeClothe,
                     ) ===
                       JSON.stringify(
                         !!group.typeClothe
                           ? group.typeClothe.name
-                          : group.typeClothe
+                          : group.typeClothe,
                       ) &&
                     JSON.stringify(
                       !!clothe.specialClothe
                         ? clothe.specialClothe.name
-                        : clothe.specialClothe
+                        : clothe.specialClothe,
                     ) ===
                       JSON.stringify(
                         !!group.specialClothe
                           ? group.specialClothe.name
-                          : group.specialClothe
+                          : group.specialClothe,
                       )
                   ) {
                     let findIndex = groups.findIndex(
                       (g: any) =>
                         JSON.stringify(
-                          !!g.sortClothe ? g.sortClothe.name : g.sortClothe
+                          !!g.sortClothe ? g.sortClothe.name : g.sortClothe,
                         ) ===
                           JSON.stringify(
                             !!group.sortClothe
                               ? group.sortClothe.name
-                              : group.sortClothe
+                              : group.sortClothe,
                           ) &&
                         JSON.stringify(
-                          !!g.typeClothe ? g.typeClothe.name : g.typeClothe
+                          !!g.typeClothe ? g.typeClothe.name : g.typeClothe,
                         ) ===
                           JSON.stringify(
                             !!group.typeClothe
                               ? group.typeClothe.name
-                              : group.typeClothe
+                              : group.typeClothe,
                           ) &&
                         JSON.stringify(
                           !!g.specialClothe
                             ? g.specialClothe.name
-                            : g.specialClothe
+                            : g.specialClothe,
                         ) ===
                           JSON.stringify(
                             !!group.specialClothe
                               ? group.specialClothe.name
-                              : group.specialClothe
-                          )
-                    );
+                              : group.specialClothe,
+                          ),
+                    )
 
-                    groups[findIndex].number += 1;
+                    groups[findIndex].number += 1
                   } else {
                     let findIndex = groups.findIndex(
                       (g: any) =>
                         JSON.stringify(
-                          !!g.sortClothe ? g.sortClothe.name : g.sortClothe
+                          !!g.sortClothe ? g.sortClothe.name : g.sortClothe,
                         ) ===
                           JSON.stringify(
                             !!clothe.sortClothe
                               ? clothe.sortClothe.name
-                              : clothe.sortClothe
+                              : clothe.sortClothe,
                           ) &&
                         JSON.stringify(
-                          !!g.typeClothe ? g.typeClothe.name : g.typeClothe
+                          !!g.typeClothe ? g.typeClothe.name : g.typeClothe,
                         ) ===
                           JSON.stringify(
                             !!clothe.typeClothe
                               ? clothe.typeClothe.name
-                              : clothe.typeClothe
+                              : clothe.typeClothe,
                           ) &&
                         JSON.stringify(
                           !!g.specialClothe
                             ? g.specialClothe.name
-                            : g.specialClothe
+                            : g.specialClothe,
                         ) ===
                           JSON.stringify(
                             !!clothe.specialClothe
                               ? clothe.specialClothe.name
-                              : clothe.specialClothe
-                          )
-                    );
+                              : clothe.specialClothe,
+                          ),
+                    )
                     if (findIndex === -1)
                       groups.push({
                         ...clothe,
@@ -487,7 +465,7 @@ export class ReportsComponent implements OnInit {
                         number: 0,
                         customer: order.customer,
                         created_at: order.created_at,
-                      });
+                      })
                   }
                 }
               } else {
@@ -497,69 +475,67 @@ export class ReportsComponent implements OnInit {
                   number: 1,
                   customer: order.customer,
                   created_at: order.created_at,
-                });
+                })
               }
             }
-            ordersFilter.push(groups);
+            ordersFilter.push(groups)
           }
         }
 
-        let ordersFilterResult: any = [];
-        let ordersFilterResultPdf: any = [];
+        let ordersFilterResult: any = []
+        let ordersFilterResultPdf: any = []
         for (let [index, order] of ordersFilter.entries()) {
-          let resultOrder: any = null;
-          let sortFilter: string = '';
-          let typeFilter: string = '';
-          let numberFilter: string = '';
+          let resultOrder: any = null
+          let sortFilter: string = ''
+          let typeFilter: string = ''
+          let numberFilter: string = ''
 
-          let resultOrderPdf: any = null;
-          let sortFilterPdf: string = '';
-          let typeFilterPdf: string = '';
-          let numberFilterPdf: string = '';
+          let resultOrderPdf: any = null
+          let sortFilterPdf: string = ''
+          let typeFilterPdf: string = ''
+          let numberFilterPdf: string = ''
           for (let clothe of order) {
-            let sortLength = 0;
-            let typeLength = 0;
-            let sortLengthPdf = 0;
-            let typeLengthPdf = 0;
-            let mostValue = 0;
-            let mostValuePdf = 0;
+            let sortLength = 0
+            let typeLength = 0
+            let sortLengthPdf = 0
+            let typeLengthPdf = 0
+            let mostValue = 0
+            let mostValuePdf = 0
 
             if (!!clothe.sortClothe) {
-              sortLength = 1;
+              sortLength = 1
             }
             if (!!clothe.typeClothe && !!clothe.specialClothe) {
-              typeLength = 2;
-              typeLengthPdf = 1;
-              sortLength--;
-              sortLengthPdf--;
+              typeLength = 2
+              typeLengthPdf = 1
+              sortLength--
+              sortLengthPdf--
             } else if (!!clothe.typeClothe) {
-              typeLength = 1;
-              typeLengthPdf = 1;
+              typeLength = 1
+              typeLengthPdf = 1
             } else if (!!clothe.specialClothe) {
-              typeLength = 1;
-              typeLengthPdf = 1;
+              typeLength = 1
+              typeLengthPdf = 1
             }
-            mostValue = await Math.max(sortLength, typeLength);
-            mostValuePdf = await Math.max(sortLengthPdf, typeLengthPdf);
+            mostValue = await Math.max(sortLength, typeLength)
+            mostValuePdf = await Math.max(sortLengthPdf, typeLengthPdf)
 
             if (!!clothe.sortClothe) {
-              sortFilter =
-                await sortFilter.concat(`<span>${clothe.sortClothe.name}</span><br>
-            `);
-              sortFilterPdf =
-                await sortFilterPdf.concat(`<span>${clothe.sortClothe.name}</span><br>
-            `);
+              sortFilter = await sortFilter.concat(`<span>${clothe.sortClothe.name}</span><br>
+            `)
+              sortFilterPdf = await sortFilterPdf.concat(`<span>${clothe.sortClothe.name}</span><br>
+            `)
               for (let i = 0; i < mostValue - sortLength; i++) {
-                sortFilter = await sortFilter.concat(`<br>`);
+                sortFilter = await sortFilter.concat(`<br>`)
               }
               for (let i = 0; i < mostValuePdf - sortLengthPdf; i++) {
-                sortFilterPdf = await sortFilterPdf.concat(`<br>`);
+                sortFilterPdf = await sortFilterPdf.concat(`<br>`)
               }
             } else {
               sortFilter = await sortFilter.concat(`<p>-</p><br>
-            `);
+            `)
               sortFilterPdf = await sortFilterPdf.concat(`<p>-</p><br>
-            `);
+            `)
             }
 
             if (!!clothe.typeClothe || !!clothe.specialClothe) {
@@ -570,38 +546,36 @@ export class ReportsComponent implements OnInit {
                   ? `<p>${clothe.specialClothe.name}</p>`
                   : ''
               }<br>
-            `);
+            `)
 
               typeFilterPdf = await typeFilterPdf.concat(`<span>${
                 !!clothe.typeClothe ? clothe.typeClothe.name : ''
               }</span> <span>${
                 !!clothe.specialClothe ? clothe.specialClothe.name : ''
               }</span><br>
-            `);
+            `)
               for (let i = 0; i < mostValue - typeLength; i++) {
-                typeFilter = await typeFilter.concat(`<br>`);
+                typeFilter = await typeFilter.concat(`<br>`)
               }
               for (let i = 0; i < typeLengthPdf; i++) {
-                typeFilterPdf = await typeFilterPdf.concat(`<br>`);
+                typeFilterPdf = await typeFilterPdf.concat(`<br>`)
               }
             } else {
               typeFilter = await typeFilter.concat(`<span>-</span><br>
-            `);
+            `)
               typeFilterPdf = await typeFilterPdf.concat(`<span>-</span><br>
-            `);
+            `)
             }
 
-            numberFilter =
-              await numberFilter.concat(`<span>${clothe.number}</span><br>
-            `);
+            numberFilter = await numberFilter.concat(`<span>${clothe.number}</span><br>
+            `)
             for (let i = 0; i < mostValue - sortLength; i++) {
-              numberFilter = await numberFilter.concat(`<br>`);
+              numberFilter = await numberFilter.concat(`<br>`)
             }
-            numberFilterPdf =
-              await numberFilterPdf.concat(`<span>${clothe.number}</span><br>
-            `);
+            numberFilterPdf = await numberFilterPdf.concat(`<span>${clothe.number}</span><br>
+            `)
             for (let i = 0; i < mostValuePdf - sortLengthPdf; i++) {
-              numberFilterPdf = await numberFilterPdf.concat(`<br>`);
+              numberFilterPdf = await numberFilterPdf.concat(`<br>`)
             }
 
             resultOrder = await {
@@ -613,7 +587,7 @@ export class ReportsComponent implements OnInit {
               type: !!typeFilter ? typeFilter : 'ไม่ได้ระบุ',
               number: numberFilter,
               problems: null,
-            };
+            }
 
             resultOrderPdf = await {
               num: index + 1,
@@ -624,41 +598,41 @@ export class ReportsComponent implements OnInit {
               type: !!typeFilterPdf ? typeFilterPdf : 'ไม่ได้ระบุ',
               number: numberFilterPdf,
               problems: null,
-            };
+            }
           }
 
           await ordersFilterResult.push({
             ...resultOrder,
-          });
+          })
 
           await ordersFilterResultPdf.push({
             ...resultOrderPdf,
-          });
+          })
         }
 
-        this.tableData = ordersFilterResult;
-        let tableDataPdf = ordersFilterResultPdf;
+        this.tableData = ordersFilterResult
+        let tableDataPdf = ordersFilterResultPdf
         if (this.tableData.length > 0) {
-          this.bodyTablePdf = [];
+          this.bodyTablePdf = []
           for (let [index, cs] of tableDataPdf.entries()) {
-            let data = [];
-            data.push(`${index + 1}`);
-            data.push(`${new Date(cs.date).toLocaleDateString('th-TH')}`);
-            data.push(`${cs.key}`);
-            data.push(`${cs.fullName}`);
+            let data = []
+            data.push(`${index + 1}`)
+            data.push(`${new Date(cs.date).toLocaleDateString('th-TH')}`)
+            data.push(`${cs.key}`)
+            data.push(`${cs.fullName}`)
             data.push(
               `${htmlToText
                 .fromString(cs.sort, { wordwrap: 7 })
                 .split('--')
-                .join('\n')}`
-            );
-            data.push(`${htmlToText.fromString(cs.type, { wordwrap: 7 })}`);
-            data.push(`${htmlToText.fromString(cs.number, { wordwrap: 7 })}`);
+                .join('\n')}`,
+            )
+            data.push(`${htmlToText.fromString(cs.type, { wordwrap: 7 })}`)
+            data.push(`${htmlToText.fromString(cs.number, { wordwrap: 7 })}`)
 
-            this.bodyTablePdf.push(data);
+            this.bodyTablePdf.push(data)
           }
         } else {
-          this.rowHeaderPdf = this.defaultRow;
+          this.rowHeaderPdf = this.defaultRow
           this.bodyTablePdf = [
             'null',
             'null',
@@ -668,7 +642,7 @@ export class ReportsComponent implements OnInit {
             'null',
             'null',
             'null',
-          ];
+          ]
         }
       } else {
         Swal.fire({
@@ -676,32 +650,32 @@ export class ReportsComponent implements OnInit {
           text: result.errors[0].message,
           icon: 'error',
           confirmButtonText: 'ตกลง',
-        });
+        })
       }
-    });
+    })
   }
 
   compare(array1: any[], array2: any[]) {
     if (array1.length != array2.length) {
-      return false;
+      return false
     }
 
-    array1 = array1.slice();
-    array1.sort();
-    array2 = array2.slice();
-    array2.sort();
+    array1 = array1.slice()
+    array1.sort()
+    array2 = array2.slice()
+    array2.sort()
 
     for (var i = 0; i < array1.length; i++) {
       if (array1[i] != array2[i]) {
-        return false;
+        return false
       }
     }
 
-    return true;
+    return true
   }
 
   problemTableData(filterInput: FilterInput): void {
-    this.tableData = [];
+    this.tableData = []
     this.cols = [
       { header: 'ลำดับ', field: 'num', colSpan: 5 },
       { header: 'วันที่', field: 'date', colSpan: 10 },
@@ -709,9 +683,9 @@ export class ReportsComponent implements OnInit {
       { header: 'ชื่อ - นามสกุล', field: 'fullName', colSpan: 20 },
       { header: 'ชนิดผ้า', field: 'sort', colSpan: 13 },
       { header: 'ประเภทผ้า', field: 'type', colSpan: 13 },
-      { header: 'จำนวน', field: 'number', colSpan: 13.5 },
+      { header: 'จำนวน(ชิ้น)', field: 'number', colSpan: 13.5 },
       { header: 'หมายเหตุ', field: 'problems', colSpan: 15 },
-    ];
+    ]
     this.headerTablePdf = [
       'ลำดับ',
       'วันที่',
@@ -719,92 +693,92 @@ export class ReportsComponent implements OnInit {
       'ชื่อ - นามสกุล',
       'ชนิดผ้า',
       'ประเภทผ้า',
-      'จำนวน',
+      'จำนวน(ชิ้น)',
       'หมายเหตุ',
-    ];
-    this.rowHeaderPdf = [20, 50, 50, 100, 60, 60, 40, 65];
+    ]
+    this.rowHeaderPdf = [20, 50, 50, 100, 60, 60, 40, 65]
     this.orderService.filterOrder(filterInput).subscribe(async (result) => {
-      this.loading = false;
+      this.loading = false
       if (!!result.data) {
         const orders = JSON.parse(JSON.stringify(result.data.filterOrder)).sort(
           (a: any, b: any) => {
-            const date1: any = new Date(a.created_at);
-            const date2: any = new Date(b.created_at);
-            const result = date1 - date2;
-            return result;
-          }
-        );
-        let ordersFilter: any[] = [];
+            const date1: any = new Date(a.created_at)
+            const date2: any = new Date(b.created_at)
+            const result = date1 - date2
+            return result
+          },
+        )
+        let ordersFilter: any[] = []
 
         for (let order of orders) {
-          let groups: any = [];
+          let groups: any = []
 
           if (!!order.clothes && order.clothes.length > 0) {
             for (let clothe of order.clothes) {
               if (groups.length > 0) {
-                let isEqualLength = 0;
+                let isEqualLength = 0
                 for (let [index, group] of groups.entries()) {
-                  let isEqualProblem = false;
-                  let isHasProblem: boolean = false;
+                  let isEqualProblem = false
+                  let isHasProblem: boolean = false
                   if (
                     !!clothe.clotheHasProblems &&
                     !!group.clotheHasProblems &&
                     group.clotheHasProblems.length > 0 &&
                     clothe.clotheHasProblems.length > 0
                   )
-                    isHasProblem = true;
+                    isHasProblem = true
                   if (!!clothe.clotheHasProblems && !!group.clotheHasProblems) {
                     const clothProblem = clothe.clotheHasProblems.map(
-                      ({ name }: any) => name
-                    );
+                      ({ name }: any) => name,
+                    )
                     const itemProblem = group.clotheHasProblems.map(
-                      ({ name }: any) => name
-                    );
+                      ({ name }: any) => name,
+                    )
                     isEqualProblem = await this.compare(
                       clothProblem,
-                      itemProblem
-                    );
+                      itemProblem,
+                    )
                   }
                   if (
                     JSON.stringify(
                       !!clothe.sortClothe
                         ? clothe.sortClothe.name
-                        : clothe.sortClothe
+                        : clothe.sortClothe,
                     ) ===
                       JSON.stringify(
                         !!group.sortClothe
                           ? group.sortClothe.name
-                          : group.sortClothe
+                          : group.sortClothe,
                       ) &&
                     JSON.stringify(
                       !!clothe.typeClothe
                         ? clothe.typeClothe.name
-                        : clothe.typeClothe
+                        : clothe.typeClothe,
                     ) ===
                       JSON.stringify(
                         !!group.typeClothe
                           ? group.typeClothe.name
-                          : group.typeClothe
+                          : group.typeClothe,
                       ) &&
                     JSON.stringify(
                       !!clothe.specialClothe
                         ? clothe.specialClothe.name
-                        : clothe.specialClothe
+                        : clothe.specialClothe,
                     ) ===
                       JSON.stringify(
                         !!group.specialClothe
                           ? group.specialClothe.name
-                          : group.specialClothe
+                          : group.specialClothe,
                       ) &&
                     isEqualProblem &&
                     isHasProblem
                   ) {
                     const findIndex = await groups.findIndex(
-                      (g: any) => g.code === group.code
-                    );
-                    groups[findIndex].number++;
+                      (g: any) => g.code === group.code,
+                    )
+                    groups[findIndex].number++
                   } else {
-                    isEqualLength++;
+                    isEqualLength++
                   }
                 }
                 if (
@@ -819,7 +793,7 @@ export class ReportsComponent implements OnInit {
                     number: 1,
                     customer: order.customer,
                     created_at: order.created_at,
-                  });
+                  })
                 }
               } else {
                 if (
@@ -833,64 +807,63 @@ export class ReportsComponent implements OnInit {
                     number: 1,
                     customer: order.customer,
                     created_at: order.created_at,
-                  });
+                  })
                 }
               }
             }
-            ordersFilter.push(groups);
+            ordersFilter.push(groups)
           }
         }
 
-        let ordersFilterResult: any = [];
-        let ordersFilterResultPdf: any = [];
+        let ordersFilterResult: any = []
+        let ordersFilterResultPdf: any = []
         if (ordersFilter.length > 0)
           for (let [index, order] of ordersFilter.entries()) {
-            let resultOrder: any = null;
-            let sortFilter: string = '';
-            let typeFilter: string = '';
-            let problemsFilter: string = '';
-            let numberFilter: string = '';
+            let resultOrder: any = null
+            let sortFilter: string = ''
+            let typeFilter: string = ''
+            let problemsFilter: string = ''
+            let numberFilter: string = ''
 
-            let resultOrderPdf: any = null;
-            let sortFilterPdf: string = '';
-            let typeFilterPdf: string = '';
-            let problemsFilterPdf: string = '';
-            let numberFilterPdf: string = '';
+            let resultOrderPdf: any = null
+            let sortFilterPdf: string = ''
+            let typeFilterPdf: string = ''
+            let problemsFilterPdf: string = ''
+            let numberFilterPdf: string = ''
 
             for (let clothe of order) {
               //! Normal
-              let sortLength = 0;
-              let typeLength = 0;
-              let problemLength = 0;
-              let mostValue = 0;
+              let sortLength = 0
+              let typeLength = 0
+              let problemLength = 0
+              let mostValue = 0
               if (!!clothe.sortClothe) {
-                sortLength = 1;
+                sortLength = 1
               }
               if (!!clothe.clotheHasProblems) {
                 for (let problem of clothe.clotheHasProblems) {
-                  problemLength++;
+                  problemLength++
                 }
               }
               if (!!clothe.typeClothe && !!clothe.specialClothe) {
-                typeLength = 2;
-                sortLength--;
-                problemLength--;
+                typeLength = 2
+                sortLength--
+                problemLength--
               } else if (!!clothe.typeClothe) {
-                typeLength = 1;
+                typeLength = 1
               } else if (!!clothe.specialClothe) {
-                typeLength = 1;
+                typeLength = 1
               }
-              mostValue = await Math.max(sortLength, typeLength, problemLength);
+              mostValue = await Math.max(sortLength, typeLength, problemLength)
               if (!!clothe.sortClothe) {
-                sortFilter =
-                  await sortFilter.concat(`<span>${clothe.sortClothe.name}</span><br>
-            `);
+                sortFilter = await sortFilter.concat(`<span>${clothe.sortClothe.name}</span><br>
+            `)
                 for (let i = 0; i < mostValue - sortLength; i++) {
-                  sortFilter = await sortFilter.concat(`<br>`);
+                  sortFilter = await sortFilter.concat(`<br>`)
                 }
               } else
                 sortFilter = await sortFilter.concat(`<span>-</span><br>
-            `);
+            `)
 
               if (!!clothe.typeClothe || !!clothe.specialClothe) {
                 typeFilter = await typeFilter.concat(`<span>${
@@ -900,19 +873,18 @@ export class ReportsComponent implements OnInit {
                     ? `<p>${clothe.specialClothe.name}</p>`
                     : ''
                 }<br>
-            `);
+            `)
                 for (let i = 0; i < mostValue - typeLength; i++) {
-                  typeFilter = await typeFilter.concat(`<br>`);
+                  typeFilter = await typeFilter.concat(`<br>`)
                 }
               } else
                 typeFilter = await typeFilter.concat(`<span>-</span><br>
-            `);
+            `)
 
-              numberFilter =
-                await numberFilter.concat(`<span>${clothe.number}</span><br>
-            `);
+              numberFilter = await numberFilter.concat(`<span>${clothe.number}</span><br>
+            `)
               for (let i = 0; i < mostValue - sortLength; i++) {
-                numberFilter = await numberFilter.concat(`<br>`);
+                numberFilter = await numberFilter.concat(`<br>`)
               }
 
               if (!!clothe.clotheHasProblems) {
@@ -921,15 +893,15 @@ export class ReportsComponent implements OnInit {
                   problem,
                 ] of clothe.clotheHasProblems.entries()) {
                   problemsFilter = await problemsFilter.concat(
-                    `<span>${problem.problemClothe.name} </span><br>`
-                  );
+                    `<span>${problem.problemClothe.name} </span><br>`,
+                  )
                 }
                 for (let i = 0; i < mostValue - problemLength; i++) {
-                  problemsFilter = await problemsFilter.concat(`<br>`);
+                  problemsFilter = await problemsFilter.concat(`<br>`)
                 }
               } else
                 problemsFilter = await problemsFilter.concat(`<span>-</span><br>
-            `);
+            `)
 
               resultOrder = await {
                 num: index + 1,
@@ -940,43 +912,42 @@ export class ReportsComponent implements OnInit {
                 type: !!typeFilter ? typeFilter : 'ไม่ได้ระบุ',
                 number: numberFilter,
                 problems: !!problemsFilter ? problemsFilter : 'ไม่ได้ระบุ',
-              };
+              }
 
               //! PDF
-              let sortLengthPdf = 0;
-              let typeLengthPdf = 0;
-              let problemLengthPdf = 0;
-              let mostValuePdf = 0;
+              let sortLengthPdf = 0
+              let typeLengthPdf = 0
+              let problemLengthPdf = 0
+              let mostValuePdf = 0
               if (!!clothe.sortClothe) {
-                sortLengthPdf = 1;
+                sortLengthPdf = 1
               }
               if (!!clothe.clotheHasProblems) {
                 for (let problem of clothe.clotheHasProblems) {
-                  problemLengthPdf++;
+                  problemLengthPdf++
                 }
               }
               if (!!clothe.typeClothe && !!clothe.specialClothe) {
-                typeLengthPdf = 2;
+                typeLengthPdf = 2
               } else if (!!clothe.typeClothe) {
-                typeLengthPdf = 1;
+                typeLengthPdf = 1
               } else if (!!clothe.specialClothe) {
-                typeLengthPdf = 1;
+                typeLengthPdf = 1
               }
               mostValuePdf = await Math.max(
                 sortLengthPdf,
                 typeLengthPdf,
-                problemLengthPdf
-              );
+                problemLengthPdf,
+              )
               if (!!clothe.sortClothe) {
-                sortFilterPdf =
-                  await sortFilterPdf.concat(`<span>${clothe.sortClothe.name}</span><br>
-            `);
+                sortFilterPdf = await sortFilterPdf.concat(`<span>${clothe.sortClothe.name}</span><br>
+            `)
                 for (let i = 0; i < mostValuePdf - sortLengthPdf; i++) {
-                  sortFilterPdf = await sortFilterPdf.concat(`<br>`);
+                  sortFilterPdf = await sortFilterPdf.concat(`<br>`)
                 }
               } else
                 sortFilterPdf = await sortFilterPdf.concat(`<span>-</span><br>
-            `);
+            `)
 
               if (!!clothe.typeClothe || !!clothe.specialClothe) {
                 typeFilterPdf = await typeFilterPdf.concat(`<span>${
@@ -984,19 +955,18 @@ export class ReportsComponent implements OnInit {
                 }</span> <span>${
                   !!clothe.specialClothe ? clothe.specialClothe.name : ''
                 }</span><br>
-            `);
+            `)
                 for (let i = 0; i < mostValuePdf - typeLengthPdf; i++) {
-                  typeFilterPdf = await typeFilterPdf.concat(`<br>`);
+                  typeFilterPdf = await typeFilterPdf.concat(`<br>`)
                 }
               } else
                 typeFilterPdf = await typeFilterPdf.concat(`<span>-</span><br>
-            `);
+            `)
 
-              numberFilterPdf =
-                await numberFilterPdf.concat(`<span>${clothe.number}</span><br>
-            `);
+              numberFilterPdf = await numberFilterPdf.concat(`<span>${clothe.number}</span><br>
+            `)
               for (let i = 0; i < mostValuePdf - sortLengthPdf; i++) {
-                numberFilterPdf = await numberFilterPdf.concat(`<br>`);
+                numberFilterPdf = await numberFilterPdf.concat(`<br>`)
               }
 
               if (!!clothe.clotheHasProblems) {
@@ -1005,16 +975,15 @@ export class ReportsComponent implements OnInit {
                   problem,
                 ] of clothe.clotheHasProblems.entries()) {
                   problemsFilterPdf = await problemsFilterPdf.concat(
-                    `<span>${problem.problemClothe.name} </span><br>`
-                  );
+                    `<span>${problem.problemClothe.name} </span><br>`,
+                  )
                 }
                 for (let i = 0; i < mostValuePdf - problemLengthPdf; i++) {
-                  problemsFilterPdf = await problemsFilterPdf.concat(`<br>`);
+                  problemsFilterPdf = await problemsFilterPdf.concat(`<br>`)
                 }
               } else
-                problemsFilterPdf =
-                  await problemsFilterPdf.concat(`<span>-</span><br>
-            `);
+                problemsFilterPdf = await problemsFilterPdf.concat(`<span>-</span><br>
+            `)
 
               resultOrderPdf = await {
                 num: index + 1,
@@ -1027,41 +996,41 @@ export class ReportsComponent implements OnInit {
                 problems: !!problemsFilterPdf
                   ? problemsFilterPdf
                   : 'ไม่ได้ระบุ',
-              };
+              }
             }
 
             await ordersFilterResult.push({
               ...resultOrder,
-            });
+            })
 
             await ordersFilterResultPdf.push({
               ...resultOrderPdf,
-            });
+            })
           }
 
         this.tableData = ordersFilterResult.filter(
-          (order: any) => Object.keys(order).length !== 0
-        );
+          (order: any) => Object.keys(order).length !== 0,
+        )
         let tableDataPdf = ordersFilterResultPdf.filter(
-          (order: any) => Object.keys(order).length !== 0
-        );
+          (order: any) => Object.keys(order).length !== 0,
+        )
         if (this.tableData.length > 0) {
-          this.bodyTablePdf = [];
+          this.bodyTablePdf = []
           for (let [index, cs] of tableDataPdf.entries()) {
-            let data = [];
-            data.push(`${index + 1}`);
-            data.push(`${new Date(cs.date).toLocaleDateString('th-TH')}`);
-            data.push(`${cs.key}`);
-            data.push(`${cs.fullName}`);
-            data.push(`${htmlToText.fromString(cs.sort, { wordwrap: 7 })}`);
-            data.push(`${htmlToText.fromString(cs.type, { wordwrap: 7 })}`);
-            data.push(`${htmlToText.fromString(cs.number, { wordwrap: 7 })}`);
-            data.push(`${htmlToText.fromString(cs.problems, { wordwrap: 7 })}`);
+            let data = []
+            data.push(`${index + 1}`)
+            data.push(`${new Date(cs.date).toLocaleDateString('th-TH')}`)
+            data.push(`${cs.key}`)
+            data.push(`${cs.fullName}`)
+            data.push(`${htmlToText.fromString(cs.sort, { wordwrap: 7 })}`)
+            data.push(`${htmlToText.fromString(cs.type, { wordwrap: 7 })}`)
+            data.push(`${htmlToText.fromString(cs.number, { wordwrap: 7 })}`)
+            data.push(`${htmlToText.fromString(cs.problems, { wordwrap: 7 })}`)
 
-            this.bodyTablePdf.push(data);
+            this.bodyTablePdf.push(data)
           }
         } else {
-          this.rowHeaderPdf = this.defaultRow;
+          this.rowHeaderPdf = this.defaultRow
           this.bodyTablePdf = [
             'null',
             'null',
@@ -1071,7 +1040,7 @@ export class ReportsComponent implements OnInit {
             'null',
             'null',
             'null',
-          ];
+          ]
         }
       } else {
         Swal.fire({
@@ -1079,13 +1048,13 @@ export class ReportsComponent implements OnInit {
           text: result.errors[0].message,
           icon: 'error',
           confirmButtonText: 'ตกลง',
-        });
+        })
       }
-    });
+    })
   }
 
   customersTableData(): void {
-    this.tableData = [];
+    this.tableData = []
     this.cols = [
       { header: 'ลำดับ', field: 'num', colSpan: 5 },
       { header: 'รหัสลูกค้า', field: 'key', colSpan: 10 },
@@ -1093,7 +1062,7 @@ export class ReportsComponent implements OnInit {
       { header: 'ที่อยู่', field: 'address', colSpan: 30 },
       { header: 'เบอร์ติดต่อ', field: 'phone', colSpan: 10 },
       { header: 'วันที่เป็นสมาชิก', field: 'date', colSpan: 10 },
-    ];
+    ]
     this.headerTablePdf = [
       'ลำดับ',
       'รหัสลูกค้า',
@@ -1101,27 +1070,27 @@ export class ReportsComponent implements OnInit {
       'ที่อยู่',
       'เบอร์ติดต่อ',
       'วันที่เป็นสมาชิก',
-    ];
-    this.rowHeaderPdf = [20,50,100,165,65,70];
+    ]
+    this.rowHeaderPdf = [20, 50, 100, 165, 65, 70]
     this.customerService.customers().subscribe((result) => {
-      this.loading = false;
+      this.loading = false
       if (result.data) {
         const customers = JSON.parse(
-          JSON.stringify(result.data.customers)
+          JSON.stringify(result.data.customers),
         ).sort((a: any, b: any) => {
-          const date1: any = new Date(a.created_at);
-          const date2: any = new Date(b.created_at);
-          const result = date1 - date2;
-          return result;
-        });
-        let customersFilter = [];
+          const date1: any = new Date(a.created_at)
+          const date2: any = new Date(b.created_at)
+          const result = date1 - date2
+          return result
+        })
+        let customersFilter = []
         for (let [index, customer] of customers.entries())
           if (
             new Date(
-              new Date(customer.created_at).setHours(0, 0, 0, 0)
+              new Date(customer.created_at).setHours(0, 0, 0, 0),
             ).getTime() >= new Date(this.dateStart).getTime() &&
             new Date(
-              new Date(customer.created_at).setHours(0, 0, 0, 0)
+              new Date(customer.created_at).setHours(0, 0, 0, 0),
             ).getTime() <= new Date(this.dateEnd).getTime()
           )
             customersFilter.push({
@@ -1131,24 +1100,24 @@ export class ReportsComponent implements OnInit {
               address: `${customer.address} อ.${customer.disTrict} จ.${customer.proVince} ${customer.postalCode}`,
               phone: customer.phoneNumber,
               date: customer.created_at,
-            });
+            })
 
-        this.tableData = customersFilter;
+        this.tableData = customersFilter
         if (this.tableData.length > 0) {
-          this.bodyTablePdf = [];
+          this.bodyTablePdf = []
 
           for (let [index, cs] of this.tableData.entries()) {
-            let data: string[] = [];
-            data.push(`${index + 1}`);
-            data.push(`${cs.key}`);
-            data.push(`${cs.fullName}`);
-            data.push(`${cs.address}`);
-            data.push(`${cs.phone}`);
-            data.push(`${new Date(cs.date).toLocaleDateString('th-TH')}`);
-            this.bodyTablePdf.push(data);
+            let data: string[] = []
+            data.push(`${index + 1}`)
+            data.push(`${cs.key}`)
+            data.push(`${cs.fullName}`)
+            data.push(`${cs.address}`)
+            data.push(`${cs.phone}`)
+            data.push(`${new Date(cs.date).toLocaleDateString('th-TH')}`)
+            this.bodyTablePdf.push(data)
           }
         } else {
-          this.rowHeaderPdf = this.defaultRow;
+          this.rowHeaderPdf = this.defaultRow
           this.bodyTablePdf = [
             'null',
             'null',
@@ -1158,7 +1127,7 @@ export class ReportsComponent implements OnInit {
             'null',
             'null',
             'null',
-          ];
+          ]
         }
       } else {
         Swal.fire({
@@ -1166,22 +1135,22 @@ export class ReportsComponent implements OnInit {
           text: result.errors[0].message,
           icon: 'error',
           confirmButtonText: 'ตกลง',
-        });
+        })
       }
-    });
+    })
   }
 
   employeesTableData(): void {
-    this.tableData = [];
+    this.tableData = []
     this.cols = [
       { header: 'ลำดับ', field: 'num', colSpan: 5 },
       { header: 'รหัสพนักงาน', field: 'key', colSpan: 10 },
       { header: 'ชื่อ - นามสกุล', field: 'fullName', colSpan: 20 },
-      { header: 'ที่อยู่', field: 'address', colSpan: 30 },
+      { header: 'ที่อยู่', field: 'address', colSpan: 25 },
       { header: 'เบอร์ติดต่อ', field: 'phone', colSpan: 10 },
       { header: 'อีเมล์', field: 'email', colSpan: 15 },
-      { header: 'วันที่รับเข้าทำงาน', field: 'date', colSpan: 10 },
-    ];
+      { header: 'วันที่รับเข้าทำงาน', field: 'date', colSpan: 15 },
+    ]
     this.headerTablePdf = [
       'ลำดับ',
       'รหัสพนักงาน',
@@ -1190,27 +1159,27 @@ export class ReportsComponent implements OnInit {
       'เบอร์ติดต่อ',
       'อีเมล์',
       'วันที่รับเข้าทำงาน',
-    ];
-    this.rowHeaderPdf = [20, 45, 80, 130, 50, 75,60 ];
+    ]
+    this.rowHeaderPdf = [20, 45, 80, 130, 50, 75, 60]
     this.employeeService.employees().subscribe((result) => {
-      this.loading = false;
+      this.loading = false
       if (result.data) {
         const employees = JSON.parse(
-          JSON.stringify(result.data.employees)
+          JSON.stringify(result.data.employees),
         ).sort((a: any, b: any) => {
-          const date1: any = new Date(a.created_at);
-          const date2: any = new Date(b.created_at);
-          const result = date1 - date2;
-          return result;
-        });
-        let employeesFilter = [];
+          const date1: any = new Date(a.created_at)
+          const date2: any = new Date(b.created_at)
+          const result = date1 - date2
+          return result
+        })
+        let employeesFilter = []
         for (let [index, employee] of employees.entries())
           if (
             new Date(
-              new Date(employee.created_at).setHours(0, 0, 0, 0)
+              new Date(employee.created_at).setHours(0, 0, 0, 0),
             ).getTime() >= new Date(this.dateStart).getTime() &&
             new Date(
-              new Date(employee.created_at).setHours(0, 0, 0, 0)
+              new Date(employee.created_at).setHours(0, 0, 0, 0),
             ).getTime() <= new Date(this.dateEnd).getTime()
           )
             employeesFilter.push({
@@ -1221,24 +1190,24 @@ export class ReportsComponent implements OnInit {
               phone: employee.phoneNumber,
               email: employee.email,
               date: employee.created_at,
-            });
+            })
 
-        this.tableData = employeesFilter;
+        this.tableData = employeesFilter
         if (this.tableData.length >= 1) {
-          this.bodyTablePdf = [];
+          this.bodyTablePdf = []
           for (let [index, em] of this.tableData.entries()) {
-            let data: string[] = [];
-            data.push(`${index + 1}`);
-            data.push(`${em.key}`);
-            data.push(`${em.fullName}`);
-            data.push(`${em.address}`);
-            data.push(`${em.phone}`);
-            data.push(`${em.email}`);
-            data.push(`${new Date(em.date).toLocaleDateString('th-TH')}`);
-            this.bodyTablePdf.push(data);
+            let data: string[] = []
+            data.push(`${index + 1}`)
+            data.push(`${em.key}`)
+            data.push(`${em.fullName}`)
+            data.push(`${em.address}`)
+            data.push(`${em.phone}`)
+            data.push(`${em.email}`)
+            data.push(`${new Date(em.date).toLocaleDateString('th-TH')}`)
+            this.bodyTablePdf.push(data)
           }
         } else {
-          this.rowHeaderPdf = this.defaultRow;
+          this.rowHeaderPdf = this.defaultRow
           this.bodyTablePdf = [
             'null',
             'null',
@@ -1248,7 +1217,7 @@ export class ReportsComponent implements OnInit {
             'null',
             'null',
             'null',
-          ];
+          ]
         }
       } else {
         Swal.fire({
@@ -1256,8 +1225,8 @@ export class ReportsComponent implements OnInit {
           text: result.errors[0].message,
           icon: 'error',
           confirmButtonText: 'ตกลง',
-        });
+        })
       }
-    });
+    })
   }
 }

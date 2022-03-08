@@ -116,7 +116,7 @@
             </div>
             <div
               *ngIf="col.field == 'date'"
-              class="text-left absolute"
+              class="text-center absolute"
               [style]="{ top: '15px' }"
             >
               {{ rowData[col.field] | thaidate: "shortNoTime" }}
@@ -131,7 +131,7 @@
               [innerHtml]="rowData[col.field]"
             ></div>
             <div
-              class="text-left absolute"
+              class="text-center absolute"
               [style]="{ top: '15px' }"
               *ngIf="
                 col.field !== 'sort' &&

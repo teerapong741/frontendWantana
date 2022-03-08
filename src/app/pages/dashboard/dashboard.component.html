@@ -32,8 +32,8 @@
         <th [style]="{ width: '15%' }">วันที่</th>
         <th [style]="{ width: '20%' }">ลูกค้า</th>
         <th [style]="{ width: '12%' }">สถานะ</th>
-        <th [style]="{ width: '15%' }">จำนวนผ้าที่ยังไม่ได้ส่ง</th>
-        <th [style]="{ width: '15%' }">จำนวนผ้าที่ส่งไปแล้ว</th>
+        <th [style]="{ width: '15%' }">จำนวนผ้าที่ยังไม่ได้ส่ง(ชิ้น)</th>
+        <th [style]="{ width: '15%' }">จำนวนผ้าที่ส่งไปแล้ว(ชิ้น)</th>
       </tr>
     </ng-template>
     <ng-template
@@ -65,11 +65,11 @@
             [rounded]="true"
           ></p-tag>
         </td>
-        <td class="text-right">
+        <td class="text-center">
           <span class="p-column-title">จำนวนผ้าที่ยังไม่ได้ส่ง</span
           >{{ order.numClothe }}
         </td>
-        <td class="text-right">
+        <td class="text-center">
           <span class="p-column-title">จำนวนผ้าที่ส่งไปแล้ว</span
           >{{ order.num }}
         </td>

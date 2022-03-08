@@ -166,8 +166,8 @@
     <label>สรุป</label>
   </div>
   <div class="container__summarize">
-    <p style="color: green">ผ้าทั้งหมด {{ totalCloths }} ชิ้น</p>
-    <br />
+    <h1 style="color: rgb(23, 0, 128)">ผ้าทั้งหมด {{ totalCloths }} ชิ้น</h1>
+    <br/>
     <p
       style="color: rgb(211, 172, 0); margin-top: 2rem"
       *ngIf="thickCloths > 0"
@@ -191,29 +191,31 @@
       เป็นผ้ามีปัญหาจำนวน {{ problemCloths }} ชิ้น
     </p>
     <br />
-    <p style="color: rgb(10, 209, 10); margin-top: 2rem" *ngIf="inProcess > 0">
+    <h2 style="color: rgb(10, 209, 10); margin-top: 2rem" *ngIf="inProcess > 0">
       นำเข้าซัก {{ inProcess }} ชิ้น
-    </p>
-    <p style="color: rgb(180, 43, 8)" *ngIf="outProcess > 0">
+    </h2>
+    <h2 style="color: rgb(180, 8, 8)" *ngIf="outProcess > 0">
       ไม่นำเข้าซัก {{ outProcess }} ชิ้น
-    </p>
+    </h2>
   </div>
-  <div class="grid container__btn-group flex justify-content-between">
+  <div class="grid container__btn-group flex justify-content-center">
     <div class="col-2">
       <button
         pButton
         pRipple
         label="ย้อนกลับ"
         class="p-button-raised p-button-warning p-button-lg container__btn-group--btn"
+        [style]="{ width: '140px', margin: 'auto 1rem' }"
         (click)="onReturn()"
       ></button>
     </div>
-    <div class="col-4 text-right">
+    <div class="col-2 text-right">
       <button
         pButton
         pRipple
         label="สร้างรายการรับผ้า"
         class="p-button-raised p-button-success p-button-lg container__btn-group--btn"
+        [style]="{ width: '140px', margin: 'auto 1rem' }"
         (click)="onSuccess()"
       ></button>
     </div>
