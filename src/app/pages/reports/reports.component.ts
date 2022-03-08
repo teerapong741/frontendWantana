@@ -298,10 +298,7 @@ export class ReportsComponent implements OnInit {
         this.reportTypeSelected.value === 'orders' ||
         this.reportTypeSelected.value === 'clothe_problems'
       ) {
-        if (this.reportTypeSelected === 'orders')
-          this.headerLabel = 'การรับผ้าเข้าร้าน';
-        if (this.reportTypeSelected === 'clothe_problems')
-          this.headerLabel = 'ผ้ามีปัญหา';
+        this.headerLabel = this.reportTypeSelected.name;
         let x = this.dateEnd;
         let firstDate: any = x.setHours(23, 59, 59);
         let lastDate: any = this.dateStart;
@@ -349,13 +346,13 @@ export class ReportsComponent implements OnInit {
       // { header: 'สาเหตุผ้ามีปัญหา', field: 'problems' },
     ];
     this.headerTablePdf = [
-      {text:'ลำดับ', bold: true},
-      {text:'วันที่', bold: true},
-      {text:'รหัสรายการ', bold: true},
-      {text:'ชื่อ - นามสกุล', bold: true},
-      {text:'ชนิดผ้า', bold: true},
-      {text:'ประเภทผ้า', bold: true},
-      {text:'จำนวน(ชิ้น)', bold: true},
+      { text: 'ลำดับ', bold: true },
+      { text: 'วันที่', bold: true },
+      { text: 'รหัสรายการ', bold: true },
+      { text: 'ชื่อ - นามสกุล', bold: true },
+      { text: 'ชนิดผ้า', bold: true },
+      { text: 'ประเภทผ้า', bold: true },
+      { text: 'จำนวน(ชิ้น)', bold: true },
       // 'ผ้าพิเศษ',
     ];
     this.rowHeaderPdf = [25, 45, 45, 115, 90, 90, 50];
@@ -540,10 +537,10 @@ export class ReportsComponent implements OnInit {
               sortFilterPdf =
                 await sortFilterPdf.concat(`<span>${clothe.sortClothe.name}</span><br>
             `);
-              for (let i = 0; i < mostValue - sortLength; i++) {
+              for (let i = 0; i < mostValue - 1 - sortLength; i++) {
                 sortFilter = await sortFilter.concat(`<br>`);
               }
-              for (let i = 0; i < mostValuePdf - sortLengthPdf; i++) {
+              for (let i = 0; i < mostValuePdf - 1 - sortLengthPdf; i++) {
                 sortFilterPdf = await sortFilterPdf.concat(`<br>`);
               }
             } else {
@@ -559,8 +556,8 @@ export class ReportsComponent implements OnInit {
               }</span>${
                 !!clothe.specialClothe
                   ? `<p>${clothe.specialClothe.name}</p>`
-                  : ''
-              }<br>
+                  : '<br>'
+              }
             `);
 
               typeFilterPdf = await typeFilterPdf.concat(`<span>${
@@ -572,7 +569,7 @@ export class ReportsComponent implements OnInit {
               for (let i = 0; i < mostValue - typeLength; i++) {
                 typeFilter = await typeFilter.concat(`<br>`);
               }
-              for (let i = 0; i < typeLengthPdf; i++) {
+              for (let i = 0; i < typeLengthPdf - 1; i++) {
                 typeFilterPdf = await typeFilterPdf.concat(`<br>`);
               }
             } else {
@@ -585,13 +582,13 @@ export class ReportsComponent implements OnInit {
             numberFilter =
               await numberFilter.concat(`<span>${clothe.number}</span><br>
             `);
-            for (let i = 0; i < mostValue - sortLength; i++) {
+            for (let i = 0; i < mostValue - 1 - sortLength; i++) {
               numberFilter = await numberFilter.concat(`<br>`);
             }
             numberFilterPdf =
               await numberFilterPdf.concat(`<span>${clothe.number}</span><br>
             `);
-            for (let i = 0; i < mostValuePdf - sortLengthPdf; i++) {
+            for (let i = 0; i < mostValuePdf - 1 - sortLengthPdf; i++) {
               numberFilterPdf = await numberFilterPdf.concat(`<br>`);
             }
 
@@ -704,14 +701,14 @@ export class ReportsComponent implements OnInit {
       { header: 'หมายเหตุ', field: 'problems', colSpan: 15 },
     ];
     this.headerTablePdf = [
-      {text: 'ลำดับ', bold: true},
-      {text: 'วันที่', bold: true},
-      {text: 'รหัสรายการ', bold: true},
-      {text: 'ชื่อ - นามสกุล', bold: true},
-      {text: 'ชนิดผ้า', bold: true},
-      {text: 'ประเภทผ้า', bold: true},
-      {text: 'จำนวน(ชิ้น)', bold: true},
-      {text: 'หมายเหตุ', bold: true},
+      { text: 'ลำดับ', bold: true },
+      { text: 'วันที่', bold: true },
+      { text: 'รหัสรายการ', bold: true },
+      { text: 'ชื่อ - นามสกุล', bold: true },
+      { text: 'ชนิดผ้า', bold: true },
+      { text: 'ประเภทผ้า', bold: true },
+      { text: 'จำนวน(ชิ้น)', bold: true },
+      { text: 'หมายเหตุ', bold: true },
     ];
     this.rowHeaderPdf = [20, 50, 50, 100, 60, 60, 40, 65];
     this.orderService.filterOrder(filterInput).subscribe(async (result) => {
@@ -876,7 +873,7 @@ export class ReportsComponent implements OnInit {
                 sortFilter =
                   await sortFilter.concat(`<span>${clothe.sortClothe.name}</span><br>
             `);
-                for (let i = 0; i < mostValue - sortLength; i++) {
+                for (let i = 0; i < mostValue - 1 - sortLength; i++) {
                   sortFilter = await sortFilter.concat(`<br>`);
                 }
               } else
@@ -889,10 +886,10 @@ export class ReportsComponent implements OnInit {
                 }</span>${
                   !!clothe.specialClothe
                     ? `<p>${clothe.specialClothe.name}</p>`
-                    : ''
-                }<br>
+                    : '<br>'
+                }
             `);
-                for (let i = 0; i < mostValue - typeLength; i++) {
+                for (let i = 0; i < mostValue - 1 - typeLength; i++) {
                   typeFilter = await typeFilter.concat(`<br>`);
                 }
               } else
@@ -902,7 +899,7 @@ export class ReportsComponent implements OnInit {
               numberFilter =
                 await numberFilter.concat(`<span>${clothe.number}</span><br>
             `);
-              for (let i = 0; i < mostValue - sortLength; i++) {
+              for (let i = 0; i < mostValue - 1 - sortLength; i++) {
                 numberFilter = await numberFilter.concat(`<br>`);
               }
 
@@ -915,7 +912,7 @@ export class ReportsComponent implements OnInit {
                     `<span>${problem.problemClothe.name} </span><br>`
                   );
                 }
-                for (let i = 0; i < mostValue - problemLength; i++) {
+                for (let i = 0; i < mostValue - 1 - problemLength; i++) {
                   problemsFilter = await problemsFilter.concat(`<br>`);
                 }
               } else
@@ -1087,11 +1084,11 @@ export class ReportsComponent implements OnInit {
     ];
     this.headerTablePdf = [
       { text: 'ลำดับ', bold: true },
-      {text:'รหัสลูกค้า', bold: true},
-      {text:'ชื่อ - นามสกุล', bold: true},
-      {text:'ที่อยู่', bold: true},
-      {text:'เบอร์ติดต่อ', bold: true},
-      {text:'วันที่เป็นสมาชิก', bold: true},
+      { text: 'รหัสลูกค้า', bold: true },
+      { text: 'ชื่อ - นามสกุล', bold: true },
+      { text: 'ที่อยู่', bold: true },
+      { text: 'เบอร์ติดต่อ', bold: true },
+      { text: 'วันที่เป็นสมาชิก', bold: true },
     ];
     this.rowHeaderPdf = [20, 50, 100, 165, 65, 70];
     this.customerService.customers().subscribe((result) => {
@@ -1177,13 +1174,13 @@ export class ReportsComponent implements OnInit {
       { header: 'วันที่รับเข้าทำงาน', field: 'date', colSpan: 15 },
     ];
     this.headerTablePdf = [
-      {text: 'ลำดับ', bold: true},
-      {text: 'รหัสพนักงาน', bold: true},
-      {text: 'ชื่อ - นามสกุล', bold: true},
-      {text: 'ที่อยู่', bold: true},
-      {text: 'เบอร์ติดต่อ', bold: true},
-      {text: 'อีเมล์', bold: true},
-      {text: 'วันที่รับเข้าทำงาน', bold: true},
+      { text: 'ลำดับ', bold: true },
+      { text: 'รหัสพนักงาน', bold: true },
+      { text: 'ชื่อ - นามสกุล', bold: true },
+      { text: 'ที่อยู่', bold: true },
+      { text: 'เบอร์ติดต่อ', bold: true },
+      { text: 'อีเมล์', bold: true },
+      { text: 'วันที่รับเข้าทำงาน', bold: true },
     ];
     this.rowHeaderPdf = [20, 45, 80, 130, 50, 75, 60];
     this.employeeService.employees().subscribe((result) => {
