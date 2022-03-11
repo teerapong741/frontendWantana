@@ -216,7 +216,7 @@
   header="เพิ่มข้อมูลพนักงาน"
   [(visible)]="newEmployeeVisible"
   (onHide)="onResetValue()"
-  [style]="{width: '50vw'}"
+  [style]="{ width: '50vw' }"
 >
   <div
     class="container-add-texture"
@@ -226,13 +226,19 @@
       <label for="idCard" class="block">
         รหัสบัตรประชาชน
       </label>
-      <input
+      <p-inputMask
+        mask="9-9999-99999-99-9"
+        [(ngModel)]="idCard"
+        [size]="80"
+        placeholder="x-xxxx-xxxxx-xx-x"
+      ></p-inputMask>
+      <!-- <input
         id="idCard"
         type="text"
         pInputText
         [(ngModel)]="idCard"
         placeholder="โปรดระบุรหัสบัตรประชาชน"
-      />
+      /> -->
     </div>
     <div class="field inline-block mx-1" style="width: 50%;">
       <label for="fname" class="block">
@@ -262,13 +268,19 @@
       <label for="phone" class="block">
         เบอร์มือถือ
       </label>
-      <input
+      <p-inputMask
+        mask="999-999-9999"
+        [(ngModel)]="phone"
+        [size]="80"
+        placeholder="999-999-9999"
+      ></p-inputMask>
+      <!-- <input
         id="phone"
         type="text"
         pInputText
         [(ngModel)]="phone"
         placeholder="โปรดระบุเบอร์มือถือ"
-      />
+      /> -->
     </div>
     <div class="field inline-block my-1 mx-1" style="width: 50%;">
       <label for="address" class="block">
@@ -282,7 +294,7 @@
         placeholder="โปรดระบุที่อยู่"
       />
     </div>
-    <div class="field inline-block my-1 " style="width: 175%;">
+    <div class="field inline-block my-1" style="width: 175%;">
       <label class="block">แขวง/ตำบล</label>
       <p-dropdown
         [style]="{ width: '100%' }"
@@ -310,7 +322,6 @@
         </ng-template>
       </p-dropdown>
     </div>
-    
 
     <div class="field inline-block my-1 mx-1" style="width: 175%;">
       <label class="block">
@@ -435,8 +446,7 @@
   header="แก้ไขข้อมูลพนักงาน"
   [(visible)]="editEmployeeVisible"
   (onHide)="onResetValue()"
-  [style]="{width: '50vw'}"
-
+  [style]="{ width: '50vw' }"
 >
   <div
     class="container-add-texture"
@@ -446,14 +456,12 @@
       <label for="idCard" class="block">
         รหัสบัตรประชาชน
       </label>
-      <input
-        id="idCard"
-        type="text"
-        pInputText
+      <p-inputMask
+        mask="9-9999-99999-99-9"
         [(ngModel)]="idCard"
-        placeholder="โปรดระบุรหัสบัตรประชาชน"
-        [disabled]="idEmployee !== employeeLogin.id"
-      />
+        [size]="80"
+        placeholder="x-xxxx-xxxxx-xx-x"
+      ></p-inputMask>
     </div>
     <div class="field inline-block mx-1" style="width: 50%;">
       <label for="fname" class="block">
@@ -483,140 +491,139 @@
       <label for="phone" class="block">
         เบอร์มือถือ
       </label>
+      <p-inputMask
+        mask="999-999-9999"
+        [(ngModel)]="phone"
+        [size]="80"
+        placeholder="999-999-9999"
+      ></p-inputMask>
+    </div>
+
+    <div class="field inline-block my-1 mx-1" style="width: 50%;">
+      <label for="address" class="block">
+        ที่อยู่
+      </label>
       <input
-        id="phone"
+        id="address"
         type="text"
         pInputText
-        [(ngModel)]="phone"
-        placeholder="โปรดระบุเบอร์มือถือ"
+        [(ngModel)]="address"
+        placeholder="โปรดระบุที่อยู่"
       />
     </div>
-    
-      <div class="field inline-block my-1 mx-1" style="width: 50%;">
-        <label for="address" class="block">
-          ที่อยู่
-        </label>
-        <input
-          id="address"
-          type="text"
-          pInputText
-          [(ngModel)]="address"
-          placeholder="โปรดระบุที่อยู่"
-        />
-      </div>
-      <div class="field inline-block my-1 " style="width: 175%;">
-        <label class="block">แขวง/ตำบล</label>
-        <p-dropdown
-          [style]="{ width: '100%' }"
-          [disabled]="!districtSelected"
-          [options]="subDistricts"
-          [(ngModel)]="subDistrictSelected"
-          optionLabel="name"
-          [filter]="true"
-          filterBy="name"
-          [showClear]="false"
-          placeholder="โปรดเลือก"
-        >
-          <ng-template pTemplate="selectedItem">
-            <div
-              class="country-item country-item-value"
-              *ngIf="subDistrictSelected"
-            >
-              <div>{{ subDistrictSelected.name }}</div>
-            </div>
-          </ng-template>
-          <ng-template let-country pTemplate="item">
-            <div class="country-item">
-              <div>{{ country.name }}</div>
-            </div>
-          </ng-template>
-        </p-dropdown>
-      </div>
-      
-  
-      <div class="field inline-block my-1 mx-1" style="width: 175%;">
-        <label class="block">
-          เขต/อำเภอ
-        </label>
-        <p-dropdown
-          [style]="{ width: '100%' }"
-          [disabled]="!provinceSelected"
-          [options]="districts"
-          [(ngModel)]="districtSelected"
-          optionLabel="name"
-          [filter]="true"
-          filterBy="name"
-          [showClear]="false"
-          (onChange)="onSelectedDistrict()"
-          placeholder="โปรดเลือก"
-        >
-          <ng-template pTemplate="selectedItem">
-            <div class="country-item country-item-value" *ngIf="districtSelected">
-              <div>{{ districtSelected.name }}</div>
-            </div>
-          </ng-template>
-          <ng-template let-country pTemplate="item">
-            <div class="country-item">
-              <div>{{ country.name }}</div>
-            </div>
-          </ng-template>
-        </p-dropdown>
-      </div>
-  
-      <div class="field inline-block my-1 mx-1" style="width: 175%;">
-        <label class="block">
-          จังหวัด
-        </label>
-        <p-dropdown
-          [style]="{ width: '100%' }"
-          [options]="provinces"
-          [(ngModel)]="provinceSelected"
-          optionLabel="name"
-          [filter]="true"
-          filterBy="name"
-          [showClear]="false"
-          placeholder="โปรดเลือก"
-          (onChange)="onSelectedProvince()"
-        >
-          <ng-template pTemplate="selectedItem">
-            <div class="country-item country-item-value" *ngIf="provinceSelected">
-              <div>{{ provinceSelected.name }}</div>
-            </div>
-          </ng-template>
-          <ng-template let-country pTemplate="item">
-            <div class="country-item">
-              <div>{{ country.name }}</div>
-            </div>
-          </ng-template>
-        </p-dropdown>
-      </div>
-  
-      <div class="field inline-block mt-3" style="width: 50%;">
-        <label for="postAddress" class="block">
-          รหัสไปรษณีย์
-        </label>
-        <input
-          id="postAddress"
-          type="postAddress"
-          pInputText
-          [(ngModel)]="postAddress"
-          placeholder="โปรดระบุเลขไปรษณีย์"
-        />
-      </div>
-  
-      <div class="field" style="width: 50%;">
-        <label for="email" class="block">
-          อีเมล์
-        </label>
-        <input
-          id="email"
-          type="text"
-          pInputText
-          [(ngModel)]="email"
-          placeholder="โปรดระบุอีเมล์"
-        />
-      </div>
-    <div class="field">
+    <div class="field inline-block my-1" style="width: 175%;">
+      <label class="block">แขวง/ตำบล</label>
+      <p-dropdown
+        [style]="{ width: '100%' }"
+        [disabled]="!districtSelected"
+        [options]="subDistricts"
+        [(ngModel)]="subDistrictSelected"
+        optionLabel="name"
+        [filter]="true"
+        filterBy="name"
+        [showClear]="false"
+        placeholder="โปรดเลือก"
+      >
+        <ng-template pTemplate="selectedItem">
+          <div
+            class="country-item country-item-value"
+            *ngIf="subDistrictSelected"
+          >
+            <div>{{ subDistrictSelected.name }}</div>
+          </div>
+        </ng-template>
+        <ng-template let-country pTemplate="item">
+          <div class="country-item">
+            <div>{{ country.name }}</div>
+          </div>
+        </ng-template>
+      </p-dropdown>
+    </div>
+
+    <div class="field inline-block my-1 mx-1" style="width: 175%;">
+      <label class="block">
+        เขต/อำเภอ
+      </label>
+      <p-dropdown
+        [style]="{ width: '100%' }"
+        [disabled]="!provinceSelected"
+        [options]="districts"
+        [(ngModel)]="districtSelected"
+        optionLabel="name"
+        [filter]="true"
+        filterBy="name"
+        [showClear]="false"
+        (onChange)="onSelectedDistrict()"
+        placeholder="โปรดเลือก"
+      >
+        <ng-template pTemplate="selectedItem">
+          <div class="country-item country-item-value" *ngIf="districtSelected">
+            <div>{{ districtSelected.name }}</div>
+          </div>
+        </ng-template>
+        <ng-template let-country pTemplate="item">
+          <div class="country-item">
+            <div>{{ country.name }}</div>
+          </div>
+        </ng-template>
+      </p-dropdown>
+    </div>
+
+    <div class="field inline-block my-1 mx-1" style="width: 175%;">
+      <label class="block">
+        จังหวัด
+      </label>
+      <p-dropdown
+        [style]="{ width: '100%' }"
+        [options]="provinces"
+        [(ngModel)]="provinceSelected"
+        optionLabel="name"
+        [filter]="true"
+        filterBy="name"
+        [showClear]="false"
+        placeholder="โปรดเลือก"
+        (onChange)="onSelectedProvince()"
+      >
+        <ng-template pTemplate="selectedItem">
+          <div class="country-item country-item-value" *ngIf="provinceSelected">
+            <div>{{ provinceSelected.name }}</div>
+          </div>
+        </ng-template>
+        <ng-template let-country pTemplate="item">
+          <div class="country-item">
+            <div>{{ country.name }}</div>
+          </div>
+        </ng-template>
+      </p-dropdown>
+    </div>
+
+    <div class="field inline-block mt-3" style="width: 50%;">
+      <label for="postAddress" class="block">
+        รหัสไปรษณีย์
+      </label>
+
+      <input
+        id="postAddress"
+        type="postAddress"
+        pInputText
+        [(ngModel)]="postAddress"
+        placeholder="โปรดระบุเลขไปรษณีย์"
+      />
+    </div>
+
+    <div class="field" style="width: 50%;">
+      <label for="email" class="block">
+        อีเมล์
+      </label>
+      <input
+        id="email"
+        type="text"
+        pInputText
+        [(ngModel)]="email"
+        placeholder="โปรดระบุอีเมล์"
+      />
+    </div>
+    <!-- <div class="field">
       <label for="role" class="block">
         สิทธิ์ผู้ใช้
       </label>
@@ -627,9 +634,10 @@
         optionLabel="name"
         optionValue="value"
         [showClear]="false"
+        [disabled]="disabled"
         [style]="{ width: '30rem' }"
       ></p-dropdown>
-    </div>
+    </div> -->
     <div class="field">
       <span style="color: red;">*</span>
       <label for="fullfill" class="label danger" style="color: red;">

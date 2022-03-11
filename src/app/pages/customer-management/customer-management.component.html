@@ -97,13 +97,19 @@
     <label for="idCard" class="block"
       >เลขบัตรประชาชน <span style="color: red">*</span></label
     >
-    <input
+    <p-inputMask
+        mask="9-9999-99999-99-9"
+        [(ngModel)]="idCard"
+        [size]="80"
+        placeholder="x-xxxx-xxxxx-xx-x"
+      ></p-inputMask>
+    <!-- <input
       id="idCard"
       type="text"
       pInputText
       [(ngModel)]="idCard"
       placeholder="โปรดระบุเลขบัตรประชาชน"
-    />
+    /> -->
   </div>
     <div class="field inline-block mx-1" style="width: 50%">
       <label for="fname" class="block"
@@ -133,13 +139,12 @@
       <label for="phone" class="block">
         เบอร์มือถือ
       </label>
-      <input
-        id="phone"
-        type="text"
-        pInputText
+      <p-inputMask
+        mask="999-999-9999"
         [(ngModel)]="phone"
-        placeholder="โปรดระบุเบอร์มือถือ"
-      />
+        [size]="80"
+        placeholder="999-999-9999"
+      ></p-inputMask>
     </div>
     <div class="field inline-block my-1 mx-1" style="width: 50%;">
       <label for="address" class="block">
@@ -297,13 +302,12 @@
     <label for="idCard" class="block"
       >เลขบัตรประชาชน <span style="color: red">*</span></label
     >
-    <input
-      id="idCard"
-      type="text"
-      pInputText
-      [(ngModel)]="idCard"
-      placeholder="โปรดระบุเลขบัตรประชาชน"
-    />
+    <p-inputMask
+        mask="9-9999-99999-99-9"
+        [(ngModel)]="idCard"
+        [size]="80"
+        placeholder="x-xxxx-xxxxx-xx-x"
+      ></p-inputMask>
   </div>
     <div class="field inline-block mx-1" style="width: 50%">
       <label for="fname" class="block"
@@ -333,13 +337,12 @@
       <label for="phone" class="block">
         เบอร์มือถือ
       </label>
-      <input
-        id="phone"
-        type="text"
-        pInputText
+      <p-inputMask
+        mask="999-999-9999"
         [(ngModel)]="phone"
-        placeholder="โปรดระบุเบอร์มือถือ"
-      />
+        [size]="80"
+        placeholder="999-999-9999"
+      ></p-inputMask>
     </div>
     <div class="field inline-block my-1 mx-1" style="width: 50%;">
       <label for="address" class="block">
@@ -474,7 +477,7 @@
         icon="fas fa-plus"
         style="margin-top: 1rem"
         [style]="{ width: '100px','float':'right' }"
-        (click)="onNewCustomer()"
+        (click)="onEditCustomer()"
       ></button>
     </div>
     <!-- <div class="field">
