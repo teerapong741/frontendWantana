@@ -166,6 +166,26 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy {
       });
   }
 
+  validNationalID( valueId:String) {
+    valueId = valueId.replace(/-/g, "");
+    if (valueId.length != 13) return false;
+    // STEP 1 - get only first 12 digits
+    for (var i = 0, sum = 0; i < 12; i++) {
+      // STEP 2 - multiply each digit with each index (reverse)
+      // STEP 3 - sum multiply value together
+      sum += parseInt(valueId.charAt(i)) * (13 - i);
+    }
+    // STEP 4 - mod sum with 11
+    let mod = sum % 11;
+    // STEP 5 - subtract 11 with mod, then mod 10 to get unit
+    let check = (11 - mod) % 10;
+    // STEP 6 - if check is match the digit 13th is correct
+    if (check == parseInt(valueId.charAt(12))) {
+      return true;
+    }
+    return false;
+  }
+
   onNewEmployee(): void {
     const names: string[] = this.employeeList.map(
       ({ fname, lname }: any) => `${fname} ${lname}`
@@ -177,9 +197,9 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy {
     const phones: string[] = this.employeeList.map(
       ({ phoneNumber }) => phoneNumber
     );
-    if (!this.idCard) {
+    if (this.validNationalID(this.idCard) == false) {
       this.confirmationService.confirm({
-        message: 'โปรดกรอกข้อมูลเลขบัตรประชาชน',
+        message: 'โปรดใส่ข้อมูลเลขบัตรประชาชนให้ถูกต้อง',
         acceptVisible: true,
         acceptLabel: 'ตกลง',
         rejectVisible: false,
@@ -511,9 +531,9 @@ export class EmployeeManagementComponent implements OnInit, OnDestroy {
     const phones: any[] = this.employeeList.map(({ id, phoneNumber }) => {
       if (id !== this.idEmployee) return phoneNumber;
     });
-    if (!this.idCard) {
+    if (this.validNationalID(this.idCard) == false) {
       this.confirmationService.confirm({
-        message: 'โปรดกรอกข้อมูลเลขบัตรประชาชน',
+        message: 'โปรดตรวจสอบข้อมูลเลขบัตรประชาชน',
         acceptVisible: true,
         acceptLabel: 'ตกลง',
         rejectVisible: false,
