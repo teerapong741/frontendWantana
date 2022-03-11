@@ -20,6 +20,7 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DialogModule } from 'primeng/dialog';
 import { TagModule } from 'primeng/tag';
 import { PasswordModule } from 'primeng/password';
+import {InputMaskModule} from 'primeng/inputmask';
 
 @NgModule({
   imports: [
@@ -39,6 +40,7 @@ import { PasswordModule } from 'primeng/password';
     LoadingModule,
     PasswordModule,
     TagModule,
+    InputMaskModule
   ],
   declarations: [EmployeeManagementComponent],
   exports: [EmployeeManagementComponent],

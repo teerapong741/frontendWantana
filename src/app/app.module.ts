@@ -13,6 +13,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
+import {InputMaskModule} from 'primeng/inputmask';
 
 // Component
 import { AppComponent } from './app.component';
@@ -42,6 +43,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     NavbarModule,
     TableModule,
     HttpClientModule,
+    InputMaskModule,
     PagesModule,
     TranslateModule.forRoot({
       loader: {

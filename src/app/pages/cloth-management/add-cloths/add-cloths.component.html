@@ -102,6 +102,7 @@
     style="font-size: larger"
     class="p-button-raised p-button-success p-button-sm container__btn-add"
     (click)="newClothList()"
+    [style]="{ width: '120px', margin: 'auto 13rem' }"
     [disabled]="isDisable"
   ></button>
   <div class="container__tab-btn">
@@ -201,8 +202,9 @@
       pButton
       pRipple
       label="ถัดไป"
-      class="p-button-raised p-button-success p-button-lg container__btn-success text-right w-1"
+      class="p-button-raised p-button-success p-button-lg container__btn-success text-center w-1"
       [disabled]="isDisable"
+      [style]="{ width: '100px', margin: 'auto 13rem' }"
       (click)="onNext()"
     ></button>
   </div>

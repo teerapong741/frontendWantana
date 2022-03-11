@@ -20,6 +20,7 @@ import { ChipModule } from 'primeng/chip';
 import { ConfirmationService } from 'primeng/api';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DialogModule } from 'primeng/dialog';
+import {InputMaskModule} from 'primeng/inputmask';
 
 @NgModule({
   imports: [
@@ -35,6 +36,7 @@ import { DialogModule } from 'primeng/dialog';
     ChipModule,
     TranslateModule,
     ConfirmDialogModule,
+    InputMaskModule,
     DialogModule,LoadingModule
   ],
   declarations: [CustomerManagementComponent],

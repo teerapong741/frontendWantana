@@ -239,14 +239,14 @@ export class CustomerManagementComponent implements OnInit, OnDestroy {
         acceptLabel: 'ตกลง',
         rejectVisible: false,
       });
-    } else if (this.idCard.length !== 13) {
+    } else if (this.idCard.length !== 17) {
       Swal.fire({
         title: 'คำเตือน',
         text: 'รูปแบบรหัสบัตรประชาชนไม่ถูกต้อง',
         icon: 'warning',
         confirmButtonText: 'ตกลง',
       });
-    } else if (this.phone.length !== 10) {
+    } else if (this.phone.length !== 12) {
       Swal.fire({
         title: 'คำเตือน',
         text: 'รูปแบบเบอร์มือถือไม่ถูกต้อง',
@@ -257,7 +257,7 @@ export class CustomerManagementComponent implements OnInit, OnDestroy {
       !String(this.email)
         .toLowerCase()
         .match(
-          /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+          /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})|(([a-zA-Z\-0-9]+\.)+[com]{2,}))$/
         )
     ) {
       Swal.fire({
@@ -381,6 +381,18 @@ export class CustomerManagementComponent implements OnInit, OnDestroy {
     this.address = customer.address;
     this.email = customer.email;
     this.lineId = customer.lineUserId;
+    this.provinceSelected = {
+      name: customer.proVince,
+      label: customer.proVince,
+    };
+    this.districtSelected = {
+      name: customer.disTrict,
+      label: customer.disTrict,
+    };
+    this.subDistrictSelected = {
+      name: customer.subDistrict,
+      label: customer.subDistrict,
+    };
     this.postAddress = customer.postalCode;
   }
 
@@ -476,14 +488,14 @@ export class CustomerManagementComponent implements OnInit, OnDestroy {
         acceptLabel: 'ตกลง',
         rejectVisible: false,
       });
-    } else if (this.idCard.length !== 13) {
+    } else if (this.idCard.length !== 17) {
       Swal.fire({
         title: 'คำเตือน',
         text: 'รูปแบบรหัสบัตรประชาชนไม่ถูกต้อง',
         icon: 'warning',
         confirmButtonText: 'ตกลง',
       });
-    } else if (this.phone.length !== 10) {
+    } else if (this.phone.length !== 12) {
       Swal.fire({
         title: 'คำเตือน',
         text: 'รูปแบบเบอร์มือถือไม่ถูกต้อง',
@@ -494,7 +506,7 @@ export class CustomerManagementComponent implements OnInit, OnDestroy {
       !String(this.email)
         .toLowerCase()
         .match(
-          /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+          /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})|(([a-zA-Z\-0-9]+\.)+[com]{2,}))$/
         )
     ) {
       Swal.fire({
