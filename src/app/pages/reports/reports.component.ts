@@ -48,8 +48,8 @@ export class ReportsComponent implements OnInit {
   clotheStatusSelected: any = null;
 
   dateRange: any[] = [new Date(), new Date()];
-  dateStart: Date = new Date();
-  dateEnd: Date = new Date();
+  dateStart: any = new Date();
+  dateEnd: any = new Date();
 
   tableData: any[] = [];
   cols: any[] = [];
@@ -83,6 +83,8 @@ export class ReportsComponent implements OnInit {
         new Date().getDate()
       )
     );
+    this.dateRange[0] = this.dateStart;
+    this.dateRange[1] = this.dateEnd;
 
     this.headerTablePdf = [
       'Date',
@@ -197,7 +199,7 @@ export class ReportsComponent implements OnInit {
         },
       ],
       defaultStyle: {
-        font: 'THSarabunNew',
+        // font: 'THSarabunNew',
         alignment: 'center',
       },
 
@@ -634,13 +636,17 @@ export class ReportsComponent implements OnInit {
             data.push(`${new Date(cs.date).toLocaleDateString('th-TH')}`);
             data.push(`${cs.key}`);
             data.push({ text: `${cs.fullName}`, alignment: 'left' });
-            data.push(
-              `${htmlToText
+            data.push({
+              text: `${htmlToText
                 .fromString(cs.sort, { wordwrap: 7 })
                 .split('--')
-                .join('\n')}`
-            );
-            data.push(`${htmlToText.fromString(cs.type, { wordwrap: 7 })}`);
+                .join('\n')}`,
+              alignment: 'left',
+            });
+            data.push({
+              text: `${htmlToText.fromString(cs.type, { wordwrap: 7 })}`,
+              alignment: 'left',
+            });
             data.push(`${htmlToText.fromString(cs.number, { wordwrap: 7 })}`);
 
             this.bodyTablePdf.push(data);
@@ -908,9 +914,15 @@ export class ReportsComponent implements OnInit {
                   index,
                   problem,
                 ] of clothe.clotheHasProblems.entries()) {
-                  problemsFilter = await problemsFilter.concat(
-                    `<span>${problem.problemClothe.name} </span><br>`
-                  );
+                  if (problem.status === 'IN') {
+                    problemsFilter = await problemsFilter.concat(
+                      `<span>${problem.problemClothe.name} (ก่อน) </span><br>`
+                    );
+                  } else {
+                    problemsFilter = await problemsFilter.concat(
+                      `<span>${problem.problemClothe.name} (หลัง) </span><br>`
+                    );
+                  }
                 }
                 for (let i = 0; i < mostValue - 1 - problemLength; i++) {
                   problemsFilter = await problemsFilter.concat(`<br>`);
@@ -992,9 +1004,15 @@ export class ReportsComponent implements OnInit {
                   index,
                   problem,
                 ] of clothe.clotheHasProblems.entries()) {
-                  problemsFilterPdf = await problemsFilterPdf.concat(
-                    `<span>${problem.problemClothe.name} </span><br>`
-                  );
+                  if (problem.status === 'IN') {
+                    problemsFilterPdf = await problemsFilterPdf.concat(
+                      `<span>${problem.problemClothe.name} (ก่อน) </span><br>`
+                    );
+                  } else {
+                    problemsFilterPdf = await problemsFilterPdf.concat(
+                      `<span>${problem.problemClothe.name} (หลัง) </span><br>`
+                    );
+                  }
                 }
                 for (let i = 0; i < mostValuePdf - problemLengthPdf; i++) {
                   problemsFilterPdf = await problemsFilterPdf.concat(`<br>`);
@@ -1041,10 +1059,19 @@ export class ReportsComponent implements OnInit {
             data.push(`${new Date(cs.date).toLocaleDateString('th-TH')}`);
             data.push(`${cs.key}`);
             data.push({ text: `${cs.fullName}`, alignment: 'left' });
-            data.push(`${htmlToText.fromString(cs.sort, { wordwrap: 7 })}`);
-            data.push(`${htmlToText.fromString(cs.type, { wordwrap: 7 })}`);
+            data.push({
+              text: `${htmlToText.fromString(cs.sort, { wordwrap: 7 })}`,
+              alignment: 'left',
+            });
+            data.push({
+              text: `${htmlToText.fromString(cs.type, { wordwrap: 7 })}`,
+              alignment: 'left',
+            });
             data.push(`${htmlToText.fromString(cs.number, { wordwrap: 7 })}`);
-            data.push(`${htmlToText.fromString(cs.problems, { wordwrap: 7 })}`);
+            data.push({
+              text: `${htmlToText.fromString(cs.problems, { wordwrap: 7 })}`,
+              alignment: 'left',
+            });
 
             this.bodyTablePdf.push(data);
           }
