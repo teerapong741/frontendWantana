@@ -165,22 +165,25 @@ export class ReportsComponent implements OnInit {
     this.dateEndReport = `${new Date(this.dateEnd).toLocaleDateString(
       'th-TH'
     )}`;
-    const documentDefinition: any = {
-      pageOrientation: 'portrait',
-      pageSize: 'A4',
-      content: [
-        {
-          image: ImageIconStore,
-          width: 200,
-          height: 100,
-          alignment: 'center',
-        },
-        {
-          text: `รายงาน${this.reportTypeSelected.name}`,
-          bold: true,
-          fontSize: 18,
-          alignment: 'center',
-        },
+    const content: any = [
+      {
+        image: ImageIconStore,
+        width: 200,
+        height: 100,
+        alignment: 'center',
+      },
+      {
+        text: `รายงาน${this.reportTypeSelected.name}`,
+        bold: true,
+        fontSize: 18,
+        alignment: 'center',
+      },
+    ];
+    if (
+      this.reportTypeSelected.value !== 'customers' &&
+      this.reportTypeSelected.value !== 'employees'
+    ) {
+      content.push(
         {
           text: `สําหรับรอบระยะเวลาตั้งแต่วันที่ ${this.dateStartReport} - ${this.dateEndReport}`,
           bold: true,
@@ -196,8 +199,22 @@ export class ReportsComponent implements OnInit {
             body: [this.headerTablePdf, ...this.bodyTablePdf],
             alignment: 'center',
           },
+        }
+      );
+    } else {
+      content.push('\n', {
+        table: {
+          headerRows: 1,
+          widths: this.rowHeaderPdf,
+          body: [this.headerTablePdf, ...this.bodyTablePdf],
+          alignment: 'center',
         },
-      ],
+      });
+    }
+    const documentDefinition: any = {
+      pageOrientation: 'portrait',
+      pageSize: 'A4',
+      content: content,
       defaultStyle: {
         // font: 'THSarabunNew',
         alignment: 'center',
@@ -273,6 +290,7 @@ export class ReportsComponent implements OnInit {
   onChangeFilter(): void {
     this.dateEnd = this.dateRange[1];
     this.dateStart = this.dateRange[0];
+
     if (
       this.dateEnd.getTime() >
         new Date(new Date().setHours(23, 59, 59, 59)).getTime() ||
@@ -296,6 +314,13 @@ export class ReportsComponent implements OnInit {
       this.dateRange[1] = this.dateEnd;
     } else if (!!this.dateRange[1] && !!this.dateRange[0]) {
       this.loading = true;
+      if (
+        this.reportTypeSelected.value === 'customers' ||
+        this.reportTypeSelected.value === 'employees'
+      ) {
+        this.dateStart = new Date(1999, 4, 18, 0, 0, 0);
+        this.dateEnd = new Date(new Date().setHours(23, 59, 59, 59));
+      }
       if (
         this.reportTypeSelected.value === 'orders' ||
         this.reportTypeSelected.value === 'clothe_problems'
