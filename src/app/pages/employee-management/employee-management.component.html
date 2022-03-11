@@ -143,6 +143,7 @@
             icon="fas fa-edit"
             class="p-button-rounded p-button-raised p-button-warning mx-3"
             (click)="onVisibleEditEmployee(employee)"
+            title="แก้ไขข้อมูลพนักงาน"
           ></button>
           <button
             *ngIf="
@@ -171,6 +172,7 @@
             icon="fas fa-sync"
             class="p-button-rounded p-button-raised p-button-info mx-3"
             (click)="onResetPassword(employee.id, employee.phone)"
+            title="รีเซ็ตรหัสผ่าน"
           ></button>
           <button
             *ngIf="
@@ -187,6 +189,7 @@
             icon="fas fa-trash"
             class="p-button-rounded p-button-raised p-button-danger mx-3"
             (click)="onDelete(employee.id)"
+            title="ระงับสิทธิ์การใช้งานพนักงาน"
           ></button>
           <button
             *ngIf="
@@ -203,6 +206,7 @@
             icon="fas fa-undo"
             class="p-button-rounded p-button-raised p-button-danger mx-1"
             (click)="onRestoreEmployee(employee.id)"
+            title="คืนสิทธิ์การใช้งานพนักงาน"
           ></button>
         </td>
       </tr>

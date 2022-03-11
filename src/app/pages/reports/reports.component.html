@@ -80,8 +80,25 @@
         selectionMode="range"
       ></p-calendar>
     </div>
+    
+  </div>
+  <div
+    class="block"
+    *ngIf="
+      reportTypeSelected.value !== 'customers' &&
+      reportTypeSelected.value !== 'employees' &&
+      reportTypeSelected.value !== 'orders'
+    "
+  >
+    <div>
+      <h2 style="margin-top: 20px;">* : ผ้ามีปัญหาหลังซัก</h2>
+    </div>
   </div>
   <div class="flex justify-content-end w-full">
+    <!-- <div>
+      <h2 style="margin-top: 20px;">* : ผ้ามีปัญหาหลังซัก</h2>
+    </div> -->
+    
     <button
       pButton
       class="p-button p-button-raised p-button-secondary"
@@ -90,6 +107,7 @@
       (click)="generatePdf()"
     ></button>
   </div>
+
   <div class="mt-4">
     <p-table
       [columns]="cols"
@@ -130,7 +148,7 @@
             <div
               *ngIf="col.field == 'date'"
               class="text-center absolute"
-              [style]="{ top: '15px', left: '20%' }"
+              [style]="{ top: '15px', left: '15%' }"
             >
               {{ rowData[col.field] | thaidate: "shortNoTime" }}
             </div>
@@ -144,7 +162,7 @@
               [innerHtml]="rowData[col.field]"
             ></div>
             <div
-              class="text-center absolute"
+              class="text-left absolute"
               [style]="{ top: '15px' }"
               *ngIf="
                 col.field !== 'sort' &&
@@ -161,14 +179,14 @@
             </div>
             <div
               class="text-center absolute"
-              [style]="{ top: '15px', left: '20%' }"
+              [style]="{ top: '15px', left: '6%' }"
               *ngIf="col.field === 'phone'"
             >
               {{ rowData[col.field] }}
             </div>
             <div
               class="text-center absolute"
-              [style]="{ top: '15px', left: '27%' }"
+              [style]="{ top: '15px', left: '22%' }"
               *ngIf="col.field === 'key'"
             >
               {{ rowData[col.field] }}

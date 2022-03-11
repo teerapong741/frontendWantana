@@ -173,6 +173,7 @@ export class ReportsComponent implements OnInit {
         alignment: 'center',
       },
       {
+        margin:8,
         text: `รายงาน${this.reportTypeSelected.name}`,
         bold: true,
         fontSize: 18,
@@ -185,7 +186,7 @@ export class ReportsComponent implements OnInit {
     ) {
       content.push(
         {
-          text: `ณ วันที่ ${this.dateStartReport} ถึงวันที่ ${this.dateEndReport}`,
+          text: ` ณ วันที่ ${this.dateStartReport} - ${this.dateEndReport}`,
           bold: true,
           fontSize: 18,
           alignment: 'center',
@@ -364,11 +365,11 @@ export class ReportsComponent implements OnInit {
     this.tableData = [];
     this.cols = [
       { header: 'ลำดับ', field: 'num', colSpan: 10 },
-      { header: 'วันที่', field: 'date', colSpan: 15 },
-      { header: 'รหัสรายการ', field: 'key', colSpan: 15 },
-      { header: 'ชื่อ - นามสกุล', field: 'fullName', colSpan: 25 },
+      { header: 'วันที่', field: 'date', colSpan: 13 },
+      { header: 'รหัสรายการ', field: 'key', colSpan: 12 },
+      { header: 'ชื่อ - นามสกุล', field: 'fullName', colSpan: 27 },
       { header: 'ชนิดผ้า', field: 'sort', colSpan: 15 },
-      { header: 'ประเภทผ้า', field: 'type', colSpan: 15 },
+      { header: 'ประเภทผ้า', field: 'type', colSpan: 18 },
       { header: 'จำนวน(ชิ้น)', field: 'number', colSpan: 15 },
       // { header: 'สาเหตุผ้ามีปัญหา', field: 'problems' },
     ];
@@ -382,7 +383,7 @@ export class ReportsComponent implements OnInit {
       { text: 'จำนวน(ชิ้น)', bold: true },
       // 'ผ้าพิเศษ',
     ];
-    this.rowHeaderPdf = [35, 55, 55, 120, 65, 70, 50];
+    this.rowHeaderPdf = [25, 45, 45, 115, 90, 90, 50];
     this.orderService.filterOrder(filterInput).subscribe(async (result) => {
       this.loading = false;
       if (!!result.data) {
@@ -741,7 +742,7 @@ export class ReportsComponent implements OnInit {
       { text: 'จำนวน(ชิ้น)', bold: true },
       { text: 'หมายเหตุ', bold: true },
     ];
-    this.rowHeaderPdf = [30, 45, 45, 100, 50, 65, 40, 70];
+    this.rowHeaderPdf = [20, 50, 50, 100, 60, 60, 40, 65];
     this.orderService.filterOrder(filterInput).subscribe(async (result) => {
       this.loading = false;
       if (!!result.data) {
@@ -941,11 +942,11 @@ export class ReportsComponent implements OnInit {
                 ] of clothe.clotheHasProblems.entries()) {
                   if (problem.status === 'IN') {
                     problemsFilter = await problemsFilter.concat(
-                      `<span>${problem.problemClothe.name}(ก่อน) </span><br>`
+                      `<span>${problem.problemClothe.name}  </span><br>`
                     );
                   } else {
                     problemsFilter = await problemsFilter.concat(
-                      `<span>${problem.problemClothe.name}(หลัง) </span><br>`
+                      `<span>${problem.problemClothe.name} * </span><br>`
                     );
                   }
                 }
@@ -1031,11 +1032,11 @@ export class ReportsComponent implements OnInit {
                 ] of clothe.clotheHasProblems.entries()) {
                   if (problem.status === 'IN') {
                     problemsFilterPdf = await problemsFilterPdf.concat(
-                      `<span>${problem.problemClothe.name}(ก่อน) </span><br>`
+                      `<span>${problem.problemClothe.name}  </span><br>`
                     );
                   } else {
                     problemsFilterPdf = await problemsFilterPdf.concat(
-                      `<span>${problem.problemClothe.name}(หลัง) </span><br>`
+                      `<span>${problem.problemClothe.name} * </span><br>`
                     );
                   }
                 }
@@ -1128,10 +1129,10 @@ export class ReportsComponent implements OnInit {
     this.tableData = [];
     this.cols = [
       { header: 'ลำดับ', field: 'num', colSpan: 5 },
-      { header: 'รหัสลูกค้า', field: 'key', colSpan: 12 },
-      { header: 'ชื่อ - นามสกุล', field: 'fullName', colSpan: 20 },
-      { header: 'ที่อยู่', field: 'address', colSpan: 25 },
-      { header: 'เบอร์ติดต่อ', field: 'phone', colSpan: 13 },
+      { header: 'รหัสลูกค้า', field: 'key', colSpan: 10 },
+      { header: 'ชื่อ - นามสกุล', field: 'fullName', colSpan: 25 },
+      { header: 'ที่อยู่', field: 'address', colSpan: 30 },
+      { header: 'เบอร์ติดต่อ', field: 'phone', colSpan: 10 },
       { header: 'วันที่เป็นสมาชิก', field: 'date', colSpan: 10 },
     ];
     this.headerTablePdf = [
@@ -1218,12 +1219,12 @@ export class ReportsComponent implements OnInit {
     this.tableData = [];
     this.cols = [
       { header: 'ลำดับ', field: 'num', colSpan: 5 },
-      { header: 'รหัสพนักงาน', field: 'key', colSpan: 12 },
-      { header: 'ชื่อ - นามสกุล', field: 'fullName', colSpan: 15 },
+      { header: 'รหัสพนักงาน', field: 'key', colSpan: 10 },
+      { header: 'ชื่อ - นามสกุล', field: 'fullName', colSpan: 20 },
       { header: 'ที่อยู่', field: 'address', colSpan: 25 },
       { header: 'เบอร์ติดต่อ', field: 'phone', colSpan: 13 },
       { header: 'อีเมล์', field: 'email', colSpan: 15 },
-      { header: 'วันที่รับเข้าทำงาน', field: 'date', colSpan: 15 },
+      { header: 'วันที่รับเข้าทำงาน', field: 'date', colSpan: 12 },
     ];
     this.headerTablePdf = [
       { text: 'ลำดับ', bold: true },

@@ -93,6 +93,7 @@
             class="p-button-rounded p-button-raised p-button-help"
             (click)="onViewDetail(cloth.id)"
             [disabled]="isDisable"
+            title="ดูรายละเอียด"
           ></button>
           <button
             pButton
@@ -111,6 +112,7 @@
             class="p-button-rounded p-button-raised p-button-danger"
             (click)="onDelete(cloth.id)"
             [disabled]="isDisable"
+            title="ลบรายการ"
           ></button>
         </td>
       </tr>
